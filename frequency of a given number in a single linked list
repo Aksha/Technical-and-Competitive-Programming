@@ -1,0 +1,12 @@
+# Frequency of a given number in a Linked List
+int freq ( Node* node, int num) {
+
+	int count = 0;
+	while( node != NULL) {
+		if(node->val == num) {
+			count++;
+		}
+		node = node->next;
+	}
+	return count;
+}
