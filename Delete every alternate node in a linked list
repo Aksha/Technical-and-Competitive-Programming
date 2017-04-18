@@ -1,0 +1,15 @@
+void deleteAlternate(Node* node) {
+	if (node == NULL) 
+  return;
+
+  Node* first = node->next;
+
+  if(first == NULL) {
+    return;
+  }
+
+  node->next = first -> next;
+  delete first;
+
+  deleteAlternate (node->next);
+}
