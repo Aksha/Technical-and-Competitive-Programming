@@ -3,13 +3,37 @@ Write a program to print all permutations of a given string
 I/P: ABC
 O/P: ABC ACB BAC BCA CBA CAB
 
+//C implementation: Time complexity: O(n*n!)
 void permute(char* a, int left, int right) {
-  if(left == right)
-    result.push_back(a);
+  if(left == right){
+    printf("%S \n", a);
+  }
   for(int i = left; i < right; i++) {
     swap(a+left, a+i);
     pemute(a,left+1, right);
     swap(a+left, a+i);
+  }
+}
+
+void swap(char *x, char *y)
+{
+    char temp;
+    temp = *x;
+    *x = *y;
+    *y = temp;
+}
+
+//C++ implementation: 
+vector<string> result;
+vector<string> permute(string str, int left, int right) {
+  if(left == right){
+    result.push_back(str);
+    return;
+  }
+  for(int i = left; i < right; i++) {
+    swap(str[i+left], str[i]);
+    pemute(str,left+1, right);
+    swap(str[i+left], str[i]);
   }
   return result;
 }
@@ -21,4 +45,5 @@ void swap(char *x, char *y)
     *x = *y;
     *y = temp;
 }
+
 #######################################################################################################################
