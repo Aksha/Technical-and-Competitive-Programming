@@ -1,0 +1,56 @@
+###############################################################################################################################
+Design and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: 
+get and put.
+
+get(key) - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.
+put(key, value) - Set or insert the value if the key is not already present. When the cache reached its capacity, 
+it should invalidate the least recently used item before inserting a new item.
+
+Follow up:
+Could you do both operations in O(1) time complexity?
+
+Efficient Solution: get and put in O(1) complexity.
+
+class LRUCache {
+public:
+    LRUCache(int capacity) : _capacity(capacity) {}
+    
+    int get(int key) {
+      auto it = cache.find(key);
+      if(it == cache.end())
+        return -1;
+      touch(it);
+      return it->second.first;
+    }
+    
+    void put(int key, int value) {
+      auto it = cache.find();
+      if(it != cache.end())   
+        touch(it);
+      else {
+        if(cache.size() == _capacity){
+          cache.erase(key);
+          entireList->pop_back();
+        }
+        entireList.push_front(key);
+       } 
+       cache[key] = {value, entireList.begin()};
+    }
+    
+private:
+  typedef list<int> LI;
+  typedef std::pair<int,LI> PairII;
+  typedef std::unordered_map<int,PairII> hashtable;
+ 
+  int _capacity;
+  PairII entireList;
+  hashtable cache;
+  
+  void touch(hashtable::iterator iter){
+    int key = iter->first;
+    entireList.erase(iter->second.back());
+    entireList.push_front(key);
+    hastable->second.second = entireList.begin();
+  }
+  
+};
