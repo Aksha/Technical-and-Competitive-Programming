@@ -1,0 +1,4 @@
+# Technical-and-competitive-programming
+I practise problem solving using data structures, algorithms and system design by solving a couple of problems or more everyday as a part of my game plan to get into one of the big Tech Giants that will enable to work on cutting edge technologies that revolutionize the world. The time investment is small (about an hour or hour and a half everyday) but the benefits are immeasurable. 
+The good news is, although it's not easy (if it were easy, everyone would be working for a Tech Giant), it's definitely possible with hard work, persistence and acquired knowledge. I am posting my solutions to the problems solved/learnt by me in the hope that it might benefit someone in a similar path now or in the future.
+Actual benefits: It helps flex mental muscles and improve critical thinking and I am never out of practise. 
