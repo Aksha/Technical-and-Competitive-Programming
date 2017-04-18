@@ -3,7 +3,6 @@ Write a program to print all permutations of a given string
 I/P: ABC
 O/P: ABC ACB BAC BCA CBA CAB
 
-vector<string> result;
 void permute(char* a, int left, int right) {
   if(left == right)
     result.push_back(a);
@@ -15,4 +14,11 @@ void permute(char* a, int left, int right) {
   return result;
 }
 
+void swap(char *x, char *y)
+{
+    char temp;
+    temp = *x;
+    *x = *y;
+    *y = temp;
+}
 #######################################################################################################################
