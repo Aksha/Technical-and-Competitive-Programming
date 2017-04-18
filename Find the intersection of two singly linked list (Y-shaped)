@@ -1,0 +1,54 @@
+#Write a function to get the intersection point of two Linked Lists (Y Shape)
+
+Node* YShapedIntersection(Node* head1, Node* head2) {
+    node1 = head1;
+    node2 = head2;
+    while(node1 != node2) {
+        if (node1 == NULL) node1 = head2; else node1 = node1->next;
+        if (node2 == NULL) node2 = head1; else node2 = node2->next;
+    }
+    return node1;
+}
+
+--------------------------------------------------------------------------------------------------------------------------
+Testing
+--------------------------------------------------------------------------------------------------------------------------
+number of nodes in chain 1 before intersection = X
+number of nodes in chain 2 before intersection = Y
+number of nodes in common chain after intersection  = Z
+
+So after the first run, node1 would have travelled = X + Z
+                                  node2 would have travelled = Y + Z
+If I make node1 travel Y (head2 to intersection) = It would have travelled X + Y + Z and currently be at the intersection
+If I make node2 travel X (head1 to intersection) = It would have travelled X + Y + Z and currently be at the intersection
+
+So both travel the same distance and meet means, it will be the intersection.
+
+testing:
+head 1 =        1 -> 2 -> 3 -> 4 -> 5
+head 2 = 6 -> 8 -> 7 -> 3 -> 4 -> 5
+(4 and 5 are the common part)
+1,2 = X
+6,8 = Y
+3,4,5 = Z
+
+loop starts
+node1 = 1,  node2 = 6
+node1=2 , node2 = 8
+node1=3, node2 = 7
+node1 =4, node2 = 3
+node1=5, node2 = 4
+// Node 1 has finished X + Z, so resetting for it to traverse Y, ie head2 (6)
+node1 = 6, node2 = 5
+// Node 2 has finished Y+Z, so resetting for it to traverse X, ie head1 (1)
+node1 = 8, node2 = 1
+node1 = 7, node2 = 2
+node1 = 3, node2 = 3 (meeting at the common point).  
+
+
+                                          6
+                         1           8
+                            2    7
+                              3
+                              4
+                              5
