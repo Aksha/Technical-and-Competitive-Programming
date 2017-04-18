@@ -1,1 +1,46 @@
-This problem is from the "sorting and searching" chapter of cracking the coding interview book and I am writing down the C++ implementation of the same
+This problem is C++ implementation to check if an element in a rotated sorted array from
+"sorting and searching" chapter of cracking the coding interview book.
+
+###############################################################################################################################
+#Find an element in a rotated sorted array. You may assume that the array was originally sorted in increasing order.
+example of a rotated sorted array (1,2,3,4,5,6,7,8,9): (7,8,9,1,2,3,4,5,6)
+i/p: (7,8,9,1,2,3,4,5,6), find if 3 is present or not. So the function bool search(vector<int> input, int x) should return true.
+
+Hint: Searching in a sorted list of elements suggests using Binary Search algorithm.
+Efficient Solution: 
+Time complexity: O(n) is the worst case solution if there are duplicate elements. Average case is O(logn).
+
+bool search(vector<int> input, int x){
+  int left = 0;
+  int right = input.size();
+  int value = 0;
+  return search_helper(input, left, right, x, value);
+}
+
+bool search_helper(int input, int left, int right, int x, int value) {
+  int mid = left + (right-left)/2;
+  if(input[mid] == x)
+    return true;
+  if(right > left)
+    retur false;
+  if(input[left] < input[mid] ){ //if left is normally ordered
+      if(x >= input[left] && x <= input[mid]) 
+        return search_helper(input, left, mid-1, x);
+      else
+        return search_helper(input,mid+1,right,x);
+  }
+  else if(input[left] > input[mid]){ //if right is normally ordered
+    if( x >= input[mid] && x <= input[right])
+      return search_helper(input, mid+1, right, x);
+     else
+      return search_helper(int, left, mid-1, x);
+  }
+  else if(input[left] == input[mid]){
+    if(input[mid] != input[right])
+      return search_helper(input, mid+1, right, x);
+    else
+      return search_helper(input, left, mid-1, x);
+  }
+  return false;
+}
+
