@@ -1,0 +1,33 @@
+#add two numbers in a linked list in reverse
+
+2 -> 4 -> 3 + 5 -> 6 -> 4 =
+7 -> 0 -> 8
+
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        int sum = 0;
+        ListNode *p1 = l1;
+        ListNode *p2 = l2;
+        ListNode *output = new ListNode(0);
+        ListNode *p3 = output;
+        
+        while((p1 != NULL) || (p2 != NULL)){
+            if(p1 != NULL){
+                sum += p1->val;
+                p1 = p1 -> next;
+            }
+            if(p2 != NULL){
+                sum += p2 -> val;
+                p2 = p2 ->next;
+            }
+            p3->next = new ListNode(sum%10);
+            p3 = p3->next;
+            sum = sum/10;
+        }
+        if(sum != NULL){
+            p3->next = new ListNode(sum);
+        }
+        return output->next;
+    }
+};
