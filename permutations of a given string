@@ -1,0 +1,18 @@
+#######################################################################################################################
+Write a program to print all permutations of a given string
+I/P: ABC
+O/P: ABC ACB BAC BCA CBA CAB
+
+vector<string> result;
+void permute(char* a, int left, int right) {
+  if(left == right)
+    result.push_back(a);
+  for(int i = left; i < right; i++) {
+    swap(a[i+left], a[i+right]);
+    pemute(a,left+1, right);
+    swap(a[i+left], a[i+right]);
+  }
+  return result;
+}
+
+#######################################################################################################################
