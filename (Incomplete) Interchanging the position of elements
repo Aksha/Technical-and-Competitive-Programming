@@ -1,0 +1,44 @@
+###############################################################################################################################
+Given a singly linked list 1->2->3->4->5->6 return 1->6->2->5->3->4
+
+Solution:
+
+Struct Node{
+  int data;
+  Node* next;
+  Node(int value) : data(value), next(NULL){};
+};
+
+Node* interchange(Node* head){
+  Node* slow = head;
+  Node* fast = head;
+ 
+ //it gives the mid point of the list
+  while(!fast && !fast->next){
+    slow = slow->next;
+    fast = fast->next->next;
+  }
+  
+  //reverse the 2nd half of the linked list 1->2->3->6->5->4 and chain it with the first half
+  fast = reverse(fast);
+  slow->next = fast;
+  
+  //Now interchange the positions of the elements such that 0th element followed by nth element, 1st element is followed by (n-1) 
+  //element, 2nd element with (n-2) element and so on.
+  slow = head;
+  while(slow->next){
+    fast->next = slow->next;
+    slow->next = fast;
+    slow = fast->next;
+  }
+  return head;
+}
+
+Node* reverse(Node* head){
+  if(!head || !head->next)
+    return NULL;
+  Node* current = reverse(head->next);
+  head->next->next = prev;
+  head->next = NULL;
+  return current;
+}
