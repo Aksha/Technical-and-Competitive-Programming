@@ -1,0 +1,24 @@
+# Find the Middle element in a linked list..
+	
+
+int midElement(Node* node) {
+	int count == 0
+  Node* first = node;
+	Node* second = node;
+	Node* evenFirst = node;
+
+	
+	while (second != NULL && second -> next != NULL) {
+		evenFirst = first;
+		// Did you test it??
+    first = first -> next;
+    second = second -> next-> next;
+    count ++;
+  }
+
+if(count % 2 != 0) {
+  return first->val;
+  else
+  return evenFirst;
+} 
+
