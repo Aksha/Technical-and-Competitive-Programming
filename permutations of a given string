@@ -8,9 +8,9 @@ void permute(char* a, int left, int right) {
   if(left == right)
     result.push_back(a);
   for(int i = left; i < right; i++) {
-    swap(a[i+left], a[i+right]);
+    swap(a+left, a+i);
     pemute(a,left+1, right);
-    swap(a[i+left], a[i+right]);
+    swap(a+left, a+i);
   }
   return result;
 }
