@@ -31,9 +31,9 @@ vector<string> permute(string str, int left, int right) {
     return;
   }
   for(int i = left; i < right; i++) {
-    swap(str[i+left], str[i]);
+    swap(str[left], str[i]);
     pemute(str,left+1, right);
-    swap(str[i+left], str[i]);
+    swap(str[left], str[i]);
   }
   return result;
 }
