@@ -1,0 +1,21 @@
+# Program to check if the given linked list has a loop.
+
+	Struct Node{
+		int val;
+		Node* next;
+	}
+
+	bool checkLoop(Node* linkedList) {
+		Node* first = linkedList;
+		Node*second = linkedList;
+					
+
+	while(first && second && second->next) {
+		first = first->next;
+		second = second -> next -> next;
+		if(first == second) 
+			return true;
+	}
+
+		return false;
+ }
