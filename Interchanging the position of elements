@@ -20,13 +20,12 @@ Node* interchange(Node* head){
   }
   
   //reverse the 2nd half of the linked list 1->2->3->6->5->4 and chain it with the first half
-  fast = reverse(fast);
-  slow->next = fast;
-  
+  fast = reverse(slow);
+ 
   //Now interchange the positions of the elements such that 0th element followed by nth element, 1st element is followed by (n-1) 
   //element, 2nd element with (n-2) element and so on.
   slow = head;
-  while(slow->next){
+  while(fast){
     fast->next = slow->next;
     slow->next = fast;
     slow = fast->next;
