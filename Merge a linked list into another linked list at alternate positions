@@ -1,0 +1,25 @@
+# Merge a linked list into another linked list at alternate positions
+
+void MergeList(Node* list1, Node* list2) {
+	Node* first = list1;
+Node* nextpointerofFirst;
+Node* second = list2;
+Node* nextpointerofSecond;
+
+	while(first != NULL && second != NULL) {
+		//variables to hold values of first and second.
+		nextpointerofFirst = first -> next;
+		nextpointerofSecond = second -> next;
+		
+//linking to every alternating position
+
+	first->next = second;
+		second->next = nextPointerofFirst;
+	
+	// coming back to the base state so that the alternation continues iteratively
+		first = nextPointerofFirst;
+		second = nextPointerofSecond;
+}
+	//if the second list doesn’t become empty, set the head of list 2 to the start of the remaining nodes in list 2
+	list2 = second;
+}
