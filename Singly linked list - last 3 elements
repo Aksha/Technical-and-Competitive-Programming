@@ -1,0 +1,17 @@
+#  Finding the last 3 elements in the list:
+	void findLast3(Node* linkedList) {
+		if(linkedList == NULL || linkedList->next == NULL || linkedList->next->next == NULL) 
+return;
+		Node* first = linkedList -> next -> next; // headstart //  
+		Node* second = linkedList;
+		
+			While (first->next != NULL) {
+				first = first->next;
+				second = second ->next;
+			}
+			
+			while (second != NULL) {
+				cout << second->val << endl;
+				second = second -> next;
+			} 
+	}
