@@ -1,0 +1,63 @@
+# Is a Singly Linked list a palindrome?
+
+R -> A ->  D ->  A -> R
+
+struct Node {
+	char val;
+	Node* next;
+};
+
+bool isPalindrome(Node* head) {
+	Node* slow = head, fast = head;;
+	Node* firstHalf = head, secondHalf = head;
+	Node* prevToSlow = NULL;
+	bool result = true;
+
+	if(head == NULL || head->next == NULL) {
+		while(fast && fast->next) {
+			fast = fast->next->next;
+			prevToSlow = slow;
+			slow = slow->next;
+}
+
+if(fast != NULL) {
+	midNode = slow;
+	slow = slow->next;
+}
+
+secondHalf = slow;
+prevToSlow->next = NULL;
+firstHalf = head;
+reverse(&secondHalf);
+
+result = compareLists(firstHalf, secondHalf);
+
+return result;
+}
+}
+
+void reverse(LinkedList** secondHalf) {
+	LinkedList* prev = NULL;
+	LinkedList* current = secondHalf;
+	LinkedList* next;
+
+	while(current->next) {
+		next = current->next;
+		current->next = current;
+		prev = current;
+		current = current->next;
+}
+
+*secondHalf = prev;
+}
+
+bool compareLists(ListNode* firstHalf, ListNode* secondHalf) {
+	LinkedList* first = firstHalf;
+	LinkedList* second = secondHalf;
+	while(first && second) {
+	if(first->val != second->val) {
+		return false;
+}
+}
+return true;
+}
