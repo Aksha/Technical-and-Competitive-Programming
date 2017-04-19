@@ -1,0 +1,19 @@
+FLOYD WARSHALL:
+
+Purpose:All pairs shortest path:       
+Use with an eg: Consider you are making a table of distances between all pairs of cities in an Atlas.  
+Given: a weighted, directed graph
+Time Complexity: O(V^3), space complexity : O(V^2).                                     
+vector<vector<int>> FloydWarshall(vector<vector<int>> AM) {
+	vector<vector<int>> current_State = AM;
+	for(int i = 0; i < AM.size(); i++) {
+		for(int j = 0; j < AM.size(); j++) {
+			for(int k = 0; k < AM.size(); k++) {
+				current_state[j][k] = min(current_state[j][i] + current_state[i][k], current_state[j][k]); 
+      }
+    }
+  }
+return current_state;
+}
+
+
