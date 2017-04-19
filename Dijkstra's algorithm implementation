@@ -1,0 +1,61 @@
+Dijkstra’s Algorithm:
+
+Purpose:  Solves the single source shortest path problem
+Given: weighted, directed graph with non negative edge weights.
+
+Time Complexity : O(V+E(logV))
+Space complexity: O(V) ??
+
+Struct Node { //Every node has a number and weight associated with it.  
+	int number;
+int weight;
+}
+
+bool compare (const e &N1, const Node &N2) {
+	return N1.weight < N2.weight; //compares the weight of two nodes and returns true or false.
+}
+
+vector <Node> Dijkstra(vector <vector< pair<int,int>>> AL, int source) {
+	vector <Node> answer; // the vector that has the  output vertices pushed in order
+	set <Node, compare> holder; //it has all the nodes organized.
+	int weight(AL.size());
+	bool visited(AL.size()) = {False};
+	for(int i = 0; i < AL.size(); i++) {
+		Node N;
+		N.number = i;
+		if(N.number == source) {
+			N.weight = 0;
+}
+else{
+	N.weight = INT_MAX;
+}
+weight[i] = N.weight;
+visited[i] = false;
+holder.insert(N); //the nodes always getting pushed in ascending order (All nodes 1,2,3,4..n)
+}
+
+while(!holder.empty()){
+	set<Node>::iterator it = holder.begin();
+	int current = it->number;
+	visited[current] = true;
+	answer.push_back(*it);
+	
+	for(int i = 0; i < AL[current].size(); i++) {
+		if(visited[AL[current][i].first] == true || weight[current]+ AL[currrent][i].second > weight[AL[current][i].first] || weight[current] == INT_MAX) //if it is not reachable or if the weight of the current node + the node to be reached is greater than the exising weight of the node that is being tried to be reached or if the starting node hasn’t been reached (infinity value) yet go to the next node. 
+continue;
+
+Node temp; //create a temporary node
+temp->number = AL[current][i].first; //initialize its key and value, i.e, //number and weight
+temp->weight = AL[current][i].second;
+set<Node>::iterator temp_it = holder.find(temp); //find that node in holder
+temp_it->weight = weight[current] + AL[current][i].second; //sum of the weights
+// can the above lines be replaced by 
+/*if(holder.find(temp->number)) { 
+weight[AL[current][i].first] = weight[current]+AL[current][i].second;
+}*/
+}
+	holder.erase(it);
+}
+//sort(answer.begin(), answer.end(), sortbysec); -returns the right ordering of nodes by weight like Dijkstra
+	return answer;
+}
