@@ -23,14 +23,17 @@ void ShortestPath(vector<vector<int>> AL, int source, int destination){
    int top = BFS.front();
    BFS.pop();
    for(int i = 0; i < AL[front].size;i++){
-    if(AL[front][i] == destination && visited[AL[top][i]] == 0) {
-      result.push_back(AL[front][i]);
+    if(AL[front][i] == destination && visited[AL[front][i]] == 0) {
+      while( AL[front][i] != source){
+        cout << AL[front][i] << endl;
+        AL[front][i] = parent[AL[front][i]];
+      }
+      cout << AL[front][i];
     }
-    if(visited[AL[top][i]] == 0){
-      visited[AL[top][i]] = 1;
-      parent[AL[top][i]] = front; 
+    if(visited[AL[front][i]] == 0){
+      visited[AL[front][i]] = 1;
+      parent[AL[front][i]] = front; 
       BFS.push_back(AL[top][i]);
-      result.push_back(AL[front][i]); // or just return the parent nodes in this path instead.
      }
    }
    return result;
