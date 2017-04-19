@@ -1,0 +1,23 @@
+Node* reverseKnodes(Node* node, int k) {
+  if(node == NULL) {
+    return;
+  }
+
+  Node* first = node;
+  Node* second = NULL;
+  Node * last;
+  int count = 0;
+
+  while (first->next != NULL && count < k) {
+    last = second;
+    second = first;
+    first = first -> next;
+    second -> next = last;
+    count ++; 
+  }	
+
+  if(first != NULL)
+    reverseKnodes(first, k);
+
+  return second;
+}
