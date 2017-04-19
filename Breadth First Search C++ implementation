@@ -1,0 +1,65 @@
+#) GIven a graph and a single vertex (S), the shortest distance of all reachable vertices from S is computed.  A breadth first tree of all reachable vertices can be produced.
+
+Another important property:  
+prints all paths from root to leaf (Facebook interview question)
+
+void BFS(vector<vector<int>> AL, int S) {
+	for(int i = 0; i < AL.size(); i++) {
+		 color[i] = 0;
+		parent[i] = NIL;
+		distance[i] = INT_MAX;
+}
+
+color[S] = 0;
+distance[S] = 0;
+parent[S] = NIL;
+
+queue<int> BFS;
+BFS.push_back(S);
+	
+	while(!BFS.empty()) {
+		int top = BFS.front();
+for(int i = 0; i < AL[top].size(); i++) {
+	if(color[AL[top][i]] == 0) {
+		color[AL[top][i]] = 1;
+		parent[AL[top][i]] = top;
+		distance[AL[top][i]] = distance[top]+1;
+		BFS.push_back(AL[top][i]);
+}
+}	
+BFS_queue.pop();
+color[top] = 2;
+}
+}
+
+void BFS(vector <vector<int>> AL){
+	for(int i = 0; i < AL.size(); i++) {
+		if(i == source) {
+	color[i] = 1;
+	distance[i] = 0;
+	pred[i] = NIL;
+}
+else{
+	color[i] = 0;
+	distance[i] = INT_MAX;
+	pred[i] = NIL;
+}
+
+queue <int> BFS;
+BFS.push(source);
+while(!BFS.empty()){
+	int top = BFS.front();
+	for(int i = 0; i < AL[top].size();i++) {
+		if(color[AL[top][i]] == 0) {
+	color[AL[top][i]] = 1; //grey
+	distance[AL[top][i]] = distance[top] + 1;
+	pred[AL[top][i]] = top;
+	BFS.push(AL[top][i]]);
+}
+}
+BFS.pop();
+color[top] = 2; //black
+}
+}
+}
+
