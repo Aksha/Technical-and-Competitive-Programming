@@ -1,0 +1,54 @@
+KRUSKAL’s Algorithm:
+Given a connected, undirected graph, we have a weight for each edge specifying the cost of traversing between the edges.  We wish to find an acyclic subset that connects all the vertices and minimize the total weight of connecting the vertices.  EG: wiring problem in an electronic circuitry.
+Returns the total weight of the chosen edges forming a minimum spanning tree:
+
+Time Complexity: O(VE)
+Actual TIme Complexity: O(ElogE) 
+
+Implementation: 
+
+Struct Edge {
+	int from, to, weight;
+}1
+
+bool compare(const Edge &E1, const Edge &E2) {
+	return E1.weight < E2.weight;
+}
+
+int Kruskal (vector<vector<pair<int,int>>> AL) {
+	map <int,int> initial_set;
+	for(int i = 0; i < AL.size(); i++) {
+		initial_set[i] = i;
+}
+set <Edge, compare> S;
+for(int j = 0; j < AL.size(); j++) {
+	for(int k = 0; k < AL[j].size(); k++) {
+		Edge E;
+		E.from = min(j, AL[j][k].first);
+		E.to = max(j, AL[j][k].first);
+		E.weight = AL[j][k].second;
+		S.insert(E);
+}
+}
+}
+for(set<Edge>::iterator iter = S.begin(); iter != S.end(); iter++) {
+	Edge current = *iter;
+	int from_set = initial_set[*iter->from];
+	int to_set = initial_set[*iter->to];
+	if( from_set == to_set) {
+		continue;
+}
+else{
+	for(set<Edge>::iterator iter2 = S.begin(); iter2 != S.end(); iter2++) {
+		if(to_set == initial_set[*iter2->to]) {
+			initial_set[*iter2->to] = from_set;
+}
+mst.push_back(current);
+total_weight += current.weight;
+}
+}
+return total_weight;
+}
+
+Kruskal Algo:
+O(ElogE): wiring in electronic circuitry.  Calculates minimum spanning tree.
