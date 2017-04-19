@@ -1,0 +1,57 @@
+Depth First Search: 
+
+Helps find what all edges are reachable from a given vertex and build a depth first tree.  If there are unreachable vertices from the selected vertex, a new source vertex is chosen and all the trees from there are explored.  It also computes the start time and finish time of the vertex while backtracking to the source vertex.  It creates a depth first forest. 
+
+Time Complexity: Exactly theta(V+E)
+
+void DFS(vector<vector<int>> AL) {
+	for(int i = 0; i < AL.size(); i++) {
+		color[i] = 0;
+		parent[i] = NIL;
+}
+int time = 0;
+for(int i = 0; i < AL.size(); i++) {
+	if(color[i] == 0) {
+		DFS_Visit(i);
+}
+}
+}
+void DFS_Visit(int i) {
+	color[i] = 1;
+	start_time[i] = time+1;
+	for(int j = 0; j < AL[i].size(); j++) {
+		if(color[j] == 0) {
+			DFS_visit(j);
+}
+}
+end_time[i] = time + 1;
+color[i] = 2;
+}
+
+
+void DFS(vector<vector<int>> AL) {
+	for(int i = 0; i < AL.size(); i++) {
+	color[i] = 0;
+	pred[i] = NIL;
+}
+int time = 0;
+for(int i = 0; i < AL.size();i++) {
+	if(color[i] == 0) {
+		DFS_visit(i);
+}
+}
+}
+
+void DFS_visit(int i) {
+	time = time+1;
+	color[i] = 1;
+	start_time = time;
+	for(int j = 0; j < AL[i].size(); j++) {
+	if(color[j] == 0){
+		parent[j] = i;
+	DFS_visit(j);
+}
+}
+end_time = time + 1;
+color[i] = 2;
+}
