@@ -21,19 +21,20 @@ void secondShortestPath(vector <vector <int> > E, int source, int destination) {
 	nodes.push_back(source);
 	while(!nodes.empty) {	
 		int vertex = nodes.pop_front();
-		for(int i = 0; i < E[vertex][i].size(); i++) {
-			if(visited[i] == 0) {
+		for(int i = 0; i < E.size(); i++) {
+			if(visited[i] == 0 && E[vertex][i]) {
 				nodes.push_back(i);
 				visited[i] = 1;
 				parent[i] = vertex;
-	    		}
-			else if(i == destination && visited[i]] == 1) {//checking if the node has already been visited once, gives the second shortest path.
+			}
+			else if(i == destination && visited[i] == 1) {
 				cout << i << endl;
-        // print i, parent[i], parent[i-1] until I reach the source node.
-        while( i != source) {
-          cout << parent[i] << endl;//printing the second shortest path from source to destination
-          i = parent[i];
-        }
-      }	
-  }
-}
+				while( i != source) {
+				     cout << parent[i] << endl;
+				     i = parent[i];
+				}
+			}
+
+		}
+	}
+} 
