@@ -1,0 +1,49 @@
+###########################################################################################################################################################
+
+Array of Array Products
+
+Given an array of integers arr, write a function that returns another array at the same length where the value at each index i is the product of all array values except arr[i].
+
+Solve without using division and analyze the runtime and space complexity
+
+Example: given the array [2, 7, 3, 4]
+your function would return: [84, 24, 56, 42] (by calculating: [7*3*4, 2*3*4, 2*7*4, 2*7*3])
+
+Obviously: there is an easy example of brute forcing using two for loops to get to the solution. The time complexity will be
+O(n^2) and a space complexity of O(n).
+--------------------------------------------------------------------------------------------------------------------------------------------
+The question is, can we do better? 
+Yes, apparently, there is a linear [O(n)] solution to this problem. Before we dive into the solution let's breakdown the problem 
+into a simpler problem. Do you notice a pattern? Maybe, take an example input array of [1,2,3,4,5]. My function would return:
+[2*3*4*5, 1*3*4*5, 1*2*4*5, 1*2*3*4].
+
+Follow the hints to see if you notice a pattern:
+1. If you are stuck and can't think of anything, offer the brute force solution first.
+
+2. Look for what part of the calculations is repetitive and can be re-used
+
+3. If still stuck, manually compute the solution to [1, 2, 3, 4, 5].
+it's [120, 60, 40, 30, 24] by calculating [2*3*4*5, 1*3*4*5, 1*2*3*5, 1*2*3*4]
+Can you think of something to re-use from looking at the numbers? What is the repeating pattern?
+
+4. If still stuck, how to create these sequences: [2*3*4*5, (1)*3*4*5, (1*2)*4*5, (1*2*3)*5, (1*2*3*4)] 
+and its complement [(2*3*4*5), 1*(3*4*5), 1*2*(4*5), 1*2*3*(5), 1*2*3*4]
+
+5. Refer the solution below
+--------------------------------------------------------------------------------------------------------------------------------------------
+//In this program I am just using vectors instead of arrays as vectors are nothing but dynamic arrays.
+vector<int> arrayProduct(vector<int> inputArray) {
+  int product = 1;
+  int length = inputArray.size()
+  vector <int> productArray(length,1);
+  for(int i = 0; i < length; i++){
+    productArray[i] *= product;
+    product *= inputArray[i];
+  }
+  product = 1;
+  for(int i = length-1; i >= 0; i++){
+    productArray[i] *= product;
+    product *= inputArray[i];
+  }
+  return productArray;
+}
