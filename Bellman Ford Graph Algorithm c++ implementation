@@ -1,0 +1,41 @@
+
+Bellman - Ford Algorithm:
+
+Single source shortest path:
+Given: a weighted, directed graph.  The weights could be negative.
+Advantage: Used to handle graphs with negative weight edges.
+Use: Detects if there are negative weight cycles in the graph and returns a false if such a cycle exists.  Returns a true otherwise.
+Calculates the minimum distance taken to reach the destination from the source.
+Eg: Find the shortest path for a motor cyclist from Chicago to Boston.
+
+Time Complexity: O(VE)
+
+bool BellmanFord( vector<vector<pair<int,int>>> AL, int source) { //first int for vertex num, second int for weight of the edges
+	for(int i = 0; i < AL.size(); i++) {
+		if( i == source) {
+			distance[i] = 0;
+    }
+    else{
+      distance[i] = INT_MAX;
+    }
+  }
+for(int j = 0; j < AL.size() - 1; j++) {
+	for(int k = 0; k < AL.size(); k++) {
+		for( int l = 0; l < AL[k].size(); l++) {
+			if(distance[AL[k][l].first] > distance[k] + AL[k][l].second)
+				distance[AL[k][l].first] = distance[k] + AL[k][l].second
+    }
+  }
+}
+for(int i = 0; i < AL.size(); i++) {
+	for(int j = 0; j < AL[i].size(); j++) {
+		if(distance[AL[i][j].first] > distance[i] + AL[i][j].second)
+			return False;
+		else {
+	    total_weight += distance[AL[i][j].first;
+    }
+   }
+}
+  cout << “the total weight is: “ << total_weight << endl;
+  return True;
+}
