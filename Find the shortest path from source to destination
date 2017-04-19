@@ -1,0 +1,9 @@
+###########################################################################################################################
+#Given a set of nodes, find the shortest path from source to destination.
+
+Breath first search gives the shortest path from the source to destination with a time complexity of O(|V| + |E|) where V is 
+the vertices and E is the edges in the graph or tree like structure.
+
+void ShortestPath(vector<vector<int>> AL, int source, int destination){
+
+}
