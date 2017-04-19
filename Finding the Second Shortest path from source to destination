@@ -1,0 +1,39 @@
+#Given a set of nodes, find the second shortest path from source to destination.
+
+Breath first search gives the second shortest path from the source to destination with a time complexity of O(|V| + |E|) where V is 
+the vertices and E is the edges in the graph or tree like structure. Graph algorithm are represented by adjacency list or matrix.
+I am taking as input an adjacency list to represent graph G :(V,E)for compact representation.
+
+----------------------------------------------------------------------------------------------------------------------------------------
+Reasons for using Breath First Search to calculate the shortest path:
+Given a graph G = (V, E) and a distinguished source vertex s,
+breadth-first search systematically explores the edges of G to "discover" every vertex
+that is reachable from s. It computes the distance (fewest number of edges) from s to all 
+such reachable vertices. It also produces a "breadth-first tree" with root s that 
+contains all such reachable vertices. For any vertex v reachable from s, the path in 
+the breadth-first tree from s to v corresponds to a "shortest path" from s to v in G,
+that is, a path containing the fewest number of edges. The algorithm works on both directed and undirected graphs.
+----------------------------------------------------------------------------------------------------------------------------------------
+
+void secondShortestPath(vector <vector <int> > E, int source, int destination) {
+	int visited[E.size()] = {0};
+	queue <int> nodes;
+	nodes.push_back(source);
+	while(!nodes.empty) {	
+		int vertex = nodes.pop_front();
+		for(int i = 0; i < E[vertex][i].size(); i++) {
+			if(visited[i] == 0) {
+        nodes.push_back(i);
+        visited[i] = 1;
+        parent[i] = vertex;
+	    }
+			else if(i == destination && visited[i]] == 1) {//checking if the node has already been visited once, gives the second shortest path.
+				cout << i << endl;
+        // print i, parent[i], parent[i-1] until I reach the source node.
+        while( i != source) {
+          cout << parent[i] << endl;//printing the second shortest path from source to destination
+          i = parent[i];
+        }
+      }	
+  }
+}
