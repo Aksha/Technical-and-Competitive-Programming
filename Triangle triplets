@@ -1,0 +1,68 @@
+#Question:
+
+public interface Triangle {
+    /**
+     * Find ANY three values that can be the lengths of the sides of a triangle.
+     * Three segments of lengths A, B, C can form a triangle if and only if:
+     *
+     *      A + B > C
+     *      B + C > A
+     *      A + C > B
+     *
+     * e.g.
+     *  6, 4, 5 can form a triangle
+     * 10, 2, 7 can't
+     *
+     * @param segmentLengths the lengths of segments that might form a triangle.
+     * @return ANY three values that can be the lengths of the sides of a triangle,
+     *         or an empty array if there are no such values in segmentLengths.
+     */
+    int[] getTriangleSides(int[] segmentLengths);
+}
+
+First let's check if a triangle exists: 
+
+The simplest more obvious method is to check if the the sum of two sides is greater  than the third. THis would mean a O(n^3) solution iterating over every element in this list for each vertex in the 
+triangle. If any three vertices satisfy the given condition, then we have the answer.
+
+There obviously exists a solution better than brute forcing the given inputs. 
+Let's apply the condition for a given input:6, 4, 5
+ 6+4> 5
+ 4+5 >6 
+ 5+6 >4  
+ After reordering:
+ 4+5 >6
+ 5+6 >4
+ 6+4> 5 
+
+If the input is sorted and one of the conditions (A+B > C) of the three is satisfied, then the remaining conditions (B+C >A, C+A>B) 
+are automatically satisfied.
+
+For a sorted input, it is enough one of these conditions can be checked.. and the time complexity of the solution would be 
+O(nlogn) due to a sorting algorithm used in solving the problem.
+------------------------------------------------------------------------------------------------------------------------
+Solution
+//If triangle triplets exists
+bool triangleTriplets(vector<int> input) {
+  sort(input.begin(), input.end());
+  for(int i = 0; i <input.size(); i++) {
+    if(input[i] + input[i+1] > input[2])
+      return true;
+  }
+  return false;
+}
+
+//If triangle triplets exists, then return the triplets
+
+bool triangleTriplets(vector<int> input) {
+  vector <int> result; // Could be modified to [vector<vector<int>> result] if multiple such triplets need to be returned.
+  sort(input.begin(), input.end());
+  for(int i = 0; i <input.size(); i++) {
+    if(input[i] + input[i+1] > input[2])
+      result.push_back(input[i]);
+      result.push_back(input[i+1]);
+      result.push_back(input[i+2]);
+  }
+  return result;
+}
+------------------------------------------------------------------------------------------------------------------------
