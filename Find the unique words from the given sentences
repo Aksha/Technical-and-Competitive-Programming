@@ -117,7 +117,7 @@ vector<String> (string a, string b) {
     Hash2 = wordCount(word2); 
 
    for(unordered_map<string,int>::iterator it = hash2.begin(); it != hash2.end(); it++){
-             If find(hash.begin(), hash1.end(), it->first) == hash1.end())){ //if any of the words in sentence 2 is found in 1
+             If find(hash1.begin(), hash1.end(), it->first) == hash1.end())){ //if any of the words in sentence 2 is found in 1
                  while(hash1[it->first] != 0 || hash2[it->first]) != 0 ){
                      hash1[it->first]--; //decrement the count of this word in both vectors
                      hash2[it->first]--; 
