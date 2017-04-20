@@ -1,7 +1,10 @@
  If there is an array of sorted numbers, and the list is rotated, find the number of rotations..
 EG: 1 2 4 6 7 8 11 14 is the sorted array and 6 7 8 11 14 1 2 4 is its rotated sorted array, 3 should be returned.
 
-//if you're thinking about using Binary search to solve this, then you're on the right track. Time complexity O(logn)
+/*if you're thinking about using Binary search to solve this, then you're on the right track. Time complexity O(logn).
+There is another way to do it. You could find where the minimum element in the array is and calculate the number of rotations
+with that. This is not the most optimal way to do it as you would be going over all the elements in that case with a time 
+complexity of O(n)*/
 
 int rotation(vector<int> a){
   int length = a.size();
