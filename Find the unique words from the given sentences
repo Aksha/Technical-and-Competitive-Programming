@@ -1,0 +1,162 @@
+#1)Find the unique words from the given sentences
+
+input:
+I am here
+you are here
+
+I - 1          
+am -1 
+here - 1
+You -1 
+are - 1
+here - 1
+
+I - 1
+am -1 
+here - 0
+You -1 
+are - 1
+here - 0
+
+output:
+[I, am, you, are]
+
+#2) 
+
+input:
+I am am here
+you are here
+
+I - 1
+am - 1
+am - 2
+here - 1
+you - 1
+are - 1
+here - 1
+
+I - 1
+am - 1
+am - 2
+here - 0
+you - 1
+are - 1
+here - 0
+
+output:
+[I, am, you, are]
+
+#3)
+input:
+I am here here
+you are here
+
+i - 1
+am - 1
+here - 2
+you -1 
+are - 1
+here - 1
+
+i - 1
+am - 1
+here - 1
+you -1 
+are - 1
+here - 0
+
+output:
+(I, am, here, you are)
+
+#4)
+
+input:
+I am here
+you are are here
+
+i - 1
+am - 1
+here - 1
+you - 1
+are-2
+here - 1
+
+i - 1
+am - 1
+here - 0
+you - 1
+are-2
+here - 0
+
+output:
+[I, am, you, are]
+
+#5
+I am am am here
+you am am am are here
+
+[I, you, are]
+
+------------------------------------------------------------------------------------------------------------------------------
+Solution: O(n)
+// Finding unique words in two sentences
+vector<String> (string a, string b) {
+    vector<String> result; 
+    vector<string> word1;
+    vector<string> word2;   
+    unordered_set<string, int> hash1; 
+    unordered_set<string, int> hash2;
+    
+   //collect each word in a vector of strings in sentence one(string a)
+    word1 = wordList(a);
+    //collect each word in a vector of strings in sentence two(string b)
+    word2 = wordList(b);
+     //iterating word by word in string a (Sentence one)
+    Hash1 = wordCount(word1);  
+      //iterating word by word in string b (Sentence two)
+    Hash2 = wordCount(word2); 
+
+   for(unordered_map<string,int>::iterator it = hash2.begin(); it != hash2.end(); it++){
+             If find(hash.begin(), hash1.end(), it->first) == hash1.end())){ //if any of the words in sentence 2 is found in 1
+                 while(hash1[it->first] != 0 || hash2[it->first]) != 0 ){
+                     hash1[it->first]--; //decrement the count of this word in both vectors
+                     hash2[it->first]--; 
+                 }
+              }
+     }  
+   finalWords(hash1, result);
+   finalWords(hash2, result);
+  return result;
+}
+
+vector<string> wordList(string a){
+    istringstream iss(a);
+    while (iss) {
+        string word;
+        iss >> word;
+         vector1.push_back(word);
+    } 
+    Return vector1;
+}
+
+unordered_set<string, int> wordCount(vector<string> word1){
+  unordered_set<string, int> hashset;
+    for(vector<string>::iterator it=word1.begin() ; it < word1.end(); it++) { 
+        if(hashset.find(it->first) == hashset.end()){ //if the word isn't found insert the string in the map & set its count = 1
+            hashset.insert(<make_pair>(“it->first”, 1));
+         }
+         else
+            hashset[it->first]++;         
+     }
+  Return hashset;
+}
+
+vector<string> finalWords(unordered<Set> hash1, vector <string> &result){
+     for(unordered_map<string,int>::iterator it = hash1.begin(); it != hash1.end(); it++){
+     //if the count is greater than or equal to one and the element doesn't exist already then add it to the result vector 
+             if(it->second > 0 && find(result.begin(), result.end(), it->first) == result.end()) {
+                 result.push_back(it->first);
+             }       
+     }  
+}
+------------------------------------------------------------------------------------------------------------------------------
