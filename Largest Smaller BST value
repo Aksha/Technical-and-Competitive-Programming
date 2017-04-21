@@ -1,0 +1,35 @@
+Largest Smaller BST Key
+
+Given a root of a binary search tree and a key x, find the largest key in the tree that is smaller than x.
+
+Example: if an in-order list of all keys in the tree is {2, 3, 4, 7, 17, 19, 21, 35, 89} and x is 19, 
+the biggest key that is smaller than x is 17.
+
+Solution
+Iterating along the tree
+A node in a binary search tree is larger than all keys on its left sub-tree and smaller than all keys on its right sub-tree. 
+Starting from the root, for each node we choose its left or its right child as the next step, based on a comparison between
+that node's key and x: If the current node holds a key smaller than x, we proceed to its right sub-tree looking for larger
+keys. Otherwise, we proceed to its left sub-tree looking for smaller keys.
+
+Finding the key
+During this iteration, when the current key is smaller than x we store it as our result and keep looking for a larger
+key that is still smaller than x.
+It's important to understand why we always store the last key without 
+comparing it to the value stored beforehand: if we have stored a key before, we then chose 
+to continue its right sub-tree. Therefore, all following keys will always be larger than and previously stored keys.
+
+TreeNode* findLargestSmallerKey(TreeNode* root, int x) {
+    int result;
+    while (root != null){
+      if (root->val < x){
+         result = root->val;
+         root = root->right;
+       }
+       else
+         root = root->left;
+    }
+    return result;
+}
+Runtime complexity: we scan the tree once from the root to the the leaves and do constant number of actions for each node. 
+if the tree is balanced the complexity is O(log n). Otherwise, it could be up to O(n).
