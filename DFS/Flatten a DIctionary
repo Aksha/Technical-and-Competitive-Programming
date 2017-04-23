@@ -43,3 +43,17 @@ unordered_map<string,dictionary> flattenDictionary(int existingKey, unordered_ma
 	}
 	return result;
 }
+
+function flattenDictionary(initialKey, dictionary, flatDictionary):
+  for (key : dictionary.keyset())
+    value = dictionary.get(key)
+    if (!isHashMapInstance(value)) //the value is a primitive
+      if (initialKey == null || initialKey == "")
+        flatDictionary.put(key, value)
+      else
+        flatDictionary.put(initialKey + "." + key, value)
+    else
+      if (initialKey == null || initialKey == "")
+        flattenDictionary(key, value, flatDictionary)
+      else
+        flattenDictionary(initialKey + "." + key, value, flatDictionary)
