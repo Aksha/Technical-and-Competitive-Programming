@@ -1,0 +1,52 @@
+#Given an input string, reverse the string word by word.
+
+For example,
+Given s = "the sky is blue",
+return "blue is sky the".
+
+Try to solve it in-place in O(1) space.
+------------------------------------------------------------------------------------------------------------
+Solution: 
+
+Approach: 
+A possible solutions is doing a linear iteration on the input string while pushing a copy of the word to a stack and then pulling
+them in reverse order while copying the words back into string. Another approach is initializing a new string variable at the 
+same length, iterating the string from right to left and copying any sequence of characters to the new string 
+from left to right. Both take linear O(n) runtime and at least O(n) space complexity.
+
+A more elegant and efficient approach is to reverse all the characters in arr and then reverse the characters 
+in each word separately. The first reverse will give us the words on the reverse order we need, but will also
+reverse the characters of each word. The second reverse, applied to each word separately, fixes that.
+
+Time Complexity: Iterating over the string twice with constant number of actions for each item, is linear O(n).
+
+Space Complexity: using iteration indices and one temp variable takes constant O(1) memory.
+
+------------------------------------------------------------------------------------------------------------
+void reverseWords(string &s) {
+        if(s.size() == 0) 
+          return "";
+        auto sBegin = s.find_first_not_of(' ');
+        auto sEnd = s.find_first_not_of(' ');
+        auto sRange = sEnd - sBegin + 1;
+        s = s.substr(sBegin, sRange);
+        reverseWords_helper(s);
+        int start = 0;
+        int count =0;
+        int end = s.size();
+        for(int i = 0; i < end; i++) {
+            count++;
+            if(s[i] == ' '){
+                reverseWords_helper(s.substr(start,count));
+                start = i+1;
+                count = 0;
+            }
+        }
+    }
+    void reverseWords_helper(string &s){
+        int start = 0;
+        int end = s.size()-1;
+        while(start < end){
+            swap(s[start++], s[end--]);
+        }
+    }
