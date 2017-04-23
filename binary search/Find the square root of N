@@ -1,0 +1,19 @@
+double squareRoot(int N) {
+double num = 0;
+double maxNum = N;
+double minNum = 0;
+while(mid*mid != N) {
+double mid = (minNum + maxNum) / 2
+	if(mid*mid == N) {
+	return mid;
+}
+else if(mid*mid < N) {
+		minNum = mid;
+}
+else {
+	maxNum = mid;
+}
+}
+return mid;
+}
+
