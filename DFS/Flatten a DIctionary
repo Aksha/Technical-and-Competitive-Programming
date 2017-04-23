@@ -28,11 +28,12 @@ Solution:
 ----------------------------------------------------------------------------------------------------------------
 unordered_map<string,dictionary> flattenDictionary(int existingKey, unordered_map<string,dictionary> input, unordered_map <string, dictionary> result){
 	for(auto key:input->first){
-		if(result.find(key) == result.end()){ //if the key in the input is not found in result
+		auto value = input[key];
+		if(result.find(value) == result.end()){ //if the key in the input is not found in result
 			if(isNotInteger(key)) 
-				result.push_back(existingKey + "." + key, input->second);
+				result.push_back(existingKey + "." + key, value);
 			else
-				result.push_back(key, input->second);
+				result.push_back(key, value);
 		}
 		else{ //if the key is found, make that the existing key and call flattenDictionary method recursively
 			if(isNotInteger(key)) 
