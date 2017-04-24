@@ -21,7 +21,7 @@ Following is a simple algorithm to find out whether a given graph is Birpartite 
 5. While assigning colors, if we find a neighbor which is colored with same color as current vertex, then the graph cannot be colored with 2 vertices (or graph is not Bipartite)
 6. If the graph is not connected, then call the isBipartite repeatedly in a DFS manner.
 
-bool isBipartite(vector<vector<int> G, int src)
+bool isBipartite(vector<vector<int>> G, int src)
 {
     // Create a color array to store colors assigned to all veritces. Vertex 
     // number is used as index in this array. The value '-1' of  colorArr[i] 
