@@ -1,0 +1,20 @@
+#Write a program to find if a binary tree is a binary search tree
+
+Think along the lines that every node in a  BST is always greater than or equal to its left child and lesser than its right child.
+Solution:
+
+bool isBST(TreeNode* root){
+  int left = INT_MIN;
+  int right = INT_MAX;
+  return isBST_helper(root, left, right);
+}
+
+bool isBST_helper(TreeNode* root, int left, int right){
+  if(root == NULL)
+    return true;
+  if((left != NULL && root->val < left) || (right != NULL && root->val > right))
+    return false;
+  if(!isBST_helper(root->left,left,root->val) || !isBST_helper(root->right,root->val,right))
+    return false;
+  return true;
+}
