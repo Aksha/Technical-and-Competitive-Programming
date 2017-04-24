@@ -13,3 +13,27 @@ as a key with its value as count (keep incrementing count everytime you insert a
 2) Lookup the words to find in the hashmap and note down its value.
 3) Find out the absolute difference between the two and return it.
 
+int minimumDistance(string s, string word1, string word 2){
+  if(word1 == word2)
+    return 0;
+  unordered_map<string,int> words;
+  splitString(s, words);
+  int distance = 0;
+  if(words.find(word1) == words.end() || words.find(word2) == words.end())
+    return -1;
+  if(words.find(word1) !== words.end() && words.find(word2) != words.end()){
+      distance = abs(word1->second - word2->second);
+  }
+  return distance;
+}
+
+vector<string> splitString(string s, vector <string> &words){
+    int count = 0;
+    string val;
+    istringstream in[s];
+    while(in){
+    in >> val;
+    words.insert({val,count}); //this can also be written as words.insert(std::make_pair(val,count));
+    count++;
+    }
+}
