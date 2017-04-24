@@ -1,0 +1,15 @@
+# Find minimum distance between two words (order preserved) in a big string. 
+For e.g 1. "hello how are you" - distance between "hello" and "you" is 3. 
+e.g 2. "hello how are hello you" - distance is 1 
+e.g 3. "you are hello" - distance is -1. Order of "hello" and "you" should be preserved. 
+e.g 4. "hello how are hello" - distance is -1 since "you" didnt occur even once.
+
+------------------------------------------------------------------------------------------------------------------------
+My solution - might be naive  O(n)
+------------------------------------------------------------------------------------------------------------------------
+
+1) whenever you encounter a space in the sentence of string data type, make it a word and push it into a vector or a hashmap std::map 
+as a key with its value as count (keep incrementing count everytime you insert a word in the map/vector and set it as its key)
+2) Lookup the words to find in the hashmap and note down its value.
+3) Find out the absolute difference between the two and return it.
+
