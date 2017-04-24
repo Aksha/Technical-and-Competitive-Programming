@@ -18,11 +18,17 @@ int minimumDistance(string s, string word1, string word 2){
     return 0;
   unordered_map<string,int> words;
   splitString(s, words);
-  int distance = 0;
+  int distance = INT_MAX;
   if(words.find(word1) == words.end() || words.find(word2) == words.end())
     return -1;
-  if(words.find(word1) !== words.end() && words.find(word2) != words.end()){
-      distance = abs(word1->second - word2->second);
+  for(auto it = words.begin(); it!= words.end(); it++){
+    if(words.find(word1) !== words.end()){
+        distance1 = word1->second;
+    }
+    if(words.find(word2) !== words.end()){
+        distance2 = word2->second;
+    }
+    distance = min(distance, abs(distance1-distance2));
   }
   return distance;
 }
