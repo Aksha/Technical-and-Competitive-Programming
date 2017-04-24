@@ -1,0 +1,44 @@
+#For a given matrix print it in spiral order
+Input:
+        1    2   3   4
+        5    6   7   8
+        9   10  11  12
+        13  14  15  16
+Output: 
+1 2 3 4 8 12 16 15 14 13 9 5 6 7 11 10 
+
+Solution: 
+Time complexity: O(n) 
+
+List<int> printSpiral(int[][] matrix) {
+    list <int> li;
+    int col = matrix[0].size();
+    int row = matrix.size();
+    //int total = row * col;
+    int rowbegin =0 //
+    int colBegin=0;
+    while(rowbegin<row &&colBegin<col) {
+        //left to right
+        for(int i=colBegin;i<col;i++) {
+            li.add(matrix[rowBegin][i];
+        }
+        rowBegin++;
+        //top to bottom
+        for(int i= rowBegin;i<row;i++) {
+            li.add(matrix[i][col];
+        }
+        col--;
+        //bottom right to bottom left
+        for(int i=col;i>=colBeign;i--) {
+            li.add(matrix[row][i]);
+        }
+        row--;
+        
+        //bottom left to top left
+        for(int i = row;i>=rowBegin;i--) {
+            li.add(matrix[i][colBegin];
+        }
+        colBegin++;
+    }
+    return li;
+ }
