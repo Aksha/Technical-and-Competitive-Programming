@@ -1,0 +1,75 @@
+The "Word Count Engine" Problem
+
+Implement a document scanning engine that receives a text document doc and returns a list of all unique words in it and their number of occurrences, sorted by the number of occurrences in descending order.
+
+Example:
+for doc: "practice makes perfect. get perfect by practice. just practice!"
+the engine returns the list: { practice: 3, perfect: 2,  makes: 1, get: 1, by: 1, just: 1 }.
+
+The engine should ignore punctuation and white-spaces.
+Find the minimal runtime complexity and analyze it.
+
+Solution: time complexity: O(nlogn + 2n)
+
+vector<pair<string,int>> wordCount(string s){
+   unordered_map<string, int> temp;
+   vector <string> words;
+   getEachWord(s, words);
+   for(auto i = 0; i < words.size(); i++){  //over here
+      if(temp.find(words[i]) == temp.end()){ //
+         temp.insert(words[i],1);
+      }
+      else{
+         
+         temp[words[i]]++;
+      }
+   }
+   vector<std::pair<string,int>> result;
+   for(auto it = temp.begin(); it!= temp.end(); it++){
+      result.push_back(temp[it]->first,temp[it]->second);
+   }   
+   std::sort(result->second.rbegin(), result->second.rend());
+   
+   return result;
+}
+
+void getEachWord(string s, vector <string> &words){
+   string val;
+   istringstream in(s);
+   while(in){
+      in >> val;
+      words.insert()
+   }
+}
+
+Alternate solution:  easy to read
+string doc = "practice makes perfect. get perfect by practice. just practice!";
+	unordered_map <string,int> um;
+	unordered_map <string, int>::iterator it;
+	string temp = "";
+	int length = strlen(doc.c_str());
+	for (int i = 0; i < length; i++)
+	{
+		if(!isalpha(doc[i])) { continue; }
+		while(isalpha(doc[i]) && i < length)
+		{
+			temp += doc[i];
+			i++;
+		}
+		it = um.find(temp);
+		if(it == um.end())
+			um[temp] = 1;
+		else
+			um[temp]++;
+		temp = "";
+	}
+	// for (it = um.begin(); it != um.end(); it++)
+		// cout << it->first << ": " << it->second << endl;
+	
+	vector< mypair> myvec(um.begin(), um.end());
+	sort(myvec.begin(), myvec.end(), IntCmp()); 
+	cout << "{ ";
+	int i;
+	for (i = 0; i < myvec.size() - 1; i++)
+		cout << myvec[i].first << ": " << myvec[i].second << ", ";
+	cout << myvec[i].first << ": " << myvec[i].second << " }\n";
