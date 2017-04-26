@@ -1,2 +1,88 @@
 // Implementing various operations in a trie data structure:
 
+Trie Data structure is used to store a collection of strings. The strings in the trie data structure can be ordered in a way 
+such that it could be used to build a dictionary, it could be used for searching for a word in a list based on prefix or whole word,
+it could be used to sort the input strings in lexicographical order and so on. 
+
+The time complexity of the trie data structure is O(K*n) where K is the number of words in the given input and n is the average
+length of the words.
+
+I learnt the Trie Data Structure from the following youtube video: https://www.youtube.com/watch?v=AXjmTQ8LEoI 
+
+Implementation of Trie by inserting, searching and deleting words from the data structure:
+
+Class Trie {
+  private: 
+    Class TrieNode{
+      unordered_map<char, TrieNode> children;
+      bool endOfWord;
+      TrieNode* next; 
+      TrieNode(){
+        children = new TrieNode();
+        memset(endOfWord, false, sizeof(endOfWord));
+      }
+    };      
+    public: 
+    TrieNode* root;
+    
+    void insert (string s){
+      TrieNode* current = root;
+      for(int i = 0; i < s.size(); i++) {
+        TrieNode* check = new TrieNode(s[i]);
+        if(current.find(check) == current.end()){
+          if(current == NULL){
+            TrieNode* node = new TrieNode();
+          }
+          current.insert(check);
+        }
+       current->next = node;
+       current = current->next;
+      }
+      current->endOfWord = true;
+    }
+    
+    void search(string s){
+      TrieNode* current = root;
+      for(int i = 0; i < s.size(); i++) {
+        TrieNode* check = new TrieNode(s[i]);
+        if(current.find(check) == currend.end()){
+          return false;
+        }
+        else{
+          current = current ->next;
+        }
+        return current->endOfWord;
+    }
+    
+    /*
+     * Returns true if parent should delete the mapping
+     */
+    bool delete(TrieNode* current, string s, int index, TrieNode* parent) {
+        if (index == s.size()) {
+            //when end of word is reached only delete if currrent->endOfWord is true.
+            if (current->endOfWord == false) {
+                return false;
+            }
+            current->endOfWord = false;
+            //if current has no other mapping then return true
+            return current->children.size() == 0;
+        }
+        
+        TrieNode* check = new TrieNode(s[i]);
+        if(current.find(check) == currend.end()) {
+            return false;
+        }
+        TrieNode* parent = current;
+        current = current->next;
+        bool shouldDeleteCurrentNode = delete(node, s, index + 1,parent);
+
+        //if true is returned then delete the mapping of character and trienode reference from map.
+        if (shouldDeleteCurrentNode) {
+            parent->next = current->next;
+            delete(current);
+            //return true if no mappings are left in the map.
+            return current->children.size() == 0;
+        }
+        return false;
+    }
+}
