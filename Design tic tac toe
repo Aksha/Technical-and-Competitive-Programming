@@ -1,0 +1,31 @@
+In a tic tac toe, a player wins when the player has an entire column or an entire row or a diagonal or anti diagonal. Let us
+suppose there are two players playing the game with a board that has rows x columns.
+
+Class TicTacToe {
+  vector <int> rows;
+  vector <int> columns;
+  int diagonals = 0;
+  int anti-diagonals = 0;
+  
+  TicTacToe(int numOfElements){
+    rows = rows.resize(n);
+    columns = columns.resize(n);
+  }
+  
+  int move (int row, int col, int player){
+        int toAdd = (player == 1) ? 1: -1;
+        
+        rows[row] += toAdd;
+        columns[col] += toAdd;
+        if(row == col){
+          diagonal += toAdd;
+        }
+        if(col == (col -1)-row){
+          anti-diagonal += toADD
+        }  
+        int size = rows.size();
+        if(abs(rows[row]) == size || abs(cols[column]) == size || abs(diagonal) == size || abs(anti-diagonal) == size))
+          return player;
+        return 0;
+   }
+};
