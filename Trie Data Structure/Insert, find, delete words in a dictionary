@@ -57,7 +57,7 @@ Class Trie {
     /*
      * Returns true if parent should delete the mapping
      */
-    bool delete(TrieNode* current, string s, int index, TrieNode* parent) {
+    bool delete(TrieNode* current, string s, int index) {
         if (index == s.size()) {
             //when end of word is reached only delete if currrent->endOfWord is true.
             if (current->endOfWord == false) {
@@ -71,15 +71,15 @@ Class Trie {
         TrieNode* check = new TrieNode(s[i]);
         if(current.find(check) == currend.end()) {
             return false;
-        }
-        TrieNode* parent = current;
+        
         current = current->next;
-        bool shouldDeleteCurrentNode = delete(node, s, index + 1,parent);
+        bool shouldDeleteCurrentNode = delete(node, s, index + 1);
 
         //if true is returned then delete the mapping of character and trienode reference from map.
         if (shouldDeleteCurrentNode) {
-            parent->next = current->next;
-            delete(current);
+            TrieNode* prevNode = current;
+            current = current->next;
+            delete(prevNode);
             //return true if no mappings are left in the map.
             return current->children.size() == 0;
         }
