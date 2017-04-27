@@ -1,0 +1,80 @@
+#Given an array arr of unique nonnegative integers, implement a function getDifferentNumber that finds an integer that is NOT in the array.
+
+Even if your programming language of choice doesn’t have that restriction (like Python), assume that the maximum value an integer can have is MAX_INT = 2^31-1. So, for instance, the operation MAX_INT + 1 would be undefined in our case.
+
+Your algorithm should be efficient, both from a time and a space complexity perspective.
+
+Solve first for the case when you’re NOT allowed to modify the input arr. If successful and still have time, see if you can come up with an algorithm with an improved space complexity when modifying arr is allowed. Do so without trading off the time complexity.
+
+Analyze the time and space complexities of your algorithm.
+
+Example:
+
+input:  arr = [0, 1, 2, 3]
+
+output: 4 # or 5 or 6, or basically any integer i such that
+          # 3 < i <= MAX_INT since none of these integers is in arr
+Constraints:
+
+[time limit] 5000ms
+
+[input] array.integer arr
+
+1 ≤ arr.length ≤ MAX_INT
+0 ≤ arr[i] ≤ MAX_INT for every i, 0 ≤ i < MAX_INT
+[output] integer
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+Solution: (O(n) time complexity, O(n) space complexity)
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int getDifferentNumber(std::vector<int> &arr) {
+  // your code goes here
+  unordered_set<int> result;
+  for(int i = 0; i < arr.size(); i++){
+    result.insert(arr[i]);
+  }
+  for(int i = 0 ; i < arr.size(); i++){
+    if(result.find(i) == result.end())
+      return i;
+  }
+  return arr.size();
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Better solution without a storage variable: time complexity: O(n) and space complexity: O(1) in place changing.
+The “in-place” solution
+
+If we are allowed to modify the input array arr, we can bring down the space complexity from O(N) to O(1), while keeping the time complexity at O(N).
+
+As before, this algorithm is going to be very similar to the brute force one. Since we are allowed to modify arr, the fact that its values are all unique nonnegative integers allows us to use a special kind of sorting algorithm whose time complexity is linear and not the standard O(N⋅log(N)) we typically associate with efficient sorting.
+
+The high-level idea is to push every number to its corresponding index in the array. The original number in the target index is “kicked out”, so we continue to find its target index using the same approach, until the target index is out of range.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Pseudocode:
+
+function getDifferentNumber(arr):
+    n = arr.length
+    temp = 0
+
+    # put each number in its corresponding index, kicking out
+    # the original number, until the target index is out of range.
+    for i from 0 to n-1:
+        temp = arr[i]
+        while (temp < n AND arr[temp] != temp):
+            swap(temp, arr[temp])
+
+    for i from 0 to n - 1:
+        if (arr[i] != i):
+            return i  # i isn’t in arr, hence we can return it
+
+    # we got here since every number from 0 to n-1 is in arr.
+    # By definition then, n isn’t in arr. Otherwise, the size of arr
+    # would have been n+1 and not n.
+    return n
+Time Complexity: at first glance, one might think that due to the two nested loops (a while loop inside a for loop) that we use to sort the array, the time complexity is O(N^2). However, this is incorrect. The actual time complexity of the two nested loops is linear. The reason is that every number is at most moved once. For those already in their target indices, the while loop will end immediately since the condition arr[temp] != temp isn’t met. In the second part of the code we have another loop whose time complexity is linear. The total time complexity is therefore O(N).
+
+Space Complexity: we use only constant space. Hence the space complexity is O(1).
