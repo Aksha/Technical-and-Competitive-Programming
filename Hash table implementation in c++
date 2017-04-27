@@ -42,19 +42,55 @@ Class HashTable{
      }
      //Search a particular's key's coressponding value
      int get(int key){
-      hash = key % TABLE_SIZE; //map the key to an index in the table
-      if(table[hash] == NULL) 
+      index = key % TABLE_SIZE; //map the key to an index in the table
+      if(table[index] == NULL) 
         return -1;
       else{
-        HashTable* index = table[hash];
-        while(index != NULL && index->getKey != key)
-          index = index->getNext;
-        if(index == NULL)
+        HashTable* entry = table[index];
+        while(entry != NULL && entry->getKey != key)
+          entry = entry->getNext;
+        if(entry == NULL)
           return -1;
         return entry->getValue;
       }   
      }
      
      //Insert a key, value pair in the hashtable
+     void put(int key, int value){
+      index = key % Table_Size;
+      HashEntry* entry = new HashEntry[key,value];
+      if(table[index] == NULL){     
+        table[index].insert(entry);
+      }
+      else{
+        while(entry != NULL && entry.getKey() != key) 
+          entry = entry->getNext;
+        if (entry->getKey() != key)
+              entry->setNext(new HashEntry(key, value));
+        else
+              entry[key] = value;
+      }
+     }
      
+     void delete(int key, int value){
+        index = key % Table_Size;
+        HashEntry* entry = new HashEntry[key,value];
+        if(table[index] != NULL){
+          
+        } 
+     }
+     
+     ~HashDelete(){
+        for (int i = 0; i < TABLE_SIZE; i++)
+                  if (table[i] != NULL) {
+                        LinkedHashEntry *prevEntry = NULL;
+                        LinkedHashEntry *entry = table[i];
+                        while (entry != NULL) {
+                             prevEntry = entry;
+                             entry = entry->getNext();
+                             delete prevEntry;
+                        }
+                  }
+            delete[] table;    
+      }
 }
