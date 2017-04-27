@@ -1,0 +1,60 @@
+Class HashEntry{
+  private:
+    int key;
+    int value;
+    HashEntry* next;
+    
+    public: 
+    HashEntry(int key, int value){
+      this.key = key;
+      this.value = value;
+      this.next = NULL;
+    }   
+    int getKey(){
+      return key;
+    }    
+    int getValue(){
+      return value;
+    }
+    void setKey(int key){
+      this.key = key;
+    }
+    void setValue(int value){
+      this.value = value;
+    }
+    HashEntry* getNext(HashEntry* next){
+      return next;
+    }
+    void setNext(HashEntry* next){
+      this.next = next;
+    }
+}
+
+Class HashTable{
+  private:
+    HashEntry* table;
+   public:
+     HashTable(HashEntry* table){
+        table = new HashTable(Table_Size);
+        for(int i = 0; i < Table_Size; i++){
+          table[i] = NULL;
+        }
+     }
+     //Search a particular's key's coressponding value
+     int get(int key){
+      hash = key % TABLE_SIZE; //map the key to an index in the table
+      if(table[hash] == NULL) 
+        return -1;
+      else{
+        HashTable* index = table[hash];
+        while(index != NULL && index->getKey != key)
+          index = index->getNext;
+        if(index == NULL)
+          return -1;
+        return entry->getValue;
+      }   
+     }
+     
+     //Insert a key, value pair in the hashtable
+     
+}
