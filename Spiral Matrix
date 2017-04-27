@@ -10,35 +10,49 @@ Output:
 Solution: 
 Time complexity: O(n) 
 
-List<int> printSpiral(int[][] matrix) {
-    list <int> li;
-    int col = matrix[0].size();
-    int row = matrix.size();
-    //int total = row * col;
-    int rowbegin =0 
-    int colBegin=0;
-    while(rowbegin<row &&colBegin<col) {
-        //left to right
-        for(int i=colBegin;i<col;i++) {
-            li.add(matrix[rowBegin][i];
-        }
-        rowBegin++;
-        //top to bottom
-        for(int i= rowBegin;i<row;i++) {
-            li.add(matrix[i][col];
-        }
-        col--;
-        //bottom right to bottom left
-        for(int i=col;i>=colBeign;i--) {
-            li.add(matrix[row][i]);
-        }
-        row--;
-        
-        //bottom left to top left
-        for(int i = row;i>=rowBegin;i--) {
-            li.add(matrix[i][colBegin];
-        }
-        colBegin++;
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+vector<int> spiralCopy(vector<vector<int>> &inputMatrix) {
+  // your code goes here
+  vector <int> result;
+  int rows = inputMatrix.size()-1;
+  int cols = inputMatrix[0].size()-1;
+  int rowBegin = 0, colBegin = 0;
+  while(rowBegin <= rows && colBegin <= cols){
+    //left to right
+    for(int i = colBegin; i <= cols; i++){
+      result.insert(inputMatrix[rowBegin][i]]);
     }
-    return li;
- }
+    rowBegin++;
+    //top to bottom
+    for(int i = rowBegin; i <= rows; i++){
+      result.insert(inputMatrix[i][cols]);
+    }
+    cols--;
+    //bottom right to bottom left
+    for(int i = cols; i >= colbegin; i--){
+      result.insert(inputMatrix[rows][i]);
+  	}
+  	rows--;
+  	//bottom to top
+  	for(int i = rows; i >= rowbegin; i--){
+      result.insert(inputMatrix[i][colBegin]);
+  	}
+	colBegin++;
+  }
+  return result;
+}
+
+
+int main() {
+  vector<vector<int>> inputMatrix = {[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]}; 
+  vector<int> result = spiralMatrix(inputMatrix);
+  for(int i = 0; i < result.size();i++){
+    cout << result[i];
+  }
+  return 0;
+}
+
