@@ -15,7 +15,7 @@ List<int> printSpiral(int[][] matrix) {
     int col = matrix[0].size();
     int row = matrix.size();
     //int total = row * col;
-    int rowbegin =0 //
+    int rowbegin =0 
     int colBegin=0;
     while(rowbegin<row &&colBegin<col) {
         //left to right
