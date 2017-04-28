@@ -1,0 +1,120 @@
+#Maximum product of a triplet (subsequnece of size 3) in array
+Given an integer array, find a maximum product of a triplet in array.
+
+Examples:
+
+Input:  [10, 3, 5, 6, 20]
+Output: 1200
+Multiplication of 10, 6 and 20
+ 
+Input:  [-10, -3, -5, -6, -20]
+Output: -90
+
+Input:  [1, -4, 3, -6, 7, 0]
+Output: 168
+-------------------------------------------------------------------------------------------------------------------------- 
+Solution 1: Time Complexity: O(nlogn) Time, Space complexity: O(1) Space - Better than O(n^3) brute force solution
+--------------------------------------------------------------------------------------------------------------------------
+Sort the array using some efficient in-place sorting algorithm in ascending order.
+Return the maximum of product of last three elements of the array and product of first two elements and last element.
+Below is its C++ implementation –
+// A C++ program to find a maximum product of a
+// triplet in array of integers
+#include <bits/stdc++.h>
+using namespace std;
+ 
+/* Function to find a maximum product of a triplet
+   in array of integers of size n */
+int maxProduct(vector<int> arr, int n)
+{
+    // if size is less than 3, no triplet exists
+    if (n < 3)
+        return -1;
+ 
+    // Sort the array in ascending order
+    sort(arr.begin(), arr.end());
+ 
+    // Return the maximum of product of last three
+    // elements and product of first two elements
+    // and last element (keep in mind that there can be negative numbers in the list)
+    return max(arr[0] * arr[1] * arr[n - 1],
+               arr[n - 1] * arr[n - 2] * arr[n - 3]);
+}
+ 
+// Driver program to test above functions
+int main()
+{
+    vector<int> arr = { -10, -3, 5, 6, -20 };
+    int n = sizeof(arr) / sizeof(arr[0]);
+ 
+    int max = maxProduct(arr, n);
+ 
+    if (max == -1)
+        cout << "No Triplet Exists";
+    else
+        cout << "Maximum product is " << max;
+ 
+    return 0;
+}
+
+-------------------------------------------------------------------------------------------------------------------------- 
+Solution 2: Time Complexity: O(n) Time, Space complexity: O(1) Space - Better than O(n^3) brute force solution
+--------------------------------------------------------------------------------------------------------------------------
+
+1. Scan the array and compute Maximum, second maximum and third maximum element present in the array.
+2. Scan the array and compute Minimum and second minimum element present in the array.
+3. Return the maximum of product of Maximum, second maximum and third maximum and product of Minimum, second minimum and Maximum element.
+Note – Step 1 and Step 2 can be done in single traversal of the arra
+
+/* Function to find a maximum product of a triplet
+   in array of integers of size n */
+int maxProduct(int arr[], int n)
+{
+    // if size is less than 3, no triplet exists
+    if (n < 3)
+        return -1;
+ 
+    // Initialize Maximum, second maximum and third
+    // maximum element
+    int maxA = INT_MIN, maxB = INT_MIN, maxC = INT_MIN;
+ 
+    // Initialize Minimum and second mimimum element
+    int minA = INT_MAX, minB = INT_MAX;
+ 
+    for (int i = 0; i < n; i++)
+    {
+        // Update Maximum, second maximum and third
+        // maximum element
+        if (arr[i] > maxA)
+        {
+            maxC = maxB;
+            maxB = maxA;
+            maxA = arr[i];
+        }
+ 
+        // Update second maximum and third maximum element
+        else if (arr[i] > maxB)
+        {
+            maxC = maxB;
+            maxB = arr[i];
+        }
+ 
+        // Update third maximum element
+        else if (arr[i] > maxC)
+            maxC = arr[i];
+ 
+        // Update Minimum and second mimimum element
+        if (arr[i] < minA)
+        {
+            minB = minA;
+            minA = arr[i];
+        }
+ 
+        // Update second mimimum element
+        else if(arr[i] < minB)
+            minB = arr[i];
+    }
+ 
+    return max(minA * minB * maxA,
+               maxA * maxB * maxC);
+}
