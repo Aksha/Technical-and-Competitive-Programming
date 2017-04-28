@@ -56,7 +56,7 @@ int findBusiestPeriod(vector<vector<int> > &data) {
       sum = (data[i][2] == 1)?  sum + data[i][1] : sum - data[i][1];  
     }
     if(sum > maximum){
-      maximum = std::max(maximum, sum);
+      maximum = sum;
       result = data[i][0];
     }    
   }
