@@ -76,22 +76,23 @@ Class HashTable{
         index = key % Table_Size;
         HashEntry* entry = new HashEntry[key,value];
         if(table[index] != NULL){
-          LinkedHashEntry *prevEntry = NULL;
-          LinkedHashEntry *entry = table[hash];
+          HashEntry* prevEntry = NULL;
+          HashEntry* entry = table[hash];
           while (entry->getNext() != NULL && entry->getKey() != key) {
                 prevEntry = entry;
                 entry = entry->getNext();
           }
           if (entry->getKey() == key) {
-                if (prevEntry == NULL) {
-                     LinkedHashEntry *nextEntry = entry->getNext();
-                     delete entry;
-                     table[hash] = nextEntry;
-                } else {
-                     LinkedHashEntry *next = entry->getNext();
-                      delete entry;
-                     prevEntry->setNext(next);
-                }
+            if (prevEntry == NULL) {
+                 LinkedHashEntry *nextEntry = entry->getNext();
+                 delete entry;
+                 table[hash] = nextEntry;
+            } 
+            else {
+                 LinkedHashEntry *next = entry->getNext();
+                  delete entry;
+                 prevEntry->setNext(next);
+            }
           }
        }
      } 
