@@ -23,4 +23,25 @@ int myAtoi(string str) {
   return result*indicator;
 }
 
+A Solution with better efficient runtime in real world:
+class Solution {
+public:
+    int atoi(string str) {
+            int beg = str.find_first_not_of(' ');     
+            int end = str.find_last_not_of(' ');
+            int flag = (str[beg] == '-') ? -1: 1;
+            int num = 0;
+        
+            while(beg <= end){
+                num = (num * 10) + str[beg++] - '0';
+        
+                if(flag == 1 && num > INT_MAX)
+                    return INT_MAX;
+                else if(flag == -1 && num > INT_MAX)
+                    return INT_MIN;
+            }
+            return num*flag;
+    }
+};
+
 ###########################################################################################################################################################
