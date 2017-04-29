@@ -1,0 +1,25 @@
+# Please find the problem description in the following URL:
+https://leetcode.com/problems/valid-sudoku/#/description 
+
+Solution: 
+
+public class Solution {
+  public boolean isValidSudoku(char[][] board) {
+    for(int i = 0; i < board.size(); i++){
+      unordered_set<char> rows;
+      unordered_set<char> columns;
+      unordered_set<char> cube;
+      for(int j = 0; j < board[i].size(); j++){
+        if(board[i][j] != '.' && !rows.insert(board[i][j])
+          return false;
+        if(board[j][i] != '.' && !cols.insert(board[j][i])
+          return false;
+        rowIndex = 3 * (i/3);
+        colIndex = 3 * (i%3);
+        if(board[rowIndex + j/3][colIndex + j%3] != '.' && !cube.insert[rowIndex + j/3][colIndex + j%3])
+          return false;
+      }
+    }
+    return true;
+  }
+};
