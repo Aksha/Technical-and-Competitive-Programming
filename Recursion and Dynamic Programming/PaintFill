@@ -12,10 +12,10 @@ bool paintFillColor_helper(color screen[][], int row, int col, color oldColor, c
     return false;
   if(screen[row][col] == oldColor){
     screen[row][col] == newColor;
-    paintFullColor_helper(screen[col][row], row, col-1, oldColor, newColor);
-    paintFullColor_helper(screen[col][row], row, col+1, oldColor, newColor);
-    paintFullColor_helper(screen[col][row], row-1, col, oldColor, newColor);
-    paintFullColor_helper(screen[col][row], row+1, col, oldColor, newColor);
+    paintFullColor_helper(screen, row, col-1, oldColor, newColor);
+    paintFullColor_helper(screen, row, col+1, oldColor, newColor);
+    paintFullColor_helper(screen, row-1, col, oldColor, newColor);
+    paintFullColor_helper(screen, row+1, col, oldColor, newColor);
   }
   return true;
 }
