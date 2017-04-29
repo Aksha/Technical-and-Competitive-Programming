@@ -23,7 +23,7 @@ int myAtoi(string str) {
   return result*indicator;
 }
 
-A Solution with better efficient runtime in real world:
+A Solution with better runtime in real world:
 class Solution {
 public:
     int atoi(string str) {
