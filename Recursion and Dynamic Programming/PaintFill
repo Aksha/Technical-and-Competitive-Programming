@@ -1,0 +1,27 @@
+Implement the "paintfill" function that one might see on many image editing programs. That is, given a screen(represented 
+by a two dimensional array of arrays), a paint and a new color, fill in the surrouding area until the color changes from
+the original color.
+
+When we call teh paintFill method in our code, on say, a green pixel, we want it to bleed "outwards", we will expand outwards 
+with the new color pixel by pixel. When we hit a pixel that isn't green, we stop.
+
+enum Color { red, green, blue, black, white };
+
+bool paintFillColor_helper(color screen[][], int row, int col, color oldColor, color newColor){
+  if( row < 0 || row > screen.length() || col < 0 || col > screen[0].length())
+    return false;
+  if(screen[row][col] == oldColor){
+    screen[row][col] == newColor;
+    paintFullColor_helper(screen[col][row], row, col-1, oldColor, newColor);
+    paintFullColor_helper(screen[col][row], row, col+1, oldColor, newColor);
+    paintFullColor_helper(screen[col][row], row-1, col, oldColor, newColor);
+    paintFullColor_helper(screen[col][row], row+1, col, oldColor, newColor);
+  }
+  return true;
+}
+
+bool paintfillColor(color screen[][], int row, int col, color newColor){
+  if(screen[col][row] != newColor)
+    return(screen, row, col, screen[row][col], newColor);
+  return false;
+}
