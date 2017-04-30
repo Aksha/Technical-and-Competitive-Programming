@@ -1,0 +1,8 @@
+
+
+std::string myreplace(std::string &s,
+                      const std::string &toReplace,
+                      const std::string &replaceWith)
+{
+    return(s.replace(s.find(toReplace), toReplace.length(), replaceWith));
+}
