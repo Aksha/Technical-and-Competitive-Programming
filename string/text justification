@@ -1,0 +1,40 @@
+Given an array of words and a length L, format the text such that each line has exactly L characters and is fully (left and right) justified.
+
+You should pack your words in a greedy approach; that is, pack as many words as you can in each line. Pad extra spaces ' ' when necessary so that each line has exactly L characters.
+
+Extra spaces between words should be distributed as evenly as possible. If the number of spaces on a line do not divide evenly between words, the empty slots on the left will be assigned more spaces than the slots on the right.
+
+For the last line of text, it should be left justified and no extra space is inserted between words.
+
+For example,
+words: ["This", "is", "an", "example", "of", "text", "justification."]
+L: 16.
+
+Class solution {
+  public:
+  vector<string> textJustification(vector<string> &words, int L){
+    vector<string> results;
+    int begin = 0;
+    while(begin < words.size){
+      int last = begin;
+      while (begin < words.size() && linesize + 1 + words[begin].size() <= L) {
+        linesize += 1 + words[begin].size();
+        begin++;
+      }
+      while(begin < words.size() && begin != last + 1){   
+        spaces = (L - linesize) / (begin - last - 1) + 1;
+        extra =  (L - linesize) % (begin - last - 1) + 1
+      }
+      results.push_back(words[last++]);
+          ans.back().append(spaces+1, ' ');
+          ans.back().append(words[last++]);
+      }
+      while (last < begin) {
+          ans.back().append(spaces, ' ');
+          ans.back().append(words[last++]);
+      }
+      ans.back().append(L-ans.back().size(), ' ');
+    }
+  }
+  result ans;
+}
