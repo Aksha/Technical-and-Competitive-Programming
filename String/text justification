@@ -26,6 +26,7 @@ Class solution {
         extra =  (L - linesize) % (begin - last - 1) + 1
       }
       results.push_back(words[last++]);
+      while(extra--){
           ans.back().append(spaces+1, ' ');
           ans.back().append(words[last++]);
       }
