@@ -27,9 +27,9 @@ Output:
 Solution:
 ----------------------------------------------------------------------------------------------------------------
 unordered_map<string,dictionary> flattenDictionary(int existingKey, unordered_map<string,dictionary> input, unordered_map <string, dictionary> result){
-	for(auto key:input->first){
+	for(auto key:input){
 		auto value = input[key];
-		if(result.find(value) == result.end()){ //if the key in the input is not found in result
+		if(result.find(key) == result.end()){ //if the key in the input is not found in result
 			if(isNotInteger(key)) 
 				result.push_back(existingKey + "." + key, value);
 			else
