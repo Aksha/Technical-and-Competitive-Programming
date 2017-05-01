@@ -1,0 +1,29 @@
+
+Find method:
+
+static int Find(char[] string, char[] pattern, int startIndex) {
+     int index = startIndex;
+     while(true) {
+         while(index < string.length && string[index] != pattern[0]) index++;
+         if(index >= string.length || index+pattern.length > string.length) return -1;
+         boolean match = true;
+         for(int i = 1; i < pattern.length; i++) {
+             if(string[index+i] != pattern[i]) {
+                 match = false;
+                 break;
+             }
+         }
+         if(match) return index;
+         else index += 1;
+     }
+  }
+
+Replace method:
+
+static String replace(String string, String pattern, String replacement) {
+  int index = string.indexOf(pattern);
+  if(index < 0) return string;
+  int endIndex = index+pattern.length();
+  return string.substring(0, index) + replacement +
+      replace(string.substring(endIndex), pattern, replacement);
+}
