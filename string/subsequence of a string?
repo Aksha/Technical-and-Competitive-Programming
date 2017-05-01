@@ -1,0 +1,33 @@
+Given two strings, find if first string is a subsequence of second
+Given two strings str1 and str2, find if str1 is a subsequence of str2. A subsequence is a sequence that can be derived from another sequence by deleting some elements without changing the order of the remaining elements (source: wiki). Expected time complexity is linear.
+
+Examples:
+
+Input: str1 = "AXY", str2 = "ADXCPY"
+Output: True (str1 is a subsequence of str2)
+
+Input: str1 = "AXY", str2 = "YADXCP"
+Output: False (str1 is not a subsequence of str2)
+
+Input: str1 = "gksrek", str2 = "geeksforgeeks"
+Output: True (str1 is a subsequence of str2)
+
+
+Solution: Time complexity : linear O(n)
+
+/ Returns true if str1[] is a subsequence of str2[]. m is
+// length of str1 and n is length of str2
+bool isSubSequence(char str1[], char str2[], int m, int n)
+{
+   int j = 0; // For index of str1 (or subsequence
+ 
+   // Traverse str2 and str1, and compare current character 
+   // of str2 with first unmatched char of str1, if matched 
+   // then move ahead in str1
+   for (int i=0; i<n&&j<m; i++)
+       if (str1[j] == str2[i])
+         j++;
+ 
+   // If all characters of str1 were found in str2
+   return (j==m);
+}
