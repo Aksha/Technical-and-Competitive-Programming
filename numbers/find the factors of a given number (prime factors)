@@ -1,0 +1,14 @@
+vector<int> primeFactors(int num){
+  vector<int> result;
+  while(num%2 == 0){
+    result.push_back(2);
+    n = n/2;
+  }
+  for(int i = 3; i < sqrt(num); i++){ //looping only until the sqrt(num) takes care of printing only the prime factors.
+    if(num%i == 0){
+      push_back(i); 
+    }
+    num = num/i;
+  }
+  return result;
+}
