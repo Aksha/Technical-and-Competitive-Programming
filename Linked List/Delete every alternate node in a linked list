@@ -1,6 +1,6 @@
 void deleteAlternate(Node* node) {
-	if (node == NULL) 
-  return;
+  if (node == NULL) 
+   return;
 
   Node* first = node->next;
 
