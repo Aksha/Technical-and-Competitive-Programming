@@ -16,6 +16,5 @@
 		if(first == second) 
 			return true;
 	}
-
-		return false;
+	return false;
  }
