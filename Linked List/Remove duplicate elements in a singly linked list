@@ -12,7 +12,7 @@ int RemoveDuplicates(Node* node) {
         // First I will search for the element in the hash map
         if (unique_keyer.find(current->value) != unique_keyer.end()) {
             Previous = current->next;
-	Current = current ->next;
+	    Current = current ->next;
         }
         else {
             previous = current;
