@@ -1,0 +1,43 @@
+Write a C++ function that, given a character string, finds the first character not in alphabetical order. 
+For example, if the string "BEEHIVE" is supplied, the first character out of alphabetical order is the final "E".
+
+  FBF  FZF
+
+FirstNotInOrder(BEEHIVE) -> "E"
+FirstNotInOrder(ABCDEFZGHI) -> "G"
+FirstNotInOrder(ZA) -> "A"
+
+lexicographic map : {a,0}, {b,1}, {c,2}, …{z,25}; 
+Imagine there is a global method that generates A to Z as a string in lexicographical order and stores it in a string variable stringAZ.
+
+char FirstNotInOrder(string str){
+  if(str.size() <2)	
+      return “”;
+  auto i = str.first_find_not_of(“A….Z”);
+  if(i != 0)
+	 	return “Error in the input”;
+	unordered_map<char,int> lexicographic;
+	for(int i= 0; i < stringAZ.size(); i++){
+		lexicographic.insert(make_pair(stringAZ[i], i)); 	
+  }
+  for(int i = 0; i < str.size()-1; i++){
+    if(lexicographic(str[i+1]) - lexicographic(str[i]) < 0) { // E - B 4-1
+      return str[i+i];
+    } 
+  }
+  return “”;
+}
+
+char FirstNotInOrder(string str) {...}
+
+Test cases:
+BEEHIVE -> E  // duplicate char
+ZAA -> A  // edge case, starts with last letter (Z)
+Z -> " "  // edge case, 1-character
+"" -> " "  // edge case, zero-length input
+ZZZ...ZZZY -> Y (a million Z's)
+ABCDEF -> ""  // all in order
+
+Negative/malicious test cases:
+123  // numbers
+symbols, non-alphabetic
