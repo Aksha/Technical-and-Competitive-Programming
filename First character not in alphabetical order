@@ -15,10 +15,10 @@ char FirstNotInOrder(string str){
       return “”;
   auto i = str.first_find_not_of(“A….Z”);
   if(i != 0)
-	 	return “Error in the input”;
-	unordered_map<char,int> lexicographic;
-	for(int i= 0; i < stringAZ.size(); i++){
-		lexicographic.insert(make_pair(stringAZ[i], i)); 	
+	return “Error in the input”;
+  unordered_map<char,int> lexicographic;
+  for(int i= 0; i < stringAZ.size(); i++){
+	lexicographic.insert(make_pair(stringAZ[i], i)); 	
   }
   for(int i = 0; i < str.size()-1; i++){
     if(lexicographic(str[i+1]) - lexicographic(str[i]) < 0) { // E - B 4-1
