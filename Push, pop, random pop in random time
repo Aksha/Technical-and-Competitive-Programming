@@ -1,0 +1,37 @@
+Answers: 
+
+Select, remove, random pop in constant time, implicitly states not bothered about space complexity but confirm. Array is constant time lookup but rearranging and storing is linear time 
+//think if whatever I do would satisfy all three methods… Yes, an unordered_map will help select, remove, but random pop requires random selection and popping.. Which means, I need the index of the element in the input to generate. How would I keep track of the index in an hashmap… Maybe each key could be the element and its value could be its indices. Super. Now, I remove random elements from the hashmap.. Some of the indices are gone. How do I randomly generate from 0.. N-1 without knowing what was removed. 
+
+Use a data structure that does lookup in constant time.  Randomly pop it from the stack. So, use an array and while inserting, keeping adding to the array in the appropriate index too. When you pop from hashmap, replace element in the array at that index by the last element in the array and reduce the size of the array by 1 everytime you pop.
+Complexity: Every method uses O(n) time and O(1) space
+Unordered_map <int,int> temp_map;
+int list[];
+bool select ( int element){
+for(int i = 0; i < list.size(); i++){
+		temp_map.insert(list[i],i);
+}
+if(temp_map.find(element) != temp_map.end())
+	Return true;
+  Return false;
+}
+
+int remove(int element){
+	if(temp_map.find(element) != temp_map.end()){
+		Int position = temp_map[element];
+		Int output =  list[position];
+    list[position] = list[list.size()-1];
+    list.size() = list.size() - 1;
+    temp_map.erase(element);	
+    }
+    Return output;
+}
+
+Int random_select_pop(){
+	Int index = random_num_generator(0,list.size()-1);
+	Int key = list[index];
+	temp_map.erase(key);
+  List[index] = list[list.size()-1];
+  list.size() = list.size() - 1;
+  Return key; 
+}
