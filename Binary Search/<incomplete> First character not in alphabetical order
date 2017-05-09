@@ -57,7 +57,7 @@ char First_Char_Not_In_Order(string str){
 	int start = 0;
 	int end = n-1;
 	char element = binary_search(str,start,end);
-	return char;
+	return element;
 }
 char binary_search(str,start,end){
 	int mid =  end + (end-start)/2;
@@ -65,6 +65,6 @@ char binary_search(str,start,end){
 		return str[mid];
 	binary_search(str,start,mid);
 	binary_search(str,mid,end);
-	retur "";
+	return "";
 	
 }
