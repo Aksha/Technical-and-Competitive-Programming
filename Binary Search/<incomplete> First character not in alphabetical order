@@ -41,3 +41,6 @@ ABCDEF -> ""  // all in order
 Negative/malicious test cases:
 123  // numbers
 symbols, non-alphabetic
+
+A more efficient solution to this would be using Binary Search:
+
