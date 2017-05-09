@@ -42,5 +42,29 @@ Negative/malicious test cases:
 123  // numbers
 symbols, non-alphabetic
 
-A more efficient solution to this would be using Binary Search:
+A more efficient solution to this would be using Binary Search: O(logn)
+Ask questions like 
+1. If the input has both upper and lowercases characters. (Lowercase characters has higher ascii values btw)
+2. does the input contain symbols, numbers, etc.
 
+char First_Char_Not_In_Order(string str){
+	if(str.size() < 2)	
+		return "";
+	int index = find_first_not_of("ABCDEFGH.....XYZ");
+	if(index != 0)
+		return "Invalid Input";
+	int n = str.size();
+	int start = 0;
+	int end = n-1;
+	char element = binary_search(str,start,end);
+	return char;
+}
+char binary_search(str,start,end){
+	int mid =  end + (end-start)/2;
+	if((int)str[mid] < (int)str[start])
+		return str[mid];
+	binary_search(str,start,mid);
+	binary_search(str,mid,end);
+	retur "";
+	
+}
