@@ -42,7 +42,7 @@ Negative/malicious test cases:
 123  // numbers
 symbols, non-alphabetic
 
-A more efficient solution to this would be using Binary Search: O(logn)
+A more efficient solution to this would be using Binary Search: O(logn) but this is an incomplete solution and I have my doubts.
 Ask questions like 
 1. If the input has both upper and lowercases characters. (Lowercase characters has higher ascii values btw)
 2. does the input contain symbols, numbers, etc.
