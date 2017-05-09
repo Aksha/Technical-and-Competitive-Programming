@@ -56,10 +56,10 @@ char First_Char_Not_In_Order(string str){
 	int n = str.size();
 	int start = 0;
 	int end = n-1;
-	char element = binary_search(str,start,end);
+	char element = binarySearch(str,start,end);
 	return element;
 }
-char binary_search(str,start,end){
+char binarySearch(str,start,end){
 	int mid =  end + (end-start)/2;
 	if((int)str[mid] < (int)str[start])
 		return str[mid];
