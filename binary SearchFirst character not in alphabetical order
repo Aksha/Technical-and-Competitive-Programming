@@ -61,10 +61,10 @@ char First_Char_Not_In_Order(string str){
 }
 char binarySearch(str,start,end){
 	int mid =  end + (end-start)/2;
+	binary_search(str,start,mid); // I am iterating over the elements first and then check the condition because I want to find the first character not in alphabetical order
+	binary_search(str,mid,end);
 	if((int)str[mid] < (int)str[start])
 		return str[mid];
-	binary_search(str,start,mid);
-	binary_search(str,mid,end);
 	return "";
 	
 }
