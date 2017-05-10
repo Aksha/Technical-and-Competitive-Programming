@@ -21,11 +21,11 @@ Constraints:
 [output] array.integer
 
 Discussion: There are many ways to solve this problem. If you're thinking in terms of inserting sort, that's probably the right way to begin with. 
-So, insertion sort is O(n^2). This question is mainly designed to test your strength with sorting algorithms.
+So, insertion sort is O(nk) for this problem. This question is mainly designed to test your strength with sorting algorithms.
 There are better sorting algorithms like merge sort, quick sort whose complexity is better than an insertion sort for most cases (Onlogn)
 This problem can be solved by using heaps more efficiently
 
 -------------------------------------------------------------------------------------------------------------------------------
-Solution: time complexity O(nlogk) where n is the size of the input and k is the size of the min heap. 
+Solution: time complexity O(nlogk) where n is the size of the input and 'k' is from the question. 
 -------------------------------------------------------------------------------------------------------------------------------
 
