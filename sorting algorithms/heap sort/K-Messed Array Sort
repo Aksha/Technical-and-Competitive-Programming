@@ -29,3 +29,19 @@ This problem can be solved by using heaps more efficiently
 Solution: time complexity O(nlogk) where n is the size of the input and 'k' is from the question. 
 -------------------------------------------------------------------------------------------------------------------------------
 
+If we use min heap, we can get an asymptotically we can solve this problem in O(N⋅log(K)). 
+
+The idea is to construct a min-heap of size k+1 and insert first k+1 elements into the heap. 
+Then we remove min from the heap and insert next element from the array into the heap and and continue the 
+process until both array and heap are exhausted.
+Each pop operation from the heap should insert the corresponding top element in its correct position in the array.
+
+Time Complexity: building a heap takes O(K) time for K+1 elements. Insertion into and extraction from the min-heap 
+take O(log(K)), each. Across all three loops, we do at least one of these actions N times, so the total time complexity
+is O(N⋅log(K)). if K is substantially smaller than N, then we can consider log(K) constant and argue that the complexity
+is practically linear.
+
+Space Complexity: we need to a maintain min-heap of size K+1 throughout the algorithm, so the auxiliary space complexity 
+is O(K).
+
+Code
