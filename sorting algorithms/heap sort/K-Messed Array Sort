@@ -44,4 +44,18 @@ is practically linear.
 Space Complexity: we need to a maintain min-heap of size K+1 throughout the algorithm, so the auxiliary space complexity 
 is O(K).
 
-Code
+Code:
+
+vector<int> sortKMessedArray(vector<int> arr, int k) {
+  int n = arr.size();
+  MinHeap h = new MinHeap();
+  make_heap(arr, arr + k);
+  for(int i = k+1;int t = 0; t < n-k-1; i++; t++){
+    arr[t] = h.extractMin();
+    h.insert(arr[i]);
+  }
+  for(int i = n - k - 1; i < h.size(); i++){
+    arr[i] = h.extractMin();
+  }
+  return arr;
+}
