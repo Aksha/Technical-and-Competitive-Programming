@@ -9,7 +9,7 @@ void flip(vector <int> &arr, int index){
     arr[start] = arr[index];
     arr[index] = temp;
     start++;
-    i--;
+    index--;
   }
 }
 
