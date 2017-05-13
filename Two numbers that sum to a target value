@@ -1,0 +1,32 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+// CRistian
+using namespace std;
+
+vector<int> getIndicesOfItemWights(vector<int>  &arr, int limit) {
+  vector<int> result;
+  unordered_map<int,int> temp;
+  for(int i = 0; i < temp.size(); i++ ){
+    int compliment = limit - arr[i];
+    if(temp.find(compliment) != temp.end())
+    {
+      result.push_back(temp[compliment]->second);
+      result.push_back(i);   
+      return result;
+    }
+    else{
+      temp.insert(make_pair(compliment, i));
+    }                         
+  }
+  return result;
+}
+
+int main() {
+  vector<int> arr = {4,5,6,15,16};
+  int limit = 21;
+  vector <int> result = getIndicesOfItemWights(arr,limit);
+  for(int i = 0; i < result.size(); i++)
+    cout << result[i];
+  return 0;
+}
