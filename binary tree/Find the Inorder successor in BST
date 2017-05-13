@@ -1,0 +1,34 @@
+struct Node
+{
+  int key;
+  Node *left;
+  Node *right;
+  Node *parent;
+};
+
+Node* findInOrderSuccessor(Node *inputNode) {
+  if(!inputNode)
+    return NULL;
+  Node* result;
+  Node* parent;
+  
+  if(input->right != NULL){
+     result = getTheLeastNode(inputNode->right);
+  }
+  else{
+    Node* current = inputNode;
+    Node* parent = inputNode->parent;
+    while(parent->left != current && parent != NULL){ // right
+      parent = current->parent;
+      current = parent;  
+    }
+    result = current;
+  }   
+  return result;
+}
+
+Node* getTheLeastNode(Node* input){
+  while(input->left != NULL)
+     input = input->left;
+  return input;
+}
