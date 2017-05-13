@@ -1,0 +1,49 @@
+Sentence Reverse
+
+You are given an array of characters arr that consists of sequences of characters separated by space characters. Each space-delimited sequence of characters defines a word.
+
+Implement a function reverseWords that reverses the order of the words in the array in the most efficient manner.
+
+Explain your solution and analyze its time and space complexities.
+
+Example:
+
+input:  arr = [ 'p', 'e', 'r', 'f', 'e', 'c', 't', '  ',
+                'm', 'a', 'k', 'e', 's', '  ',
+                'p', 'r', 'a', 'c', 't', 'i', 'c', 'e' ]
+
+output: [ 'p', 'r', 'a', 'c', 't', 'i', 'c', 'e', '  ',
+          'm', 'a', 'k', 'e', 's', '  ',
+          'p', 'e', 'r', 'f', 'e', 'c', 't' ]
+
+
+Solution : Time Complexity: O(n) and Space complexity is constant since I am reversing inplace:
+
+
+vector<char> reverseWords(vector<char> &arr) {
+  // your code goes here
+  // [e,c,i,t,c,a,r,p, ,m,a,k,e,s, ,t,c,e,f,r,e,p]
+  int start = 0;
+  int end = arr.size()-1;
+  reverseWords_helper(arr, start, end);
+  helper(arr, start, end);
+  return arr;
+}
+
+void helper(vector<char> &arr, int start, int end){
+  int i = 0;
+  while(start < end){
+    if(arr[i] == ' ' || i == arr.size()){
+      end = i-1;
+      reverseWords_helper(arr, start, end);
+      start = i + 1; 
+      end = arr.size()-1;
+    }   
+    i++;
+  }
+}
+ 
+void reverseWords_helper(vector<char> &arr, int start, int end){ 
+  while(start < end)
+     swap(arr[start++],arr[end--]);
+}
