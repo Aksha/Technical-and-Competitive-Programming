@@ -1,0 +1,51 @@
+Convert number to words:
+
+999,999,999,999 = nine hundred and ninety nine billion nine hundred and ninety nine million nine hundred and ninety nine thousand nine hundred and ninety nine.
+
+Solution: This problem is solved in constant time and constant space. O(1)
+
+Unordered_map <int, string> Ones_map = [[1,one],[2,two],[3,three],[4,four],[5,five],[6,six],[7,seven],[8,right],[9,nine],[10,ten], 
+[11,eleven],[12,twelve],[13,thirteen],[14,fourteen],[15,fifteen],[16,sixteen],[17,seventeen],[18,eighteen],[19,nineteen]]
+
+Unordered_map <int, string> Tens_map = [[2,twenty],[3,thirty],[4,forty],[5,fifty],[6,sixty],[7,seventy],[8,eighty],[9,ninety]]
+
+string numToWords(long long num, string s){
+   string str = "";
+   if(num >100){
+ 	Str += ones_map[num%100];
+	Num = num/10;
+    }
+   if(num > 19){
+     str += tens_map[num/10] + ones_map[num%10];
+   }
+   else{
+     str += ones_map[num];
+   }
+   
+   if(num)
+     str += s;
+  
+   return str;
+  }
+
+String convertToWord(int n) {
+	string result;	
+	Result += numToWord(n/1000000000, “billion”); ///passing 999 and append billion end
+
+Result += numToWord((n/100000)%100,”million”); ///passing 999 from the second part
+Result += numToWord((n/1000) %100,”thousand”); 
+
+result += numToWord(((n / 100) % 10), "hundred ");
+
+if(n > 100 && n%100)
+	Result += “and”;
+
+ Return result;
+}
+
+
+
+
+
+
+
