@@ -23,3 +23,28 @@ Constraints:
 
 Solution for each case:
 case 1 when M ~ N
+
+vector<int> findDuplicates(vector <int> arr1, vector <int> arr2){
+  int n = arr1.size();
+  int m = arr2.size();
+  int i , j = 0;
+  while(i < arr1.size() && j < arr2.size()){
+    if(arr1[i] == arr2[j]){
+      result.push_back(arr1[i]);
+      i++;
+      j++;
+    }
+    else if(arr1[i] > arr2[j]){
+      j++;
+    }
+    else 
+      i++;
+  }
+  if(result.size() == 0)
+    return -1;
+  return result;
+}
+
+This solution has linear time complexity with O(n) is n is larger and O(m) if m is larger.
+
+
