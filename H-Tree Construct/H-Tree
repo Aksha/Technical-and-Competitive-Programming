@@ -18,6 +18,7 @@ space complexities are constant, i.e. O(1).
 
 
 1. given = start length and depth.
+2. A method drawLine whose time and space complexity is constant and it renders a real line between two points.
 2. find = all the points of the H's formed at every depth
 3. technique, recursively call the same method with different depths as inputs
 
