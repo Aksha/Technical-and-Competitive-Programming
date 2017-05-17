@@ -1,0 +1,46 @@
+
+An H-tree is a geometric shape that consists of a repeating pattern resembles the letter “H”.
+
+It can be constructed by starting with a line segment of arbitrary length, drawing two segments of
+the same length at right angles to the first through its endpoints, and continuing in the same vein, 
+reducing (dividing) the length of the line segments drawn at each stage by √2.
+
+there are some examples of H-trees at different levels of depth in this folder for your reference.
+Write a function drawHTree that constructs an H-tree, given its center (x and y coordinates), a starting length, 
+and depth. Assume that the starting line is parallel to the X-axis.
+
+Use the function drawLine provided to implement your algorithm. In a production code, a drawLine function 
+would render a real line between two points. However, this is not a real production environment, so to make
+things easier, implement drawLine such that it simply prints its arguments (the print format is left to your discretion).
+
+Analyze the time and space complexity of your algorithm. In your analysis, assume that drawLine's time and
+space complexities are constant, i.e. O(1).
+
+
+1. given = start length and depth.
+2. find = all the points of the H's formed at every depth
+3. technique, recursively call the same method with different depths as inputs
+
+
+Solution:
+vector<vector<int>> drawLine(Point center, double length, int depth){
+  
+  vector<vector<point>> result;
+  
+  result.push_back(topLeft, bottomLeft, topRight, bottomRight);
+
+  drawLine(topLeft, sqrt(length), depth-1);
+  
+  return result;
+}
+vector<int> drawLine(Point center, double length, int depth)
+  double x = Point.x;
+  double y = Point.y;
+  while(depth > 0){
+    Point topleft = (x - (length/2.0), y + (length/2.0));
+    Point bottomLeft = (x - (length/2.0) , y- (length/2.0));
+    Point topRight = (x + (length/2.0), y (length/2.0));
+    Point bottomRight = (x + (length/2.0)  , y - (length/2.0));
+  }
+}
+
