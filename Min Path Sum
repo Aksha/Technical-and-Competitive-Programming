@@ -14,3 +14,31 @@ Honda wishes to find the minimal Sales Path cost in its distribution tree. Given
 write an function getCheapestCost that calculates the minimal Sales Path cost in the tree.
 
 Implement your function in the most efficient manner and analyze its time and space complexities.
+
+Time Complexity: O(n), Space complexity: O(1)
+
+struct Node
+{
+  int cost;
+  vector<Node *> children;
+  Node *parent;
+};
+
+int getCheapestCost(Node *rootNode) {
+  if(rootNode == NULL)
+    return 0;
+  int minCost;
+  int n = rootNode->children.size();
+  if( n == 0)
+    return rootNode->cost;
+  else{
+    minCost = INT_MAX;
+    for(int i = 0; i < n; i++){
+      int temp = getCheapestCost(rootNode->children[i]);
+      if(minCost > temp)
+        minCost = temp;
+    }
+  }
+  return rootNode->cost + minCost;
+}
+
