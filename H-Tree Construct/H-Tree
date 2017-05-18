@@ -58,3 +58,8 @@ void drawHTree(int x, int y, double length, int depth, vector<vector<int>>& resu
   drawHTree(x1,y1,newLength,depth-1);
 }
 
+Time complexity: 4^depth.
+Space: Space Complexity: recursive calls add overhead since we store them in the execution stack.
+The space occupied in the stack will be then O(D), in the worst case scenario. The stack space occupied 
+will be no more than O(D) at any given point since a sibling drawHTree will not be called before the current 
+one being executed returns (i.e. finishes its execution).
