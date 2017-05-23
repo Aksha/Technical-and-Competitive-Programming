@@ -1,0 +1,81 @@
+Given a binary tree, imagine yourself standing on the left side of it, 
+return the values of the nodes you can see ordered from top to bottom.
+
+For example:
+Given the following binary tree,
+   1            <--- 1
+ /   \
+2     3         <--- 2
+ \    / \
+  5   6  4     <--- 5
+  /
+  7       <----- 7
+      
+  [1,2,5,7]
+  Struct Node{
+      int val;
+      Node* left;
+      Node* right;
+  }
+  
+  vector<int> result;
+  int level = 1;
+  int max = 0;
+  vector <int> rightView(Node* root, int level, int &max){
+         if(root == NULL)
+             return result;
+         if(max<level){
+             result.push_back(root->val);    
+             max=level;
+         }
+         leftView(root->left, level+1, max);
+         leftView(root->right, level+1, max);  
+ }
+ ///// Java Solution
+ class MaxLevel {
+    int max_level;
+}
+public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> result =new ArrayList<Integer>();
+        if(root==null) return result;
+        MaxLevel max = new MaxLevel();
+        leftSideViewHelper(root, 1, max,result);
+        return result;
+    }
+    public void rightSideViewHelper(TreeNode root, int level, MaxLevel max, List<Integer>result) {
+        if(root==null) return;
+        if(max.max_level<level) {
+            result.add(root.val);
+            max.max_level=level;
+        }
+        leftSideViewHelper(root.left, level+1,max,result);
+        leftSideViewHelper(root.right, level+1, max,result);
+    }
+  
+  
+  public List<Integer> rightSideView(TreeNode root) {
+        Deque<TreeNode> queue = new LinkedList<TreeNode>();
+        List<Integer> result = new ArrayList<Integer>();
+        if(root==null) return result;
+        //result.add(root.val);
+        queue.addLast(root);
+        while(!queue.isEmpty()) {
+            int size = queue.size();
+            for(int i=0;i<size;i++) {
+                TreeNode temp = queue.removeLast();
+                if(i==0) {
+                    result.add(temp.val);
+                }
+                if(temp.left!=null) {
+                    queue.addLast(temp.left);
+                }
+                if(temp.right!=null) {
+                    queue.addLast(temp.right);
+                }
+                
+            }
+            
+        }
+        return result;
+    }
+   
