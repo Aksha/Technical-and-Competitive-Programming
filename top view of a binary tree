@@ -64,7 +64,7 @@ vector<int> topView(vector <Node*> input) {
             int value = temp -> data;
             int horizontal_distance = temp -> hd;
             
-            if(!buffer[horizontal_distance]){
+            if(buffer.find(horizontal_distance) == buffer.end()){
                   buffer.insert(make_pair(horizontal_distance, value); 
                   result.push_back(value);
             }
