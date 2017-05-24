@@ -23,3 +23,61 @@ The nodes visible from the top here are: [4,2,1,3,7]
                6
                
 In the above example, the nodes visible from the top are [2,1,3,6]
+
+1.calculate the horizontal distance
+2.Use a hashset with a key value pair where the key is the horizontal distance of the node 
+and the value is the data in the node.
+      a.left node's horizontal distance = horizontal distance of the current node - 1;
+      b.right node's horizontal distance = horizontal distance of the current node + 1;
+       1 hd = 0
+      /   \
+    2       3  hd(2) = -1, hd(3) = +1
+      \   
+        4  hd(4) = 0
+          \
+            5 hd(5) = +1
+             \
+               6 hd(6) = +2
+      
+
+3. The result is a set of the nodes encountered with a different hd for the first time. 
+4. check if the hashset contains the horizontal distance already. if it does, skip this node, it it doesn't, store it with
+the appropriate key value pair in the hashset.
+5. in the end, print all the values of the items in the key.
+Also, I am using BFS to solve this problem. Every node is checked at leaast once. So the time complexity is
+O(n) and the space complexity could be O(n) in the worst case.
+
+Struct Node*{
+      int data;
+      int hd; //horizontal distance
+      Node(int value, int horizontal_distance): value(data), horizontal_distance(hd) {}
+};
+
+vector<int> topView(vector <Node*> input) {
+      queue <Node*> Q;
+      Q.push(input[0]);
+      unordered_set<int,int> buffer;
+      vector <int> result;
+      while(!Q.empty()){
+            Node* temp = Q.top();
+            Q.pop();
+            int value = temp -> data;
+            int horizontal_distance = temp -> hd;
+            
+            if(!buffer[horizontal_distance]){
+                  buffer.insert(make_pair(horizontal_distance, value); 
+                  result.push_back(value);
+            }
+            
+            if(temp->left){
+                  temp->left.hd = horizontal_distance-1;
+                  Q.push(temp->left);
+            }
+            
+            if(temp->right){
+                  temp->right.hd = horizontal_distance-1;
+                  Q.push(temp->right);
+            }
+      }
+      return result;
+}
