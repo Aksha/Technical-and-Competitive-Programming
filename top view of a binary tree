@@ -70,12 +70,12 @@ vector<int> topView(vector <Node*> input) {
             }
             
             if(temp->left){
-                  temp->left.hd = horizontal_distance-1;
+                  temp->left->hd = horizontal_distance-1;
                   Q.push(temp->left);
             }
             
             if(temp->right){
-                  temp->right.hd = horizontal_distance-1;
+                  temp->right->hd = horizontal_distance-1;
                   Q.push(temp->right);
             }
       }
