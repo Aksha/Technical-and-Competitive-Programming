@@ -1,0 +1,92 @@
+Input:
+
+    A[]: Array of integer (elements)
+    S: Integer (target)
+    
+Output:
+    Print out all possible ways to add up elements from A into S. Each element can be used multiple times. (0, 1,2, ...)
+    
+    
+Example:
+A = (1,2)
+S = 3
+
+1,2 and 1,1, 1
+
+The most intuitive solution to this problem is using recursion because each element from an array that has distinct 
+elements can occur multiple times
+
+
+vector<vector<int>> subsetSum(vector <int> input, int target){
+    vector<int> temp;
+    vector<vector<int>> result;
+    subsetSum_helper(input,target,temp,result);
+    return result;
+}
+
+void subsetSum_helper(vector<int> input,int target, vector<int> temp, vector<vector<int>> &result){
+    int sum = 0;
+    for(int i = 0; i < temp.size(); i++) {
+        sum += temp[i];
+    }
+    if(sum == target){
+        result.push_back(temp);
+    }
+    else if(sum > target)
+        return;
+    }
+    for(int i = 0; i < input.size(); i++){
+        vector<int> remaining;
+        int n = input[i];
+        for(int j = i+1; j < n; j++){
+            remaining.push_back(input[j]);
+        }
+        vector <int> partial = temp;
+        partial.push_back(n);
+        subsetSum_helper(remaining,target,partial,result);              
+    }
+}
+
+
+
+//result = [[1,2],
+
+void Main()
+{
+    int[] numbers = {3,9,8,4,5,7,10};
+    int target = 15;
+    sum_up(new List<int>(numbers.ToList()),target);
+}
+
+static void sum_up_recursive(List<int> numbers, int target, List<int> part)
+{
+   int s = 0;
+   foreach (int x in part)
+   {
+       s += x;
+   }
+   if (s == target)
+   {
+        Console.WriteLine("sum(" + string.Join(",", part.Select(n => n.ToString()).ToArray()) + ")=" + target);
+   }
+   if (s >= target)
+   {
+        return;
+   }
+   for (int i = 0;i < numbers.Count;i++)
+   {
+         var remaining = new List<int>();
+         int n = numbers[i];
+         for (int j = i + 1; j < numbers.Count;j++)
+         {
+             remaining.Add(numbers[j]);
+         }
+         var part_rec = new List<int>(part);
+         part_rec.Add(n);
+         sum_up_recursive(remaining,target,part_rec);
+   }
+}
+static void sum_up(List<int> numbers, int target)
+{
+    sum_up_recursive(numbers,target,new List<int>());
+}
