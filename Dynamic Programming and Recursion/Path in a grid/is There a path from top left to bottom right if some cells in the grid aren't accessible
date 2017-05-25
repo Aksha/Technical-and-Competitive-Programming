@@ -1,0 +1,26 @@
+
+
+bool pathExists(int x, int y, vector<point> path, unordered_map<point, bool> cache){
+  if(x < 0 || y < 0 || !isFree(x,y))
+    return false;
+  point P = new point(x,y);
+  
+  if(cache.find(point) != cache.end())
+    return cache[point];
+   
+  bool isOrigin = ((x == 0) && (y == 0));
+  
+  bool success = false;
+  
+  if(isOrigin || pathExists(x-1,y,path,cache) || pathExists(x,y-1,path,cache)){
+    path.push_back(p);
+    if(path.size() == x-1 + y-1){
+      result.push_back(path);
+      path.erase();
+    }
+    success = true;
+  }
+  
+  cache.insert(make_pair(path,success));
+  return true;  
+}
