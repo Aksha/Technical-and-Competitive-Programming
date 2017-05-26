@@ -5,11 +5,7 @@ void flip(vector <int> &arr, int index){
   int start = 0; 
   int temp = 0;
   while(start < index){
-    temp = arr[start];
-    arr[start] = arr[index];
-    arr[index] = temp;
-    start++;
-    index--;
+    swap(arr[start++],arr[index--]);
   }
 }
 
