@@ -41,7 +41,7 @@ Class Trie {
       current->endOfWord = true;
     }
     
-    void search(string s){
+    bool search(string s){
       TrieNode* current = root;
       for(int i = 0; i < s.size(); i++) {
         TrieNode* check = new TrieNode(s[i]);
