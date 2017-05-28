@@ -7,7 +7,7 @@ Class TicTacToe {
   int diagonals = 0;
   int anti-diagonals = 0;
   
-  TicTacToe(int numOfElements){
+  TicTacToe(int n){
     rows = rows.resize(n);
     columns = columns.resize(n);
   }
