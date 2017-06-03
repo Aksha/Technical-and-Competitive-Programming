@@ -1,0 +1,39 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+vector<int> findDuplicates(vector<int> &arr1, vector<int> &arr2) {
+  // your code goes here
+  int n = arr1.size();
+  int m = arr2.size();
+  int start = 0;
+  int end = m-1;
+  vector<int> result;
+  for(int i = 0; i < arr1.size(); i++){
+    while(start < end){
+      int mid = start + (end-start)/2;
+      if(arr1[i] == arr2[mid]){
+        result.push_back(arr1[i]);
+      }
+      else if(arr1[i] > arr2[mid])
+        start = mid+1;
+      else 
+        end = mid-1;
+    }
+    start = 0;
+    end = m-1;
+  }
+  return result;
+}
+// 3, 6, 7
+
+int main() {
+  vector <int> arr1 = {1,2,3,5,6,7};
+  vector <int> arr2 = {3,6,7,8,20};
+  cout << "about to run my code " << endl;
+  vector <int> result = findDuplicates(arr1,arr2);
+  for(int i = 0; i < result.size(); i++)
+    cout << result[i];
+  return 0;
+}
