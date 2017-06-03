@@ -1,0 +1,72 @@
+ Implement the following:
+
+1->2->3->4->5-> null
+1->5->2->4->3-> null
+
+
+
+Struct Node {
+    int val;
+    Node* next;
+    Node*(int val) {
+        this.val=val;
+    }
+}
+
+Node* beginning;
+
+Node* rearrange(Node* head) {
+    if(!head);
+        return NULL;
+    Node* first = head;
+    Node* last = rearrange(head->next);     
+    last -> next =  beginning->next;
+    beginning -> next = last; 
+    beginning = last->next;
+    return beginning; // 1->5->2->3-> 
+}
+
+Node first =head;
+Node rearrange(Node head) {
+if(head==null
+-----------------------------------------------------
+1->2->3->4->5
+
+1->2 5->4->-3
+//Step 1 : Find the midpoint
+
+Node slow=head; Node fast=head;
+while(fast!=null||fast.next!=null) {
+slow=slow.next;
+fast=fast.next.next;
+}
+
+if(fast!=null) {
+slow=slow.next;
+}
+Node p2= slow;
+p2=reverse(p2);
+
+Node firstalfPointer =head;
+while(p2!=null) {
+
+p2.next=firstHalf.next;
+firstHalf.next=p2;
+firstHalf=p2.next;
+
+
+}
+return head;
+}
+Call Stack
+first =1;
+last= rearrarnge (2);
+-----------
+first =2;
+last= rearrange(3);
+first=3;
+last= rearrange(4);
+first=4;
+last=rearrange(5);
+first=5;
+last=null;
