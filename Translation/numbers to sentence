@@ -28,19 +28,19 @@ string numToWords(long long num, string s){
    return str;
   }
  
-String convertToWord(int n) {
-	string result;	
-	Result += numToWord(n/1000000000, “billion”); ///passing 999 and append billion end
+ String convertToWord(int n) {
+ string result;	
+ Result += numToWord(n/1000000000, “billion”); ///passing 999 and append billion end
  
-Result += numToWord((n/100000)%100,”million”); ///passing 999 from the second part
-Result += numToWord((n/1000) %100,”thousand”); 
- 
-result += numToWord(((n / 100) % 10), "hundred ");
- 
-if(n > 100 && n%100)
+ Result += numToWord((n/100000)%100,”million”); ///passing 999 from the second part
+ Result += numToWord((n/1000) %100,”thousand”); 
+
+ result += numToWord(((n / 100) % 10), "hundred ");
+
+ if(n > 100 && n%100)
 	Result += “and”;
- 
- Return result;
+
+  Return result;
 }
  
  
