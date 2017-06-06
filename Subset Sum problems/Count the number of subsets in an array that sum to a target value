@@ -1,4 +1,4 @@
-
+basically use a hashmap to store how many subarrays that can sum up to a number.
 
 public int subarraySum(int[] a, int k) {
     int sum = 0;
