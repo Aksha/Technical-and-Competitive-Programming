@@ -1,0 +1,51 @@
+Problem statement: Convert longURL to short URL (encode and decode) and vice versa.
+ 
+decode(TinyURL) - > long URL
+encode(long URL) -> Tiny URL
+
+
+encode("http://www.google.com")
+output: http://ti.me
+
+1.what can the tinyURL contain ? a-z, A-Z and 0-9 = 62
+2. What will be the maximum size of the tinyURL? 62^7 = 3.5 trillion combinations
+
+
+string dict = "0123456789abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ";
+unordered_map<string,string> result; //longURL key -> tinyURL value
+unordered_map<int,string> idMAP; //ID key -> longURL value
+int id = 0;
+
+count = 1;
+
+//1000000
+//2000000
+//Z000000
+//1100000
+//idmap = 1 -> longURL1
+//2 - > longURL2
+
+string encode(string longURL){
+    if(result.find(longURL) != result.end()) return result[longURL];
+    string tinyURL = "";
+    id++;
+    int count = id;
+    while(count > 0){
+        tinyURL = dict[count % 62] + tinyURL;
+        count /= 62)
+    }
+    while(tinyURL.size() < 7)
+        tinyURL += "0";
+    result[longURL] = tinyURL;
+    idMAP[id] = longURL;
+}
+
+string decode(string tinyURL){
+    int id = 0;
+    for(int i = 0; i < tinyURL.size(); i++){
+        id = 62*id + (int)dict.find(tinyURL[i]);
+    }
+    if (idMAP.find(id) != idMAP.end()) return idMAP[id];
+    return "";
+}
+https://docs.google.com/document/d/1Q8KTUFX8Kg321Kjeav5zwVZ2fxj8Gy1zLO8BbyJVSug/edit?usp=drive_web for detailed system design and software architecture
