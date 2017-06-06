@@ -1,5 +1,7 @@
 Given a total, target and an array of numbers, is there a subset that sums to a particular target.
 
+Use dynamic programming
+
 Time complexity - O(input.size * total_sum)
 Space complexity - O(input.size*total_sum)
 
