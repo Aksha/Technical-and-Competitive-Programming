@@ -1,0 +1,90 @@
+Find  K-th Smallest in Lexicographical Order
+i/p: n =13 k= 3;
+Lexicographical order:{1,10,11,12,13,2,3,4,5,6,7,8,9}
+
+o/p=11;
+
+string: 12345678910111213.toCharArray[]  
+
+1101111213
+int findKthNumber(int n, int k) {
+
+}
+
+
+
+i/p n = 2,147,483,647
+k=100;
+
+/*
+Step 1: you have to genreate 2 million numbers in an array
+Step 2: you sort it
+Step 3: you get the kth number 
+
+Worst case it will be for 0(n) + O(nlogn)
+
+*/
+
+/*
+Of Maximum O(n) and an average casse of 0(log(n))
+*/
+
+
+            0
+            /\\\\\\\\\\\
+            123456789
+            /
+            10 11 12 13   k=3   o/p=11
+            
+            1-2 :steps=10 k=3
+           current=1 current+1=2 steps:10 but my k=3 steps >k  steps=1; steps=2
+           
+           My answer would be between 1 to 2
+           current =10 Curernt =11; steps=1 k=3   steps<k 11 k=steps-k;
+           k=0 return 11;
+           
+           basic : 
+           
+           current=1 ; current+1=2;
+           
+           Take two numbers
+           1. calculate the step 1,2 steps=10 k=13
+           2. if (step<=k) then move to the next number and k(3)=k(13)-steps(10);
+           3. now my current value is 2 and current+1=3 steps:10 k=3; so (steps>k) its between 2 and 3 :current*10 =20  k--; again i ll call the same function 20,21 1 
+           
+           
+   public int findKthNumber(int n, int k) { //n=13 k=3
+        if(n==0||(k>n)) return -1;
+        int current=1; 
+        k=k-1;
+        while(k>0) {
+            int steps= calSteps(n,current,current+1); //calSteps(13,10,11) =1;
+            if(steps<=k) {   
+                k-=steps;
+                current++;
+            }else {
+                current*=10; //current = 10 k=1
+                k--;
+            }
+        }
+        return current;
+    }
+    public int calSteps(int n, long n1,long n2) { //n=13, n1=1,n2=2  //long to int itn to long (integer ) long 
+        int steps=0;
+        while(n1<=n) { //(100>13)
+            steps+=Math.min(n+1,n2)-n1; //Math.min(14,20)-10 //steps=3;
+            n1*=10;  //n1=10; 100 
+            n2*=10;  //n2=20 110
+        }
+        return steps;
+    } 
+    //https://discuss.leetcode.com/topic/64624/concise-easy-to-understand-java-5ms-solution-with-explaination  
+    
+    
+    
+    
+    
+    
+    
+    
+          
