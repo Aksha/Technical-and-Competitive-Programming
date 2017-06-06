@@ -12,8 +12,8 @@ Unordered_map <int, string> Tens_map = [[2,twenty],[3,thirty],[4,forty],[5,fifty
 string numToWords(long long num, string s){
    string str = "";
    if(num >100){
- 	Str += ones_map[num%100];
-	Num = num/10;
+ 	str += ones_map[num%100] + "hundred";
+	num = num/10;
     }
    if(num > 19){
      str += tens_map[num/10] + ones_map[num%10];
