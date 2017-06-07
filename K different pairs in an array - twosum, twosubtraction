@@ -60,10 +60,7 @@ public:
 // [1,1,2,3,4,5] k=0
  //
  
- 
- 
- 
- public int findPairs(int[] nums, int k) {
+public int findPairs(int[] nums, int k) {
         if(nums==null||nums.length==0||k<0) return 0;
         Map<Integer,Integer> map = new HashMap<>();
         int resultCount=0;
