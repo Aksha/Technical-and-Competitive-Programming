@@ -60,25 +60,23 @@ public:
 // [1,1,2,3,4,5] k=0
  //
  
-public int findPairs(int[] nums, int k) {
+public int findPairs(vector <int> nums, int k) {
         if(nums==null||nums.length==0||k<0) return 0;
-        Map<Integer,Integer> map = new HashMap<>();
+        unordered_Map<int,int> map;
         int resultCount=0;
         for(int i:nums) {
-            map.put(i, map.getOrDefault(i,0)+1);
+            map[nums[i]]++;
         }
         
-        for(Map.Entry<Integer,Integer> es: map.entrySet()) {
+        for(auto es = map.begin(); es!= map.end(); ++es) {
             if(k==0) {
-                if(es.getValue()>=2) {
+                if(es->second >=2)
                     resultCount++;
-                }
-            }else {
-                if(map.containsKey(es.getKey()+k)) {
+            }
+            else {
+                if(map.find(es->first + k) != map.end())
                     resultCount++;
-                }
             }
         }
-        return resultCount++;
-        
+        return resultCount++;        
     }
