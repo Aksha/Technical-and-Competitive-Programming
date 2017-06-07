@@ -64,7 +64,7 @@ public int findPairs(vector <int> nums, int k) {
         if(nums==null||nums.length==0||k<0) return 0;
         unordered_Map<int,int> map;
         int resultCount=0;
-        for(int i:nums) {
+        for(int i = 0; i < nums.size(); i++) {
             map[nums[i]]++;
         }
         
