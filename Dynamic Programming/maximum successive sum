@@ -1,4 +1,4 @@
-#Find the maximum (maximum subarray sum) successive sum in an array
+#Find the maximum successive sum in an array
 
 Solution:
 The idea is simple. Keep checking if the current element is bigger or the existing sum + the current element is bigger. 
