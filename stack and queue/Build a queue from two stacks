@@ -14,19 +14,19 @@ public:
         input.push(x);
     }
 
-    void pop(void) {
-        peek();
+    void pop() {
+        int data = peek();
         output.pop();
     }
 
-    int peek(void) {
+    int peek() {
         if (output.empty())
             while (input.size())
                 output.push(input.top()), input.pop();
         return output.top();
     }
 
-    bool empty(void) {
+    bool empty() {
         return input.empty() && output.empty();
     }
 };
