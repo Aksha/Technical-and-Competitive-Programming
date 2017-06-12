@@ -1,0 +1,14 @@
+Class MinMax{
+  private:
+    bool isBST;
+    int size;
+    int min;
+    int max;
+    
+    MinMax() {
+      isBST = false;
+      size = 0;
+      min = INT_MAX;
+      max = INT_MIN;
+    }
+}
