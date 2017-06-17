@@ -1,0 +1,11 @@
+http://www.geeksforgeeks.org/longest-common-prefix-set-4-binary-search/
+
+Time Complexity : 
+The recurrence relation is
+
+T(M) = T(M/2) + O(MN) 
+where
+
+N = Number of strings
+M = Length of the largest string string
+So we can say that the time complexity is O(NM log M)
