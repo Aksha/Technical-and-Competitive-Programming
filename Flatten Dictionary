@@ -54,8 +54,7 @@ void flattenDictionary_helper(unordered_map<string, void*> &dict, string initial
       }
       else{
         flatDictionary_helper(dict, initial_key + "." + key,result);
-      }
-      
+      }    
     }
   }
 }
