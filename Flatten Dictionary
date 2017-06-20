@@ -41,19 +41,19 @@ void flattenDictionary_helper(unordered_map<string, void*> &dict, string initial
     key = it->first;
     value = it->second;
     if(!isChar(value)){
-      if (key.empty()) {
-        result.insert(make_pair(key,value));
-      } 
-      else {
-        result.insert(make_pair(initial_key + "." + key, value));
-      }
-    }
-    else{
       if(key.empty()){
         flatDictionary_helper(dict,key,result);
       }
       else{
         flatDictionary_helper(dict, initial_key + "." + key,result);
+      }
+    }
+    else{
+      if (key.empty()) {
+        result.insert(make_pair(key,value));
+      } 
+      else {
+        result.insert(make_pair(initial_key + "." + key, value));
       }
     }
   }
