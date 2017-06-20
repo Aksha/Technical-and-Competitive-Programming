@@ -40,21 +40,22 @@ void flattenDictionary_helper(unordered_map<string, void*> &dict, string initial
   for(unordered_map<string, void*> it = dict.begin(); it != dict.end(); it++){
     key = it->first;
     value = it->second;
-    if(!isChar(value)){
-      if(key.empty()){
-        flatDictionary_helper(dict,key,result);
-      }
-      else{
-        flatDictionary_helper(dict, initial_key + "." + key,result);
-      }
-    }
-    else{
+    if(!isDictionary(value)){ //if the value is not the starting point of another dictionary
       if (key.empty()) {
         result.insert(make_pair(key,value));
       } 
       else {
         result.insert(make_pair(initial_key + "." + key, value));
       }
+    }
+    else{
+      if(key.empty()){
+        flatDictionary_helper(dict,key,result);
+      }
+      else{
+        flatDictionary_helper(dict, initial_key + "." + key,result);
+      }
+      
     }
   }
 }
