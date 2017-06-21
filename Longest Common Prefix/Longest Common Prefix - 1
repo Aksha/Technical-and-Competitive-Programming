@@ -27,4 +27,10 @@ Like here
 LCP (“geeksforgeeks”, “geeks”, “geek”)
      =  LCP (LCP (“geeksforgeeks”, “geeks”), “geek”)
      =  LCP (“geeks”, “geek”) = “geek”
+     
+Refer the image "longest_common_prefix_1.png" in this folder
+
+Code:
+
+
 
