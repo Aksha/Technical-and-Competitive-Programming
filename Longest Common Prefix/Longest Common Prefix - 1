@@ -1,0 +1,30 @@
+Given a set of strings, find the longest common prefix.
+
+Input  : {“geeksforgeeks”, “geeks”, “geek”, “geezer”}
+Output : "gee"
+
+Input  : {"apple", "ape", "april"}
+Output : "ap"
+
+Solution: 
+
+There are several different solutions to this problem with different time and space complexity. I will discuss 
+all the approaches one by one here.
+
+First Approach: Associative property.
+
+We start with an example. Suppose there are two strings- “geeksforgeeks” and “geeks”. What is the longest common prefix in both of them? It is “geeks”.
+
+Now let us introduce another word “geek”. So now what is the longest common prefix in these three words ? It is “geek”
+
+We can see that the longest common prefix holds the associative property, i.e-
+
+LCP(string1, string2, string3) 
+         = LCP (LCP (string1, string2), string3)
+
+Like here
+
+LCP (“geeksforgeeks”, “geeks”, “geek”)
+     =  LCP (LCP (“geeksforgeeks”, “geeks”), “geek”)
+     =  LCP (“geeks”, “geek”) = “geek”
+
