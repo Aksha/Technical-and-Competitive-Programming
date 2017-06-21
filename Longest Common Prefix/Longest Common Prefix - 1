@@ -51,4 +51,9 @@ string commonPrefix(vector <string> arr) {
     return result;
 }
 
+Time Complexity : Since we are iterating through all the strings and for each string we are iterating though each characters, 
+so we can say that the time complexity is O(N M) where,
+N = Number of strings
+M = Length of the largest string string 
+Auxiliary Space : To store the longest prefix string we are allocating space which is O(M).
 
