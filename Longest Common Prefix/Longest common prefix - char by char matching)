@@ -1,0 +1,66 @@
+Given a set of strings, find the longest common prefix.
+
+Input  : {“geeksforgeeks”, “geeks”, “geek”, “geezer”}
+Output : "gee"
+
+Input  : {"apple", "ape", "april"}
+Output : "ap"
+
+
+Solution:
+
+Refer to the images in the folder named "Longest_Common_Prefix_2_*" to understand the conception of this solution 
+
+Suppose you have the input strings as- “geeksforgeeks”, “geeks”, “geek”, “geezer”, “x”.
+
+Now there is no common prefix string of the above strings. By the “Word by Word Matching” algorithm discussed in Set 1, 
+we come to the conclusion that there is no common prefix string by traversing all the strings. 
+But if we use this algorithm, then in the first iteration itself we will come to know that there is
+no common prefix string, as we don’t go further to look for the second character of each strings.
+
+This algorithm has a huge advantage when there are too many strings.
+
+Time Complexity : Since we are iterating through all the characters of all the strings,
+so we can say that the time complexity is O(N M) where,
+
+N = Number of strings
+M = Length of the largest string  
+Auxiliary Space : To store the longest prefix string we are allocating space which is O(M).
+
+Code:
+
+//Find the minimum length
+//take the first string or any string and iterate over it for the size of the minimum length
+//check if all other strings have the same character at that position. 
+//even if there is one mismatch, return false.
+//if there is no mismatch push it to the resulting string and proceed.
+
+int findMinLength(string arr[], int n)
+{
+    int min = arr[0].length();
+ 
+    for (int i=1; i<n; i++)
+        if (arr[i].size() < min)
+            min = arr[i].size();
+ 
+    return min;
+}
+ 
+// A Function that returns the longest common prefix
+// from the array of strings
+string commonPrefix(string arr[], int n){
+    int minlen = findMinLength(arr, n);
+ 
+    string result; // Our resultant string
+    char current;  // The current character
+ 
+    for (int i=0; i<minlen; i++) {
+        current = arr[0][i];
+ 
+        for (int j=1 ; j<n; j++)
+            if (arr[j][i] != current)
+                return result;
+        result.push_back(current);
+    }
+    return (result);
+}
