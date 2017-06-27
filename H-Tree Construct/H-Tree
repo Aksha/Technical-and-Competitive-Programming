@@ -24,7 +24,7 @@ space complexities are constant, i.e. O(1).
 
 
 Solution:
-vector<vector<int>> drawLine(Point center, double length, int depth){
+vector<vector<point>> drawLine(point center, double length, int depth){
   
   vector<vector<point>> result;
   drawHTree(point.x,point.y,length,depth,result);
