@@ -3,7 +3,6 @@
 // 3 2 1 4 5
 void flip(vector <int> &arr, int index){
   int start = 0; 
-  int temp = 0;
   while(start < index){
     swap(arr[start++],arr[index--]);
   }
@@ -27,4 +26,63 @@ vector<int> pancakeSort(vector<int> &arr) {
     }  
   }
   return arr;
+}
+
+
+//Some bugs in this to debug
+
+#include <iostream>
+#include <vector>
+#include <cfloat>
+
+using namespace std;
+/*arr = [1,5,4,3,2]
+  arr = [5,1,4,3,2]
+  arr = [2,3,4,1,5]
+  arr = [4,3,2,1,5]
+  arr = [1,2,3,4,5]
+  
+*/
+void flip(vector <int> &arr, int maximum_index){
+  int start = 0;
+  int end = maximum_index;
+  while(start < end){
+    swap(arr[start++], arr[end--]);
+  }
+}
+
+int findMax(vector<int> arr, int index){
+  int maximum = 0;
+  int maximum_index = -1;
+  for(int i = 0; i < index; i++){
+    if(arr[i] > maximum){
+      maximum = arr[i];
+      maximum_index = i;
+    }
+  }
+  return maximum_index;
+}
+
+vector<int> pancakeSort(vector<int> &arr) {
+  for(int i = arr.size()-1; i >= 0; i--){
+        int maximum = findMax(arr, i); //find max
+        if(maximum != i){
+           flip(arr,maximum); // reverse all the elements from top to maximum;
+           flip(arr,i);
+        }
+    }
+    return arr;
+}
+
+
+// flip (arr, k){}
+
+
+int main() {
+  vector <int> arr  = {1,5,4,3,2};
+  pancakeSort(arr);
+  for(int i = 0; i < arr.size(); i++){
+    cout << arr[i] << " ";
+  }
+  return 0;
 }
