@@ -43,6 +43,28 @@ void getEachWord(string s, vector <string> &words){
 }
 
 Alternate solution:  easy to read
+
+Solution 1: 
+vector<pair<string,int>> wordCount(string s){
+   unordered_map<string, int> temp;
+   vector <string> words;
+   getEachWord(s, words);
+   for(auto i = 0; i < words.size(); i++){  //over here
+      if(temp.find(words[i]) == temp.end()){ //
+         temp.insert(words[i],1);
+      }
+      else{
+         temp[words[i]]++;
+      }
+   }
+   priority_queue<std::pair<string,int>> result;
+   for(vector<int>::iterator it = temp.begin(); it!= temp.end(); it++){
+      result.push_back(it->second, it->first);
+   }   
+   return result;
+}
+
+Solution 2:
 string doc = "practice makes perfect. get perfect by practice. just practice!";
 	unordered_map <string,int> um;
 	unordered_map <string, int>::iterator it;
