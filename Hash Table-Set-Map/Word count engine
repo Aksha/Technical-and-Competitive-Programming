@@ -38,7 +38,7 @@ void getEachWord(string s, vector <string> &words){
    istringstream in(s);
    while(in){
       in >> val;
-      words.insert()
+      words.insert(in)
    }
 }
 
