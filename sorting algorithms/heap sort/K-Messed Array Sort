@@ -63,7 +63,8 @@ vector<int> sortKMessedArray(vector<int> arr, int k) {
 Solution with an explanation:
 Questions to ask:
 1. ask if duplicates exist in the input array.
-2. if yes, use a set
+2. if no, use a set. (it sorts the inputs ascendingly)
+3. If yes, use a map. (it sorts the inputs ascendingly and accounts for duplicates).
 vector<int> sortKMessedArray(vector<int> &arr, int k) {
   // your code goes here
   //This problem can be solved by heap sort. 
