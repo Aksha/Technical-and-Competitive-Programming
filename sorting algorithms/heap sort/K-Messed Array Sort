@@ -59,3 +59,24 @@ vector<int> sortKMessedArray(vector<int> arr, int k) {
   }
   return arr;
 }
+
+Solution with an explanation:
+vector<int> sortKMessedArray(vector<int> &arr, int k) {
+  // your code goes here
+  //This problem can be solved by heap sort. 
+  //The first k elements can be made to form a min heap where the least element is at the top. 
+  //the minimum element is extracted from the heap everytime and it is used to replace the element at the ith place. Now the heap is smaller than k and one additional element can be added to it.
+  //this is done for as long as we reach the end-k-1th index in the loop
+  //the rest  of the elements from the heap are overwritten in the input array by extracting min one by one.
+  int length = arr.size()-1;
+  Minheap h = new Minheap();
+  make_heap(arr.begin(), arr.begin()+k);
+  for(int i = k+1; t = 0; i < length - k; t++; i++){
+    arr[t] = h.ExtractMin();
+    h.insert(arr[i]);
+  }
+  for(int i = length-k; i < length; i++ ){
+    arr[i] = h.ExtractMin();
+  }
+  return arr;
+}
