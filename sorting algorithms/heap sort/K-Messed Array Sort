@@ -69,14 +69,18 @@ vector<int> sortKMessedArray(vector<int> &arr, int k) {
   //this is done for as long as we reach the end-k-1th index in the loop
   //the rest  of the elements from the heap are overwritten in the input array by extracting min one by one.
   int length = arr.size()-1;
-  Minheap h = new Minheap();
-  make_heap(arr.begin(), arr.begin()+k);
+  priority_queue<int> pq;
+  for(int i = 0; i < k; i++){
+    pq.insert(arr[i]);
+  }
   for(int i = k+1; t = 0; i < length - k; t++; i++){
-    arr[t] = h.ExtractMin();
-    h.insert(arr[i]);
+    arr[t] = pq.top();
+    pq.pop()
+    pq.insert(arr[i]);
   }
   for(int i = length-k; i < length; i++ ){
-    arr[i] = h.ExtractMin();
+    arr[i] = pq.top();
+    pq.pop();
   }
   return arr;
 }
