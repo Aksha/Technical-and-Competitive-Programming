@@ -76,4 +76,10 @@ function getCheapestCost(rootNode):
 
     return minCost + rootNode.cost
     
-    
+    Time Complexity: let N be the number of nodes in the tree. Notice that getCheapestCost 
+    is applied to every node exactly once. 
+    Therefore, there are overall O(N) calls to getCheapestCost.
+
+Space Complexity: every time the function recurses, it consumes only a constant amount of space.
+However, due to the nature of the recursion we used, the stack call holds N instances of getCheapestCost
+which makes the total space complexity to be O(N).
