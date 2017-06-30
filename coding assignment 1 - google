@@ -1,0 +1,63 @@
+Coding Problem:
+
+ 
+/**
+ * Class that represents a car.
+ *
+ * Assume that this class has already been implemented.
+ */
+public class Car {
+  public long getId() { ... }
+ 
+  public long getManufacturerId() { ... }
+ 
+  public String getColor() { ... }
+ 
+  public float getHorsepower() { ... }
+}
+ 
+/**
+ * Interface that represents a Car database.
+ *
+ * Callers can assume that an implementation is in place for this database.
+ */
+public interface CarsDatabase {
+  /**
+   * Returns the number of cars in the database.
+   * @return The size of the databse.
+   */
+  public int getSize();
+ 
+  /**
+   * Returns a Car database at a given index in the database.
+   * @param index The index to get a Car from.
+   * @return The car value at the given index.
+   */
+  public Car getCar(int index);
+}
+ 
+//--------------------------------------------------------------------------------------------------
+// Using the defined APIs and objects above, please implement the following method:
+ 
+/**
+ * Returns a list of Car instances that have a matching manufacturer ID and color.
+ *
+ * @param db The database interface to use for finding matching cars.
+ * @param manufacturerId The ID of the manufacturer to find in the database.
+ * @param color The color of the car to find in the database.
+ * @return The list of cars that match the in-param values.
+ */
+public List<Car> findManufacturerColorCars(CarsDatabase db, int manufacturerId, String color) {
+      if(db==null) return null;
+      List<Car>result = new ArrayList<>();
+      int noOfCars= db.getSize();
+      for(int i=0;i<noOfCars;i++) {
+          Car car= db.getCar(i);
+          if(car.getManufacturerId()==manufacturerId && car.getColor()==color) {
+              result.add(car);
+          }
+      }
+      return result;
+}
+
+ 
