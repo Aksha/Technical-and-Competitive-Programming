@@ -19,6 +19,10 @@ Given the rootNode of the tree in diagram above
 Your function would return:
 
 7 since it’s the minimal Sales Path cost (there are actually two Sales Paths in the tree whose cost is 7: 0→6→1 and 0→3→2→1→1)
+
+---------------------------------------------------------------------------------------------------------------------------
+Solution:
+---------------------------------------------------------------------------------------------------------------------------
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -59,7 +63,9 @@ int getCheapestCost_helper(Node* rootNode,int sum) {
   return minimum;
 }
 
+---------------------------------------------------------------------------------------------------------------------------
 Better solution: 
+---------------------------------------------------------------------------------------------------------------------------
 
 function getCheapestCost(rootNode):
     n = rootNode.numberOfChildren()
@@ -75,10 +81,13 @@ function getCheapestCost(rootNode):
                 minCost = tempCost
 
     return minCost + rootNode.cost
-    
-    Time Complexity: let N be the number of nodes in the tree. Notice that getCheapestCost 
-    is applied to every node exactly once. 
-    Therefore, there are overall O(N) calls to getCheapestCost.
+
+---------------------------------------------------------------------------------------------------------------------------
+Complexity Analysis:
+---------------------------------------------------------------------------------------------------------------------------
+Time Complexity: let N be the number of nodes in the tree. Notice that getCheapestCost 
+is applied to every node exactly once. 
+Therefore, there are overall O(N) calls to getCheapestCost.
 
 Space Complexity: every time the function recurses, it consumes only a constant amount of space.
 However, due to the nature of the recursion we used, the stack call holds N instances of getCheapestCost
