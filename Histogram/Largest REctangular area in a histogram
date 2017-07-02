@@ -3,9 +3,9 @@ https://leetcode.com/problems/largest-rectangle-in-histogram/#/description
 Given n non-negative integers representing the histogram's bar height where 
 the width of each bar is 1, find the area of largest rectangle in the histogram.
 
------------------------------------------------------------------------------------------------------------
-Solution: O(n) time complexity.
-----------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------
+Solution: O(n) time complexity. Please note that I could even use a stack data structure instead of a vector here
+-------------------------------------------------------------------------------------------------------------------
 
 int largestRectangleArea(vector<int>& height) {
    int ret = 0;
