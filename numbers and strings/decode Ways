@@ -22,14 +22,32 @@ int numDecodings(string s) {
     int n = s.size();
     if(n == 0 || s[0] == '0') return 0;
     if(n == 1) return 1;
-    int res = 0,fn_1 = 1,fn_2 = 1;
+    
+    //fn_1 denotes one number can be transcribed to a letter function.
+    //fn_2 denotes two numbers can be transcribed to a letter function.
+    //Initializing both to 1.
+    int res = 0,fn_1 = 1,fn_2 = 1; 
     for(int i = 1;i < n;i++){
+    
+    // ASsign function 1's value (one number to a character) to a temporary variable to use it later in the program)
         int temp = fn_1;
-        if(isValid(s[i])&&isValid(s[i-1],s[i]))  res+=fn_1+fn_2;
+        
+        //If you can translate the second number(or only one, in other words) to an alphabet and the first and second number together to an alphabet, add fn_1 and fn_2 to result as both ways work
+        if(isValid(s[i])&&isValid(s[i-1],s[i]))  res+=fn_1+fn_2; 
+        
+        //If you can translate the first and second number together to an alphabet, add fn_1 to your result.
         if(!isValid(s[i])&&isValid(s[i-1],s[i])) res+=fn_2;
+        
+        //If you can translate the second number (or only one, in other words) to an alphabet, add fn_1 to your result.        
         if(isValid(s[i])&&!isValid(s[i-1],s[i])) res+=fn_1;
+        
+        //If whichever number you pick is invalid, you return 0.
         if(!isValid(s[i])&&!isValid(s[i-1],s[i]))  return 0;
+        
+        //whatever value is found in the current iteration is stored here as this is returned as the result
         fn_1 = res;
+        
+        //whatever value was found before the current iteration is stored here. (keeping track of previous iterations values helps wiht coming up with thte result.
         fn_2 = temp;
         res = 0;
     }
