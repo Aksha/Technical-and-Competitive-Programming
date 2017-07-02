@@ -3,26 +3,36 @@ https://leetcode.com/problems/largest-rectangle-in-histogram/#/description
 Given n non-negative integers representing the histogram's bar height where 
 the width of each bar is 1, find the area of largest rectangle in the histogram.
 
+-----------------------------------------------------------------------------------------------------------
+Solution: O(n) time complexity.
+----------------------------------------------------------------------------------------------------------
+
 int largestRectangleArea(vector<int>& height) {
-         int ret = 0;
-            height.push_back(0);
-            vector<int> index;
-            
-            for(int i = 0; i < height.size(); i++)
-            {
-                while(index.size() > 0 && height[index.back()] >= height[i])
-                {
-                    int h = height[index.back()];
-                    index.pop_back();
-                    
-                    int sidx = index.size() > 0 ? index.back() : -1;
-                    if(h * (i-sidx-1) > ret)
-                        ret = h * (i-sidx-1);
-                }
-                index.push_back(i);
-            }
-        return ret;
-    }
+   int ret = 0;
+   
+   //Push a "0" at the end of the height vector for comparison with the last element purpose.
+   height.push_back(0);
+   
+   //You can either use a stack or a vector
+   vector<int> index;
+
+   //Go over the elements in height vector one by one.
+   for(int i = 0; i < height.size(); i++) {
+   
+       //if the height of the element in the back position of the index vector greater or equal to the current height, then keep popping 
+       //the index vector for as long as its greater and store it's height until you reach a height that is smaller than the current height.
+       while(index.size() > 0 && height[index.back()] >= height[i]){
+           int h = height[index.back()];
+           index.pop_back();
+
+           int sidx = index.size() > 0 ? index.back() : -1;
+           if(h * (i-sidx-1) > ret) //calculate the stored height * distance between ith position and the current index we're looking at. (i.e., greater than the current element's height from the height vector) 
+               ret = h * (i-sidx-1); //if it is max, set is as the result.
+       }
+       index.push_back(i);// if the heightof the element at the back of the index vector smaller than the current height, push it to the index vector
+   }
+return ret;
+}
     
 For example, check the images associated with this in the same folder:
 
