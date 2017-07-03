@@ -15,7 +15,7 @@ The number of ways decoding "12" is 2.
 (12)34 = lcd
 1(23)4 = awd
 
-The number of ways of decoding "1234" is 4.
+The number of ways of decoding "1234" is 3.
 
 Solution ----> Iterative Solution: 
 int numDecodings(string s) {
