@@ -1,0 +1,55 @@
+Given an array arr of unique nonnegative integers, implement a function getDifferentNumber that finds the smallest nonnegative integer that is NOT in the array.
+
+Even if your programming language of choice doesn’t have that restriction (like Python), assume that the maximum value an integer can have is MAX_INT = 2^31-1. So, for instance, the operation MAX_INT + 1 would be undefined in our case.
+
+Your algorithm should be efficient, both from a time and a space complexity perspective.
+
+Solve first for the case when you#include <iostream>
+#include <vector>
+#include <unordered_set>
+
+using namespace std;
+
+int getDifferentNumber(std::vector<int> &arr) {
+  if(arr.empty())
+    return 0;
+  unordered_set <int> result;
+  for(int i = 0; i < arr.size(); i++)
+    result.insert(arr[i]);
+  
+  int i = 0; 
+  for(i = 0; i < arr.size();i++){
+    if(result.find(i) == result.end()){
+      return i;
+    }
+  }
+  return i;
+}
+
+// [1,2,3,4] --> 0
+// [0,1,2,4,5] --> 3
+// [0,1,12,17] --> 2
+/* 
+[0,1,12,17]
+
+for(0 to the highest element in the array)
+if(set.find(i) == set.end())
+
+*/
+int main() {
+  vector <int> arr = {15,1};
+  int result = getDifferentNumber(arr);
+  cout << result << endl;
+  return 0;
+}’re NOT allowed to modify the input arr. If successful and still have time, see if you can come up with an algorithm with an improved space complexity when modifying arr is allowed. Do so without trading off the time complexity.
+
+Analyze the time and space complexities of your algorithm.
+
+Example:
+
+input:  arr = [0, 1, 2, 3]
+
+output: 4 
+
+see pramp for a more efficient approach with a constant space complexity
+
