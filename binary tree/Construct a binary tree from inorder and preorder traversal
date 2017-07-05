@@ -1,0 +1,35 @@
+class Solution {
+public:
+int preOrderIndex = 0;
+    TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder) {
+        if(preorder.empty() || inorder.empty()){
+            return NULL;
+        }
+        int inStart = inorder.front();
+        int inEnd = inorder.back();
+        TreeNode* resultnode = constructTree(preorder, inorder, inStart, inEnd);
+        return resultnode;
+    }
+    
+    TreeNode* constructTree(vector <int> preorder, vector <int> inorder, int inStart, int inEnd){
+        if(inStart > inEnd) {
+            return NULL;
+        }
+        TreeNode* tnode = new TreeNode(preorder[preOrderIndex++]);
+        if(inStart == inEnd){
+            return tnode;
+        }
+        int inIndex = Search(inorder, inStart, inEnd, tnode->val);
+        tnode->left = constructTree(preorder, inorder, inStart, inIndex - 1);
+        tnode->right = constructTree(preorder, inorder, inIndex+1, inEnd);
+        return tnode;
+    }
+    
+    int Search(vector<int> inorder, int inStart, int inEnd, int value){
+        for (int i = inStart; i <= inEnd; i++){
+            if(inorder[i] == value){
+                return i;
+            }
+        }
+    }
+};
