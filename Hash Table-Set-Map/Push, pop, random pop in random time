@@ -17,20 +17,20 @@ if(temp_map.find(element) != temp_map.end())
 }
 
 int remove(int element){
-	if(temp_map.find(element) != temp_map.end()){
-		Int position = temp_map[element];
-		Int output =  list[position];
-    list[position] = list[list.size()-1];
-    list.size() = list.size() - 1;
-    temp_map.erase(element);	
+    if(temp_map.find(element) != temp_map.end()){
+	Int position = temp_map[element];
+	Int output =  list[position];
+	list[position] = list[list.size()-1];
+	list.size() = list.size() - 1;
+	temp_map.erase(element);	
     }
-    Return output;
+    return output;
 }
 
 Int random_select_pop(){
-	Int index = random_num_generator(0,list.size()-1);
-	Int key = list[index];
-	temp_map.erase(key);
+  Int index = random_num_generator(0,list.size()-1);
+  Int key = list[index];
+  temp_map.erase(key);
   List[index] = list[list.size()-1];
   list.size() = list.size() - 1;
   Return key; 
