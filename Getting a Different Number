@@ -4,7 +4,12 @@ Even if your programming language of choice doesn’t have that restriction (lik
 
 Your algorithm should be efficient, both from a time and a space complexity perspective.
 
-Solve first for the case when you#include <iostream>
+
+Solve first for the case when you’re NOT allowed to modify the input arr. If successful and still have time, see if you can come up with an algorithm with an improved space complexity when modifying arr is allowed. Do so without trading off the time complexity.
+----------------------------------------------------------------------------------------------------------------
+Solution: Linear time and space
+----------------------------------------------------------------------------------------------------------------
+#include <iostream>
 #include <vector>
 #include <unordered_set>
 
@@ -41,7 +46,7 @@ int main() {
   int result = getDifferentNumber(arr);
   cout << result << endl;
   return 0;
-}’re NOT allowed to modify the input arr. If successful and still have time, see if you can come up with an algorithm with an improved space complexity when modifying arr is allowed. Do so without trading off the time complexity.
+}
 
 Analyze the time and space complexities of your algorithm.
 
@@ -51,5 +56,9 @@ input:  arr = [0, 1, 2, 3]
 
 output: 4 
 
-see pramp for a more efficient approach with a constant space complexity
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Better Solution answering question - Solve first for the case when you’re NOT allowed to modify the input arr. If successful and still have time, see if you can come up with an algorithm with an improved space complexity when modifying arr is allowed. Do so without trading off the time complexity.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+There is a vector find method itself that operates in linear time:
+Place each element in an array in its corresponding index position.. and look up to see if you every element in its corresponding index position is present or not.
