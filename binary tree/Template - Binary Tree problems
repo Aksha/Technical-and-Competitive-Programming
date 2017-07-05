@@ -1,0 +1,26 @@
+Writing a code for tree:
+ 
+1. Main function, taking just the node and calling another function that takes the node and the reference values (isBST in this case)
+2. second function will first have null check, and return as the base case. 
+3. followed by verifying the condition, (the if part here), this might have recursive calls
+4. Compute information required for the node above, and set to the reference variables provided, and return
+ 
+Template:
+ 
+main_function(node)  // Step 1
+{
+   working_function(node, reference1, reference2, ...)
+}
+ 
+working_function(node, reference1, reference2, … ) {
+    if(node == NULL) {blah blah blah return;}  // step 2
+    if (recursive calls , and condition check) // step 3
+    {
+        set reference1, set reference2, …. // step 4
+       return
+    }
+   else {
+       // almost same as if  // step 4
+    }
+}
+ 
