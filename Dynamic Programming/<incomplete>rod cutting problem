@@ -1,0 +1,58 @@
+Top Down
+dp [51][51];
+main(S, L) } {
+    memset(dp, -1, sizeof(dp));
+    S.push_back(L);
+    S.push_front(0);
+    return FindMinCost(S, 0, S.size()); 
+}
+ 
+FindMinCost(vector<int> S, int i, int j) {
+if(j-i == 1) return 0;
+    if (dp[i][j] != -1)
+        return dp[i][j];
+    int min= INT_MAX;
+    for(int iter = i+1; iter < j; iter++) {
+        min = min(min, FindMinCost(S, i, iter) + FindMinCost(S, iter,j) + S[j] - S[i]);
+    }
+    dp[i][j] = min;
+    return min;
+}
+ 
+int dp[51][51];
+main(S,L) {
+	memset(dp, -1, sizeof(dp));
+	S.push_front(0);
+	S.push_back(L);
+	return minCost(S, 0, S.size());
+}
+ 
+int minCost(vector <int> S, int i, int j) {
+	if(j-i == 1)
+		return 0;
+	if(dp[i][j] != -1) 
+		return dp[i][j];
+	int minimum = INT_MAX;
+	for(int iter = i+1; iter < j; iter++) {
+		minimum = min(minimum, minCost(S,i,iter) + minCost(S,iter,j) + S[j] - S[i]);
+}
+dp[i][j] = minimum;
+return minimum;
+}
+ 
+ 
+Bottom up
+dp [51][51];
+main(S, L) } {
+    memset(dp, -1, sizeof(dp));
+    S.push_back(L);
+    S.push_front(0);
+    for(int iter =1; iter < S.size();iter++) {
+        dp[iter-1][iter] = 0;
+    } 
+    for(l=2; l<=S.size();l++) {
+        for(int iter1 = 0; iter1 + l < S.size(); iter1++ ) {
+            for(int iter2 = iter1; )
+        }
+    }
+}
