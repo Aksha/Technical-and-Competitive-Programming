@@ -1,0 +1,50 @@
+In a Binary Search Tree (BST), an Inorder Successor of a node is defined as the node with the smallest key greater
+than the key of the input node (see examples below). Given a node inputNode in a BST, you’re asked to write a function
+findInOrderSuccessor that returns the Inorder Successor of inputNode. If inputNode has no Inorder Successor, return null.
+
+Explain your solution and analyze its time and space complexities.
+
+#include <iostream>
+
+using namespace std;
+
+struct Node
+{
+  int key;
+  Node *left;
+  Node *right;
+  Node *parent;
+};
+
+Node* findInOrderSuccessor(Node *inputNode) {
+  Node* result;
+  if(inputNode->right){
+    result = findLeast(inputNode->right);
+  }
+  else{
+    Node* parent = inputNode->parent;
+    Node* current = inputNode;
+    while(parent->key < current->key ){
+      if(parent!= NULL){
+        parent = parent->parent;
+        current = current->parent;
+      }
+      else
+        return NULL;
+    }
+    result = parent;
+  }
+  return result;
+}
+
+Node *findLeast(Node* node){
+  while(node->left)
+    node = node->left;
+  return node;
+}
+
+
+int main() {
+  // test findInOrderSuccessor here
+  return 0;
+}
