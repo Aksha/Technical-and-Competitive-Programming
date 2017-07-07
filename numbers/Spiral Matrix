@@ -8,7 +8,7 @@ Output:
 1 2 3 4 8 12 16 15 14 13 9 5 6 7 11 10 
 
 Solution: 
-Time complexity: O(n) 
+Time complexity: O(rows * columns) and space complexity is the same. 
 
 #include <iostream>
 #include <vector>
