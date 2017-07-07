@@ -56,3 +56,60 @@ int main() {
   return 0;
 }
 
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+vector<int> spiralCopy(vector<vector<int>> &inputMatrix) {
+  int rowBegin, colBegin = 0;
+  int rows = inputMatrix.size()-1;
+  int columns = inputMatrix[0].size()-1;
+  vector<int> result;
+  while(rowBegin <= rows && colBegin <= columns) {
+    //for left to right copy
+    for(int i = colBegin; i <= columns; i++){
+      result.push_back(inputMatrix[rowBegin][i]);
+    }
+    rowBegin++;
+    
+    //for top to bottom copy
+    for(int i = rowBegin; i <= rows; i++){
+      result.push_back(inputMatrix[i][columns]);
+    }
+    columns--;
+    // so u need to check if the rowBegin >=rows here
+    //for right bottom to left bottom copy
+    if(rowBegin <rows){
+    for(int i = columns; i > colBegin; i--){
+      result.push_back(inputMatrix[rows][i]);
+    }
+    rows--;
+    }
+    // n here colBegin >= columns here - Don't understand.
+    //for bottom to top copy
+    for(int i = rows; i > rowBegin; i--){
+      result.push_back(inputMatrix[i][colBegin]);
+    }
+    
+    colBegin++;
+  }
+  return result;
+}// did u saw the bug- looking...
+// one sec
+// ok lets say you have matrix with only one row or two rows
+//so u when visiting from botoom right to bottom lft and bottom left to upwards then u should check if u have already visited the row /colum.. check the output. It's with two rows. 
+// yes Do you want to try one column? You type whatever input you like.
+// u see the problem? Yes. Thanks for pointing it out to me. I hope that helps.ok let move to my problem
+//wait.. Should I keep a flag variable that tracks whether the row and col has been visited.// alternatively u can check the line i added to the last 2 for loops
+// u can copy the code for now...n we ll move to my problem....ok?? ok done... I got the error. Let's move on. I'll solve mine later in my own time.
+int main() {
+  vector <vector<int>> inputMatrix = {{1,2,3,4,5}};
+  vector <int> result = spiralCopy(inputMatrix);
+  cout << "I am here" << endl;
+  for(int i = 0; i < result.size(); i++){
+      cout << result[i]<< " ";
+  }
+  return 0;
+}
+
