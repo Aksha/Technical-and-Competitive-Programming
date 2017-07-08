@@ -1,5 +1,11 @@
 Given an integer array nums, find the sum of the elements between indices i and j (i ≤ j), inclusive.
 
+The idea is fairly straightforward: create an array accu that stores the accumulated sum for nums 
+such that accu[i] = nums[0] + ... + nums[i - 1] in the initializer of NumArray. Then just return 
+accu[j + 1] - accu[i] in sumRange. You may try the example in the problem statement to convince yourself of this idea.
+
+
+
 Example:
 Given nums = [-2, 0, 3, -5, 2, -1]
 
