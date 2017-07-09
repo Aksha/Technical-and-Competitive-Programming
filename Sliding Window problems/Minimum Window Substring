@@ -1,0 +1,69 @@
+Given a string S and a string T, find the minimum window in S which will contain all the characters in T in complexity O(n).
+
+For example,
+S = "ADOBECODEBANC"
+T = "ABC"
+Minimum window is "BANC".
+
+--------------------------------------------------------------------------------------------------------------------------------
+Solution: Time complexity: linear O(n), space complexity: O(n)
+--------------------------------------------------------------------------------------------------------------------------------
+
+/*There are three key variables in my solution:
+unordered_map <char, int> map; unordered_map<char, int> window; int letterCounter;
+The first For loop is used to construct variable "map".
+
+The second For loop is used to find the minimum window.
+
+The first thing we should do in the second For loop is to find a window which can cover T.
+I use "letterCounter" to be a monitor. If "letterCounter" is equal to T.length(), then we find
+this window. Before that, only the first If clause can be executed. However, after we find this window,
+the second If clause can also be executed.
+
+In the second If clause, we move "slow" forward in order to shrink the window size. Every time
+finding a smaller window, I update the result.
+
+At the end of program, I return result, which is the minimum window.*/
+
+string minWindow(string S, string T) {
+    string result;
+    //if any of the given input strings are empty, there is no point in proceeding further, return a blank string.
+    if(S.empty() || T.empty()){
+        return result;
+    }
+    
+    //declare a map for keeping track of characters in string T and the count of each character. 
+    unordered_map<char, int> map;
+    
+    //declare an unordered_map for keeping track of characters in string T and the count of each character. 
+    unordered_map<char, int> window;
+    
+    //store all the characters from the string T with their respective occurences as value to the key.
+    for(int i = 0; i < T.length(); i++){
+        map[T[i]]++;
+    }
+    
+    int minLength = INT_MAX; //to keep track of the minimum length of the substring
+    int letterCounter = 0; //this is incremented every time a match is found in string S when compared to T
+    
+    for(int slow = 0, fast = 0; fast < S.length(); fast++){ //Slow and fast pointers are necessary to calculate the min length
+        char c = S[fast];
+        if(map.find(c) != map.end()){ //check if the string in S is found in T
+            window[c]++; incrememnt it's corresponding count
+            if(window[c] <= map[c]){ //As long as it's count is less than its number of occurences in T, increment letterCounter.
+                letterCounter++;
+            }
+        }
+        if(letterCounter >= T.length()){ //if the letter counter is more than or equal to the length of T, all the strings are found.
+            while(map.find(S[slow]) == map.end() || window[S[slow]] > map[S[slow]]){ //to calculate where to exactly start, from the beginning keep erasing if the string isn't found or if there are duplicates inside.
+                window[S[slow]]--;
+                slow++;
+            }
+            if(fast - slow + 1 < minLength){
+                minLength = fast - slow + 1;
+                result = S.substr(slow, minLength);
+            }
+        }
+    }
+    return result;
+}
