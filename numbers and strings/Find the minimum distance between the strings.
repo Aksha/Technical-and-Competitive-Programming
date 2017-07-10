@@ -1,0 +1,41 @@
+/*
+Given a list of words and two words word1 and word2, return the shortest distance between these two words in the list.
+
+For example,
+Assume that words = ["practice", "makes", "perfect", "coding", "makes"].
+                    ["practice", "makes", "perfect", "coding", "makes","practice", "perfect"] word1="makes" word2="perfect"
+Given word1 = “coding”, word2 = “practice”, return 3. 
+Given word1 = "makes", word2 = "coding", return 1.
+
+Note:
+You may assume that word1 does not equal to word2, and word1 and word2 are both in the list.
+
+Hash Map ->String, integer
+both the words in different map 
+word1Index=-1,
+word2Index=-1,
+absDifference=always compare.
+for entire array.
+ 
+
+*/
+int findDistance(vector <string> words, String word1, String word2) {
+   int word1Position = -1;
+   int word2Position = -1;
+   int minDistance = INT_MAX;
+   for(int i = 0; i < words.size(); i++){
+       int distance = 0;
+       if(words[i] == word1)
+           word1Position = i;
+           
+       if(words[i] == word2)
+           word2Position = i;
+           
+       if(word1Position != -1 && word2Position != -1){
+          distance = abs(word1Position - word2Position);
+          if(distance < minDistance && distance != 0)
+              minDistance = distance;
+       }        
+   }
+   return minDistance;
+}
