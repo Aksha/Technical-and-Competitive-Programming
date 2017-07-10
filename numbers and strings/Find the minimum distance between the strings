@@ -42,3 +42,25 @@ int findDistance(vector <string> words, String word1, String word2) {
    }
    return minDistance;
 }
+
+--------------------------------------------------------------------------------------------------------------------------------
+Follow Up:
+--------------------------------------------------------------------------------------------------------------------------------
+
+ The only difference is now you are given the list of words and your method will be called repeatedly many times 
+ with different parameters. How would you optimize it?
+ 
+ 
+/**
+ * Your WordDistance object will be instantiated and called as such:
+ * WordDistance obj = new WordDistance(words);
+ * int param_1 = obj.shortest(word1,word2);
+ */
+// ["practice", "makes", "perfect", "coding", "makes"].
+/*
+   1.HashMap<String, ArrayList<Integer>> makes->0,2     practice->0,makes->1,4, perfect->2 coding->3;
+   2. Distance Matrix[hashMap.size()][map.size()];
+   3. Map<String, Integer> practice->0,makes->1,perfect->2,coding->3
+   
+   
+  
