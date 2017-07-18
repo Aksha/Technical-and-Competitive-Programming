@@ -57,10 +57,44 @@ string commonPrefix(string arr[], int n){
     for (int i=0; i<minlen; i++) {
         current = arr[0][i];
  
-        for (int j=1 ; j<n; j++)
+        for (int j=1 ; j<n; j++){
             if (arr[j][i] != current)
                 return result;
         result.push_back(current);
+        }
     }
     return (result);
+}
+
+Alternate solution: Time complexity: O(MN) and Space is O(1)
+
+int findMinLength(string arr[], int n)
+{
+    int min = arr[0].length();
+ 
+    for (int i=1; i<n; i++)
+        if (arr[i].size() < min)
+            min = arr[i].size();
+ 
+    return min;
+}
+ 
+// A Function that returns the longest common prefix
+// from the array of strings
+string commonPrefix(string arr[], int n){
+    int minlen = findMinLength(arr, n);
+ 
+    string result; // Our resultant string
+    char current;  // The current character
+ 
+    for (int i=0; i<minlen; i++) {
+        current = arr[0][i];
+ 
+        for (int j=1 ; j<n; j++){
+            if (arr[j][i] != current)
+                return arr[0].substr(0,count);
+        count++;
+        }
+    }
+    return arr[0].subtr(0,count);
 }
