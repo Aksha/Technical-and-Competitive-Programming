@@ -1,4 +1,4 @@
-
+Dynamic programming with memoization and backtracking:
 
 bool pathExists(int x, int y, vector<point> path, unordered_map<point, bool> cache){
   if(x < 0 || y < 0 || !isFree(x,y))
