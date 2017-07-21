@@ -63,3 +63,58 @@ int findBusiestPeriod(vector<vector<int> > &data) {
 }
   
   
+  #include <iostream>
+#include <vector>
+#include <limits>
+
+using namespace std;
+/* 
+ for every data point in the array,
+ if the current timestamp and next time stamp are similar
+ calculate the number of people in the mall by adding or subtracting 
+ according to the value given in data[index][2].
+ update maxvalue if the value calculated is more than that. 
+ The max value should be the time stamp.
+ 
+ 
+*/
+int findBusiestPeriod( const vector<vector<int> >& data ) 
+{
+  int maxVal = INT_MIN;
+  int currentVal = 0;
+  int maxTimeStamp = -1;
+  for(int i = 0; i < data.size(); i++){
+    if(data[i][2] == 1)
+      currentVal += data[i][1];
+    else if(data[i][2] == 0)
+      currentVal -= data[i][1];
+    
+    if(i+1 < data.size() && data[i+1][0] == data[i][0])
+      continue;
+    
+    if(maxVal < currentVal){
+      maxVal = currentVal;
+      maxTimeStamp = data[i][0];
+    }
+  }
+  return maxTimeStamp;
+}
+
+int main() {
+  vector <vector <int>> data = {{1487799425, 14, 1}, 
+                 {1487799425, 4,  0},
+                 {1487799425, 2,  0},
+                 {1487800378, 10, 1},
+                 {1487801478, 18, 0},
+                 {1487801478, 18, 1},
+                 {1487901013, 1,  0},
+                 {1487901211, 7,  1},
+                 {1487901211, 7,  0} };
+  
+  cout << findBusiestPeriod(data) << endl;
+  return 0;
+}
+/*1pm-5enter
+2 pm - 3 exit
+3 pm -5 enter
+at 3pm there are 7 people*/
