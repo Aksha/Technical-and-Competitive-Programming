@@ -1,8 +1,9 @@
 Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
 
 ------------------------------------------------------------------------------------------------------------------
-Solution O(kn) k is the number of lists, n is the average size of list.
+Solution O(nk) k is the number of lists, n is the average size of list.
 ------------------------------------------------------------------------------------------------------------------
+
 
 /**
  * Definition for singly-linked list.
@@ -19,7 +20,7 @@ public:
              return nullptr;
         }
         while(lists.size() > 1){
-            lists.push_back(mergeTwoLists(lists[0], lists[1]));
+            lists.push_back(mergeTwoLists(lists[0], lists[1])); //As long as the list is greater than 1, I'm using divide and conquer technique to reduce the size of the list by half
             lists.erase(lists.begin());
             lists.erase(lists.begin());
         }
@@ -42,5 +43,55 @@ public:
         }
         current -> next = l1 ? l1 : l2;
         return result->next;
+    }
+};
+
+EG:
+if there are 7 lists:
+
+0 -----
+        0 -------
+1 -----            0 ---------
+        1 -------              ------- 0      
+2 -----
+3 -----            1 ---------          --------- 0
+        2 -------
+4 -----                       -------- 1
+5 -----            2 ---------
+        3 -------
+6 -----
+
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if(lists.empty()){
+             return nullptr;
+        }
+        while(lists.size() > 1){
+            lists.push_back(mergeTwoLists(lists[0], lists[1])); //As long as the list is greater than 1, I'm using divide and conquer technique to reduce the size of the list by half
+            lists.erase(lists.begin());
+            lists.erase(lists.begin());
+        }
+        return lists.front();
+    }
+    
+    ListNode *mergeTwoLists(ListNode *l1, ListNode *l2) {
+        ListNode* L1 = new ListNode(lists[l1]);
+        ListNode* L2 = new ListNode(lists[l2]);
+        
+        while(l1 && l2){
+            if(l1 == NULL) 
+                return l2;
+            else if(l2 == NULL)
+                return l1;
+            if(l1->val <= l2->val){
+                l1->next = mergeTwoLists(l1->next,l2);
+                return l1;
+            }
+            else if(l2 > l1){
+                l2->next = mergeTwoLists(l1,l2->next);
+                return l2;
+            }          
+        }
     }
 };
