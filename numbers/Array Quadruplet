@@ -1,0 +1,45 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+vector<int> findArrayQuadruplet(const vector<int> &arr, int s) { 
+  vector <int> result;
+  if(arr.size() < 4)
+    return result;
+  sort(arr.begin(), arr.end());
+  for(int i = 0; i < arr.size(); i++){
+    for(int j = i+1; j < arr.size(); j++){
+      int start = j + 1;
+      int end = arr.size() - 1;
+      while(start < end){
+        int sum = arr[i] + arr[j] + arr[start] + arr[end];
+        if(sum == s){
+          result.push_back(arr[i]);
+          result.push_back(arr[j]);
+          result.push_back(arr[start]);
+          result.push_back(arr[end]);
+          return result;
+        }
+        else if(sum > s){
+          end--;
+        }
+        else(sum < s){
+          start++;
+        }
+      }
+    }
+  }
+  return result;
+}
+
+//
+int main() {
+  vector <int> arr = {2, 7, 4, 0, 9, 5, 1, 3};
+  int s = 20;
+  findArrayQuadruplet(arr, s);
+  for(int i = 0; i < arr.size(); i++){
+    cout << arr[i] << endl;
+  }
+  return 0;
+}
