@@ -1,0 +1,66 @@
+Print all combinations of numbers in a array that sum to a particular target.
+
+
+Input:
+
+    A[]: Array of integer (elements)
+    S: Integer (target)
+    
+Output:
+    Print out all possible ways to add up elements from A into S. Each element can be used multiple times. (0, 1,2, ...)
+    
+    
+Example:
+A = (1,2)
+S = 3
+
+1,2 and 1,1, 1
+
+vector<vector<int>> subsetSum(vector <int> input, int target){
+    
+    vector <vector<int>> result;
+    vector<int> temp;
+    vector<vector<int>> result;
+    subsetSum_helper(input,target,temp, result);
+    return result;
+}
+
+void subsetSum_helper(vector<int> input,int target, vector<int> temp, vector<vector<int>> &result){
+    int sum = 0;
+    for(int i = 0; i < temp.size(); i++) {
+        sum += temp[i];
+    }
+    if(sum == target){
+        result.push_back(temp);
+    }
+    else if(sum > target)
+        return;
+    }
+    for(int i = 0; i < input.size(); i++){
+        vector<int> remaining;
+        int n = input[i];
+        for(int j = i+1; j < input.size(); j++)
+            remaining.push_back(input[j]);
+        vector <int> partial_recording = temp;
+        partial_recording.push_back(n);
+        subsetSum_helper(remaining,target,partial_recording,result);              
+    }
+    return result;
+}
+
+//result = [[1,2], [1,1,1]];
+
+A = (1, 2)
+S = 4
+
+1,1,2
+
+[1,2] [4] [] [[]] -> [2] 4 [1] [[]]
+
+[2] 4 [1] [[]] -> [] 4 [1,2] [[]]
+
+
+
+
+
+
