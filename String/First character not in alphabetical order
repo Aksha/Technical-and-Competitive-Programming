@@ -68,3 +68,18 @@ char binarySearch(str,start,end){
 	return "";
 	
 }
+
+char FirstNotInOrder(string str){
+  if(str.size() <2)	
+      return “”;
+  auto i = str.first_find_not_of(“A….Z”);
+  if(i != 0)
+	return “Error in the input”;
+  for(int i = 0; i < str.size()-1; i++){
+    if((int)str[i+1] - (int)str[i] < 0) { // E - B 4-1
+      return str[i+i];
+    } 
+  }
+  return “”;
+}
+
