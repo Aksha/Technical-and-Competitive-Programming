@@ -52,10 +52,12 @@ vector <range> rangeGenerator (unordered_map<string, int> input) {
   return result;
 }
 
-string randomGenerator(vector<range> result){
-    range x = result.back();
-    int total = x.high;
-    int ran = rand() % total;
+string randomGenerator(unordered_map<string, int> input){
+    range x;
+    vector <range> result = x.rangeGenerator(input);
+    range y = result.back();
+    int total_sum = y.high;
+    int ran = rand() % total_sum;
     for(int i = 0; i < result.size(); i++) {
         if(ran > result[i].low && ran <= result[i].high)
             return result[i].val;
