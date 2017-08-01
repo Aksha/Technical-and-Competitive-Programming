@@ -38,7 +38,7 @@ Struct range{
   }
 };
 
-//mapping a range of values to an associated "string" value.
+//mapping a range of values to an associated "string" value and prepopulate the list which is later passed on to the "randomGenerator" method
 vector <range> rangeGenerator (unordered_map<string, int> input) {
   vector <range> result;
   result[0].val = input[0]->first;
@@ -53,11 +53,12 @@ vector <range> rangeGenerator (unordered_map<string, int> input) {
 }
 
 string randomGenerator(vector<range> result){
-    range x = range.back();
+    range x = result.back();
     int total = x.high;
     int ran = rand() % total;
     for(int i = 0; i < result.size(); i++) {
         if(ran > result[i].low && ran <= result[i].high)
             return result[i].val;
     }
+    return "";
 }
