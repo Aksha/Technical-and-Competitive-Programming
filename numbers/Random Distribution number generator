@@ -1,0 +1,44 @@
+Every string is mapped to a range of values (it's assets are given). Generate a random number within the range that maps to its corresponding string.
+
+"A" -> 100
+"B" -> 200
+"C" -> 500
+
+IN this example, if my random number generator generates 150, return B.
+
+    100            200           500
+0 --------- 100 --------- 300 --------- 800
+      A             B             C
+      
+      
+Solution: 
+
+I would like to prepopulate the list of values to it's corresponding range:
+
+Struct range{
+  string val;
+  int low;
+  int high;
+  range(string value, int lo, int hi) {
+    val = value;
+    low = lo;
+    high = hi;
+  }
+};
+
+vector <range> rangeGenerator (unordered_map<string, int> input) {
+  vector <range> result;
+  result[0].val = input[0]->first;
+  result[0].low = 0;
+  result[0].high = input[0] -> second;
+  for(int i = 1; i < input.size(); i++){
+    result[i].val = input[i] -> first;
+    result[i].low = result[i-1].high;
+    result[i].high = result[i-1].high + input[i]->second;
+  }
+  return result;
+}
+
+string randomGenerator(vector<range> result){
+
+}
