@@ -43,7 +43,7 @@ string randomGenerator(vector<range> result){
     range x = range.back();
     int ran = rand() % total;
     for(int i = 0; i < result.size(); i++) {
-        if(ran > result[i].low && ran < result[i].high)
+        if(ran > result[i].low && ran <= result[i].high)
             return result[i].val;
     }
 }
