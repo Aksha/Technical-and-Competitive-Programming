@@ -13,7 +13,19 @@ IN this example, if my random number generator generates 150, return B.
       
 Solution: 
 
-I would like to prepopulate the list of values to it's corresponding range:
+I would like to prepopulate the list of values to it's corresponding range.
+
+I thought about data structures like hashtable. hashtable doesn't support lookup in a range of values. You can only lookup by value.
+Mapping a value(in this case, a string)to a low and high range can be done by using an additional data type declaration for 
+storing records.[A struct in the C programming language (and many derivatives) is a composite data type declaration that 
+defines a physically grouped list of
+variables to be placed under one name in a block of memory, allowing the different variables to be accessed via a single
+pointer, or the struct declared name which returns the same address. The struct can contain many other complex and simple 
+data types in an association, so is a natural organizing type for records like the mixed data types in lists of directory
+entries reading a hard drive (file length, name, extension, physical (cylinder, disk, head indexes) address, etc.), or other
+mixed record type (patient names, address, telephone... insurance codes, balance, etc.).]
+
+
 
 Struct range{
   string val;
@@ -26,11 +38,12 @@ Struct range{
   }
 };
 
+//mapping a range of values to an associated "string" value.
 vector <range> rangeGenerator (unordered_map<string, int> input) {
   vector <range> result;
   result[0].val = input[0]->first;
   result[0].low = 0;
-  result[0].high = input[0] -> second;
+  result[0].high = input[0]->second;
   for(int i = 1; i < input.size(); i++){
     result[i].val = input[i] -> first;
     result[i].low = result[i-1].high;
@@ -41,6 +54,7 @@ vector <range> rangeGenerator (unordered_map<string, int> input) {
 
 string randomGenerator(vector<range> result){
     range x = range.back();
+    int total = x.high;
     int ran = rand() % total;
     for(int i = 0; i < result.size(); i++) {
         if(ran > result[i].low && ran <= result[i].high)
