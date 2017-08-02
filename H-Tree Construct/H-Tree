@@ -55,3 +55,86 @@ Space: Space Complexity: recursive calls add overhead since we store them in the
 The space occupied in the stack will be then O(D), in the worst case scenario. The stack space occupied 
 will be no more than O(D) at any given point since a sibling drawHTree will not be called before the current 
 one being executed returns (i.e. finishes its execution).
+
+#include <iostream>
+#include <math.h>
+
+using namespace std;
+
+/*
+
+We need to code 2 functions: "drawHTree" and "DrawLine"
+
+- drawHTree -> Build an Htree
+- Drawline -> Simply cout the arguments of the function
+
+Input:
+
+- double: x, y, length, depth
+
+Constraints: x,y,length <= inf  -> depth <= 10
+
+---
+
+We are given some depth, and we need to build the Htree of this depth
+
+|-| -> return (-0.5,+0.5) , (-0.5,-0.5) , (+0.5,+0.5) , (+0.5,-0.5) (x,y = (0,0) if L = 1 depth = 1) 
+
+Case D = 2: Let's recursively call our Htree function given the x,y points of this edge and D++ and L = L/sqrt(2)
+
+Complexity -> Time: I am doing O(1) work in every Htree call -> O(4^D), space compl (of stack, not heap) -> O(D)
+
+Struct Point {
+ int x;
+ int y;
+ Point(int valX, int valY){
+  x = valX;
+  y = valY;
+ }
+};
+
+
+
+Pseudo:
+
+- Call Htree for the given input
+- Internally calculate the 4 relevant x,y pairs
+- Call DrawLine for each of the 4 points
+- Call Htree for each of the 4 points, putting the right D and L
+
+*/
+
+void drawLine(double x1, double y1, double x2, int y2){
+  
+  //printf("x1,y1: %d,%d | x2,y2: %d,%d", x1, y1, x2, y2);
+  cout << "x1,y1 | x2,y2 : " << x1 << "," << y1 << "," <<  x2 << "," << y2 << endl;
+}
+
+void drawHTree(double x, double y, double length, int depth){
+  
+  if(depth > 0){
+    
+    double x1 = x-(length/2);
+    double y1 = y-(length/2);
+    
+    double x2 = x+(length/2);
+    double y2 = y+(length/2);
+    
+    drawLine(x1,y1,x1,y2); //horizontal line - connecting segment
+    drawLine(x1,y,x2,y);
+    drawLine(x2,y1,x2,y2);
+    
+    double L_prime = length/sqrt(2);
+    drawHTree(x1, y1, L_prime, --depth);
+    drawHTree(x1, y2, L_prime, --depth);
+    drawHTree(x2, y1, L_prime, --depth);
+    drawHTree(x2, y2, L_prime, --depth);
+  }
+}
+
+int main()
+{   
+    drawHTree(0, 0, 1, 2);
+    return 0;
+}
+
