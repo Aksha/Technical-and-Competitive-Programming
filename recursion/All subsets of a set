@@ -1,5 +1,7 @@
 Chapter 9 in Cracking the coding interview:
 
+O(n2^n) time and space.
+
 vector<vector<int>> subset<vector<int> input){
   vector<vector<int>> subset;
   vector<int> empty;
@@ -12,4 +14,18 @@ vector<vector<int>> subset<vector<int> input){
       subset.push_back(subset_temp[j]);
   }
   return subset;
+}
+
+vector<vector<int>> subsetofAllset(vector<int> input){
+  vector <vector<int>> subset;
+  vector<int> empty;
+  subset.push_back(empty);
+  int index = 0;
+  if(input.size() < 1)
+     return subset;
+  return subsetofAllset_helper(set, input, empty, index);
+}
+
+void subsetofAllset_helper(vector<int> input, vector <int> temp, vector<vector<int>> subset){
+  
 }
