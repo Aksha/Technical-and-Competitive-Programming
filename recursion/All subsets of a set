@@ -1,0 +1,15 @@
+Chapter 9 in Cracking the coding interview:
+
+vector<vector<int>> subset<vector<int> input){
+  vector<vector<int>> subset;
+  vector<int> empty;
+  subset.push_back(empty);
+  for(int i = 0; i < subset.size(); i++){
+    vector<int> subset_temp = subset;
+    for(int j = 0; j < subset_temp.size();j++)
+      subset_temp[j].push_back(set[i]);
+    for(int j = 0; j < subset.size(); i++)
+      subset.push_back(subset_temp[j]);
+  }
+  return subset;
+}
