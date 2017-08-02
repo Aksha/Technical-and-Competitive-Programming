@@ -20,30 +20,44 @@ output: [ 'p', 'r', 'a', 'c', 't', 'i', 'c', 'e', '  ',
 Solution : Time Complexity: O(n) and Space complexity is constant since I am reversing inplace:
 
 
-vector<char> reverseWords(vector<char> &arr) {
-  // your code goes here
-  // [e,c,i,t,c,a,r,p, ,m,a,k,e,s, ,t,c,e,f,r,e,p]
-  int start = 0;
-  int end = arr.size()-1;
-  reverseWords_helper(arr, start, end);
-  helper(arr, start, end);
-  return arr;
-}
+#include <iostream>
+#include <vector>
 
-void helper(vector<char> &arr, int start, int end){
-  int i = 0;
+using namespace std;
+
+/* arr = [e,c,i,t,c,a,r,p, ,s,e,k,a,m, ,t,c,e,f,r,e,p] 
+    
+*/
+
+void reverseWords_helper(vector <char> &result, int start, int end){
   while(start < end){
-    if(arr[i] == ' ' || i == arr.size()){
-      end = i-1;
-      reverseWords_helper(arr, start, end);
-      start = i + 1; 
-      end = arr.size()-1;
-    }   
-    i++;
+    swap(result[start++], result[end--]);
   }
 }
- 
-void reverseWords_helper(vector<char> &arr, int start, int end){ 
-  while(start < end)
-     swap(arr[start++],arr[end--]);
+
+vector <char> helper(vector<char> result, int start, int end){  
+  int i = 0;
+  while(i <= end){
+    if(result[i] == ' ' || i == result.size()){
+      end = i -1;
+      reverseWords_helper(result, start, end);
+      start = i+1;
+      end = result.size();
+    }
+    i++;
+  }
+  return result;
+}
+
+
+vector<char> reverseWords( const vector<char>& arr ) 
+{
+  vector <char> result = arr;
+  reverseWords_helper(result, 0, arr.size() - 1);  // reverse the sentence
+  return helper(result, 0, result.size());
+}
+  
+
+int main() {
+  return 0;
 }
