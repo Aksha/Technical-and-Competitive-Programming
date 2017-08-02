@@ -80,7 +80,7 @@ vector<int> sortKMessedArray(vector<int> &arr, int k) {
     st.insert(arr[i]);
   }
   for(int i = k+1; t = 0; t < length - k; t++; i++){
-    arr[t] = st[0];
+    arr[t] = st[0]; // or *(st.cbegin())
     st.erase(0);
     st.insert(arr[i]);
   }
