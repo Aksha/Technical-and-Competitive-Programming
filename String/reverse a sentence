@@ -6,6 +6,8 @@ Implement a function reverseWords that reverses the order of the words in the ar
 
 Explain your solution and analyze its time and space complexities.
 
+WATCH THE HELL OUT FOR "OFF BY 1" ERRORS
+
 Example:
 
 input:  arr = [ 'p', 'e', 'r', 'f', 'e', 'c', 't', '  ',
