@@ -52,7 +52,7 @@ vector <char> helper(vector<char> result, int start, int end){
 }
 
 
-vector<char> reverseWords( const vector<char>& arr ) 
+vector<char> reverseWords( const vector<char>& arr )  //because of a "const" vector <int> arr, I can't modify a const input. I can do it in-place otherwise
 {
   vector <char> result = arr;
   reverseWords_helper(result, 0, arr.size() - 1);  // reverse the sentence
