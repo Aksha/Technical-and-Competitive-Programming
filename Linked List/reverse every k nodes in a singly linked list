@@ -6,7 +6,6 @@ Node* reverseKnodes(Node* node, int k) {
   Node* first = node;
   Node* second = NULL;
   Node * last;
-  Node* headtracker = first;
   int count = 0;
 
   while (first->next != NULL && count < k) {
@@ -18,7 +17,7 @@ Node* reverseKnodes(Node* node, int k) {
   }	
 
   if(first != NULL)
-    headtracker->next = reverseKnodes(first, k);
+    reverseKnodes(first, k);
 
   return second;
 }
