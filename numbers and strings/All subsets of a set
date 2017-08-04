@@ -1,0 +1,18 @@
+This problem is from the recursion and dynamic programming aspect chapter of cracking the coding interview.
+
+public class Subsets {
+  public static void main(String[] args) {
+    //String s = "abc"; 
+    char[] arr = {'a', 'b', 'c'};
+    String s = new String(arr);
+    subsets("", s);
+  }
+  
+  private static void subsets(String pre, String str){
+    System.out.println(Arrays.toString(pre.toCharArray()));
+    for(int i = 0; i < str.length(); i++) {
+        subsets(pre + str.charAt(i), str.substring(i + 1));
+    }
+  }
+}
+
