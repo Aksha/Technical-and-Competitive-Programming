@@ -1,0 +1,20 @@
+THis is a problem from the 9th chapter of cracking the coding interview
+
+vector< vector<int> > getAllSubsets(vector<int> set)
+{
+    vector< vector<int> > subset;
+    vector<int> empty;
+    subset.push_back( empty );
+
+    for (int i = 0; i < set.size(); i++)
+    {
+        vector< vector<int> > subsetTemp = subset;
+
+        for (int j = 0; j < subsetTemp.size(); j++)
+            subsetTemp[j].push_back( set[i] );
+
+        for (int j = 0; j < subsetTemp.size(); j++)
+            subset.push_back( subsetTemp[j] );
+    }
+    return subset;
+}
