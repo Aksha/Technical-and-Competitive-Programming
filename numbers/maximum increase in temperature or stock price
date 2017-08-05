@@ -1,0 +1,31 @@
+
+There is a brute force solution that takes O(n^2) time but then below is a linear solution to this problem that takes O(n) time and O(1) space
+##Stock price generation, difference etc..
+
+int maximumStock(vector <int> input){
+	int maxDifference = INT_MIN;
+	for(int i = 0; i < input.size(); i++){
+		int currentDifference = 0;
+		for(int j = i+1; j < input.size(); j++){
+			currentDifference = input[j] - input[i];
+			if(maxDifference < currentDifference){
+				maxDifference = currentDifference;
+			}
+		}
+	}
+	return maxDifference;
+}
+
+
+int maximumStock(vector <int> input){
+ int arr_size = input.size();
+  int maxdifference = input[1] - input[0];
+  int min_element = input[0];
+  for(int i = 1; i < arr_size; i++) {   	
+    if (input[i] - min_element > maxdifference)                           	
+      maxdifference = input[i] - min_element;
+    if (input[i] < min_element)
+         min_element = input[i];                 	
+  }
+  return maxdifference;
+}	
