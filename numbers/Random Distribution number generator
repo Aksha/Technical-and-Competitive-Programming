@@ -27,15 +27,38 @@ mixed record type (patient names, address, telephone... insurance codes, balance
 
 
 
-Struct range{
+Class range{
   string val;
   int low;
   int high;
+  
   range(string value, int lo, int hi) {
     val = value;
     low = lo;
     high = hi;
   }
+  
+ /* //set the numbers  
+  string setVal(string s){
+    this.val = s;
+  }
+  int setLow(int number){
+    this.low = number;
+  }
+  int getHigh(int number){
+    this.high = number;
+  }
+  
+  //Get the numbers
+  string getVal(){
+    return val;
+  }
+  int getLow(){
+    return low;
+  }
+  int getHigh(){
+    return high;
+  }  */
 };
 
 //mapping a range of values to an associated "string" value and prepopulate the list which is later passed on to the "randomGenerator" method
