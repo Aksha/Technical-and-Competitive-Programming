@@ -1,0 +1,95 @@
+Rotate an array of n elements to the right by k steps.
+
+For example, with n = 7 and k = 3, the array [1,2,3,4,5,6,7] is rotated to [5,6,7,1,2,3,4].
+
+Note:
+Try to come up as many solutions as you can, there are at least 3 different ways to solve this problem.
+
+
+=====================================================================================================================================
+Technique one:
+
+Reverse the first n - k elements, the last k elements, and then all the n elements.
+Time complexity: O(n). Space complexity: O(1).
+========================================================================================================================================
+
+
+public class Solution {
+    public void rotate(int[] nums, int k) {
+        k %= nums.length;
+        reverse(nums, 0, nums.length - 1);
+        reverse(nums, 0, k - 1);
+        reverse(nums, k, nums.length - 1);
+    }
+    
+    public void reverse(int[] nums, int start, int end) {
+        while (start < end) {
+            int temp = nums[start];
+            nums[start++] = nums[end];
+            nums[end--] = temp;
+        }
+    }
+}
+
+==================================================================================================================================
+Technique two: Make an extra copy and then rotate.
+Time complexity: O(n). Space complexity: O(n).
+=================================================================================================================================Make an extra copy and then rotate.
+
+
+    class Solution 
+    {
+    public:
+        void rotate(int nums[], int n, int k) 
+        {
+            if ((n == 0) || (k <= 0))
+            {
+                return;
+            }
+            
+            // Make a copy of nums
+            vector<int> numsCopy(n);
+            for (int i = 0; i < n; i++)
+            {
+                numsCopy[i] = nums[i];
+            }
+            
+            // Rotate the elements.
+            for (int i = 0; i < n; i++)
+            {
+                nums[(i + k)%n] = numsCopy[i];
+            }
+        }
+    };
+    
+    
+
+==================================================================================================================================
+Technique three: Swap the last k elements with the first k elements.
+Time complexity: O(n). Space complexity: O(1).
+=================================================================================================================================
+    
+
+class Solution 
+{
+public:
+    void rotate(int nums[], int n, int k) 
+    {
+        for (; k = k%n; n -= k, nums += k)
+        {
+            // Swap the last k elements with the first k elements. 
+            // The last k elements will be in the correct positions
+            // but we need to rotate the remaining (n - k) elements 
+            // to the right by k steps.
+            for (int i = 0; i < k; i++)
+            {
+                swap(nums[i], nums[n - k + i]);
+            }
+        }
+    }
+};
+
+=======================================================================================================================================
+Technique four : My technique:
+========================================================================================================================================
+
