@@ -32,6 +32,7 @@ void subsetSum_helper(vector<int> input,int target, vector<int> temp, vector<vec
     }
     if(sum == target){
         result.push_back(temp);
+        return;
     }
     else if(sum > target)
         return;
