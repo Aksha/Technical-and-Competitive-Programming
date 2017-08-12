@@ -1,0 +1,66 @@
+Let us discuss Longest Increasing Subsequence (LIS) problem as an example problem that can be 
+solved using Dynamic Programming.
+The Longest Increasing Subsequence (LIS) problem is to find the length of the longest subsequence
+of a given sequence such that all elements of the subsequence are sorted in increasing order. 
+For example, the length of LIS for {10, 22, 9, 33, 21, 50, 41, 60, 80} is 6 and LIS is {10, 22, 33, 50, 60, 80}.
+
+----------------------------------------------------------------------------------------------------------------------------
+Brute force solution : recursive - better solution to follow. O(n^3) Time and space is O(n^3) because the execution
+stack stores that many recursive calls at any given time
+----------------------------------------------------------------------------------------------------------------------------
+
+LIS = {7,4,3,5,1,9,101,18,19,20}
+
+For every element I consider as the start, I proceed traversing the array to find the longest increasing subsequence from that
+point. As I traverse the array, I have to make a call as to whether I want to pick that element or not to find the longest 
+increasing subsequence,
+
+For example in this problem starting with 7,9 if I pick 101, I can't pick 18,19,20. As a result if I pick 101, I can get a 
+subsequence of size 3 (7,9,101) as opposed to 5 (7,9,18,19,20). So, the best idea is to calculate the maximum value if I picked
+101 and if I didn't pick 101.
+
+If the name of the method is LIS_METHOD at the LIS increasing subsequence if started at every element is represented by an
+array variable LIS{} that is initially set as 1 for all the elements,that accepts the input array and the start index,
+I would have to essentially calculate the LIS at that element by the following formula,
+
+lis[i] = 1 + max(LIS_METHOD(a,i+1), LIS_METHOD(a,i));
+
+vector <int> LIS = {1,input.size());
+int maximum = INT_MIN;
+int LIS_METHOD(vector <int> input, int startIndex){
+  int size = 0;
+  for(int i = startIndex; i < input.size(); i++) {
+    for(int j = i+1; j < input.size(); j++){
+      if(input[j] > input[i]){
+        LIS[i] = 1 + max(LIS_METHOD(input, j), LIS_METHOD(input,j+1));
+        if(maximum < LIS[i])
+          maximum = LIS[i];
+      }
+    }
+  }
+  return maximum;
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+Better Solution: O(n^2) time complexity, space compelxity = O(n) for the LIS variable 
+Move from the last of the list. break the problem into subproblems.
+in {101, 18,19,20} if the longest increasing subsequence at 20 is x, then at 19 it will be x+1 (max(x + 1, 1)) = x + 1, at 18
+it would be (max ( 1 + (x + 1), 1 + x, 1) = x + 2 and at 101, it will be 1 as 101 is bigger than the numbers that come after 
+that.
+
+{7,4,3,5,1,9,101,18,19,20}
+{5,6,6,5,5,4,  1, 3, 2, 1}
+---------------------------------------------------------------------------------------------------------------------------
+
+int LIS_METHOD(vector <int> nums){
+  vector <int> lis = {1,nums.size()};
+  int maxLIS = 1;
+  for(int i = nums.size()-2; i >= 0; i--){
+    for(int j = i + 1; j < nums.size(); j++){
+      if(nums[i] < nums[j])
+        lis[i] = max(list[j]+1, list[i]);
+      maxLIS = max(maxLIS, lis[i]);
+    }
+  }
+  return maxLIS;
+}
