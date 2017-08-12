@@ -50,6 +50,12 @@ that.
 
 {7,4,3,5,1,9,101,18,19,20}
 {5,6,6,5,5,4,  1, 3, 2, 1}
+
+this can be done with two for loops where the outer loop is iterating backwards and the inner loop is calculating for each 
+element after the element considered in the outerloop making a decision to calculate it (if it is considered) or let it go
+using the following statement:
+lis[i] = max(list[j]+1, list[i]); where i represents the outerloop iterating backwards and the innerloop iterating from the
+element considered in i forwards..
 ---------------------------------------------------------------------------------------------------------------------------
 
 int LIS_METHOD(vector <int> nums){
