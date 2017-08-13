@@ -78,17 +78,17 @@ class WordNode{
         this.numSteps = numSteps;
     }
     
-    int ladderLength(String beginWord, String endWord, Set<String> wordDict) {
-        Queue<WordNode> queue;
+    int ladderLength(String beginWord, String endWord, Set<string> wordDict) {
+        Queue<WordNode> Q;
         WordNode node;
         node.word = beginWord
         node.numSteps = 1;
-        queue.push(node);
+        Q.push(node);
  
         wordDict.insert(endWord);
  
-        while(!queue.isEmpty()){
-            WordNode top = queue.pop();
+        while(!Q.isEmpty()){
+            WordNode top = Q.pop();
             String word = top.word;
  
             if(word == endWord){
@@ -107,7 +107,7 @@ class WordNode{
                         WordNode temp;
                         temp.word = newWord;
                         temp.numSteps = top.numSteps + 1;
-                        queue.push(temp);
+                        Q.push(temp);
                         wordDict.erase(newWord); //just so that we don't revisit nodes.
                     }
                     word[i]=temp;
