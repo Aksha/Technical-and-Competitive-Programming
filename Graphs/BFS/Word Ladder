@@ -103,7 +103,7 @@ class WordNode{
                     }
  
                     String newWord = word;
-                    if(wordDict.contains(newWord)){
+                    if(wordDict.find(newWord) != wordDict.end()){
                         WordNode temp;
                         temp.word = newWord;
                         temp.numSteps = top.numSteps + 1;
