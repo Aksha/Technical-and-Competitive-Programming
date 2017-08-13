@@ -82,7 +82,7 @@ class WordNode{
         Queue<WordNode> Q;
         WordNode node;
         node.word = beginWord
-        node.numSteps = 1;
+        node.numSteps = 0;
         Q.push(node);
  
         wordDict.insert(endWord);
