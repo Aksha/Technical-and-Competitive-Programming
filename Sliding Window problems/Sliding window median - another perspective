@@ -21,11 +21,11 @@ Window position                Median
 Therefore, return the median sliding window as [1,-1,-1,3,5,6].
 
 
-------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------
 Solution: n is the number of elements. k is the size of the sliding window
-// Time:  O(nlogk) - Since we go over all the elements in the array at least once. 
+// Time:  O(nlogk) - Since we go over all the elements in the array at least once and set of size k insertion/removal within it is logk
 // Space: O(k) - at each iteration the multiset holds at most k elements
---------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 #include <vector>
 #include <set>
