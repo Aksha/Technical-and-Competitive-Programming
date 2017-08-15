@@ -16,13 +16,13 @@ Class Solution {
     return topologicalSort(g);
   }
   
-  void topologicalSort(Graph& g, bool& visited, bool& current_record, vector<char> &result, vector<char>::iter input){
+  void topologicalSort_helper(Graph& g, bool& visited, bool& current_record, vector<char> &result, vector<char>::iter input){
     if(current_record[input]) return true;
     if(visited[input]) return false;
     current_record[input] = true;
     visited[input] = true;
     for(vector<char>::iter i = g[input].begin(); i != G[input].end(); i++)
-      if((g, current_record[input], visited[input], result, i) == false)
+      if(!topologicalSort_helper(g, current_record[input], visited[input], result, i) == false)
         return false;
     result.push_back(i);
     return true;
