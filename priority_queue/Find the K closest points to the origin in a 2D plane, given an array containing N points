@@ -21,8 +21,10 @@ vector<Point> findKClosest(vector<Point> p, int k) {
             }
         }
     }
-    while(!queue.empty() && result.size() <= k)
-        result.push_back(queue[i]);
+    while(!queue.empty() && /*result.size() <= k*/){
+        result.push_back(queue.top());
+        queue.pop();
+    }
     return result;
 }
 
