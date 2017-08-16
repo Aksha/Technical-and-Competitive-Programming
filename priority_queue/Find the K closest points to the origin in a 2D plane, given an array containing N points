@@ -1,37 +1,37 @@
 Find the K closest points to the origin in a 2D plane, given an array containing N points.
 
-
-public class Point {
-    public int x;
-    public int y;
-    public Point(int x, int y) {
+Class Point {
+    public:
+        int x;
+        int y;
+        Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
-}
+};
 
+typedef int(*CompareFunc)(Point, Point); 
 
+int compare (Point a, Point b){
+  return (b.x * b.x + b.y * b.y) - (a.x*a.x + a.y*a.y);
+ } 
+ 
 vector<Point> findKClosest(Point[] p, int k) {
-  priority_queue<Point> pq = new priority_queue(p.size(), new comparator<int>) {
-    @override
-    int compare (Point a, Point b){
-      return (b.x * b.x + b.y * b.y) - (a.x*a.x + a.y*a.y)
+    priority_queue<Point, vector<Point>, CompareFunc> queue(compare);
+    for(int i = 0; i < p.size(); i++){
+        if(i < k){
+            queue.push(p[i]);
+        }
+        else{
+            Point temp = queue.top();
+            if(p.x*p.x + p.y*p.y - temp.x*temp.x + temp.y*temp.y) < 0){
+                queue.pop();
+                queue.push(p[i]);
+            }
+        }
     }
-  };
- for(int i = 0; i < p.size(); i++){
-  if(i < k){
-    pq.push(p[i]);
-  }
-  else{
-    Point temp = pq.top();
-    if(p.x*p.x + p.y*p.y - temp.x*temp.x + temp.y*temp.y) < 0)
-    pq.pop();
-    pq.push(p[i]);
-  }
- }
- vector<Point> result;
- while(!pq.empty())
-  result.push_back(pq[i]);
-  
- return result;
+    vector<Point> result;
+    while(!pq.empty())
+        result.push_back(pq[i]);
+    return result;
 }
