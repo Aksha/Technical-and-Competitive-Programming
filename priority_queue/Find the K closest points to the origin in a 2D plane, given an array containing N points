@@ -17,6 +17,7 @@ int compare (Point a, Point b){
  } 
  
 vector<Point> findKClosest(Point[] p, int k) {
+    vector<Point> result;
     priority_queue<Point, vector<Point>, CompareFunc> queue(compare);
     for(int i = 0; i < p.size(); i++){
         if(i < k){
@@ -30,8 +31,7 @@ vector<Point> findKClosest(Point[] p, int k) {
             }
         }
     }
-    vector<Point> result;
-    while(!pq.empty())
-        result.push_back(pq[i]);
+    while(!queue.empty())
+        result.push_back(queue[i]);
     return result;
 }
