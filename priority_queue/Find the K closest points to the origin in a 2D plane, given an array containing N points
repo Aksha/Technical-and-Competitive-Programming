@@ -1,22 +1,12 @@
 Find the K closest points to the origin in a 2D plane, given an array containing N points.
 
-Class Point {
-    public:
-        int x;
-        int y;
-        Point(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-};
-
 typedef int(*CompareFunc)(Point, Point); 
 
 int compare (Point a, Point b){
   return (b.x * b.x + b.y * b.y) - (a.x*a.x + a.y*a.y);
  } 
  
-vector<Point> findKClosest(Point[] p, int k) {
+vector<Point> findKClosest(vector<Point> p, int k) {
     vector<Point> result;
     priority_queue<Point, vector<Point>, CompareFunc> queue(compare);
     for(int i = 0; i < p.size(); i++){
@@ -31,7 +21,19 @@ vector<Point> findKClosest(Point[] p, int k) {
             }
         }
     }
-    while(!queue.empty())
+    while(!queue.empty() && result.size() <= k)
         result.push_back(queue[i]);
     return result;
 }
+
+Let's say the Point class looks like the following:
+
+Class Point {
+    public:
+        int x;
+        int y;
+        Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+};
