@@ -1,0 +1,32 @@
+I thought of solving the problem recursively. So at every stage, I have to make a decision as to whether
+I am going to take an A or if I'm going to use the current step and the next two steps to create a copy of
+the existing A's. So, like I explained yesterday, at every step, I have to take the maximum that I can obtain
+by creating a copy using Ctrl V or just use A (both involves the use of only one key). 
+
+Here we have n = 7 and we used i = 3 steps to reach AAA
+Then we use the remaining n - i = 4 steps: Ctrl A, Ctrl C, Ctrl V, Ctrl V, to reach n - i - 1 = 3 copies of AAA
+
+We either don't make copies at all, in which case the answer is just n, or if we want to make copies, we need to have 
+3 steps reserved for Ctrl A, Ctrl C, Ctrl V so i can be at most n - 3
+
+
+
+int 4KeyKeyBoard(int numKeys) { 
+  int maximum = numKeys; 
+  for (int i = 1; i <= numKeys - 3; i++) 
+        maximum = std::max(maximum, 4KeyKeyBoard(i) * (numKeys - i - 1));  //We can create n - i - 1 copies of existing A's because we are going to use 3 steps by default for ctrl A, ctrl C Ctrl V the first time. 
+   return maximum; 
+ }
+ 
+ Now making it a DP where dp[i] is the solution to sub-problem 4KeyKeyBoard(i)
+
+int 4keyKeyboard(int numKeys){
+   vector <int> result;
+   for(int i = 0; i <= numKeys; i++) {
+        result[i] = i;
+        for(int j = 1; j <= i-3; j++){
+              result[i] = max(result[i], result[j]* (i - j -1));
+        }
+    }
+    return result[numKeys];
+}
