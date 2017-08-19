@@ -73,4 +73,5 @@ vector<int> findMinHeightTrees(int n, vector<pair<int, int>>& edges) {
       if (next.empty()) return current;
       current = next;
     }
+    return current;
   }
