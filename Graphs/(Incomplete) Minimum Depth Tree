@@ -29,4 +29,48 @@ Given n = 6, edges = [[0, 3], [1, 3], [2, 3], [4, 3], [5, 4]]
         5
 return [3, 4]
 
-Solution: 
+Solution: (Time complexity: O(n) = as every node in the tree is traversed at least once and space is O(n) as the variables that hold the values may contain at most all the nodes in the tree)
+
+My idea is to recurse through the entire tree and store the leaf nodes (the nodes that are connected to exactly one other node).
+These are the nodes that need to be removed first. Now, while recursing through the next layer, remove the leaves by repeating the same procedure.
+So, I am iteratively deleting the leaves and resetting the sizes of depths of the rest of the nodes by reducing it by one at each iteration.
+
+My idea to solve it:
+1) Draw a hashmap between each [u,v] edge such that hashmap[u] -> v and hashmap[v]-> u. The key value pairs are formed.
+2) calculate the size of each node in the hashmap and store it in a array where array[node] -> size of the node.
+3) Store the nodes to be deleted in a set variable against its corresponding nodes (here nodes are ascendingly increasing by 1 sequence on a zero based index so storing is easy).
+4) now, iterate over the hashmap to see if each key is found in the "to be deleted" list or its neighbor can be found in the to be deleted list and decrement its size accordingly. Do this iteratively until we get the actual sizes. 
+5) Now, go over the "sizes" list and print the nodes that have a size of more than 1
+
+vector<int> findMinHeightTrees(int n, vector<pair<int, int>>& edges) {
+    // Initialize the undirected graph
+    vector<unordered_set<int>> adj(n);
+    for (pair<int, int> p : edges) {
+      adj[p.first].insert(p.second);
+      adj[p.second].insert(p.first);
+    }
+    // Corner case
+    vector<int> current;
+    if (n == 1) {
+      current.push_back(0);
+      return current;
+    }
+    // Create first leaf layer
+    for (int i = 0; i < adj.size(); ++i) {
+      if (adj[i].size() == 1) {
+        current.push_back(i);
+      }
+    }
+    // BFS the graph
+    while (true) {
+      vector<int> next;
+      for (int node : current) {
+        for (int neighbor : adj[node]) {
+          adj[neighbor].erase(node);
+          if (adj[neighbor].size() == 1) next.push_back(neighbor);
+        }
+      }
+      if (next.empty()) return current;
+      current = next;
+    }
+  }
