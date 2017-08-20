@@ -21,3 +21,23 @@ int lengthOfLongestSubstring(string s) {
         }
         return maxLen;
     }
+
+int lengthOfLongestSubstring(string s) {
+        int str1 = 0;
+        int str2 = 0;
+        int maxlen = 0;
+        map<char, bool> hash;
+        while(str1 < s.size() && str2 < s.size()){
+            if(hash[s[str1]] == false){
+                hash[s[str1]] = true;
+                maxlen = max(maxlen, str1-str2 + 1);
+                str1++;
+            }
+            else if(hash[s[str1]] == true){
+                maxlen = max(maxlen, str1 - str2);
+                hash[s[str2]] = false;
+                str2++;
+            }
+        }
+        return maxlen;
+    }
