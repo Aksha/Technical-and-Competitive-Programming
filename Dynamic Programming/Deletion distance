@@ -8,7 +8,8 @@ Given the strings str1 and str2, write an efficient function deletionDistance th
 
 Can also be solved using a hash map:
 
-unordered_map<char, int> result where the key is the char you are at and int is the count of it. how would you manipulate? the code gets crazier. Here comes dynamic programming to the rescue.
+unordered_map<char, int> result where the key is the char you are at and int is the count of it. use map, handle three different cases with a better time and space complexity of O(m+n) and O(m+n) respectively.
+how would you manipulate? the code gets crazier. Here comes dynamic programming to the rescue with a worse time and space complexity.
 
 
 Examples:
