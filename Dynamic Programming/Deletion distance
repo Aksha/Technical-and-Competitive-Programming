@@ -6,6 +6,11 @@ By deleting 'e' and 'a' in "heat", and 'i' in "hit", we get the string "ht" in b
 We cannot get the same string from both strings by deleting 2 letters or fewer.
 Given the strings str1 and str2, write an efficient function deletionDistance that returns the deletion distance between them. Explain how your function works, and analyze its time and space complexities.
 
+Can also be solved using a hash map:
+
+unordered_map<char, int> result where the key is the char you are at and int is the count of it. how would you manipulate? the code gets crazier. Here comes dynamic programming to the rescue.
+
+
 Examples:
 
 input:  str1 = "dog", str2 = "frog"
