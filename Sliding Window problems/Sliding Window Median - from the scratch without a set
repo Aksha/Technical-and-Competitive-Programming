@@ -1,3 +1,10 @@
+This solution takes O(n^2). Creating a BST and finding the mid in it alone is not always O(logn). 
+In an unbalanced tree/degenerate tree it takes O(n). So to sum up this would yield an O(n^2) solution.
+The solution of using multiset takes O(nlogk). Your solution where you build your own tree isn't efficient because 
+your median-finding procedure uses linear time (and as such your time complexity isn't better than the naive insertion
+sort solution). The more appropriate way to do it is using what's called an order statistic tree, which is a BST augmented
+with information to help the median be found in log-time.
+
 public class SlidingWindowMedian {
     public static class TreeNode {
         public int val;
