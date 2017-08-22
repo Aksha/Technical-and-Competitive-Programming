@@ -1,1 +1,18 @@
 
+
+Solution: This solution takes linear time and linear space as each element is visited at most two times and the unordered_set contains at most all the elements in the input array.
+
+int maxElements(vector <int> a){
+  int maximum = INT_MIN;
+  unordered_set<int> visited_indices;
+  for(int i = 0; i < a.size(); i++){
+    vector <int> temp;
+    while(visited_indices.find(i) != visited_indices.end()){
+      visited_indices.insert(i);
+      temp.push_back(i);
+      i = a[i];
+    }
+    maximum = max(maximum, temp.size());
+  }
+  return maximum;
+}
