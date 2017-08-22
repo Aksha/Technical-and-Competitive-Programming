@@ -1,6 +1,7 @@
 /*
 
 Given an array and a starting index, I can jump a[i] positions forward and backward. Figure out if I'd get stuck in an infinite loop or not.
+I don't get stuck in an infinite loop if I am able to reach 0.
 arr = [1, 3, 2, 0, 4, 2, 1]
 startIndex = 0 return false
 startINdex = 2 return false
@@ -33,14 +34,12 @@ bool findZero(vector <int> input, int startIndex){
     int position2 = startIndex + input[startIndex];
     return findZero_helper(input,int position1, int position2, flag);
     
-    /*while(flag[i] != 1){ //true
-        flag[i] = 1;
-        int position1 = i - input[i]; 
-        if((position1) >= input[0] ){ //fails
+    /*while(flag[i] != 1 && position1 > input[0]){ //true
             i = position1;
             int value = input[position1];
             if(value == 0)
                 return true;
+            flag[i] = 1;
         }
         int position2 = i + input[i];   //1
         if((position2) < length){
@@ -59,7 +58,7 @@ bool findZero_helper(vector <int> input, int pos1, int pos2, vector <int> flag )
             return true;
     }
     else
-        findZero_helper(input,pos1-input[pos1], pos1 + input[pos1], flag);
+        findZero_helper(input,pos1-input[pos1], pos1 + input[pos1], 1);
     
     if(flag[pos2] != 1 && pos2 < length){
     int val = input[pos2];
@@ -67,7 +66,7 @@ bool findZero_helper(vector <int> input, int pos1, int pos2, vector <int> flag )
             return true;
     }
     else
-        findZero_helper(input,pos2-input[pos2], pos2 + input[pos2],flag);
+        findZero_helper(input,pos2-input[pos2], pos2 + input[pos2],1);
 
     return false;
 }
