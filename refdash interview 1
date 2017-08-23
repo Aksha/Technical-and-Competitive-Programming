@@ -32,23 +32,7 @@ bool findZero(vector <int> input, int startIndex){
     vector <int> flag(length,0); 
     int position1 = startIndex - input[startIndex];
     int position2 = startIndex + input[startIndex];
-    return findZero_helper(input,int position1, int position2, flag);
-    
-    /*while(flag[i] != 1 && position1 > input[0]){ //true
-            i = position1;
-            int value = input[position1];
-            if(value == 0)
-                return true;
-            flag[i] = 1;
-        }
-        int position2 = i + input[i];   //1
-        if((position2) < length){
-            i = position2;     
-            int value = input[position1]; //3, 4
-            if(value == 0)
-                return true;
-        }    
-    }*/        
+    return findZero_helper(input,int position1, int position2, flag);     
 }
 
 bool findZero_helper(vector <int> input, int pos1, int pos2, vector <int> flag ){
@@ -58,7 +42,7 @@ bool findZero_helper(vector <int> input, int pos1, int pos2, vector <int> flag )
             return true;
     }
     else
-        findZero_helper(input,pos1-input[pos1], pos1 + input[pos1], 1);
+        findZero_helper(input,pos1-input[pos1], pos1 + input[pos1], flag);
     
     if(flag[pos2] != 1 && pos2 < length){
     int val = input[pos2];
@@ -66,7 +50,7 @@ bool findZero_helper(vector <int> input, int pos1, int pos2, vector <int> flag )
             return true;
     }
     else
-        findZero_helper(input,pos2-input[pos2], pos2 + input[pos2],1);
+       findZero_helper(input,pos2-input[pos2], pos2 + input[pos2],flag);
 
     return false;
 }
