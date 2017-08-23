@@ -15,3 +15,192 @@ void getLowestNumber(string str, int k, string &res) {
     string stringToPass = str.substr(minimum_Index+1, len-minIndex);
     getLowestNumber(stringToPass, n-minimum_Index, result);
 }
+
+
+Geeksforgeeks referral:
+
+Build Lowest Number by Removing n digits from a given number
+Given a string ‘str’ of digits and an integer ‘n’, build the lowest possible number by removing ‘n’ digits from the string and not changing the order of input digits.
+
+Examples:
+
+Input: str = "4325043", n = 3
+Output: "2043"
+
+Input: str = "765028321", n = 5
+Output: "0221"
+
+Input: str = "121198", n = 2
+Output: "1118" 
+Recommended: Please solve it on “PRACTICE ” first, before moving on to the solution.
+The idea is based on the fact that a character among first (n+1) characters must be there in resultant number. So we pick the smallest of first (n+1) digits and put it in result, and recur for remaining characters. Below is complete algorithm.
+
+Initialize result as empty string
+     res = ""
+buildLowestNumber(str, n, res)
+1) If n == 0, then there is nothing to remove.
+   Append the whole 'str' to 'res' and return
+
+2) Let 'len' be length of 'str'. If 'len' is smaller or equal 
+   to n, then everything can be removed
+   Append nothing to 'res' and return
+
+3) Find the smallest character among first (n+1) characters
+   of 'str'.  Let the index of smallest character be minIndex.
+   Append 'str[minIndex]' to 'res' and recur for substring after
+   minIndex and for n = n-minIndex
+
+     buildLowestNumber(str[minIndex+1..len-1], n-minIndex).
+Below is C++ implementation of above algorithm.
+
+// C++ program to build the smallest number by removing n digits from
+// a given number
+#include<iostream>
+using namespace std;
+ 
+// A recursive function that removes 'n' characters from 'str'
+// to store the smallest possible number in 'res'
+void buildLowestNumberRec(string str, int n, string &res)
+{
+    // If there are 0 characters to remove from str,
+    // append everything to result
+    if (n == 0)
+    {
+        res.append(str);
+        return;
+    }
+ 
+    int len = str.length();
+ 
+    // If there are more characters to remove than string
+    // length, then append nothing to result
+    if (len <= n)
+        return;
+ 
+    // Find the smallest character among first (n+1) characters
+    // of str.
+    int minIndex = 0;
+    for (int i = 1; i<=n ; i++)
+        if (str[i] < str[minIndex])
+            minIndex = i;
+ 
+    // Append the smallest character to result
+    res.push_back(str[minIndex]);
+ 
+    // substring starting from minIndex+1 to str.length() - 1.
+    string new_str = str.substr(minIndex+1, len-minIndex);
+ 
+    // Recur for the above substring and n equals to n-minIndex
+    buildLowestNumberRec(new_str, n-minIndex, res);
+}
+ 
+// A wrapper over buildLowestNumberRec()
+string buildLowestNumber(string str, int n)
+{
+    string res = "";
+ 
+    // Note that result is passed by reference
+    buildLowestNumberRec(str, n, res);
+ 
+    return res;
+}
+ 
+// Driver program to test above function
+int main()
+{
+    string str = "121198";
+    int n = 2;
+    cout << buildLowestNumber(str, n);
+    return 0;
+}
+Run on IDE
+Output:
+
+1118
+Below is an optimised code in C++ contributed by Gaurav Mamgain
+
+// C++ program to build the smallest number by removing
+// n digits from a given number
+#include<bits/stdc++.h>
+using namespace std;
+ 
+void insertInNonDecOrder(deque<char> &dq, char ch)
+{
+    // if container is empty , insert the current digit
+    if (dq.empty())
+        dq.push_back(ch);
+ 
+    else
+    {
+        char temp = dq.back();
+ 
+        // Keep removing digits larger than current digit
+        // from the back side of deque
+        while( temp > ch && !dq.empty())
+        {
+            dq.pop_back();
+            if (!dq.empty())
+                temp = dq.back();
+        }
+        dq.push_back(ch); // insert the current digit
+    }
+    return;
+}
+ 
+string buildLowestNumber(string str, int n)
+{
+    int len = str.length();
+ 
+    // deleting n digits means we need to print k digits
+    int k = len - n;
+ 
+    deque<char> dq;
+    string res = "";
+ 
+    // leaving rightmost k-1 digits we need to choose
+    // minimum digit from rest of the string and print it
+    int i;
+    for (i=0; i<=len-k; i++)
+ 
+        // insert new digit from the back side in
+        // appropriate position and/ keep removing
+        // digits larger than current digit
+        insertInNonDecOrder(dq, str[i]);
+ 
+    // Now the minimum digit is at front of deque
+    while (i < len)
+    {
+        // keep the minimum digit in output string
+        res += dq.front();
+ 
+        // remove minimum digit
+        dq.pop_front();
+ 
+        // Again insert new digit from the back
+        // side in appropriate position and keep
+        // removing digits larger than current digit
+        insertInNonDecOrder(dq, str[i]);
+        i++;
+    }
+ 
+    // Now only one element will be there in the deque
+    res += dq.front();
+    dq.pop_front();
+    return res;
+}
+ 
+// Driver program to test above function
+int main()
+{
+    string str = "765028321";
+    int n = 5;
+    cout << buildLowestNumber(str, n)<< endl;
+    return 0;
+}
+// This code is contributed by Gaurav Mamgain
+Run on IDE
+Output:
+
+0221
+Time Complexity: O(n)
+Space Complexity: O(n)
