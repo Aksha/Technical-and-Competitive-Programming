@@ -19,6 +19,29 @@ output: []
 Solution:
 ----------------------------------------------------------------------------------------------------------------------------------
 
+
+int findPairs(vector<int>& nums, int k) { 
+	if(k < 0) return 0; 
+	int result = 0;
+	 unordered_map<int,int> hashmap;
+	for(int i = 0; i < nums.size(); ++i) 
+		hashmap[nums[i]]++;
+	if(k != 0) { 
+		for(unordered_map<int>::iterator it = hashmap.begin(); it != hashmap.end(); it++) 
+			if(hashmap.find(it->first+k) != hashmap.end())
+				result++; 
+		 } 
+	else {
+		for(unordered_map<int>::iterator it = hashmap.begin(); it != hashmap.end(); it++)
+			 if(it->second > 1)
+				 result++;
+	}
+	return result; 
+ }
+ 
+ ORRRRRRR the mightier solution is
+ 
+ 
 #include <iostream>
 #include <vector>
 
