@@ -1,0 +1,35 @@
+public interface Triangle {
+    /**
+     * Find ANY three values that can be the lengths of the sides of a triangle.
+     * Three segments of lengths A, B, C can form a triangle if and only if:
+     *
+     *      A + B > C
+     *      B + C > A
+     *      A + C > B
+     *
+     * e.g.
+     *  6, 4, 5 can form a triangle
+     * 10, 2, 7 can't
+     *
+     * @param segmentLengths the lengths of segments that might form a triangle.
+     * @return ANY three values that can be the lengths of the sides of a triangle,
+     *         or an empty array if there are no such values in segmentLengths.
+     */
+    int[] getTriangleSides(int[] segmentLengths);
+}
+bool solution(const std::vector<int>& input)
+{
+    if(input.size() < 3) // 1
+        return 0;
+ 
+    std::vector<int> buffer(input.begin(), input.end()); // 2
+    std::sort(buffer.begin(), buffer.end());
+ 
+    for(unsigned i = 0; i < buffer.size() - 2; ++i) // 3
+    {
+        if(static_cast<int64_t>(buffer[i]) + buffer[i+1] > buffer[i+2])
+            return true;
+    }
+ 
+    return false;
+}
