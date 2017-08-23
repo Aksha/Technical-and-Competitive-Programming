@@ -1,0 +1,89 @@
+* Given a binary tree where all the right nodes are either empty or leaf nodes, flip it upside down
+ * and turn it into a tree with left leaf nodes.
+ * In the original tree, if a node has a right child, it also must have a left child.
+ *
+ * for example, turn these:
+ *
+ *        1                1
+ *       / \              / \
+ *      2   3            2   3
+ *     /
+ *    4
+ *   / \
+ *  5   6
+ *
+ * into these:
+ *
+ *        1               1
+ *       /               /
+ *      2---3           2---3
+ *     /
+ *    4
+ *   /
+ *  5---6
+ *
+ * where 5 is the new root node for the left tree, and 2 for the right tree.
+ * oriented correctly:
+ *
+ *     5                  2
+ *    / \                / \
+ *   6   4              3   1
+ *        \
+ *         2
+ *        / \
+ *       3   1
+ *
+ */
+class TreeNode {
+    TreeNode left;
+    TreeNode right;
+    int data;
+}
+ 
+TreeNode* reverse(TreeNode* node) {
+    // implementation here
+    
+}
+class TreeNode {
+    TreeNode left;
+    TreeNode right;
+    int data;
+}
+ 
+TreeNode* reverse(TreeNode* node) {
+    // implementation here
+    if(node == NULL) 
+        return NULL;
+    if(node->left == NULL && node->right == NULL) 
+        return node->left;
+    Node* newRoot = reverse(node->left);
+    node->left->left = node->right;
+    node->left->right = node;
+    node->left = node->right = NULL;
+    
+    return newRoot ? newRoot: node;
+}
+
+Right solution: 
+class Solution {
+public:
+    TreeNode *upsideDownBinaryTree(TreeNode *root) {
+        TreeNode *temp, *newRoot = NULL;
+        temp = buildUpsideDownBT(root, newRoot);
+        return newRoot;
+    }
+    
+    TreeNode *buildUpsideDownBT(TreeNode *root, TreeNode *&newRoot) {
+        if(!root) return root;
+        if(!root->left && !root->right) {
+            newRoot = root;
+            return root;
+        }
+        TreeNode *parent = buildUpsideDownBT(root->left, newRoot);
+        parent->left = root->right;
+        parent->right = root;
+        root->left = root->right = NULL;
+        return parent->right;
+    }
+};
+
