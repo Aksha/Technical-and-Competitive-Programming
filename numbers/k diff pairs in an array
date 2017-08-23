@@ -19,6 +19,7 @@ output: []
 Solution:
 ----------------------------------------------------------------------------------------------------------------------------------
 
+Linear solution with linear time and linear space:
 
 int findPairs(vector<int>& nums, int k) { 
 	if(k < 0) return 0; 
@@ -39,7 +40,9 @@ int findPairs(vector<int>& nums, int k) {
 	return result; 
  }
  
- ORRRRRRR the mightier solution is
+ ORRRRRR
+ 
+ This solution takes O(nlogn) time and O(n) space
  
  
 #include <iostream>
