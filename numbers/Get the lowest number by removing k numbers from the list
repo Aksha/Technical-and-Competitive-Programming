@@ -1,20 +1,20 @@
 
-string getLowestNumber(string str, int k, string &result) {
-    if (k == 0) {
-        res.append(str);
+void getLowestNumber(string str, int k, string &result) {
+        if (k == 0) {
+            result.append(str);
+            return;
+        }
+        int n = str.length();
+        if (n <= k)
+            return;
+        int minimum_Index = 0;
+        for (int i = 1; i<=k ; i++)
+            if (str[i] < str[minimum_Index])
+                minimum_Index = i;
+        result += str[minimum_Index];
+        string stringToPass = str.substr(minimum_Index+1, n-minimum_Index);
+        getLowestNumber(stringToPass, n-minimum_Index, result);
         return;
-    }
-    int n = str.length();
-    if (n <= k)
-        return;
-    int minIndex = 0;
-    for (int i = 1; i<=k ; i++)
-        if (str[i] < str[minimum_Index])
-            minimum_Index = i;
-    result.push_back(str[minimum_Index]);
-    string stringToPass = str.substr(minimum_Index+1, len-minIndex);
-    getLowestNumber(stringToPass, n-minimum_Index, result);
-    return result
 }
 
 
