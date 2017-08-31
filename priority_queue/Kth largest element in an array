@@ -1,0 +1,48 @@
+Find the kth largest element in an unsorted array. Note that it is the kth largest element in the sorted order, not the kth distinct element.
+
+For example, given [3,2,1,5,6,4] and k = 2, return 5.
+
+Note: You may assume k is always valid, 1 ≤ k ≤ array's length.
+
+Solution: 
+Time/Space complexity: 
+We can use a min heap to solve this problem. 
+The heap stores the top k elements. 
+Whenever the size is greater than k, delete the min.
+Time complexity is O(nlog(k)). Space complexity is O(k) for storing the top k numbers.
+
+public int findKthLargest(int[] nums, int k) {
+    PriorityQueue<Integer> q = new PriorityQueue<Integer>(k);
+    for(int i: nums){
+        q.offer(i);
+ 
+        if(q.size()>k){
+            q.poll();
+        }
+    }
+ 
+    return q.peek();
+}
+
+Another solution: 
+
+vector <int> largestKelements(vector<int> input, int K){
+	vector<int> result;
+	priority_queue<int> pq;
+	for(int i = 0; i < input.size(); i++){
+		pq.insert(input[i]);
+}
+for(int i = 0; i < k; i++){
+	result.push_back(pq.top());
+	pq.pop();
+}
+Return result;
+}
+
+Just my thoughts, Something to think about:
+
+Here, I am creating a max heap of size n and popping the largest element k times. O(nlogk) because building a heap of size n takes O(n) time. Deletion or popping of k elements take O(k) time. 
+
+Imagine I build a min heap of size k. I insert and remove n elements in the heap of size k such that K maximum elements remain in the heap of size k. This way I can achieve a run time of 
+O(klogn) which is better if k is much smaller than n.
+
