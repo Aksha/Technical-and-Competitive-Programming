@@ -1,0 +1,87 @@
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class ObjectPool {
+
+    public static abstract class ObjectPoolBase<T> {
+        private final Set<T> pool;
+        private final int size;
+        private final Set<T> inUsePool;
+
+        public ObjectPoolBase(final int size) {
+            this.size = size;
+            this.pool = new HashSet<>();
+            this.inUsePool = new HashSet<>();
+            for(int i=0;i<size;i++) {
+                this.pool.add(createPoolObject());
+            }
+        }
+
+        public synchronized T getObjectFromPool() {
+            if(pool.size() > 0) {
+                T objectFromPool = pool.iterator().next();
+                pool.remove(objectFromPool);
+                inUsePool.add(objectFromPool);
+                return objectFromPool;
+            }
+            return null;
+        }
+
+        public synchronized void returnObjectToPool(T poolObject) throws Exception {
+            if(!this.inUsePool.contains(poolObject)) {
+                throw new Exception("This object does not belong to the pool.");
+            } else {
+                this.inUsePool.remove(poolObject);
+                this.pool.add(poolObject);
+            }
+        }
+        protected abstract T createPoolObject();
+    }
+
+    public static class StringObjectPool extends ObjectPoolBase<String> {
+        int instanceCount = 0;
+        public StringObjectPool(final int size) {
+            super(size);
+        }
+        @Override
+        protected String createPoolObject() {
+            return String.valueOf(instanceCount++);
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        final ObjectPoolBase<String> objectPool = new StringObjectPool(10);
+        List<Thread> threads = createThreads(objectPool);
+        for (Thread t:threads) {
+            t.start();
+        }
+        System.out.println("WAITING FOR THREADS TO COMPLETE.");
+        Thread.currentThread().sleep(3000);
+        System.out.println("All THREADS TO COMPLETED.");
+    }
+
+    private static List<Thread> createThreads(final ObjectPoolBase<String> objectPool) {
+        final Runnable run = new Runnable() {
+            @Override
+            public void run() {
+                String poolObject1 = objectPool.getObjectFromPool();
+                System.out.println("Thread name:" + Thread.currentThread().getName() + " poolObject=" + poolObject1);
+                try {
+                    Thread.currentThread().sleep(1000);
+                    if(poolObject1 != null) {
+                        objectPool.returnObjectToPool(poolObject1);
+                    }
+                } catch (Exception e) {}
+            }
+        };
+        List<Thread> threads = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            Thread t = new Thread(run);
+            threads.add(t);
+        }
+        return threads;
+    }
+
+}
