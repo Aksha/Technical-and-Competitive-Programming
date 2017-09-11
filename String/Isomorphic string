@@ -20,6 +20,8 @@ You may assume both s and t have the same length.
 -----------------------------------------------------------------------------------------------------------------------------------------
 Solution: O(n) time complexity and space complexity.
 -----------------------------------------------------------------------------------------------------------------------------------------
+Solution 1:
+
 bool isIsomorphic(string s, string t) {
     map<char,char> mp1;
     map<char,char> mp2;
@@ -36,6 +38,7 @@ bool isIsomorphic(string s, string t) {
     return true;
  }
 
+Solution 2:
 bool isIsomorphic(char* s, char* t) {
 	char charArrS[256] = { 0 };
 	char charArrT[256] = { 0 };
@@ -55,3 +58,26 @@ bool isIsomorphic(char* s, char* t) {
 
 	return true;
 }
+
+Solution 3:
+
+The main idea is to store the last seen positions of current (i-th) characters in both strings. If previously 
+stored positions are different then we know that the fact they're occuring in the current i-th position 
+simultaneously is a mistake. We could use a map for storing but as we deal with chars which are basically
+ints and can be used as indices we can do the whole thing with an array.
+
+
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        int m1[256] = {0}, m2[256] = {0}, n = s.size();
+        for (int i = 0; i < n; ++i) {
+            if (m1[s[i]] != m2[t[i]]) return false;
+            m1[s[i]] = i + 1;
+            m2[t[i]] = i + 1;
+        }
+        return true;
+    }
+};
+
+Solution 4: 
