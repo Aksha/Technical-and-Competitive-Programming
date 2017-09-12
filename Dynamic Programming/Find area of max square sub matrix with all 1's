@@ -1,0 +1,49 @@
+Maximum size square sub-matrix with all 1s
+Given a binary matrix, find out the maximum size square sub-matrix with all 1s.
+
+For example, consider the below binary matrix.
+maximum-size-square-sub-matrix-with-all-1s
+
+
+
+void printMaxSubSquare(bool M[R][C])
+{
+  int i,j;
+  int S[R][C];
+  int max_of_s; 
+  
+  /* Set first column of S[][]*/
+  for(i = 0; i < R; i++)
+     S[i][0] = M[i][0];
+  
+  /* Set first row of S[][]*/    
+  for(j = 0; j < C; j++)
+     S[0][j] = M[0][j];
+      
+  /* Construct other entries of S[][]*/
+  for(i = 1; i < R; i++)
+  {
+    for(j = 1; j < C; j++)
+    {
+      if(M[i][j] == 1) 
+        S[i][j] = min(S[i][j-1], S[i-1][j], S[i-1][j-1]) + 1;
+      else
+        S[i][j] = 0;
+    }    
+  } 
+   
+  /* Find the maximum entry, and indexes of maximum entry 
+     in S[][] */
+  max_of_s = S[0][0]
+  for(i = 0; i < R; i++)
+  {
+    for(j = 0; j < C; j++)
+    {
+      if(max_of_s < S[i][j])
+      {
+         max_of_s = S[i][j];
+      }        
+    }                 
+   }  
+   return (max_of_s*max_of_s);
+  }
