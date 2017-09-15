@@ -1,0 +1,46 @@
+Largest Consecutive set of numbers:
+
+I/P:
+[9,11,1,2,13,4,3,14,12]
+O/P:
+[9,10,11,12,13,14] or the count is 6
+
+There are two possible subsets: [9,10,11,12,13,14], [1,2,3,4] with the first one being the largest.
+
+Solution:
+
+First solution: Not the most optimal. Sort it and get the size of disjoint subsets. O(nlogn) time and O(1) space
+
+Second solution: More optimal (= O(n) time complexity) than the previous one.
+
+1) use hash set. 
+2) pick up the first element in the hash set every time and solve for great or lesser.
+
+int LargestConsecutiveNumber(vector <int> a){
+  unordered_set <int> input;
+  int max_count = 0;
+  if(a.empty()) return max_count;
+  for(int i = 0; i < a.size(); i++)
+    input.insert(a[i]);
+  while(!input.empty()){
+    int count = 1;
+    unordered_set<int>::iterator it = input.begin();
+    int curr = *it;
+    int temp = *it;
+    while(input.find(temp-1) != input.end()){
+        count++;
+        input.erase(temp-1);
+        temp = temp-1;
+    }
+    temp = curr;
+    while(input.find(temp+1) != input.end()){
+        count++;
+        input.erase(temp+1);
+        temp = temp + 1;
+    }
+    max_count = max(max_count, count); 
+  }
+  return max_count;
+}
+
+
