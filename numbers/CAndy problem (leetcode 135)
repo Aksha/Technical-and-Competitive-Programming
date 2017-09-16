@@ -10,7 +10,8 @@ Solution: My first attempt was a O(n^2) time and O(n) space solution with minor 
 
 int candyCount(vector <int> input){
     int totalCount = 0;
-    int count[input.size()] = {1};
+    int count[input.size()];
+    fill_n(candyCount,input.size(),1);
     for(int i = 1; i < input.size(); i++){
         if(input[i] < input[i-1]){
             while(input[i] <= input[i-1]){
