@@ -71,3 +71,6 @@ Total minimum candies: 23
         
         return totalCount;
     }
+
+Some more reference: 
+https://leetcode.com/problems/candy/discuss/ 
