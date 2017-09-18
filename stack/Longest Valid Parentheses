@@ -1,0 +1,68 @@
+Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
+
+For "(()", the longest valid parentheses substring is "()", which has length = 2.
+
+Another example is ")()())", where the longest valid parentheses substring is "()()", which has length = 4.
+
+Solution: O(n) time and O(n) space complexity. I believe there is a linear time and constant space solution to this problem that doesn't require a stack data structure but a little more elaborate code.. Look below this solution for the explanation:
+Explanation: 
+https://leetcode.com/problems/longest-valid-parentheses/solution/ 
+
+
+int longestValidParentheses(string s) {
+        int maxLen = 0;
+        stack <int> stck;
+        stck.push(-1);
+        for(int i = 0; i < s.size();i++){
+            if(s[i] == '(')
+                stck.push(i);
+            else{
+                stck.pop();
+                if(stck.empty())
+                    stck.push(i);
+                else
+                    maxLen = max(maxLen, i - stck.top());
+                }
+            }
+        return maxLen;
+    }
+    
+    Better solution: O(n) time and O(1) space complexity
+    
+    public class Solution {
+    public int longestValidParentheses(String s) {
+        int left = 0, right = 0, maxlength = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                left++;
+            } else {
+                right++;
+            }
+            if (left == right) {
+                maxlength = Math.max(maxlength, 2 * right);
+            } else if (right >= left) {
+                left = right = 0;
+            }
+        }
+        left = right = 0;
+        for (int i = s.length() - 1; i >= 0; i--) {
+            if (s.charAt(i) == '(') {
+                left++;
+            } else {
+                right++;
+            }
+            if (left == right) {
+                maxlength = Math.max(maxlength, 2 * left);
+            } else if (left >= right) {
+                left = right = 0;
+            }
+        }
+        return maxlength;
+    }
+}
+
+Complexity Analysis
+
+Time complexity : O(n). Two traversals of the string.
+
+Space complexity : O(1). Only two extra variables left and right are needed.
