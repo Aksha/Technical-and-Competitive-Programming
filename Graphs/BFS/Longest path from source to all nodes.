@@ -1,0 +1,20 @@
+Given a diagonal acylic graph, find the longest path from the source to all possible nodes in the graph.
+
+Solution:
+
+The input is a struct Node that has the following entries, A source node, A destination and the distance between the two.
+
+Struct NodeBunch{
+  char source;
+  char destination;
+  int distance;
+  NodeBunch(char s, char d, int dist){
+    source = s;
+    destination = d;
+    distance = dist;
+  }
+};
+
+vector<char, int> longestpath (vector <NodeBunch> input){
+
+}
