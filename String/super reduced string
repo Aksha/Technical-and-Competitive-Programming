@@ -25,7 +25,8 @@ Solution 1:
 
 O(nlogn) time if not sorted, O(1) time if sorted and O(1) space
  
- 
+Java based solution:
+
  public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         String str = scanner.next();
@@ -42,6 +43,21 @@ O(nlogn) time if not sorted, O(1) time if sorted and O(1) space
         }
     }
     
+ C++ solution:
+ string super_reduced_string(string s){
+    int i = 1;
+    while(i < s.size()){
+        if(s[i] == s[i-1] ){
+            s = s.substr(0,i-1) + s.substr(i+1);
+            i = 0;
+        }
+        i++;
+    }
+    if(s.size() == 0)
+        return "Empty String";
+    else 
+        return s;
+}
     Solution 2: 
     O(n) time and O(n) space if a hash map is used where the characters are keys and its count are values. Print the characters with odd values.
     
