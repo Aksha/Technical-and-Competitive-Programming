@@ -23,84 +23,67 @@ abd
 
 Solution 1: 
 
-O(nlogn) time if not sorted, O(1) time if sorted and O(1) space
- 
-Java based solution:
+O(nlogn) time if not sorted, O(1) time if sorted and O(1) space    
+C++ solution:
+string super_reduced_string(string s){
+   int i = 1;
+   while(i < s.size()){
+       if(s[i] == s[i-1] ){
+           s = s.substr(0,i-1) + s.substr(i+1);
+           i = 0;
+       }
+       i++;
+   }
+   if(s.size() == 0)
+       return "Empty String";
+   else 
+       return s;
+}
 
- public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        String str = scanner.next();
-        for (int i = 1; i < str.length(); i++) {
-            if (str.charAt(i) == str.charAt(i-1)) {
-                str = str.substring(0, i-1) + str.substring(i+1);
-                i = 0;
-            }
-        }
-        if (str.length() == 0) {
-            System.out.println("Empty String");
-        } else {
-            System.out.println (str);
-        }
-    }
-    
- C++ solution:
- string super_reduced_string(string s){
-    int i = 1;
-    while(i < s.size()){
-        if(s[i] == s[i-1] ){
-            s = s.substr(0,i-1) + s.substr(i+1);
-            i = 0;
-        }
-        i++;
-    }
-    if(s.size() == 0)
-        return "Empty String";
-    else 
-        return s;
+Solution 2: 
+
+O(n) time and O(n) space if a hash map is used where the characters are keys and its count are values. Print the characters with odd values.
+This would work in linear time if an unordered_map is used and an unordered_map can be used if the ordering of the characters do not matter.
+This will still take O(nlogn) time if the ordering of the characters in the output matter and O(n) space if we are using a hashmap to store the values.
+which makes the first solution better since it takes only constant space with no additional data structure.
+
+Here's the O(nlogn) solution with hash map while the ordering of the output matters.
+
+string super_reduced_string(string s){
+   unordered_map<char,int> temp;
+   for(int i = 0; i < s.size(); i++)
+       temp[s[i]]++;
+   int j = 0;
+   for(unordered_map<char,int>::iterator it = temp.begin(); it != temp.end(); it++){
+       if((it->second)%2 == 1){     
+           s[j] = it->first;
+           j++;
+       }
+   }
+   if(j == 0)
+       return "Empty String";
+   else{
+     s = s.substr(0,j);
+     sort(s.begin(), s.end());
+     return s;
+   }
 }
-    Solution 2: 
-    O(n) time and O(n) space if a hash map is used where the characters are keys and its count are values. Print the characters with odd values.
-    This would work in linear time if an unordered_map is used and an unordered_map can be used if the ordering of the characters do not matter.
-    This will still take O(nlogn) time if the ordering of the characters in the output matter and O(n) space if we are using a hashmap to store the values.
-    which makes the first solution better since it takes only constant space with no additional data structure.
-    
-    Here's the solution with hash map while the ordering of the output matters.
-    
-    string super_reduced_string(string s){
-    unordered_map<char,int> temp;
-    for(int i = 0; i < s.size(); i++)
-        temp[s[i]]++;
-    int j = 0;
-    for(unordered_map<char,int>::iterator it = temp.begin(); it != temp.end(); it++){
-        if((it->second)%2 == 1){     
-            s[j] = it->first;
-            j++;
-        }
-    }
-    if(j == 0)
-        return "Empty String";
-    else{
-      s = s.substr(0,j);
-      sort(s.begin(), s.end());
-      return s;
-    }
-}
-    
+
 Here's a linear solution when the ordering of the output string doesn't matter:
 
 string super_reduced_string(string s){
-    unordered_map<char,int> temp;
-    for(int i = 0; i < s.size(); i++)
-        temp[s[i]]++;
-    int j = 0;
-    for(unordered_map<char,int>::iterator it = temp.begin(); it != temp.end(); it++){
-        if((it->second)%2 == 1){     
-            s[j] = it->first;
-            j++;
-        }
-    }
-    if(j == 0)
-        return "Empty String";
-    else
-      return s;
+   unordered_map<char,int> temp;
+   for(int i = 0; i < s.size(); i++)
+       temp[s[i]]++;
+   int j = 0;
+   for(unordered_map<char,int>::iterator it = temp.begin(); it != temp.end(); it++){
+       if((it->second)%2 == 1){     
+           s[j] = it->first;
+           j++;
+       }
+   }
+   if(j == 0)
+       return "Empty String";
+   else
+     return s;
 }
