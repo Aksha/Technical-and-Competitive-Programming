@@ -21,16 +21,19 @@ Sample Output 0
 
 abd
 
-Solution 1: 
+Solution 1 - Best approach, needs no data structure or complex algorithms.
 
-O(nlogn) time if not sorted, O(1) time if sorted and O(1) space    
+O(n) time whether sorted or not since the value of i is reset to 0 everytime and O(1) space.
+Important insight:In C++, string "concatenation '+'" is not an expensive operation since strings are mutable in C++. 
+In Java, strings are immutable and therefore, StringBuilder is used instead of string concatenation.
+
 C++ solution:
 string super_reduced_string(string s){
    int i = 1;
    while(i < s.size()){
        if(s[i] == s[i-1] ){
            s = s.substr(0,i-1) + s.substr(i+1);
-           i = 0;
+           i = 1;
        }
        i++;
    }
