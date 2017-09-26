@@ -1,0 +1,33 @@
+ A Simple Solution is to traverse the tree. For every traversed node, check if all values under this node 
+ are same or not. If same, then increment count. Time complexity of this solution is O(n2).
+
+An Efficient Solution is to traverse the tree in bottom up manner. For every subtree visited, return true 
+if subtree rooted under it is single valued and increment count. So the idea is to use count as a reference parameter in recursive calls and use returned values to find out if left and right subtrees are single valued or not.
+ 
+ 
+     4
+  1     4         6
+4   4     4     6 6 7
+                    7 7 7
+
+bool univalTree(Node* root) {
+    int count = 0;
+    univalTree_helper(root,count);
+    return count;
+}
+
+bool univalTree_helper(Node* root, int &count){
+    if(root == NULL)
+        return true;
+       
+    int n = root->children.size();
+    for(int i = 0; i < n; i++){
+        bool child = univalTree_helper(root[children][i]->left,count);
+        if(!child)
+            return false;           
+        if(child != NULL && root->child->val != root->val)
+            return false;
+        count++;
+    }
+    return true;       
+}
