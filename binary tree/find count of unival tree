@@ -25,7 +25,7 @@ bool univalTree_helper(Node* root, int &count){
         bool child = univalTree_helper(root[children][i]->left,count);
         if(!child)
             return false;           
-        if(child != NULL && root->child->val != root->val)
+        if(child != NULL && child->val != root->val)
             return false;
         count++;
     }
