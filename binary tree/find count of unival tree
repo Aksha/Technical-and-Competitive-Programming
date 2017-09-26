@@ -9,6 +9,39 @@ if subtree rooted under it is single valued and increment count. So the idea is 
   1     4         6
 4   4     4     6 6 7
                     7 7 7
+                    
+For a simple binary tree, the most efficient solution would be to calculate if the left and right subtrees of a root node 
+satisfy the unival condition and then check if the tree along with the root node forms a unival tree. If such is the case, 
+increment the count by 1. If not, do nothing about it.
+
+bool univalTree(Node* root) {
+    int count = 0;
+    univalTree_helper(root,count);
+    return count;
+}
+
+bool univalTree_helper(Node* root, int &count){
+    if(root == NULL)
+        return true;
+       
+    int n = root->children.size();
+    bool left = univalTree_helper(root->left, count);
+    bool right = univalTree_helper(root->right, count);
+    
+    if(!left || !right)
+     return false;
+    if(left != NULL && root->left->val != root->val)
+     return false;
+    if(right != NULL && root->right->val != root->val)
+    return false;
+    count++;
+    
+    return true;       
+}
+
+
+Solution for a non binary trees where every node can have n children.
+
 
 bool univalTree(Node* root) {
     int count = 0;
