@@ -1,0 +1,46 @@
+Find a path from source word to target word with certain intermediate words in a
+dictionary. It's like the one other people here shared. But one thing is that you only
+have a function to check if a certain word is in the dictionary or not. (no other way
+to access the dictionary).
+
+#include <iostream>
+using namespace std;
+
+bool isInDictionary(string word) {
+}
+
+vector<string> wordTransformation(string A, string B){
+  vector<string> result;
+  unordered_map<string, string> parent;
+  queue<string> Q;
+  Q.push(A);
+  while(!Q.empty()){
+    string word = Q.pop();
+    if(word == A) 
+	continue;
+    if(word == B){
+      result.push_back(word);
+      while(parent.find(word) != parent.end()){
+        result.push_back(parent[word]);
+        word = parent[word];
+      }
+      return std::reverse(result.begin(), result.end());
+    }
+      
+    for(int i = 0; i < word.size(); i++){
+      for(char c = 'a'; c <= 'z'; c++){
+        char temp = word[i];
+        string parentWord = word;
+        if(word[i] != c)
+          word[i] = c;
+        string newWord = word;
+        if(isInDictionary(newWord) && (parent.find(newWord) == parent.end())) {
+          parent[newWord] = parent;
+          Q.push(newWord); 
+        }
+        word[i] = temp;
+      } 
+    }
+  } 
+  return result;
+}
