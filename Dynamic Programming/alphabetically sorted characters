@@ -20,6 +20,7 @@ vector<char> alphabetSorted(vector<vector<char>> grid){
       j++;
     }
   }
+  result.push_back(grid[i][j]);
   return result;
 }
 
