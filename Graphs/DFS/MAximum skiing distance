@@ -18,20 +18,19 @@ int maxPathDIstance(vector<vector<int>> A){
   for(int i = 0; i < A.size(); i++){
     for(int j = 0; j < A[0].size(); j++){
       if(eachcell.find(make_pair(i,j)) == eachcell.end()){ //just not to revisit the same nodes from where we have already calculated the maxpath if this is the startingp poing.
-        int count = 0;
-        eachcell.insert(make_pair(i,j),count);
-        pathLength = max(pathLength, maxPathDistance_DFS(A,i,j,count));
+        pathLength = max(pathLength, maxPathDistance_DFS(A,i,j));
+        eachcell.insert(make_pair(i,j),pathLength);
       }
       return pathLength;
     }
   }
 }
 
-int maxPathDistance_helper(vector<vector<int>>A, int i, int j, int count){
+int maxPathDistance_helper(vector<vector<int>>A, int i, int j){
   list<int,int> neighbors = findNeighbour(A,i,j);
-  count = count + 1;
+  int count = 1;
   for(list<pair<int,int>> neighbour:neighbours){
-    count = max(count, 1 + maxPathDistance_helper(A,i,j,count));
+    count = max(count, 1 + maxPathDistance_helper(A,i,j));
   }
   eachcell.insert(make_pair(i,j),count);
   return count;
