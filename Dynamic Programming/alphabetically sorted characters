@@ -1,0 +1,35 @@
+Find the best path from upper left corner to bottom right corner in a grid by
+moving right or down. The “best” path is the one with highest alphabetical order
+after sorted.
+
+Greedy approach: O(mn) time and O(m+n) space complexity;
+
+Solution:
+
+vector<char> alphabetSorted(vector<vector<char>> grid){ 
+  vector<int> result;
+  int i = 0, j = 0;
+  result.push_back(grid[i][j]);
+  while(i < grid.length() && j < grid[0].length()){
+    if(i+1 < A.length() && grid[i+1][j] > grid[i][j+1]){ //or grid[i+1][j].compare(grid[i][j+1] > 0
+      result.push_back(grid[i+1][j];
+      i++;
+    }
+    else if(j+1 < A[0].length() && grid[i][j+1] > grid[i][j]){
+      result.push_back(grid[i][j+1]);
+      j++;
+    }
+  }
+  return result;
+}
+
+int main(){
+  char grid[][] = {
+                {'a', 'b', 'c', 'd', 'i'},
+                {'f', 'g', 'h', 'e', 'n'},
+                {'k', 'l', 'm', 'j', 'o'},
+                {'p', 'q', 'r', 'k', 't'},
+                {'u', 'v', 'w', 'x', 'y'}
+        };
+   vector<char> path = alphabetSorted(grid);
+}
