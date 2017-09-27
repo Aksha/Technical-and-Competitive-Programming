@@ -1,0 +1,68 @@
+Given a integer matrix where the value represent the heights at that position.
+Find the maximum distance a skier can ski. Skier can move to neighboring position only if it's height is less than the current position.
+
+Example:
+{10,3,4,5,3}, 
+{2,3,6,8,9}, 
+{7,2,9,4,5}, 
+{5,1,5,3,2}
+
+Maximum distance: 6 
+Path: 9,8,6,3,2,1
+
+Solution:
+
+int maxPathDIstance(vector<vector<int>> A){
+  int pathDistance = 0;
+  unordered_map<pair<int,int>,int> eachcell;
+  for(int i = 0; i < A.size(); i++){
+    for(int j = 0; j < A[0].size(); j++){
+      if(eachcell.find(make_pair(i,j)) == eachcell.end()){ //just not to revisit the same nodes from where we have already calculated the maxpath if this is the startingp poing.
+        int count = 0;
+        eachcell.insert(make_pair(i,j),count);
+        pathLength = max(pathLength, maxPathDistance_DFS(A,i,j,count));
+      }
+      return pathLength;
+    }
+  }
+}
+
+int maxPathDistance_helper(vector<vector<int>>A, int i, int j, int count){
+  list<int,int> neighbors = findNeighbour(A,i,j);
+  count = count + 1;
+  for(list<pair<int,int>> neighbour:neighbours){
+    count = max(count, 1 + maxPathDistance_helper(A,i,j,count));
+  }
+  eachcell.insert(make_pair(i,j),count);
+  return count;
+}
+
+list<pair<int, int>> findValidNeighbours(vector<vector<int>>a, int r, int c) {
+        list<pair<int, int>> neigh;
+        // r-1, c
+        if((r-1)>=0 && a[r-1][c]<a[r][c]) {
+            neigh.emplace_back(pair(r-1,c));
+        }
+        // r, c-1
+        if((c-1)>=0 && a[r][c-1]<a[r][c]) {
+            neigh.emplace_back(pair(r,c-1));
+        }
+        // r+1, c
+        if((r+1)<a.length && a[r+1][c] <a[r][c]) {
+            neigh.emplace_back(pair(r+1,c));
+        }
+        // r, c+1
+        if((c+1)<a[r].length && a[r][c+1] <a[r][c]) {
+            neigh.emplace_back(pair(r,c+1));
+        }
+        return neigh;
+    }
+
+int main(){
+  vector <vector<int>> A = {{10,3,4,5,3}, 
+{2,3,6,8,9}, 
+{7,2,9,4,5}, 
+{5,1,5,3,2}};
+  int maximumPath = maximumPathDistance(A);
+  return 0;
+}
