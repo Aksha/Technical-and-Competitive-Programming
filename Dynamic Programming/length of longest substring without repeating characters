@@ -1,0 +1,46 @@
+//Understand the difference in the approach:
+
+/*In this technique, I would have to use '-a' to convert string to int and map every character to the same number for consistency/
+int longestSubstring(string s){
+    vector<int> dictionary(26,-1);
+    //cout << dictionary[0] << endl;
+    int start = -1;
+    int maxLength = 0;
+    for(int i = 0; i < s.size(); i++){   
+       // cout << "dictionary before: " << (s[i] - 'a') << " " << dictionary[s[i]-'a'] << " ";
+        if(dictionary[s[i]- 'a'] > start)
+            start = dictionary[s[i]-'a'];   
+        dictionary[s[i] - 'a'] = i;
+        maxLength = max(maxLength, i-start);
+        cout << "Dict: " << dictionary[s[i]-'a'] << " character: "<< s[i] << " start: " << start << " maxLength: " << maxLength << endl;
+    }
+    return maxLength;
+}
+
+int main(){
+    string s = "abb";
+    int length = longestSubstring(s);
+    cout << length << endl;
+    return 0;
+}
+
+//Since the ASCII table is of size 256, every character whether it is a symbol, number or char will be assigned it's own spot.
+int longestSubstring(string s){
+    vector<int> dictionary(256,-1);
+    int start = -1;
+    int maxLength = 0;
+    for(int i = 0; i < s.size(); i++){   
+        if(dictionary[s[i]] > start)
+            start = dictionary[s[i]];   
+        dictionary[s[i]] = i;
+        maxLength = max(maxLength, i-start);
+    }
+    return maxLength;
+}
+
+int main(){
+    string s = "abb";
+    int length = longestSubstring(s);
+    cout << length << endl;
+    return 0;
+}
