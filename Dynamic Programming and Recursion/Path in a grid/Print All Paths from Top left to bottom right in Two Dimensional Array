@@ -6,7 +6,13 @@ Output: Print all the paths.
 
 refer the diagram attached.
 
-Time Complexity: O(mn)
+Time Complexity: O(mn) - why??
+I just figured that if we visit each cell only once it will take us only O(mn) time
+And working backwards we will get a complexity 2^(m+n) since we have two choices to make
+at each step and m+n will be the total number of steps from the source to the destination
+
+And working backwards we will get a complexity 2^(m+n) since we have two choices to make at each step
+and m+n will be the total number of steps from the source to the destination
 
 public class PrintAllPathIn2DArray {
 
