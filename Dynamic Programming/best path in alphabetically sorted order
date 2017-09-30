@@ -1,0 +1,45 @@
+Find the best path from upper left corner to bottom right corner in a grid by
+moving right or down. The “best” path is the one with highest alphabetical order
+after sorted.
+
+Input grid:
+
+a n l
+f g s
+m t k
+
+Total number of steps to reach the destination from the source: m + n where m denotes rows and n denotes columns.
+
+I just figured that if we visit each cell only once it will take us only O(mn) time
+And working backwards we will get a complexity 2^(m+n) since we have two choices to make at each step 
+and m+n will be the total number of steps from the source to the destination
+
+Possible paths: nCk = n!/(n-k)!k! refer page 317 from cracking the coding interview book.
+
+afmtk         afkmt
+afgsk   sort  afgks
+afgtk    =>   afgkt
+anlsk         aklns
+angtk         agknt
+angsk         agkns
+
+output is the string in highest alphabetical after sorting: aklns
+
+There are two possible solutions with O(n^3logn) time complexity and O(n^3) complexity. This can be done better... with string hashing(an important concept).
+
+n^3logn solution:
+construct another m*n grid with all cells having an empty string and fill up the first row and first column.
+
+Algorithm: 
+Input: input is vector<vector<A>> with m rows and n columns
+
+The dp grid variable is named dp
+
+output: highest alphabetical string in sorted order:
+
+1. 
+
+
+
+
+
