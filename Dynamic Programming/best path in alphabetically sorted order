@@ -37,9 +37,34 @@ The dp grid variable is named dp
 
 output: highest alphabetical string in sorted order:
 
-1. 
+1. fill the first cell in the dp grid with the value in the input grid.
+2. start building the cells in the rest of the first row and first column with it. 
+3. Every empty cell in the dp grid from this point onwards, should be filled using the formulate, max(input[m-1][n], input[m][n-1]) (use string compare for this purpose) after they are sorted.
+4. once you append the current element to the end of the output of the max value and store it in the current cell on the dp grid, sort it. this makes the problem n^3logn.
+5. repeat this procedure for every cell in the grid.
+6. return dp[m-1][n-1] cell that has the highest alphabetical string.
+
+n^3 solution:
+
+1. fill the first cell in the dp grid with the value in the input grid.
+2. start building the cells in the rest of the first row and first column with it. 
+3. Every empty cell in the dp grid from this point onwards, should be filled using the formulate, max(input[m-1][n], input[m][n-1]) (use string compare for this purpose) after they are sorted.
+4. once you append the current element to the end of the output of the max value and store it in the current cell on the dp grid by appending or inserting the new character in the correct position (one extra pass) this will remove sorting and take only linear time. this makes the problem n^3logn.
+5. repeat this procedure for every cell in the grid.
+6. return dp[m-1][n-1] cell that has the highest alphabetical string.
 
 
 
+
+int main(){
+  char grid[][] = {
+                {'a', 'b', 'c', 'd', 'i'},
+                {'f', 'g', 'h', 'e', 'n'},
+                {'k', 'l', 'm', 'j', 'o'},
+                {'p', 'q', 'r', 'k', 't'},
+                {'u', 'v', 'w', 'x', 'y'}
+        };
+   vector<char> path = alphabetSorted(grid);
+}
 
 
