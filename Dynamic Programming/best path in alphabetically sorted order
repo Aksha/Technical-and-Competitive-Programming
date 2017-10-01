@@ -57,6 +57,29 @@ int alphabet(vector <vector <int>>  grid){
   int m = grid.size();
   int n = grid[0].size();
   vector <vector<int>> dp(m,vector<int> (n,0));
+  dp[0][0] = grid[0][0];
+  for(int i = 1; i < m; i++)
+    dp[i][0] = appendThisInPlace(grid[i][0],dp[i-1][0]); //or use .append() but since strings in c++ are mutable, the concatenation operation is fine.
+  for(int i = 1; i < n; i++)
+    dp[0][i] = appendThisInPlace(grid[0][i],dp[0][i-1]);
+  for(int i = 1; i < m; i++){
+    for(int j = 1; j < n; j++){
+      if(strncmp(dp[i-1][j],dp[i][j-1]) > 0) 
+        dp[i][j] = appendThisInPlace(grid[i][j],dp[i-1][j]);
+      else if(strncmp(dp[i-1][j],dp[i][j-1]) <= 0)
+        dp[i][j] = appendThisInPlace(grid[i][j],dp[i][j-1]);
+    }
+  } 
+  return dp[m-1][n-1];
+}
+
+string appendThisInPace(char a, string str){
+  string result = "";
+  for(int i = 0; i < str.size(); i++){
+    if(a <= str[i])
+      result = str.substr(0,i-1) + a + str.substr(i); 
+   return result;
+  }
 }
 
 int main(){
@@ -67,7 +90,7 @@ int main(){
                 {'p', 'q', 'r', 'k', 't'},
                 {'u', 'v', 'w', 'x', 'y'}
         };
-   int path = alphabetSorted(grid);
+   string path = alphabetSorted(grid);
    cout << path << endl;
    return 0;
 }
