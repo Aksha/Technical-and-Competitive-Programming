@@ -49,3 +49,43 @@ string decode(string tinyURL){
     return "";
 }
 https://docs.google.com/document/d/1Q8KTUFX8Kg321Kjeav5zwVZ2fxj8Gy1zLO8BbyJVSug/edit?usp=drive_web for detailed system design and software architecture
+
+
+Final Answer:
+
+string dict = "0123456789abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ";
+unordered_map<string,string> result; //longURL key -> tinyURL value
+unordered_map<int,string> idMAP; //ID key -> longURL value
+int id = 0;
+
+string encode(string longURL){
+    if(result.find(longURL) != result.end()) return result[longURL];
+    string tinyURL = "";
+    id++;
+    int count = id;
+    while(count > 0){
+        tinyURL = dict[count % 62] + tinyURL;
+        count /= 62;
+    }
+    while(tinyURL.size() < 7)
+        tinyURL += "0";
+    result[longURL] = tinyURL;
+    idMAP[id] = longURL;
+    return result[longURL];
+}
+
+string decode(string tinyURL){
+    int id = 0;
+    for(int i = 0; i < tinyURL.size(); i++){
+        id = 62*id + (int)dict.find(tinyURL[i]);
+    }
+    if (idMAP.find(id) != idMAP.end()) return idMAP[id];
+    return "";
+}
+
+int main() {
+    cout << "Hello world!" << endl;
+    string temp_result = encode("https://leetcode.com/problems/design-tinyurl/description/");
+    string decoded_result = decode(temp_result);    
+    return 0;
+}
