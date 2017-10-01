@@ -53,7 +53,16 @@ n^3 solution:
 5. repeat this procedure for every cell in the grid.
 6. return dp[m-1][n-1] cell that has the highest alphabetical string.
 
-int alphabet(vector <vector <int>>  grid){
+string appendThisInPlace(char a, string str){
+  string result = "";
+  for(int i = 0; i < str.size(); i++){
+    if(a <= str[i])
+      result = str.substr(0,i-1) + a + str.substr(i); 
+   return result;
+  }
+}
+
+string alphabetSorted(vector <vector <int>>  grid){
   int m = grid.size();
   int n = grid[0].size();
   vector <vector<int>> dp(m,vector<int> (n,0));
@@ -73,25 +82,18 @@ int alphabet(vector <vector <int>>  grid){
   return dp[m-1][n-1];
 }
 
-string appendThisInPace(char a, string str){
-  string result = "";
-  for(int i = 0; i < str.size(); i++){
-    if(a <= str[i])
-      result = str.substr(0,i-1) + a + str.substr(i); 
-   return result;
-  }
-}
+
 
 int main(){
-  char grid[][] = {
+  vector<vector<char>> grid = {
                 {'a', 'b', 'c', 'd', 'i'},
                 {'f', 'g', 'h', 'e', 'n'},
                 {'k', 'l', 'm', 'j', 'o'},
                 {'p', 'q', 'r', 'k', 't'},
                 {'u', 'v', 'w', 'x', 'y'}
         };
-   string path = alphabetSorted(grid);
-   cout << path << endl;
+   string result = alphabetSorted(grid);
+   cout << result << endl;
    return 0;
 }
 
