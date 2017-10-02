@@ -1,0 +1,40 @@
+Check question 1 from the pdf copy
+
+Class Node{
+  List<Node> children;
+  string EmployeeName;
+  Time arrivalTime;
+}
+
+Solution: O(n)
+
+1. Store the min and max at the root.
+2. Keep trak of the min and max as you traverse down the left subtree and store it as you come back to the root.
+3. Do the same for the right subtree.
+4. Find the difference between min and max at every node and check with max DIfference.
+5. return maxDifference between the two. 
+
+int lateStragglers(Node* root){
+  if(!root || root->children.size() == 0)
+    return 0;
+  int maximum = INT_MIN;
+  int given_maximum = root->arrivalTime;
+  int given_minimum = root->arrivalTime;
+  for(int i = 0; i < root->children.size();i++){
+    int temp_max = lateStragglers_helper(root->children[i], maximum, given_maximum, given_minimum);
+    maximum = max(maximum,temp_max);
+  }
+  return maximum;
+}
+
+int lateStragglers_helper(Node* root, int existingDifference, int given_maximum, int given_minimum){
+    if(root->left == NULL && root->right == NULL)
+      return existingDifference;
+    int arrival = root->arrivalTime;
+    int minHere = min(arrivalTime,given_minimum);
+    int maxHere = max(arrivalTime, given_maximum);
+    int difference = max(existingDifference,(maxHere-minHere));
+    int differenceOnLeft = lateStragglers_helper(root->left,difference,maxHere,minHere);
+    int differenceOnRight = lateStragglers_helper(root->right,difference,maxHere,minHere); 
+    return difference;
+}
