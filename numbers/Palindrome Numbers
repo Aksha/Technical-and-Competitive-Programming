@@ -1,0 +1,18 @@
+Determine whether an integer is a palindrome. Do this without extra space.
+
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        cout << "I'm here";
+        if(x < 0 || (x != 0 && x%10 == 0))
+            return 0;
+        int rev = 0;
+        //this works in linear time but I am going to go over only half the digits in the input.
+        while(x > rev){
+            rev = rev*10 + x%10;
+            x /= 10;
+        }
+        //if the input has odd number of digits check with rev/10  if the input has even number of digits, check with rev 
+        return (x == rev/10) || (x == rev); 
+    }
+};
