@@ -1,0 +1,95 @@
+Objective: Given a binary tree and a given num­ber x, Write an recur­sive algo­rithm to search the ele­ment in the tree.
+
+Recursive Approach:
+
+public class T_SearchElementInTree {
+
+	public static boolean isPresent(Node root, int x) {
+		if (root != null) {
+
+			// check if current node has the element we are looking for
+			if (root.data == x) {
+				return true;
+			} else {
+				// check if the sub trees
+				return isPresent(root.left, x) || isPresent(root.right, x);
+			}
+		}
+		return false;
+	}
+
+	public static void main(String[] args) {
+		Node root = new Node(1);
+		root.left = new Node(2);
+		root.right = new Node(3);
+		root.left.left = new Node(4);
+		root.left.right = new Node(5);
+
+		System.out.println("Does 4 exist in the tree: " + isPresent(root, 4));
+		System.out.println("Does 7 exist in the tree: " + isPresent(root, 7));
+
+	}
+}
+
+class Node {
+	int data;
+	Node left;
+	Node right;
+
+	public Node(int data) {
+		this.data = data;
+	}
+}
+
+Iterative Approach:
+public class T_SearchElementInTreeWithOutRecursion {
+	// If we are not using recursion then we need a data structure to store the
+	// tree traversal, we will use queue here
+	public static boolean isPresent(Node root, int x) {
+		if (root != null) {
+			Queue<Node> q = new LinkedList<>();
+			// add root to the queue
+			q.add(root);
+			while (!q.isEmpty()) {
+				Node n = q.poll();
+				// check if current node has the element we are looking for
+				if (n.data == x) {
+					return true;
+				}
+				// add children to the queue
+				if (n.left != null) {
+					q.add(n.left);
+				}
+				if (n.right != null) {
+					q.add(n.right);
+				}
+			}
+			// if reached here, means we have not found the element
+			return false;
+		}
+		// if root is null, return false
+		return false;
+	}
+
+	public static void main(String[] args) {
+		Node root = new Node(1);
+		root.left = new Node(2);
+		root.right = new Node(3);
+		root.left.left = new Node(4);
+		root.left.right = new Node(5);
+
+		System.out.println("Does 4 exist in the tree: " + isPresent(root, 4));
+		System.out.println("Does 7 exist in the tree: " + isPresent(root, 7));
+
+	}
+}
+
+class Node {
+	int data;
+	Node left;
+	Node right;
+
+	public Node(int data) {
+		this.data = data;
+	}
+}
