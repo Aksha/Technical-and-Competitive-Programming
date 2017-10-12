@@ -50,7 +50,7 @@ int reverse(int x) {
         int ans = 0;
         while (x) {
             int temp = ans * 10 + x % 10;
-            if (temp / 10 != ans)   <-------- check if division by 10 gives the answer, if not, return 0;
+            if (temp / 10 != ans)   <-------- check if division by 10 gives the answer, if not, return 0; It checks for overflow.
                 return 0;
             ans = temp;
             x /= 10;
