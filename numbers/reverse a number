@@ -1,0 +1,59 @@
+
+
+int reverse(int x) {
+        int ans = 0;
+        while (x) {
+            cout << " x is : " << x << endl;
+            ans = ans * 10 + x % 10;
+            cout << " ans is " << ans << endl;
+            x /= 10;
+       }
+        return ans;
+ }
+ 
+The above code will not work for the following input:
+
+Your input
+
+1534236469
+Your stdout
+
+ x is : 1534236469
+ ans is 9
+ x is : 153423646
+ ans is 96
+ x is : 15342364
+ ans is 964
+ x is : 1534236
+ ans is 9646
+ x is : 153423
+ ans is 96463
+ x is : 15342
+ ans is 964632
+ x is : 1534
+ ans is 9646324
+ x is : 153
+ ans is 96463243
+ x is : 15
+ ans is 964632435
+ x is : 1
+ ans is 1056389759
+Your answer
+
+1056389759
+Expected answer
+
+0
+
+check the following condition to fix the problem:
+int reverse(int x) {
+        int ans = 0;
+        while (x) {
+            int temp = ans * 10 + x % 10;
+            if (temp / 10 != ans)   <-------- check if division by 10 gives the answer, if not, return 0;
+                return 0;
+            ans = temp;
+            x /= 10;
+        }
+        return ans;
+    }
