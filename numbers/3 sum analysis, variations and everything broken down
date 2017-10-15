@@ -1,0 +1,78 @@
+What? Interview coaching from Googlers! 
+I want to know more
+IK40ZZ01KY
+3Sum
+
+3Sum is one of the most popular questions in coding interviews. What’s more, it has several variations that seem to be more complicated, but in essence are same as the basic form.
+
+We haven’t covered many topics about numbers in the past. Since 3sum questions have been asked by Google and Facebook recently, it’s a great time for us to analyze this topic in detail now.
+
+ 
+
+Basic Question
+Determine if any 3 integers in an array sum to 0.
+
+For example, for array [4, 3, -1, 2, -2, 10], the function should return true since 3 + (-1) + (-2) = 0. To make things simple, each number can be used at most once.
+
+ 
+
+Analysis
+If you have read The Interviewer’s Expectation, you should be aware of the strategy that starts with the simplest solution. In fact, you should come up with the following brute force approach within a second.
+
+To brute force the result, we can simply write 3 loops to iterate over all the triplets and check if each of them sums up to 0. Apparent, this will give us O(N^3) solution, which is not optimal.
+
+Let’s see how we can optimize it. I believe that most people have practiced with the popular question 2sum – given a sorted array, find 2 numbers that sum up to S. To solve this in O(N) time, we can keep two indices – one in the beginning (start) and the other in the end (end). If the sum of the current two numbers is greater than S, we move the end pointer backward by one step. If the sum is smaller than S, we move the start pointer forward by one step.
+
+When the two pointers meet each other, we know that no two numbers sum up to S. The reason we can make it O(N) is that the array is sorted and we don’t need to check all the combinations.
+
+Note: If you are not familiar with 2sum, you should really practice with more questions. 2sum is something I expect candidates to solve in a minute.
+
+ 
+
+Optimal solution
+With the previous analysis, we can use the same technique on the 3sum question. As 2sum solution, let’s sort the array first. Now if we fix one number X in the array, the problem becomes finding 2 numbers that sum up to -X, which is exactly the 2sum question and can be solved in O(N) time.
+
+Therefore, we can iterate over each number and inside the loop, solve the sub-problem as 2sum. To calculate the time complexity, sorting is O(NlogN), the outside loop is O(N) and the inside 2sum is O(N). Therefore, the overall time complexity is O(N^2) and space complexity is O(1).
+
+ 
+
+Variation 1
+Find 3 integers in an array whose sum is closest to 0.
+
+Many candidates find this variation difficult. However, after analyzing the problem, you’ll see how similar it is to the basic version and in essence, they are exactly the same.
+
+Again, let’s start with the simple case – find 2 integers whose sum is closest to S. It should be very obvious to you that we can use exactly the same solution as before – sort the array and keep two pointers (start and end).
+
+If the sum of current two numbers is greater than S, we move end pointer backward by one step.
+If the sum is smaller than S, we move start pointer forward by one step.
+After start and end meet each other, we can output the pair whose sum is closest to S.
+By sorting the array, we don’t necessarily need to check all the combinations, thus save a lot of computations. So back to the 3sum question, we can get a very similar solution.
+
+Sort the array.
+Iterate over the array by fixing one integer X at a time.
+Find the 2 integers from the rest numbers whose sum is closest to -X.
+At the end of the iteration, we can output the result.
+The solution has the same time and space complexity.
+
+ 
+
+Variation 2
+Determine if any 3 integers in an array sum to 0. Each number can be used multiple times.
+
+For example, for array [4, 3, -1, 2, 5 10], the function should return true because 2 + (-1) + (-1) = 0. In fact, compared to the basic solution, all we need to do is to handle duplicate cases.
+
+The first case is 0, if 0 is in the array, we can output true directly since 3 zeros sum up to 0.
+
+The second case is using one number twice (as the example). In 2sum solution, the only change we need to make is checking if S/2 is in the array. If we find S/2, we can output true. In 3sum solution, in order to check duplicates, only one tiny change is needed. When iterating over the array, the 2sum sub-problem should use the whole array rather than excluding the current number. By doing this, the current number being iterated can be used multiple times.
+
+ 
+
+Summary
+A few important takeaways from this question that I hope you keep in mind:
+
+2sum is a very important question and the idea of sorting the array and using two pointers to skip unnecessary checks has been used in many problems.
+When the problem is complicated, try with a simpler version. In this post, we started with 2sum instead of solving 3sum directly.
+For array problems, sorting the array first may significantly simplify the problem.
+As a homework, another variation is to find 3 integers whose sum is closest to 0 and each number can be used multiple times. Leave a comment if you can’t figure this out.
+
+The post is written by Gainlo - a platform that allows you to have mock interviews with employees from Google, Amazon etc.. 
