@@ -1,5 +1,14 @@
 Use the two pointer approach to solve it in linear time.
 
+//1. if any of the strings are empty, then return 0.
+        //2. Have slow and fast pointers, keep the slow pointer in a fixed position, move the fast pointer for every iteration. at  each point check if the fast pointer has a character that is in the map. if it is there in the map and main constraint (and as the number of times this character is seen is less than or equal to the number of times this character appears in the map),
+        /*
+        3. Calculate the length when you've seen the letters.
+        4. If any letter count is more than its count in the map, don't increment the count.. When the count has reached the size of T, you can retur the size.. 
+        5. if it has exceeded the size of T, see if you can alter the slow variable (i.e., the start position) to make the return the minimum length. 
+        6. I can also check if I can reduce the length by changing the slow variable.
+        */
+
 class Solution {
 public:
    string minWindow(string S, string T) {
