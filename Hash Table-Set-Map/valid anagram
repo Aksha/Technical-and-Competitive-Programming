@@ -11,7 +11,7 @@ You may assume the string contains only lowercase alphabets.
 Follow up:
 What if the inputs contain unicode characters? How would you adapt your solution to such case?
 
-Solution: O(n) time and space
+Solution 1: O(n) time and space
 bool isAnagram(string s, string t) {
         if(s.length() != t.length()){
             return false;
@@ -28,6 +28,20 @@ bool isAnagram(string s, string t) {
         return true;
     }
 
+Solution 1: variation:
+bool isAnagram(string s, string t) {
+        if (s.length() != t.length()) return false;
+        int n = s.length();
+        int counts[26] = {0};
+        for (int i = 0; i < n; i++) { 
+            counts[s[i] - 'a']++;
+            counts[t[i] - 'a']--;
+        }
+        for (int i = 0; i < 26; i++)
+            if (counts[i]) return false;
+        return true;
+    }
+    
 Solution 2: O(nlogn) time and O(1) space
 bool isAnagram(string s, string t) { 
         sort(s.begin(), s.end());
