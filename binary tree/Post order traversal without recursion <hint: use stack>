@@ -1,0 +1,38 @@
+Post-Order DFS using While Loop (Advanced)
+
+Given the root node of a binary tree, print the values in post-order depth first traversal using a while loop and a stack.
+
+Parameters
+Input: node {TreeNode}
+Output: {Void}
+
+Constraints
+Time: O(N)
+Space: O(N)
+
+vector<int> postorderTraversal(TreeNode* root) {
+    vector <int> res;
+    if(root==null) {
+        return res;
+    } 
+    stack<TreeNode*> s;
+    s.push(root);
+    while(!s.isEmpty()) {
+        TreeNode* temp = s.top();
+        if(temp.left==null && temp.right==null) {
+            TreeNode* pop = s.pop();
+            res.push_back(pop.val);
+        }
+        else {
+            if(temp.right!=null) {
+                s.push(temp.right);
+                temp.right = null;
+            }
+            if(temp.left!=null) {
+                s.push(temp.left);
+                temp.left = null;
+            }
+        }
+    } 
+    return res;
+}
