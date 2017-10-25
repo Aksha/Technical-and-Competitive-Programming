@@ -1,0 +1,12 @@
+Node* commonAncestor(Node* root, Node* left, Node* right) {
+    if(root == NULL || left == NULL || right == NULL)
+        return NULL;
+    if(left == root || right == root) 
+        return root;
+    Node* p = commonAncestor(root->left, left, right);
+    Node* q = commonAncestor(root->right, left, right);
+    
+    if(p && q)
+        return root;
+    return (p != NULL) ? p : q;
+}
