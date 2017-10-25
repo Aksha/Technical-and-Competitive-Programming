@@ -1,0 +1,16 @@
+bool isSymmetric(TreeNode *root) {
+        if(root == NULL) {return true;}
+        return isSymmetricCheck(root->left, root->right);
+ }
+    
+bool isSymmetricCheck(TreeNode* LeftTree, TreeNode* RightTree){
+    if(LeftTree == NULL && RightTree == NULL){
+        return true;
+    }
+    if((LeftTree == NULL && RightTree != NULL) || (LeftTree != NULL && RightTree == NULL)){
+        return false;
+    }
+    else {
+      return ((LeftTree->val == RightTree->val) && isSymmetricCheck(LeftTree->left,RightTree->right) && isSymmetricCheck(LeftTree->right,RightTree->left));
+        }
+ }
