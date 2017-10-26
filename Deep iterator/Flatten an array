@@ -1,0 +1,17 @@
+int flattenAnArray(vector<int>& nestedList) {
+        vector<int> result;
+        for(auto i : nestedList) {
+            dfs(i, result);
+        }
+        return result;
+    }
+    
+ void dfs(int i, vector<int> & result) {
+        if(i.isInteger()) {
+            result.push_back(i);
+        } else {
+            for(auto n_ni : i.getList()) {
+                dfs(n_ni, result);
+            }
+        }
+  }
