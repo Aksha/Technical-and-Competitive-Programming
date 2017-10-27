@@ -1,0 +1,61 @@
+Solution: (Iterative) - For my satisfaction, Came up with the idea in less than 2 minutes. :)
+  
+  vector <string> powerSet (String s){
+    vector <string> result;
+    vector <string> temp;
+    result.push_back("");
+    for(int i = 0; i < s.size(); i++){
+      temp = result;
+      for(int j = 0;j < temp.size(); j++)
+         temp[j].push_back(temp[j] + s[i]);
+      for(int j = 0; j < temp.size(); j++)
+         result.push_back(temp[j]);
+    }
+    return result;
+  }
+
+(Recursive Solution): 
+
+1. Initialize scope variables.
+3a. Declare a helper.
+4. base case.
+5. recursive case.
+3b. invoke helper.
+2. return scope.
+  
+Exact Code that compiles:
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<string> powerset_helper(string s, vector<string> result, int i){
+    if(i == s.size())
+      return result;
+    int size =  result.size();
+    for(int j = 0; j < size; j++){
+      string temp = result[j];
+      temp += s[i];
+      result.push_back(temp);
+    }
+    return powerset_helper(s,result,i+1);
+    
+ }
+
+vector <string> powerSet(string s)
+    vector <string> result;
+    result.push_back(" ");
+    return powerset_helper(s,result,0);
+}
+
+
+int main() {
+    string s = "abc";
+    vector <string> result;
+    result = powerSet(s);    
+    for(int i = 0; i < result.size(); i++){
+        cout << result[i] << " ";
+    }
+    return 0;
+}
