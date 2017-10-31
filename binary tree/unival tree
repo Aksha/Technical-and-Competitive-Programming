@@ -1,0 +1,22 @@
+
+bool univalTree(Node* root) {
+    int count = 0;
+    univalTree_helper(root,count);
+    return count;
+}
+
+bool univalTree_helper(Node* root, int &count){
+    if(root == NULL)
+        return true;
+       
+    int n = root->children.size();
+    for(int i = 0; i < n; i++){
+        bool child = univalTree_helper(root.children[i]->left,count);
+        if(!child)
+            return false;           
+        if(child != NULL && child->val != root->val)
+            return false;
+        count++;
+    }
+    return true;       
+}
