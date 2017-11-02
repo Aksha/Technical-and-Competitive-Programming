@@ -1,0 +1,32 @@
+Read conversation to understand expectations:
+
+Initially I have a blank string: ""
+I add the input abc to it.
+"abc" is in my result array.
+Now, I capitalize A and add it to my previous results.. The resulting array would have, "abc, Abc"
+Now I capitalize B and add i to each string in my previous results. The rresulting array would have "abc,Abc, aBc, ABc" 
+Now I capitalize B and add it to each string in my previous results. The resulting array would have "abc, Abc, aBc, ABc, abC, AbC, aBC, ABC"
+sorry..Ignore previous text. This is the right one. Now I capitalize C and add it to each string in my previous results. The resulting array would have "abc, Abc, aBc, ABc, abC, AbC, aBC, ABC"
+
+vector<string> capPerm_helper(string s, int i, vector<string> result){
+   if( i == s.size())
+       return result;
+   int size = result.size();
+   for(int j = 0; j < size; j++){ 
+       string temp = result[j].subtr(0,i-1) + to_upper(s[i]) + result[j].substr(i+1);
+       result.push_back(temp);
+   }
+   return capPerm_helper(s,i+1,result);
+}
+
+
+vector<string> capPerm(string s){
+   vector <string> result;
+   if(s.size()) return result;
+   return capPerm_helper(s, 0, result);
+}
+
+
+
+// capPerm_helper(s, i + 1)
+// capPerm_helper(substr(0, i -1) + to_upper(s[i]) + sunstr(), i + 1)
