@@ -1,1 +1,49 @@
 vector<string> validparentheses(string str, int count)
+
+
+Given a string containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+The brackets must close in the correct order, "()" and "()[]{}" are all valid but "(]" and "([)]" are not.
+
+Solution: O(1) time and space.
+
+bool isValid(string s) {
+        stack<char> paren;
+        for (char& c : s) {
+            switch (c) {
+                case '(': 
+                case '{': 
+                case '[': paren.push(c); break;
+                case ')': if (paren.empty() || paren.top()!='(') return false; else paren.pop(); break;
+                case '}': if (paren.empty() || paren.top()!='{') return false; else paren.pop(); break;
+                case ']': if (paren.empty() || paren.top()!='[') return false; else paren.pop(); break;
+                default: ; // pass
+            }
+        }
+        return paren.empty() ;
+    }
+    
+
+Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
+
+For "(()", the longest valid parentheses substring is "()", which has length = 2.
+
+Another example is ")()())", where the longest valid parentheses substring is "()()", which has length = 4. 
+    
+    int longestValidParentheses(string s) {
+        int maxLen = 0;
+        stack <int> stck;
+        stck.push(-1);
+        for(int i = 0; i < s.size();i++){
+            if(s[i] == '(')
+                stck.push(i);
+            else{
+                stck.pop();
+                if(stck.empty())
+                    stck.push(i);
+                else
+                    maxLen = max(maxLen, i - stck.top());
+                }
+            }
+        return maxLen;
+    }
