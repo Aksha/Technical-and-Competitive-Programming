@@ -1,5 +1,11 @@
 Look up other solutios on this link: https://discuss.leetcode.com/topic/15256/4-c-solutions-using-partition-max-heap-priority_queue-and-multiset-respectively/7
 
+
+O(nlogk) solution: Build a min heap of size k. Keep pushing and popping all the elements in the list O(n). The final heap will have k elements with the kth largest element in the top.
+O(nlogn) solution: if you use a priority queue (build a heap of size n) and then pop off k - 1 elements from it, the topmost element is the kth largest element.
+
+Here is a quick select algorithm that will work O(n) time overall on an average case considered faster and most optimized compared to all other techniques.
+
 class Solution { 
 public:
     int partition(vector<int>& nums, int left, int right) {
