@@ -1,0 +1,17 @@
+Max depth:
+
+int maximum = 0;
+int maxDepth(TreeNode* node){
+  if(node == NULL)
+    return -1;
+  int depth = 0;
+  return maxDepth_helper(node, depth);
+}
+
+int maxDepth_helper(TreeNode* node, int depth){
+  if(depth > maximum)
+    maximum = depth;
+  if(node == NULL || (node->left == NULL && node->right == NULL))
+    return maximum;
+  return maxDepth_helper(node->left, depth+1) || maxDepth_helper(node->right, depth+1);
+}
