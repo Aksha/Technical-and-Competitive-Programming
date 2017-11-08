@@ -1,17 +1,22 @@
+Given a binary tree, find its maximum depth.
+
+The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+
 Max depth:
 
-int maximum = 0;
-int maxDepth(TreeNode* node){
-  if(node == NULL)
-    return -1;
-  int depth = 0;
-  return maxDepth_helper(node, depth);
-}
-
-int maxDepth_helper(TreeNode* node, int depth){
-  if(depth > maximum)
-    maximum = depth;
-  if(node == NULL || (node->left == NULL && node->right == NULL))
-    return maximum;
-  return maxDepth_helper(node->left, depth+1) || maxDepth_helper(node->right, depth+1);
-}
+int maxDepth(TreeNode *root) {
+        
+        if(root == NULL) 
+            return 0;
+        int left = maxDepth(root -> left);
+        int right = maxDepth(root -> right);
+        
+        if(!left && !right )
+            return 1;
+            
+        if(!left || !right)
+            return max(left,right) + 1;
+        
+        return max(left,right) + 1;
+    }
