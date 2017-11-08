@@ -1,0 +1,26 @@
+Class Vertex{
+  private:
+    int value;
+    vector<int> edges;
+  Vertex(int val, vector<int> temp){
+    value = val;
+    edges = temp;
+  }
+}
+
+Class Graph {
+  vector <int> vertices;
+  addVertex(int value){
+    if(vertices[value])
+      return true;
+    vertices[value] = new Vertex(value);
+  }
+  
+  addEdge(v1,v2,weight){
+   if(visited.insert(v1) && visited.insert(v2))
+    vertices[v1].edges.insert([v2,weight]);
+    vertices[v2].edges.insert([v1,weight]);
+    visited.insert(v1);
+    visited.insert(v2);
+  }
+}
