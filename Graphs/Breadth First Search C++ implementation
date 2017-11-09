@@ -63,3 +63,40 @@ color[top] = 2; //black
 }
 }
 
+Java implementation:
+
+public static List<Integer> bfs(Vertex vertex) {
+     //Queue<Vertex> q = new LinkedList<Vertex>();
+       
+       // intialize a queue, set
+       // enqueue root
+       
+       // looop while the queue is not empty
+       // dequeue first element
+       // track the element
+       // pop off the first element from the queue.
+       //check the neighbours of the element that is being tracked.
+       //if the neighbour has been visited already, skip it. else add it to the visited set and push it in the queue.
+       
+       Queue<Vertex> q = new LinkedList<Vertex>();
+       HashSet<Integer> visitedSet = new HashSet<Integer>();
+       List<Integer> output = new ArrayList<Integer>();
+       
+       q.add(vertex);
+       visitedSet.add(vertex.id);
+       
+       while (!q.isEmpty()) {
+           Vertex current = q.removeFirst();
+           
+           for (Vertex v : current.edges) {
+               if (!visitedSet.contains(v.id)) {
+                   q.add(v);
+                   visitedSet.add(v.id);
+                   output.add(v.id);
+               }
+           }
+       }
+       
+      
+     return output;
+   }
