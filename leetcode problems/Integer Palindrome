@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+
+
+// integerPalindrome 
+
+// input: integer 
+// output: boolean 
+
+// integerPalindrome(1221) == true  
+// integerPalindrome(12211) == false
+
+//Feedback: ASk clarifying questions.
+
+bool integerPalindrome(int A){
+    if(A < 0)
+       return 0;
+    int reverse = 0;
+    while(A > reverse){ //to prevent overflow if we are looking at an INT_MAX value
+        reverse = reverse*10 + A%10;
+        A /= 10;
+    }
+    return ((A == reverse) || (A == reverse/10));
+}
+int main() {
+    int A = 12;
+    cout << integerPalindrome(A) << endl;
+    return 0;
+}
