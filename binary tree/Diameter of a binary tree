@@ -1,0 +1,49 @@
+/* 
+
+diameter(root)
+1. base condition..
+2. cal depth calling depth method in currDepth
+3. replace max by currDepth when currDepth > max
+4. recursively call the diamater method left and right subtrees 
+5. return max.
+
+depth(root){
+base case for termination
+return 1 + max(depth(root->left),depth(root->right);
+
+}
+*/
+
+Code: O(n) time
+
+    int diameterOfBinaryTree(TreeNode* root) {
+        if(root == nullptr) return 0;
+        int res = depth(root->left) + depth(root->right);
+        return max(res, max(diameterOfBinaryTree(root->left), diameterOfBinaryTree(root->right)));
+    }
+
+    int depth(TreeNode* root){
+        if(root == nullptr) return 0;
+        return 1 + max(depth(root->left), depth(root->right));
+    }
+
+// diameter 
+
+
+
+//          3      
+//         / \
+//        1   8
+//       / \      = 5
+//      2   5
+//     /
+//    4
+
+
+// #         7
+// #       /   \
+// #     5      5
+// #    / \    /  \
+// #   4   3  3    4
+// #  / \         / \  = 7
+// # 1   2       2   1
