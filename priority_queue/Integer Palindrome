@@ -1,0 +1,15 @@
+bool integerPalindrome(int A){
+    if(A < 0)
+       return 0;
+    int reverse = 0;
+    while(A > reverse){ //to prevent overflow.
+        reverse = reverse*10 + A%10;
+        A /= 10;
+    }
+    return ((A == reverse) || (A == reverse/10));
+}
+int main() {
+    int A = 1221;
+    cout << integerPalindrome(A) << endl;
+    return 0;
+}
