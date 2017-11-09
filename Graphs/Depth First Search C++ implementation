@@ -55,3 +55,36 @@ void DFS_visit(int i) {
 end_time = time + 1;
 color[i] = 2;
 }
+
+C++ implementation lesser:
+
+*
+  initialize result.
+  push the given vertex into the stack
+  initialize visitedSet
+  start and end time of each node.
+  while the stack isn't empty, look for the neighbors of the top element in the stack
+   if visited, skip.
+   if not visited, put in the stack, insert in the visistedSet and also the result.
+*/
+vector<int> DFS (Vertex vertex){
+    vector<int> result;
+    stack <Vertex> S;
+    unordered_set<int> visitedSet;
+    S.push(vertex);
+    result.push_back(vertex.id);
+    visitedSet(vertex.id);
+    while(!S.empty()) {
+        Vertex top = S.top().id;
+        S.pop();
+        for(auto v: top.edges){
+            if(visitedSet.find(v.id) == visited.end()){
+                S.push(v);
+                visitedSet.insert(v.id);
+                result.push_back(v.id);
+            }
+        }
+        
+    }
+    return result;
+}
