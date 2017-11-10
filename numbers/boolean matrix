@@ -1,0 +1,48 @@
+// Input:    [[0, 0, 0, 1],
+//            [0, 0, 1, 1],
+//            [0, 1, 1, 1],
+//            [0, 1, 1, 1]]
+
+
+/* 
+
+[[0, 1, 1, 1],
+//0, 1, 1, 1],
+/[0, 1, 1, 1],     = 6 O(4)
+//[1, 1, 1, 1]]
+*/
+// =>    Output: 7
+    
+    
+    
+#include <iostream>
+using namespace std;
+
+/*1. initialize count = 0, row = 0 and col = n -1;
+while(row < n && col > 0)
+2.start on top right (0,n)th position. 
+3. check if it s zero, if if yes increment count += col+1 and move down one row
+4. else if it a 1, move leftwards.
+*/
+
+int booleanMatrix(vector<vector<int>> A){
+    int n = A.size();
+    int count = 0; 
+    int row = 0;
+    int col = n-1;
+    while(row < n && col >= 0){
+        if(A[i][j] == 1)
+            j--;
+        else{
+            count += j+1;
+            i++;
+        }
+        
+    }
+    return count;
+}
+
+int main() {
+    cout<<"Hello";
+    return 0;
+}
