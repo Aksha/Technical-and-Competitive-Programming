@@ -1,0 +1,79 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+
+//[4, 30, 50]
+
+// 12, 14, 6
+
+//[6,30,48]
+ // 12 12 6 
+
+//[2, 8, 11, 14] -  (6,3)
+// 4, 2, 1, 2
+//[4, 2]
+    // [4.5,1.5,1.5,1.5]
+
+//[4, 17, 50]
+//[-1,-1]
+    
+/*1. diff between 1st and 2nd element.
+2. start = 2 end = diff.
+3. in while loop where start < end
+4. calculate the mid.
+5. calculate last diff here.
+5. if mid == 2*lastdiff (lastDiffmethod) return the mid and lastdiff value
+6. if mid > 2*lastdiff, see the right half
+7. see the last half.
+8. return [-1,-1]
+*/
+
+    
+// Go back to problem solving process and trust in your abilities to solve problems
+//focus on story telling
+double lastValue_helper(double mid, vector<int> arr){
+    vector <double> result;
+    result[0] = mid;
+        for(int i = 0; i < arr.size(); i++){
+            result[i+1] = arr[i+1] - arr[i] - mid; //[12, 12, 6]
+            mid = result[i];
+        }
+ return result[result.size()-1];   
+}
+
+    
+vector<double> gearSel(vector<int> arr){
+    vector<double> result;
+    vector <double> temp;
+    temp.push_back(-1);
+    temp.push_back(-1);
+    if(arr[1] - arr[0] < 2)
+       return temp;
+    double diff = arr[1] - arr[0];
+    double start = 2;
+    double end = diff;
+    while(start < end){
+        double mid = start + (end - start)/2;
+        double lastValue = lastValue_helper(mid,arr);
+        if(mid == 2*lastValue){
+            result.push_back(mid);
+            result.push_back(lastValue);
+            return result;
+        }
+        else if (mid > 2*lastValue)
+            start = mid+0.001;
+        else
+            end = mid-0.001;
+    
+    }
+    return temp;
+}
+    
+int main() {
+    vector <int> arr = {4,30,50};
+    vector<double> result = gearSel(arr);
+    cout << result[0] << ", " << result[1] << endl;
+    return 0;
+}
