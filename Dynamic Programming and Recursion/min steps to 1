@@ -1,0 +1,49 @@
+ 2. Minimum Steps to One
+ *
+ *     Given a positive integer, you can perform any combination of these 3
+ *     steps:
+ *      1.) Subtract 1 from it.
+ *      2.) If its divisible by 2, divide by 2.
+ *      3.) If its divisible by 3, divide by 3.
+ *
+ *     Find the minimum number of steps that it takes get from N to 1
+ *
+ *  Input: Positive Integer N
+ *  Output:Integer
+ 
+ 
+ Memoized answer takes 8
+memo: 379.120ms
+ 
+    function minsteps(n){ 
+//     let cache = {};
+    
+    function traverse(n){
+//         if(cache[n] !== undefined) {
+//             return cache[n];
+//         }
+        
+        if (n === 1){
+            return 0;
+        }
+
+        let steps = traverse(n - 1);
+
+        if (n % 2 === 0){
+            let stepsTwo = traverse(n / 2);
+            steps = Math.min(steps, stepsTwo);
+        }
+
+        if (n % 3 === 0){
+            let stepsThree = traverse(n / 3);
+            steps = Math.min(steps, stepsThree);
+        }
+//         cache[n] = steps + 1;
+//         return cache[n];
+        return steps + 1;
+    }
+
+    return traverse(n);
+}
+
+Now tabulation approach: ?? 
