@@ -1,0 +1,54 @@
+Knapsack Problem 0/1
+Given a set of items where each item has a weight and a value. And given a knapsack with max weight capacity, determine the maximum value that can be placed into the knapsack without going over the capacity.
+
+Input: An integer array of weights
+           An integer array of values
+           The ith item is weights[i] and values[i].	
+Output: Integer of maximum total value
+Example
+Input: 
+	value =  [60, 100, 120]
+weight = [10, 20, 30]
+capacity = 50
+
+
+
+
+
+Output: 220
+
+Constraints
+Intermediate			Advanced	
+Time Complexity:			O(2N)				O(KN)
+Auxiliary Space Complexity: 		O(N)				O(K)
+
+K is the capacity of the knapsack, N is the number of items
+
+Solution
+Utilize recursion for the intermediate solution.
+Use dynamic programming w/ memoization of the recursive solution or use tabulation
+
+Advanced Tabulation Approach:
+There will be two loops, the outer loop selects an item to to be the current item
+The inner loop iterates from 0 to the knapsack capacity and we try to determine the maximum value at each incremental capacity.
+If adding the current item results in a higher value, we update our max value at that capacity.
+
+Detailed Pseudocode for Tabulation Approach:
+Instantiate an array called ‘finalMax’ with a length equal to one plus the capacity
+Loop through the number of items
+Inside this first loop, make a copy of ‘finalMax’ called ‘tempMax’
+Create an inner loop and increment a variable ‘cap’ from 0 to the input capacity 
+If the weight of the current item is less than or equal to the current cap,
+Check to see if the value at tempMax[cap - weight] plus the value of the current item leads to a greater value than what is currently in tempMax[cap].
+If greater, replace the value at tempMax[cap]
+After performing both loops, the finalMax should contain the max values obtainable for each capacity level. Since we only care about the max value at our input capacity, return finalMax[capacity].
+
+
+Explanation, In a n*m grid called dp, if i represents rows and it has the value and weights listed
+against each other and j represents the columns that represents the maximum value that can be reached
+at this point, then the formula for calculating the maximum value that can be reached without exceeding the capacity is,
+
+if(j < weight[i])
+    dp[i][j] = dp[i-1][j];
+else
+ dp[i][j] = max(val[i] + dp[i][j-weight[i]], dp[i-1][j]);
