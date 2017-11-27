@@ -1,0 +1,49 @@
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Solution:
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  // Time Complexity: O(n) amortized using Quick select. Worst case is still O(nlogn) using a sorting algorithm lik eheap sort merge sort etc.
+  // Auxiliary Space Complexity: O(1) if quick select is used.
+ 
+ int partition(int arr[], int l, int r) {
+    int x = arr[r], i = l;
+    for (int j = l; j <= r - 1; j++){
+        if (arr[j] <= x) {
+            swap(&arr[i], &arr[j]);
+            i++;
+        }
+    }
+    swap(&arr[i], &arr[r]);
+    return i;
+}
+
+ int kthSmallest_helper(int arr[], int l, int r, int k) {
+    // If k is smaller than number of elements in array
+    if (k > 0 && k <= r - l + 1) {
+        // Partition the array around last element and get
+        // position of pivot element in sorted array
+        int pos = partition(arr, l, r);
+ 
+        // If position is same as k
+        if (pos-l == k-1)
+            return arr[pos];
+        if (pos-l > k-1)  // recur the left subarray
+            return kthSmallest_helper(arr, l, pos-1, k);
+ 
+        // Else recurse the right subarray
+        return kthSmallest_helper(arr, pos+1, r, k-pos+l-1);
+    }
+ 
+    // If k is more than number of elements in array
+    return INT_MAX;
+}
+ 
+ 
+  int kthSmallest(int[] arr, int k) {
+    int result = kthSmallest_helper(arr,k, 0, arr.size()-1);
+    if(result != INT_MAX)
+     return result;
+    return -1;
+  }
+
+}
+
