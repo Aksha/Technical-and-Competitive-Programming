@@ -1,0 +1,42 @@
+#include <iostream>
+#include<algorithm>
+#include <string>
+#include<random>
+#include <vector>
+#include<chrono>
+#include<cmath>
+using namespace std;
+
+string convertToBinary(int a){
+    cout << a << endl;
+    string result;
+    while(a != 0){
+        result += to_string(a%2); 
+        cout << a % 2 << " " << result <<endl;
+        a /= 2; 
+    }
+    reverse(result.begin(),result.end());
+    return result;
+}
+
+bool palindrome(string a){
+    int left = 0;
+    int right = a.size()-1;
+    while(left < right){
+        if(a[left] != a[right])
+          return false;
+        left++;
+        right--;
+    }
+    return true;
+}
+
+bool bitPalindrome(int a){
+    string bit = convertToBinary(a);
+    bool check = palindrome(bit);
+    return check;  
+}
+int main(){
+    cout << bitPalindrome(10);
+    return 0;
+}
