@@ -1,0 +1,17 @@
+THe Kadane's algorithm provides an optimal solution for Maximum sum subarray problem:
+
+It works in O(n) time and O(1) space:
+Here's a video for better understanding of Kadane's algorithm: 
+
+https://www.youtube.com/watch?v=86CQq3pKSUw
+
+HEre's the code:
+
+public static int maxSubArray(int[] A) {
+    int maxSoFar=A[0], maxEndingHere=A[0];
+    for (int i=1;i<A.length;++i){
+    	maxEndingHere= Math.max(maxEndingHere+A[i],A[i]);
+    	maxSoFar=Math.max(maxSoFar, maxEndingHere);	
+    }
+    return maxSoFar;
+}
