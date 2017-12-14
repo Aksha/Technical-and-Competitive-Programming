@@ -1,0 +1,71 @@
+time efficient solution
+
+
+'use strict'
+
+//Heap sort
+//11/20/17
+//Outco Outcomes
+//problem from Shalini
+//my solution
+
+//O(n log n)
+//Calls extractMax n times
+function heapSort(nums){
+    //O(n)
+    nums = buildMaxHeap(nums)
+    var res = []
+    //O(n log n)
+    while(nums) {
+      var extract = extractMax(nums)
+      nums = extract[1]
+      res.unshift(extract[0])
+    }
+    return res;
+}
+// O(n) (instead of O(n log n) because it only uses heapifyDown, not heapifyUp)
+// nums(unsorted array) => max heap array
+// sort nums into implied max heap by using heapifyDown
+// repeatedly until max heap property is met
+function buildMaxHeap(nums) {
+    var i = Math.floor(nums.length/2)
+    while(i >= 0) {
+        nums = heapifyDown(nums, i)
+        i--
+    }
+    return nums
+}
+// O(log n)
+// maxHeap(array) =>[max value, newMaxHeap]
+// remove max value (root) from heap
+// bring rightmost leaf up to replace root and delete leaf and
+// use heapifyDown to meet max heap property
+function extractMax(maxHeap) {
+    if(maxHeap.length === 1) return [maxHeap[0], null]
+    var res = maxHeap[0]
+    maxHeap[0] = maxHeap.pop()
+    maxHeap = heapifyDown(maxHeap, 0)
+    return [res, maxHeap]
+}
+// O(log n)
+// nums, i => array with original nums[i] in it's place
+// according to max heap property
+function heapifyDown(nums, i) {
+    while(i < nums.length && i >= 0) {
+        var left = 2*i+1
+        var right = 2*i+2
+        var maxI = left
+        if(nums[right] > nums[left]) maxI = right
+        if(nums[i] < nums[maxI]) {
+            var swap = nums[i]
+            nums[i] = nums[maxI]
+            nums[maxI] = swap
+        } else return nums
+        i = maxI
+    }
+    return nums
+}
+
+// # input:  [1, 16, 5, 30, 27, 17, 20, 2, 57, 3, 90]
+console.log( heapSort( [1, 16, 5, 30, 27, 17, 20, 2, 57, 3, 90] ) )
+// # output: [1, 2, 3, 5, 16, 17, 20, 27, 30, 57, 90]
