@@ -53,14 +53,10 @@ second = s.substr(i,2);
                 dp[i] += dp[i-2];
             }
 
-*/
-765
-
-
 
 // abc ,aw, lc
 // 
-*/  
+
 
 Dp approach to compute the number of different sequences:
 int numDecodings(String s) {
@@ -92,7 +88,35 @@ Recursion and backtracking:
 2. write the helper method
     base case or stopping condition
     math/calc
-    recursive calls
+    recursive calls 
+  
+  
+
+function translate(input) {
+  let result = [];
+  let lib = ' abcdefghijklmnopqrstuvwxyz"
+  
+  function traverse(index, build) {
+    if (index === input.length) {
+      result.push(build);
+      return
+    } else if (index > input.length) {
+      return;
+    }
+    
+    traverse(index + 1, build + lib[input[index]]);
+    if (input.slice(i, i + 2) exists in lib) {
+      traverse(index + 2, build + lib[input[index]]);
+    }
+  }
+  traverse(0, "");
+  
+  return result;
+}
+*/
+
+#include <iostream>
+using namespace std;
     
 string lib = " abcdefghijklmnopqrstuvwxyz";
     
@@ -120,31 +144,10 @@ void translate_helper(string input,int index, vector<string> &result, string bui
   return;    
 }
 
-Pseudocode in Javascript: 
 
-/*
 
-function translate(input) {
-  let result = [];
-  let lib = ' abcdefghijklmnopqrstuvwxyz"
-  
-  function traverse(index, build) {
-    if (index === input.length) {
-      result.push(build);
-      return
-    } else if (index > input.length) {
-      return;
-    }
-    
-    traverse(index + 1, build + lib[input[index]]);
-    if (input.slice(i, i + 2) exists in lib) {
-      traverse(index + 2, build + lib[input[index]]);
-    }
-  }
-  traverse(0, "");
-  
-  return result;
+
+int main() {
+  cout<<"Hello";
+  return 0;
 }
-
-
-*/
