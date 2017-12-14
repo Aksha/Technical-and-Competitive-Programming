@@ -1,0 +1,97 @@
+You are given coins of different denominations and a total amount of money amount. Write a function to compute the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.
+
+Example 1:
+coins = [1, 2, 5], amount = 11
+return 3 (11 = 5 + 5 + 1)
+
+Example 2:
+coins = [2], amount = 3
+return -1.
+
+Recursive solution:
+Print all combinations of numbers in a array that sum to a particular target.
+
+
+Input:
+
+    A[]: Array of integer (elements)
+    S: Integer (target)
+    
+Output:
+    Print out all possible ways to add up elements from A into S. Each element can be used multiple times. (0, 1,2, ...)
+    
+    
+Example:
+A = (1,2)
+S = 3
+
+1,2 and 1,1, 1
+
+-------------------------------------------------------------------------------------------------------------------------------
+O(n^2) Time complexity and space complexity:
+--------------------------------------------------------------------------------------------------------------------------------
+
+vector<vector<int>> subsetSum(vector <int> input, int target){
+   
+    vector <vector<int>> result;
+    vector<int> temp;
+    vector<vector<int>> result;
+    subsetSum_helper(input,target,temp, result);
+    if(!result.empty())
+    	return result;
+    Else return -1;
+}
+
+void subsetSum_helper(vector<int> input,int target, vector<int> temp, vector<vector<int>> &result){
+    int sum = 0;
+    for(int i = 0; i < temp.size(); i++) {
+        sum += temp[i];
+    }
+    if(sum == target){
+        result.push_back(temp);
+        return;
+    }
+    else if(sum > target)
+        return;
+    }
+    for(int i = 0; i < input.size(); i++){
+        vector<int> remaining;
+        int n = input[i];
+        for(int j = i+1; j < input.size(); j++)
+            remaining.push_back(input[j]);
+        vector <int> partial_recording = temp;
+        partial_recording.push_back(n);
+        subsetSum_helper(remaining,target,partial_recording,result);              
+    }
+    return result;
+}
+
+//result = [[1,2], [1,1,1]];
+
+A = (1, 2)
+S = 4
+
+1,1,2
+
+[1,2] [4] [] [[]] -> [2] 4 [1] [[]]
+
+[2] 4 [1] [[]] -> [] 4 [1,2] [[]]
+
+
+
+
+Dynamic Programming solution: 
+
+int coinChange(vector<int>& coins, int amount) {
+        int Max = amount + 1;
+        vector<int> dp(amount + 1, Max);
+        dp[0] = 0;
+        for (int i = 1; i <= amount; i++) {
+            for (int j = 0; j < coins.size(); j++) {
+                if (coins[j] <= i) {
+                    dp[i] = min(dp[i], dp[i - coins[j]] + 1);
+                }
+            }
+        }
+        return dp[amount] > amount ? -1 : dp[amount];
+    }
