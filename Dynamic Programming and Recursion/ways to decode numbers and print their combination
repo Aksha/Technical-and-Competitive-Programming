@@ -1,0 +1,150 @@
+/*A message containing letters from A-Z is being encoded to numbers using
+the following mapping:
+
+'A' -> 1
+'B' -> 2
+...
+'Z' -> 26
+
+Given an encoded message containing digits, determine the total number 
+of ways to decode it.
+
+For example,
+Given encoded message "12", it could be decoded as "AB" (1 2) or "L" (12).
+
+The number of ways decoding "12" is 2.
+
+string
+
+123 - abc
+aw,
+lc
+
+
+Add on: Also generate the sequences (recursion, backtracking)
+
+'1'
+
+ |
+'123978'
+
+= abc, aw
+= lc
+
+res = {}
+                                        
+      (index, build)
+      
+      
+                        (0, "")
+                    /                    \
+                  (1, "a")                   (2, "l")
+                /        \                  /        \
+            (2, "ab")     (3, "aw")      (3, "lc")    (4, "l" + "3 ")
+            
+first = s.substr(i,1);
+second = s.substr(i,2);
+
+/* 
+            if(first >= 1 && first <= 9) {
+               dp[i] += dp[i-1];  
+            }
+            if(second >= 10 && second <= 26) {
+                dp[i] += dp[i-2];
+            }
+
+*/
+765
+
+
+
+// abc ,aw, lc
+// 
+*/  
+
+Dp approach to compute the number of different sequences:
+int numDecodings(String s) {
+      if(s == NULL || s.length() == 0) {
+          return 0;
+      }
+      int n = s.size();
+      int dp[n+1]; 
+      dp[0] = 1;
+      dp[1] = (s[0] != '0') ? 1 : 0;
+      for(int i = 2; i <= n; i++) {
+          int first = stoi(s.substr(i-1, i));
+          int second = stoi(s.substr(i-2, i));
+          if(first >= 1 && first <= 9) {
+             dp[i] += dp[i-1];  
+          }
+          if(second >= 10 && second <= 26) {
+              dp[i] += dp[i-2];
+          }
+      }
+      return dp[n];
+  }
+
+Recursion and backtracking:
+
+1. wrapper method.
+  declare instance variable
+  invoke the helper method
+2. write the helper method
+    base case or stopping condition
+    math/calc
+    recursive calls
+    
+string lib = " abcdefghijklmnopqrstuvwxyz";
+    
+vector<string> translate(string input){
+  vector<string> result;
+  if(input == NULL || input.length() == 0) {
+        return result;
+  }
+  int index = 0;
+  string build = "";
+  return translate_helper(input,index,result,build);
+}
+
+void translate_helper(string input,int index, vector<string> &result, string build){
+  if(index == input.size()-1){
+    result.push_back(build);
+    return;
+  }
+  if(index > len)
+    return;
+  if(input[i] >= 1 && input[i] <= 9)
+    translate_helper(input, index+1, result, build + lib[input[index]);
+  if(input.substr(i,2) >= 10 && input.substr(i,2) <= 26)
+    translate_helper(input,index+2, result, build + lib[input.substr(index,2)]);                                            
+  return;    
+}
+
+Pseudocode in Javascript: 
+
+/*
+
+function translate(input) {
+  let result = [];
+  let lib = ' abcdefghijklmnopqrstuvwxyz"
+  
+  function traverse(index, build) {
+    if (index === input.length) {
+      result.push(build);
+      return
+    } else if (index > input.length) {
+      return;
+    }
+    
+    traverse(index + 1, build + lib[input[index]]);
+    if (input.slice(i, i + 2) exists in lib) {
+      traverse(index + 2, build + lib[input[index]]);
+    }
+  }
+  traverse(0, "");
+  
+  return result;
+}
+
+
+*/
