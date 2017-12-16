@@ -1,0 +1,73 @@
+/*
+A happy number is a number defined by the following process: 
+Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1. If the sequence terminates at 1, we call this a happy number. If the sequence does not terminate at 1, the number is not a happy number.
+
+For example 19 is a happy number
+19 is a happy number
+1*1 + 9*9 = 82
+8*8 + 2*2 = 68
+6*6 + 8*8 = 100
+1*1 + 0*0 + 0*0 = 1.
+
+Write a happyNumbers function which will return a list of the happy numbers between 1-1000.
+*/
+
+// 20 = 2*2 + 0 = 4
+// 4 = 4*4 = 16
+// 16 = 1*1 + 6*6 = 37
+//37 = 3*3 + 7*7 = 58
+// 5*5 + 8*8 = 25 + 64 = 89
+// 64 + 81 = 145
+//1 + 16 + 25 = 42
+//16 + 4 = 20
+
+/* 
+21 = 5
+5*5 = 25
+4 + 25 = 29
+4+ 81 = 85
+64 + 25 = 89
+145
+42
+20
+*/ 
+
+#include <iostream> 
+#include <vector>
+using namespace std;
+
+bool happyNumbers_helper(int n){
+    if (n == 20)
+        return false;
+    else if(n == 1)
+        return true;
+    else{
+        int num = 0;
+        int square = 0;
+        int sum = 0;
+        while(n > 0){
+            num = n%10;
+            n /= 10;
+            square = num*num;
+            sum += square;
+        }
+    return happyNumbers_helper(sum);
+    }
+}
+
+
+vector <int> happyNumbers(){
+    vector<int> result;
+    for(int i = 1; i <= 1000; i++){
+        if(happyNumbers_helper(i))
+            result.push_back(i);
+    }
+    return result;
+}
+
+int main(){
+    vector<int> result = happyNumbers();
+    for(int i = 0; i < result.size(); i++)
+        cout << result[i] << endl;
+    return 0;
+}
