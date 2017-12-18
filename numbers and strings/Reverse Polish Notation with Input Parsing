@@ -1,0 +1,78 @@
+
+/*
+You are building an educational website and want to create a simple calculator for students to use. For now, the calculator will only allow addition and subtraction of positive integers.
+
+Given an expression string using the "+" and "-" operators like "5+16-2", write a function to parse the string and evaluate the result.
+
+Sample input/output:
+"6+9-12" => 3
+"1+2-3+4-5+6-7" => -2
+
+*/
+
+
+#include <iostream>
+#include <string>
+#include <stack>
+#include <algorithm>
+
+using namespace std;
+
+/*
+You are building an educational website and want to create a simple calculator for students to use. For now, the calculator will only allow addition and subtraction of positive integers.
+
+Given an expression string using the "+" and "-" operators like "5+16-2", write a function to parse the string and evaluate the result.
+
+Sample input/output:
+"6+9-12" => 3
+"1+2-3+4-5+6-7" => -2
+
+*/
+int arithHelper(string arr, int j){
+  string str = "";
+  int n = arr.size();
+  while( j < n && arr[j] >= '0' && arr[j] <= '9'){
+    str += arr[j];
+    j++;
+  }
+  if(!str.empty())
+    return stoi(str);
+  else 
+    return 0;
+}
+
+int arithmeticCalc(string arr){
+  int total = 0;
+  int n = arr.size();
+  stack <int> S;
+  for(int i = 0; (i < n); i++){
+    if(arr[i] >= '0' && arr[i] <= '9'){
+      int a = arithHelper(arr, i);
+      S.push(a);
+    }
+    else if(arr[i] == '+') {
+      int a = arithHelper(arr, i+1);
+      int b = S.top();
+      total = b + a;
+      S.pop();
+      S.push(total);
+    }
+    else if(arr[i] == '-') {
+      int a = arithHelper(arr, i+1);
+      int b = S.top();
+      total = b - a;
+      S.pop();
+      S.push(total);
+    }
+  }
+  return total;
+}
+
+//cout << " num1 " << S.top() << " addition " << " num2 "  << " sum " << sum << endl;
+
+int main() {
+  string expression = "6+9-12";
+  int result = arithmeticCalc(expression);
+  cout << result;
+ return 0;
+}
