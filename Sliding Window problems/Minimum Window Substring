@@ -32,16 +32,16 @@ string minWindow(string S, string T) {
         return result;
     }
     
-    //declare a map for keeping track of characters in string T and the count of each character. 
+    //declare a map for keeping track of characters in string S and the count of each character. 
     unordered_map<char, int> map;
     
     //declare an unordered_map for keeping track of characters in string T and the count of each character. 
     unordered_map<char, int> window;
     
     //store all the characters from the string T with their respective occurences as value to the key.
-    for(int i = 0; i < T.length(); i++){
+    for(int i = 0; i < T.length(); i++)
         map[T[i]]++;
-    }
+    
     
     int minLength = INT_MAX; //to keep track of the minimum length of the substring
     int letterCounter = 0; //this is incremented every time a match is found in string S when compared to T
