@@ -1,0 +1,18 @@
+
+#Print the most common integer in a list. If there are two, print the first.
+int func(vector < int > items) {
+    map<int, int> m;
+    int currentMax;
+    int maxCount = INT_MIN;
+    for(int i=0;i<items.size();i++){
+        int updated = m[items[i]]++;          
+        updated++; 
+        if (updated > maxCount) {
+             maxCount = updated;
+        }
+    }
+    if(m.find(maxCount) != m.end()){
+	currentMax = items[i];
+    }
+    return currentMax;
+}
