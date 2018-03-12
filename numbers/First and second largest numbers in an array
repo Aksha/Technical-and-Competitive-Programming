@@ -1,0 +1,60 @@
+#given a vector of numbers, print the first and second largest numbers. Print distinct number, ignoring the duplicates.
+i/p: (1,2,3,3) should print 
+O/P: 3
+        2
+
+void func(vector < int > items) {
+    if(items.size() == 0){
+        return;
+    }
+    if(items.size() ==  1){
+        cout << items[0] << "\n" << "?" << endl;
+        return;
+    }        
+    vector<int>::iterator first_max = max_element(items.begin(), items.end());
+    int max = *first_max;
+    
+    cout << max <<endl;
+    vector <int> result;
+    for(int i = 0; i < items.size() -1 ; i++){
+        if(items[i] != max){
+            result.push_back(items[i]);
+        }
+    }
+    vector<int>::iterator second_max = max_element(result.begin(), result.end());
+    Cout max << “\n << *second_max <<endl;
+}
+
+Another way:
+void func(vector < int > items) {
+    if(items.size() == 0){
+        return;
+    }
+    if(items.size() ==  1){
+        cout << items[0] << "\n" << "?" << endl;
+        return;
+    }        
+    sort(items.begin(), items.end());
+    Int firstMax = items.pop_back();
+    for(auto i = 0; i != items.size(); i++){
+       if( *i != firstMax) {
+	result.push_back(*i);
+       }
+  Int secondMax = result.pop_back();
+  Cout << firstMax << “\n” << secondMax <<endl;
+    }
+   }
+
+void func(vector < int > items) {
+    if(items.size() == 0){
+        return;
+    }
+    if(items.size() ==  1){
+        cout << items[0] << "\n" << "?" << endl;
+        return;
+    }        
+    sort(items.begin(), items.end());
+    Int firstMax = items.pop_back();
+    Int secondMax = items.pop_back();
+    cout << firstMax << “\n” << secondMax <<endl;
+}
