@@ -15,3 +15,34 @@ int maxPathSum(TreeNode* root) {
     maxPathSum_helper(root, maximum);
     return maximum;
 }
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int maxPathSum_helper(TreeNode* root, int& maximum){
+        if(root == NULL)
+            return 0;
+        int l = std::max(0, maxPathSum_helper(root->left, maximum));
+        int r = std::max(0, maxPathSum_helper(root->right, maximum));
+        if(maximum < root->val + l + r)
+            maximum = root->val + l + r;
+        return root->val += max(l, r);
+    }
+    
+    int maxPathSum(TreeNode* root) {
+        if(root == NULL)
+            return 0;
+        int maximum = INT_MIN;
+        maxPathSum_helper(root, maximum);
+        return maximum;
+    }
+};
