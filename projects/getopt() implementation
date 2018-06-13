@@ -1,30 +1,35 @@
-#include<stdio.h>
-#include<getopt.h>
-#include<stdlib.h>
 #include<unistd.h>
 int main (int argc, char **argv){
   if(argc < 3) {
-	fprintf(stderr, "Usage: Insufficient arguments");
+        fprintf(stderr, "Usage: Insufficient arguments");
   }
   int option;
   while((option = getopt(argc,argv,"cdf")) != -1){
-	switch(option) {
-		case 'c':
-			printf("c: %s", argv[optind]);
-			printf("\n");
-			break;
-		case 'd':
+        switch(option) {
+                case 'c':
+                        printf("c: %s", argv[optind]);
+                        printf("\n");
+                        break;
+                case 'd':
                         printf("d: %s", argv[optind]);
-			printf("\n");
+                        printf("\n");
                         break;
-		case 'f':
+                case 'f':
                         printf("F: %s",argv[optind]);
+                        printf("\n");
                         break;
-		default :
-			fprintf(stderr, "Usage: -%s optionalargument",argv[1], "\n");
-            		exit(EXIT_FAILURE);
-	}
+                default :
+                        fprintf(stderr, "Usage: -%s optionalargument",option);
+                        printf("\n");
+                        exit(EXIT_FAILURE);
+        }
   }
-
+  if (optind < argc) {
+        printf("\n");
+        printf("non-option ARGV-elements: ");
+        while (optind < argc)
+            printf("%s \n", argv[optind++]);
+        printf("\n");
+   }
   return 0;
 }
