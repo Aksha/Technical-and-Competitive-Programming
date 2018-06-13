@@ -30,10 +30,7 @@ Solution:
 
 int main(int argc, char **argv) {
    int c;
-   int digit_optind = 0;
-
    while (1) {
-        int this_option_optind = optind ? optind : 1;
         int option_index = 0;
         static struct option long_options[] = {
                 {"cargs",  required_argument, 0,  'c' },
@@ -84,3 +81,22 @@ int main(int argc, char **argv) {
      }
    return 0;
 }
+
+How to execute:
+g++ -c optargs.c
+g++ -c optargs_long.c
+g++ optargs.o -o optargs
+g++ optargs_long.o -o optargs_long
+
+Input:
+
+./optargs_long --cargs hi -c hello --fargs how -d are --dargs you
+
+
+Output: 
+
+cargs: hi
+cargs: hello
+fargs: how
+dargs: are
+dargs: you
