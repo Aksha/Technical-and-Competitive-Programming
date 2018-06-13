@@ -1,8 +1,9 @@
-output: optargs.o
+optargs: optargs.o optargs_long.o
         g++ optargs.o -o optargs
         g++ optargs_long.o -o optargs_long
-optargs.o: optargs.c
+optargs.o: optargs.c optargs_long.c
         g++ -c optargs.c
         g++ -c optargs_long.c
 clean:
-        rm *.o optargs
+        rm optargs.o optargs
+        rm optargs_long.o optargs_long
