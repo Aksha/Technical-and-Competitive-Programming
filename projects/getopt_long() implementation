@@ -7,55 +7,54 @@ int main(int argc, char **argv) {
    int digit_optind = 0;
 
    while (1) {
-	int this_option_optind = optind ? optind : 1;
+        int this_option_optind = optind ? optind : 1;
         int option_index = 0;
         static struct option long_options[] = {
-        	{"cargs",  required_argument, 0,  'c' },
+                {"cargs",  required_argument, 0,  'c' },
                 {"dargs",  required_argument, 0,  'd'},
                 {"fargs",  required_argument, 0,  'f'}
         };
 
-	c = getopt_long(argc, argv, "c:d:f:",long_options, &option_index);
+        c = getopt_long(argc, argv, "c:d:f:",long_options, &option_index);
 
         if (c == -1)
-        	 break;
+                 break;
         switch (c) {
-       		case 'c':
-			option_index = 0;
-                	printf("%s: ", long_options[option_index].name);
-                        if (optarg)
-                		printf("%s", optarg);
-                	printf("\n");
-                	break;
-		case 'd':
-			option_index = 1;
-			printf("%s: ", long_options[option_index].name);
-                        if (optarg)
-                        	printf("%s", optarg);
+                case 'c':
+                        option_index = 0;
+                        printf("%s: ", long_options[option_index].name);
+                        if (optarg)                                
+                                printf("%s", optarg);
                         printf("\n");
                         break;
-		case 'f':
-			option_index = 2;
-			printf("%s: ", long_options[option_index].name);
+                case 'd':
+                        option_index = 1;
+                        printf("%s: ", long_options[option_index].name);
                         if (optarg)
-                        	printf("%s", optarg);
+                                printf("%s", optarg);
                         printf("\n");
                         break;
-       		case '?':
-                	break;
+                case 'f':
+                        option_index = 2;
+                        printf("%s: ", long_options[option_index].name);
+                        if (optarg)
+                                printf("%s", optarg);
+                        printf("\n");
+                        break;
+                case '?':
+                        break;
                 default :
-                	fprintf(stderr, "Usage: -%s optionalargument",c);
-                	printf("\n");
-                	exit(EXIT_FAILURE);
-	}
+                        fprintf(stderr, "Usage: -%s optionalargument",c);
+                        printf("\n");
+                        exit(EXIT_FAILURE);
         }
+     }
+     if (optind < argc) {
+        printf("\n");
+        printf("non-option ARGV-elements: ");
+        while (optind < argc)
+                printf("%s \n", argv[optind++]);
+        printf("\n");
+     }
    return 0;
 }
-
-
-to execute do the following:
-
-[root@bb306 p003]# g++ -c optargs_long_copy.c
-[root@bb306 p003]# g++ optargs_long_copy.o -o optargs_long_copy
-[root@bb306 p003]# ./optargs_long_copy --cargs hi -c hello --fargs how
-[root@bb306 p003]# ./optargs_long_copy --cargs hi -c hello --fargs how -d are -dargs you
