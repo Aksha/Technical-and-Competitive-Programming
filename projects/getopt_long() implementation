@@ -1,3 +1,29 @@
+Assignment 3:
+In a Unix Programming environment, using C, write a program to implement getopt() and getopt_long() and let us call this program ‘showoptions.c’. If the option element is not found, return “unknown” with  a “usage” message.
+ 
+Input:
+-c one
+-d two
+-f three
+--carg four
+--darg five
+--farg six
+ 
+Output:
+#C:one
+D:two
+F:three
+ 
+## try accessing -X , return “unknown” and the usage message (how many command-line arguments there are, what each command-line argument represents, whether a given command-line argument is optional or not, any other information relating to the command-line arguments)
+###./showoptions -c blah bye
+Return c blah
+Bye is a free argument
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+Solution:
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
