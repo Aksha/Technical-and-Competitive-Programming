@@ -1,60 +1,38 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <getopt.h>
-
-int main(int argc, char **argv) {
-   int c;
-   int digit_optind = 0;
-
-   while (1) {
-        int this_option_optind = optind ? optind : 1;
-        int option_index = 0;
-        static struct option long_options[] = {
-                {"cargs",  required_argument, 0,  'c' },
-                {"dargs",  required_argument, 0,  'd'},
-                {"fargs",  required_argument, 0,  'f'}
-        };
-
-        c = getopt_long(argc, argv, "c:d:f:",long_options, &option_index);
-
-        if (c == -1)
-                 break;
-        switch (c) {
+#include<stdio.h>
+#include<getopt.h>
+#include<stdlib.h>
+#include<unistd.h>
+int main (int argc, char **argv){
+  if(argc < 3) {
+        fprintf(stderr, "Usage: Insufficient arguments");
+  }
+  int option;
+  while((option = getopt(argc,argv,"cdf")) != -1){
+        switch(option) {
                 case 'c':
-                        option_index = 0;
-                        printf("%s: ", long_options[option_index].name);
-                        if (optarg)                                
-                                printf("%s", optarg);
+                        printf("c: %s", argv[optind]);
                         printf("\n");
                         break;
                 case 'd':
-                        option_index = 1;
-                        printf("%s: ", long_options[option_index].name);
-                        if (optarg)
-                                printf("%s", optarg);
+                        printf("d: %s", argv[optind]);
                         printf("\n");
                         break;
                 case 'f':
-                        option_index = 2;
-                        printf("%s: ", long_options[option_index].name);
-                        if (optarg)
-                                printf("%s", optarg);
+                        printf("F: %s",argv[optind]);
                         printf("\n");
                         break;
-                case '?':
-                        break;
                 default :
-                        fprintf(stderr, "Usage: -%s optionalargument",c);
+                        fprintf(stderr, "Usage: -%s optionalargument",option);
                         printf("\n");
                         exit(EXIT_FAILURE);
         }
-     }
-     if (optind < argc) {
+  }
+  if (optind < argc) {
         printf("\n");
         printf("non-option ARGV-elements: ");
         while (optind < argc)
-                printf("%s \n", argv[optind++]);
+            printf("%s \n", argv[optind++]);
         printf("\n");
-     }
-   return 0;
+        }
+  return 0;
 }
