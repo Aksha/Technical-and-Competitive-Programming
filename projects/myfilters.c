@@ -30,12 +30,11 @@
 #include <ctype.h>
 #include <sys/time.h>
 
-#define BUFFERSIZE 1000000
-#define MAXNUM 6
+#define BUFFERSIZE 10000
 
 
 char**
-custom_sort(char str[MAXNUM][BUFFERSIZE], int num) {
+custom_sort(char str[500][BUFFERSIZE], int num) {
     int round, r, i;
     char s[BUFFERSIZE];
     for (round = 0; round < num; round++) {
@@ -48,15 +47,16 @@ custom_sort(char str[MAXNUM][BUFFERSIZE], int num) {
                 }
         }
     }
+}
     
-    int
+int
 main(int argc, char** argv)
 {
         int c;
         char* action_variable = "";
         char* input_variable = "";
         char* output_variable = "";
-        char str[MAXNUM][BUFFERSIZE] = {};
+        char str[500][BUFFERSIZE] = {};
 
         while (1) {
                 int option_index = 0;
