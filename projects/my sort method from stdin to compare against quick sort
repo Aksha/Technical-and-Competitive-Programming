@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <sys/time.h>
+
+#define BUFFERSIZE 1000
+#define num 5
+
+char**
+custom_sort(char str[num][BUFFERSIZE]) {
+    int round, r, i;
+    char s[BUFFERSIZE];
+    for (round = 1; round <= num; round++) {
+        for (i = 0; i < num-1; i++) {
+        	r = strcmp(str[i], str[i+1]);
+        	if (r > 0) {
+        		strcpy(s,str[i]);
+        		strcpy(str[i],str[i+1]);
+        		strcpy(str[i+1],s);
+        	}
+        }
+    }
+
+    return str;
+}
+
+int
+main() {
+
+    struct timeval tv1, tv2;
+
+    char name[BUFFERSIZE];
+
+    int i,r,round;
+
+    printf ("enter the strings :");
+
+    char str[num][BUFFERSIZE];
+
+
+    for (i = 0; i < num; i++) {
+      	fgets(name,BUFFERSIZE,stdin);
+    	strcpy(str[i], name);
+     }
+
+     double start_time = gettimeofday(&tv1, NULL);
+
+     custom_sort(str);
+
+     double end_time = gettimeofday(&tv2, NULL);
+
+    for (i = 0; i < num; i++) {
+	    printf("The %d string is : %s \n", i+1, str[i]);
+    }
+
+     printf ("Total time = %f seconds\n",(double) (tv2.tv_usec - tv1.tv_usec) / 1000000 + (double) (tv2.tv_sec - tv1.tv_sec));
+     return(0);
+}
