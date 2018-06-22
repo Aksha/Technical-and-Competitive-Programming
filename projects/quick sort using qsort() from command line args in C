@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/time.h>
+
+static int
+cmpstringp(const void *p1, const void *p2)
+{
+	return strcmp(* (char * const *) p1, * (char * const *) p2);
+}
+
+int
+main(int argc, char *argv[])
+{
+           int j;
+
+           if (argc < 2) {
+            fprintf(stderr, "Usage: %s <string>...\n", argv[0]);
+            exit(EXIT_FAILURE);
+           }
+
+	   struct timeval tv1, tv2;
+
+	   double start_time = gettimeofday(&tv1, NULL);
+	   printf("%s", &argv[1]);
+	   qsort(&argv[1], argc - 1, sizeof(char *), cmpstringp);
+	   double end_time = gettimeofday(&tv2, NULL);
+           for (j = 1; j < argc; j++) {
+               puts(argv[j]);
+	   }
+	   printf ("Total time = %f seconds\n",(double) (tv2.tv_usec - tv1.tv_usec) / 1000000 + (double) (tv2.tv_sec - tv1.tv_sec));
+         exit(EXIT_SUCCESS);
+}
