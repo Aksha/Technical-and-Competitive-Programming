@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#define MAXNAMELEN 100
+#define MAXLINELEN 100
+#define MAXITEMS 100
+
+int main(int argc, char ** argv) {
+
+    FILE * infile, * outfile;
+    char name[MAXNAMELEN];
+    char line[MAXLINELEN];
+    char lines[MAXITEMS][MAXLINELEN];
+    int i, items = 0;
+
+    printf("Enter a source filename: ");
+    fgets(name, sizeof(name), stdin);
+    name[strlen(name)-1] = '\0'; // strip newline
+        infile = fopen(name, "r");
+    while (fgets(line, sizeof(line), infile)) {
+            strcpy(lines[items], line);
+            items++;
+    }
+
+    qsort(lines, items, MAXLINELEN, strcmp);
+
+    printf("Enter a destination filename: ");
+    fgets(name, sizeof(name), stdin);
+    name[strlen(name)-1] = '\0'; // strip newline
+    outfile = fopen(name, "w");
+    for (i=0; i<items; i++) {
+        fputs(lines[i], outfile);
+    }
+
+    fclose(infile);
+    fclose(outfile);
+}
