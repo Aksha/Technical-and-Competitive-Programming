@@ -1,1 +1,61 @@
 https://stackoverflow.com/questions/51006239/how-can-i-use-my-c-programs-binary-file-after-as-a-filter?noredirect=1#comment89012926_51006239
+
+
+
+
+I have written a program that reads in input from a file or stdin, sorts in and writes it to an output file or stdout. I want to be able to use the binary like all of the filter-like programs (grep, tr, sed).
+
+For example: I want to be able to type in something like, "cat myfile.txt | myfilter --action sort > myoutputfile" instead of cat myfile.txt | ./myfilter --action sort > myoutputfile.
+
+From the sound of it, you're on a linux machine, so I will use that for my answer
+
+First, you will want make a new folder:
+
+$ mkdir ~/bin
+
+After that, you will need to add the new folder to your path:
+
+$ nano ~/.bashrc
+# Add the following to the end of your ~/.bashrc file while using nano
+# or your text editor of choice:
+export PATH="/home/$USER/bin:$PATH"
+The next part can differ depending on how you want to do it. Since its your own personal binary, it might just be easier to add the binary into the folder. Otherwise, you could create a symlink to the file.
+
+To create a symlink:
+
+$ ln -sf ~/path/to/filter ~/bin/filter
+To move the file into the bin folder
+
+$ mv ~/path/to/filter ~/bin
+Finally, after you've chosen the method (and the executable is somehow accessible from the ~/bin/ folder, run the following command:
+
+Please note, source is only to refresh your current terminal session, you should not have to do this again
+
+$ source ~/.bashrc
+
+It looks like you're using some kind of *nix system. So what you need to do is to put the binary in a directory that exists in your PATH environment variable. On my system it looks like this:
+
+$ echo $PATH
+/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+So either put the binary in one of those, or add an extra directory to PATH
+
+Assuming a Linux system (might work on BSD or Mac too) you edit the file ~/.bashrc and add the line export PATH="<your/custom/path>:$PATH". Note that editing .bashrc this file will only do this for the current user.
+
+If you want the particular executable available for all users, then instead of creating a bin directory in your home directory, add it in /usr. For example mkdir /usr/mybin and edit /etc/profile instead of ~/.bashrc. My file has these lines:
+
+if [ "`id -u`" -eq 0 ]; then
+  PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+else
+  PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games"
+fi
+export PATH
+Add the line PATH="/usr/mybin:$PATH" so you get:
+
+if [ "`id -u`" -eq 0 ]; then
+  PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+else
+  PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games"
+fi
+PATH="/usr/mybin:$PATH
+export PATH
+With this method you will make /usr/mybin appear in all users paths. Make sure that the directory and executable has correct permissions. Use the command chmod 755 /usr/mybin and chmod 755 /usr/mybin/filter. An alternative is to put the file in a directory that is already in the path, like /usr/bin. But you still need to make sure it has 755 permissions.
