@@ -190,3 +190,22 @@ main (int argc, char** argv)
 	writeOutput(output_variable);
 	return 0;
 }
+
+
+
+Makefile: 
+
+myfilter_field_faster: myfilter_field_faster.o
+	g++ myfilter_field_faster.o -o myfilter_field_faster
+
+myfilter_field_faster.o: myfilter_field_faster.cpp
+	g++ -c myfilter_field_faster.cpp
+
+clean:
+	rm myfilter_field_faster.o myfilter_field_faster
+	
+Command to execute the binary: 
+./myfilter_new --input Schools.csv --action sort --output output.txt -s , -f 3
+
+	
+	
