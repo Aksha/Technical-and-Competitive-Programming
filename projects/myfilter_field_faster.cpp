@@ -22,8 +22,6 @@ struct SortNode{
 vector <SortNode> str;
 vector <SortNode> custom_str;
 
-int items = 0;
-
 bool 
 acompare(const SortNode &a, const SortNode &b)
 {
@@ -31,14 +29,14 @@ acompare(const SortNode &a, const SortNode &b)
 }
 
 void
-custom_sort (vector <SortNode> str, int num)
+custom_sort ()
 {
-    int round, r, i;
-    for (round = 0; round < num; round++) {
-        for (i = 0; i < num-1; i++) {
-                r = str[i].field.compare(str[i+1].field);
+    int num = custom_str.size();
+    for (int round = 0; round < num; round++) {
+        for (int i = 0; i < num-1; i++) {
+                int r = custom_str[i].field.compare(custom_str[i+1].field);
                 if (r > 0) {
-                	swap(str[i], str[i+1]);
+                	swap(custom_str[i], custom_str[i+1]);
 		}
         }
     }
@@ -60,8 +58,7 @@ getField (string input_str, char ch, int fieldNum)
                 }
         }
         field = input.back();
-        //cout << "Hey this is the field : " << field << endl;
-           return field;
+        return field;
 }
 
 void
@@ -70,18 +67,19 @@ getInput(char ch, string input, int field_variable)
 	string name = "";
 	ifstream myfile;
 	myfile.open(input.c_str());
+	//where is the memory coming from..
 	if (myfile.is_open()) {
 		while (getline (myfile,name)) {
+			//constructors and operators / assignment operator
 			SortNode snode;
 			snode.field = getField(name,ch,field_variable);
 			snode.sentence = name;
 			str.push_back(snode);
 			custom_str.push_back(snode);
-			//cout << "testing " << str.back().field << " sentence : " << str.back().sentence << endl;
-			items++;
 		}
 		myfile.close();
 	}
+	//stdin .. look into it.
 	else {
 		cout << "Not a file or unable to open a file. Enter values in the standard input" << endl;
 		while (getline(cin,name)) {
@@ -89,17 +87,18 @@ getInput(char ch, string input, int field_variable)
 			snode.field = getField (name, ch, field_variable);
 			snode.sentence = name;
 			str.push_back(snode);
-			items++;
+			custom_str.push_back(snode);
 		}
 	}
 }
 
 void writeOutput (string output) {
+	int items = str.size();
 	ofstream outputfile;
 	outputfile.open(output.c_str());
 	if (outputfile.is_open()) { 
 		for (int i = 0; i < items; i++) { 
-			outputfile << "The selected field is : " << str[i].field << " Sentence is :" << str[i].sentence << endl;
+			outputfile << "The selected field is : " << custom_str[i].field << " Sentence is :" << custom_str[i].sentence << endl;
 		}	
 	outputfile.close();   
 	}
@@ -114,9 +113,8 @@ int
 main (int argc, char** argv) 
 {
 	int c;
-        int items = 0;
-        string action_variable = "";
-        string input_variable = "";
+	string action_variable = "";
+	string input_variable = "";
         string output_variable = "";
         string separation_variable = "";
         int field_variable = 0;
@@ -170,12 +168,10 @@ main (int argc, char** argv)
 
 	//Sort the input
 	struct timeval tv1, tv2;
-
 	//my sorting routine
 	double start_time = gettimeofday(&tv1, NULL);
-	custom_sort(custom_str,items);
+	custom_sort();
 	double end_time = gettimeofday(&tv2, NULL);
-
 	printf ("Total time to read, sort and display from standard input using my sorting routine = %f seconds\n",(double) (tv2.tv_usec - tv1.tv_usec) / 1000000 + (double) (tv2.tv_sec - tv1.tv_sec));
 	
 	//sort method
@@ -185,27 +181,7 @@ main (int argc, char** argv)
 	double q_end_time = gettimeofday(&qtv2, NULL);
 	printf ("Total time to read, sort and display from standard input using my sorting routine = %f seconds\n",(double) (qtv2.tv_usec - qtv1.tv_usec) / 1000000 + (double) (qtv2.tv_sec - qtv1.tv_sec));
 	
-
 	//Write the output to stdin/file
 	writeOutput(output_variable);
 	return 0;
 }
-
-
-
-Makefile: 
-
-myfilter_field_faster: myfilter_field_faster.o
-	g++ myfilter_field_faster.o -o myfilter_field_faster
-
-myfilter_field_faster.o: myfilter_field_faster.cpp
-	g++ -c myfilter_field_faster.cpp
-
-clean:
-	rm myfilter_field_faster.o myfilter_field_faster
-	
-Command to execute the binary: 
-./myfilter_new --input Schools.csv --action sort --output output.txt -s , -f 3
-
-	
-	
