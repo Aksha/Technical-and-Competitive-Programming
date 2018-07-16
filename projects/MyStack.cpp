@@ -16,6 +16,7 @@ struct MyStack {
 	MyStack* prev;
 	MyStack () {}
 	MyStack(void* val) : data(val), next(nullptr), prev(nullptr) {}
+	~MyStack() {}
 	MyStack* newNode();
 	MyStack* newNode(void*);
 	void push(void*);
