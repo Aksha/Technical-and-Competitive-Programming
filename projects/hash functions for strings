@@ -1,0 +1,41 @@
+int hash (string word)
+{
+  int seed = 131;
+  unsigned long hash = 0;
+  for(int i = 0; i < word.length(); i++)
+  {
+       hash = (hash * seed) + word[i];
+  }
+ return hash % TABLE_SIZE;
+}
+
+
+int hash (string word)
+{
+int seed = 131;
+unsigned long hash = 0;
+for(int i = 0; i < word.length(); i++)
+{
+hash = (hash * seed) + word[i];
+}
+return hash % TABLE_SIZE;
+}
+
+
+#include <iostream>
+#include <string>
+#include <iomanip>
+#include <functional>
+#include <unordered_set>
+
+int
+main()
+{
+        std::string a = "ABCDE";
+        std::size_t b = std::hash<std::string>{}(a); 
+        std::cout << b << std::endl; //b is 2786778698987242956. Hash Function could be b%TABLE_SIZE
+}
+
+
+
+use MD5 sum. 
