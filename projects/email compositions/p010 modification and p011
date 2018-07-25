@@ -1,0 +1,53 @@
+My inference after pondering/reading on the concepts based on the questions raised by you”
+
+1)	The new operator terminates after throwing an instance of bad_alloc() exception.
+
+2)	About memory management and allocation:
+1ULL << 34 is 16 billion. Multiply that by 4 or 8 (the size of pointers on 32 and 64 bit systems respectively) and you have the number of bytes needed. Does the system have that amount of memory? as a single contiguous block? There is no work around for a physical limitation of the system. I would like to learn more about freeing up existing unused memory. 
+
+3)	Fixed the other issues.
+
+Next task items: 
+Tasks 1: 
+
+1.	Insert 2^30 elements 
+2.	Perform 2^20 lookups
+3.	Note the time taken for both operations.
+
+Task 2: Get the hashmap to function like a database..
+1.	Change insert() method to accept the following:
+typedef struct record {
+	char key[1024];
+	int value1;
+	int value2;
+} record_t;
+
+record_t r;
+
+For instance the function definition of “insert” would like something like this:
+insert(char* key, &r, sizeof(record_t));
+
+void
+test(Myhash* h) {
+	record_t y;
+	strcpy (y.key, “some key name”);
+	y.value1 = 1;
+	y.value2 = 2;
+
+	try 
+{
+	h->insert(y.key, &y, sizeof(record_t);
+}
+catch (exception &e) {
+	cout << “Bad things happened: ” << e.what() << endl;
+}
+}
+
+void
+another_function() 
+{
+	test(hash);
+}
+
+
+
