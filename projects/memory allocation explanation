@@ -1,8 +1,5 @@
-Ask Question
-up vote
--2
-down vote
-favorite
+How can I handle memory allocation errors in the following code?
+
 const unsigned long long TABLE_SIZE = (1ULL << 34);
 
 class HashMap {
