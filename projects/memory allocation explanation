@@ -44,4 +44,17 @@ As for possible way to solve your problem, the first and most obvious would be t
 @JesperJuhl: I was expecting an answer more in terms of being able to free up existing unused memory. – Akshaya 9 mins ago   
 @Akshaya First, you are almost certainly asking for too much memory, both in terms of design (what you are trying to accomplish) and in terms of what's available. Second, in properly designed software, memory is freed when it's no longer needed. If your solution fails to free enough memory that recovering it would allow your attempted hash map to work, then your hash map should not be anywhere near your top concern right now. – François Andrieux 7 mins ago 
 1
-@Akshaya freeing memory isn't the issue. And it certainly won't solve your problem. You're asking for 64, or 128 (depending on your pointer size) gigabytes of contiguous memory. I have to ask. What algorithm on earth requires an initial bucket count in a hash table of 17179869184 slots? Fyi, if your pointer size if 4 bytes due to a 32bit platform, this absolutely cannot work, as you will be limited to at most 4GB of addressable memory (and far less than that on platforms like Windows). I suspect an XY problem, to be honest. – WhozCraig 6 mins ago 
+@Akshaya freeing memory isn't the issue. And it certainly won't solve your problem. You're asking for 64, or 128 (depending on your pointer size) gigabytes of contiguous memory. I have to ask. What algorithm on earth requires an initial bucket count in a hash table of 17179869184 slots? Fyi, if your pointer size if 4 bytes due to a 32bit platform, this absolutely cannot work, as you will be limited to at most 4GB of addressable memory (and far less than that on platforms like Windows). I suspect an XY problem, to be honest. – WhozCraig 6 mins ago
+
+It seems unlikely that TABLE_SIZE fits in int, so for (int i = 0; i < TABLE_SIZE; i++) is likely undefined behavior. – François Andrieux 6 mins ago
+If you want to implement your own HashTable, do something like existing classes does. Initialize with something lower like 16 in Java and keep growing whenever it gets filled. – Shashwat Kumar 3 mins ago
+add a comment
+1 Answer
+active oldest votes
+up vote
+2
+down vote
+unaccept
+Depending on the size of a pointer, your first block of code is requesting 128 gigabytes of contiguous memory (I am assuming 64-bit addresses, because you cannot even address that many bytes in a 32-bit address space). This is a certain way to run your system out of memory even before you start allocating HashEntry objects themselves!
+
+Fortunately, hash tables commonly require a lot fewer buckets than that: hash code gets translated to the actual range of valid bucket indexes with modulo % operator, and then a collision resolution algorithm is used to deal with multiple hash values being "mapped" to the same bucket. This approach lets you "fold" a large space of possible hash values onto a much smaller space of valid hash indexes.
