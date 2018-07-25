@@ -1,0 +1,47 @@
+Ask Question
+up vote
+-2
+down vote
+favorite
+const unsigned long long TABLE_SIZE = (1ULL << 34);
+
+class HashMap {
+private:
+      HashEntry** table;
+public:
+      HashMap() {
+            table = new HashEntry*[TABLE_SIZE]; 
+            for (int i = 0; i < TABLE_SIZE; i++)
+                  table[i] = NULL;
+      }
+};
+The above code on compilation throws the following exception: "terminate called after throwing an instance of 'std::bad_alloc' what(): std::bad_alloc" whereas the code below throws no errors or warnings and compiles properly.
+
+const unsigned long long TABLE_SIZE = 65536;
+
+class HashMap {
+private:
+      HashEntry** table;
+public:
+      HashMap() {
+            table = new HashEntry*[TABLE_SIZE]; 
+            for (int i = 0; i < TABLE_SIZE; i++)
+                  table[i] = NULL;
+      }
+};
+I believe the "bad_alloc" exception is being thrown because the system ran out of memory. I would like to know how to get around this problem to get this code to work.
+
+c++ memory-management
+
+
+
+"how to get around this problem" - Buy more memory. – Jesper Juhl 13 mins ago
+2
+1ULL << 34 is 16 billion. Multiply that by 4 or 8 (the size of pointers on 32 and 64 bit systems respectively) and you have the number of bytes needed. Do you have that amount of memory? In a single contiguous block? – Some programmer dude 12 mins ago 
+1
+As for possible way to solve your problem, the first and most obvious would be to use std::unordered_map instead of implementing your own hash-map. – Some programmer dude 11 mins ago
+1
+@JesperJuhl: I was expecting an answer more in terms of being able to free up existing unused memory. – Akshaya 9 mins ago   
+@Akshaya First, you are almost certainly asking for too much memory, both in terms of design (what you are trying to accomplish) and in terms of what's available. Second, in properly designed software, memory is freed when it's no longer needed. If your solution fails to free enough memory that recovering it would allow your attempted hash map to work, then your hash map should not be anywhere near your top concern right now. – François Andrieux 7 mins ago 
+1
+@Akshaya freeing memory isn't the issue. And it certainly won't solve your problem. You're asking for 64, or 128 (depending on your pointer size) gigabytes of contiguous memory. I have to ask. What algorithm on earth requires an initial bucket count in a hash table of 17179869184 slots? Fyi, if your pointer size if 4 bytes due to a 32bit platform, this absolutely cannot work, as you will be limited to at most 4GB of addressable memory (and far less than that on platforms like Windows). I suspect an XY problem, to be honest. – WhozCraig 6 mins ago 
