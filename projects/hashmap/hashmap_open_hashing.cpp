@@ -1,97 +1,125 @@
 #include <iostream>
 #include <cstdlib>
 #include <string>
+#include <new>
+#define A 54059 /* prime */
+#define B 76963 /* prime */
+#define C 86969 /* prime */
+#define first 37 /* prime */
 
-class LinkedHashEntry {
+class HashEntry {
 private:
       std::string key;
       int value;
-      LinkedHashEntry *next;
+      HashEntry* next;
 public:
-      LinkedHashEntry(std::string key, int value) {
+      HashEntry(std::string key, int value) {
             this->key = key;
             this->value = value;
             this->next = NULL;
       }
- 
-      std::string getKey() {
+
+      std::string
+       getKey() {
             return key;
       }
- 
-      int getValue() {
+
+      int
+      getValue() {
             return value;
       }
- 
-      void setValue(int value) {
+
+      void
+       setValue(int value) {
             this->value = value;
       }
- 
-      LinkedHashEntry *getNext() {
+
+      HashEntry*
+      getNext() {
             return next;
       }
- 
-      void setNext(LinkedHashEntry *next) {
+
+      void
+      setNext(HashEntry *next) {
             this->next = next;
       }
 };
 
-const int TABLE_SIZE = 128;
+//const unsigned long long TABLE_SIZE = (1ULL << 34);
+const unsigned long long TABLE_SIZE = 1073741824;
 
 class HashMap {
 private:
-      LinkedHashEntry **table;
+      HashEntry** table;
 public:
+
       HashMap() {
-            table = new LinkedHashEntry*[TABLE_SIZE];
-            for (int i = 0; i < TABLE_SIZE; i++)
+          try {
+                table = new HashEntry*[TABLE_SIZE];
+           } catch (const std::bad_alloc& e) {
+                std::cout << "Out of memory: " << e.what() << std::endl;
+                exit(1);
+           }
+            for (unsigned long long i = 0; i < TABLE_SIZE; i++)
                   table[i] = NULL;
       }
- 
+
+        unsigned long long hashFunction(std::string s)
+        {
+                unsigned long long h = first;
+                int i = 0;
+                int length = s.size();
+                while (i < length) {
+                        h = (h * A) ^ (s[i] * B);
+                        i++;
+                }
+                return h % TABLE_SIZE;
+        }
+
       int find(std::string key) {
-	    int index = 0;
-	    int length = key.size();
-	    for (int i = 0; i < length; i++) {
-		index += key[i];
-	    }		
-            int hash = (index % TABLE_SIZE);
+	      unsigned long long hash = hashFunction(key);
             if (table[hash] == NULL)
                   return -1;
             else {
-                  LinkedHashEntry *entry = table[hash];
+                  HashEntry *entry = table[hash];
                   while (entry != NULL && entry->getKey() != key)
                         entry = entry->getNext();
-                  if (entry == NULL)
-                        return -1;
-                  else
-                        return entry->getValue();
+                  try {
+                        if (entry != NULL) {
+                                return entry->getValue();
+                        }
+                  }
+                  catch (std::exception& e) {
+                       std::cout << "bad things happened" << e.what() << std::endl;
+                       exit(1);
+                  }
             }
       }
- 
+
       void insert(std::string key, int value) {
-	    int index = 0;
-            int length = key.size();
-            for (int i = 0; i < length; i++) {
-                index += key[i];
+            unsigned long long hash = hashFunction(key);
+            if (table[hash] == NULL) {
+                  table[hash] = new HashEntry(key, value);
             }
-            int hash = (index % TABLE_SIZE);
-            if (table[hash] == NULL)
-                  table[hash] = new LinkedHashEntry(key, value);
             else {
-                  LinkedHashEntry *entry = table[hash];
-                  while (entry->getNext() != NULL)
-                        entry = entry->getNext();
-                  if (entry->getKey() == key)
+                  HashEntry *entry = table[hash];
+                  while (entry->getNext() != NULL) {
+                        entry = entry->getNext(); //make it constant time
+                  }
+                  if (entry->getKey() == key) {//what if the key is not present towards the end. fix this!!!
                         entry->setValue(value);
-                  else
-                        entry->setNext(new LinkedHashEntry(key, value));
+                  }
+                  else {
+                        entry->setNext(new HashEntry(key, value));
+                  }
             }
       }
-	
+
       ~HashMap() {
             for (int i = 0; i < TABLE_SIZE; i++)
                   if (table[i] != NULL) {
-                        LinkedHashEntry *prevEntry = NULL;
-                        LinkedHashEntry *entry = table[i];
+                        HashEntry *prevEntry = NULL;
+                        HashEntry *entry = table[i];
                         while (entry != NULL) {
                              prevEntry = entry;
                              entry = entry->getNext();
@@ -104,28 +132,37 @@ public:
 };
 
 void just_example() {
-	HashMap* myhash = new HashMap();
-	try {
-		int v2 = 3;
-                std::string key1 = "hello there";
-                myhash->insert(key1,v2);
-	} catch (std::exception& e) {
-		std::cout << "bad things happened" << e.what() << std::endl;
-		exit(1);
-	}
+        HashMap* myhash = new HashMap();
+        try {
+                int length = 1073741824;
+                int start_i = clock();
+                for (int i = 0; i < length; i++) {
+                        myhash->insert(std::to_string(i), i);
+                }
+                int end_i = clock();
+                std::cout << " The time taken to insert 2^30 elements is: " << (end_i - start_i)/double(CLOCKS_PER_SEC)*1000 << std::endl;
+        } catch (std::exception& e) {
+                std::cout << "bad things happened" << e.what() << std::endl;
+                exit(1);
+        }
 
-	try {
-		int value = myhash->find("hello there");
-		std::cout << "The value is: " << value << std::endl;
-	} catch (std::exception& e) {
-		std::cout << "Bad things happened!! " << e.what() << std::endl;
-		exit(1);
-	}
-	delete myhash;
+        try {
+                int lengthFind = 1048576;
+                int start_f = clock();
+                for (int i = 0; i < lengthFind; i++) {
+                        int output = myhash->find(std::to_string(i));
+                }
+                int end_f = clock();
+		std::cout << " The time taken to find 2^20 elements is: " << (end_f - start_f)/double(CLOCKS_PER_SEC)*1000 << std::endl;
+        } catch (std::exception& e) {
+                std::cout << "Bad things happened!! " << e.what() << std::endl;
+                exit(1);
+        }
+        delete myhash;
 }
 
-int 
+int
 main() {
-	just_example();
-	return 0;
+        just_example();
+        return 0;
 }
