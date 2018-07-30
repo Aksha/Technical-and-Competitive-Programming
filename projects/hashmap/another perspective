@@ -15,7 +15,7 @@ const int TABLE_SIZE = 128;
 class HashNode
 {
     public:
-   .    int key;
+        int key;
 	int value;
 	HashNode* next;
         HashNode(int key, int value)
