@@ -1,0 +1,49 @@
+Next task items:
+ 
+Tasks 1:
+ 
+1.      Insert 2^30 elements
+2.      Perform 2^20 lookups
+3.      Note the time taken for both operations.
+ 
+Task 2:
+ 
+Get the hashmap to behave and function like a database..
+ 
+Change insert() method to accept the following:
+typedef struct record {
+                char key[1024];
+                int value1;
+                int value2;
+} record_t;
+ 
+record_t r;
+ 
+For instance the function definition of “insert” would like something like this:
+insert(char* key, &r, sizeof(record_t));
+ 
+void
+test(Myhash* h) {
+                record_t y;
+                strcpy (y.key, “some key name”);
+                y.value1 = 1;
+                y.value2 = 2;
+ 
+                try
+{
+                h->insert(y.key, &y, sizeof(record_t);
+}
+catch (exception &e)
+{
+                cout << “Bad things happened: ” << e.what() << endl;
+}
+}
+ 
+void
+another_function()
+{
+                test(hash);
+}
+
+
+================================================================================
