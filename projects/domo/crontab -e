@@ -1,0 +1,4 @@
+0 0 * * WED  env > ~/cronenv
+0 0  * * WED /usr/local/rvm/bin/rvm-shell -c 'ruby /root/Domo/alarms_elasticsearch.rb'
+0 0  * * WED /usr/local/rvm/bin/rvm-shell -c 'ruby /root/Domo/tasks_throughput_influxdb.rb'
+0 0  * * TUE /usr/local/rvm/bin/rvm-shell -c 'ruby /root/Domo/auto_delete.rb'
