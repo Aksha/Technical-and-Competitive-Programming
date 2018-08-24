@@ -1,0 +1,171 @@
+{
+  "definitions": {
+    "influx":{
+      "type": "object",
+      "required": ["format","table","column"],
+      "properties": {
+        "format": {"type": "string", "enum": ["influx"]},
+        "table": {"type": "string"},
+        "column": {"type": "string"}
+      }
+    },
+    "json":{
+      "type": "object",
+      "required": ["format"],
+      "properties": {
+        "format": {"type": "string", "enum": ["json"]}
+      }
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "node_id": {"type": "string"},
+        "type": {"type": "string", "enum":["output"]},
+        "name": {"type": "string"},
+        "destination": {
+          "type": "object",
+          "required": ["data"],
+          "properties":{
+            "data":{
+              "type": "object",
+              "oneOf":[
+                {
+                  "$ref": "#/definitions/influx"
+                },
+                {
+                  "$ref": "#/definitions/json"
+                }
+              ]
+            },
+            "topic": {"type": "string"},
+            "preset": {"type": "string"},
+            "seed_brokers": {"type": "string"}
+          }
+        },
+        "children": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems":0
+        }
+      }
+    },
+    "aggregation": {
+      "type": "object",
+      "required": ["selected_fields","aggr_type"],
+      "properties": {
+        "node_id": {"type": "string"},
+        "type": {"type": "string", "enum":["aggregation"]},
+        "name": {"type": "string"},
+        "aggr_type": {"type": "string", "enum":["count","sum","avg","min","max"]},
+        "selected_fields": {"type": "array", "items": {"type": "string"}},
+        "group_by": {"type": "array", "items": {"type": "string"}},
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties":{
+              "column": {"type": "string"},
+              "value": {"type": "string"}
+            }
+          }
+        },
+        "extra": {
+          "type": "object",
+          "required": ["alarm_info","window_enabled","aggr_name","aggr_type","window_size"],
+          "properties": {
+            "aggr_name": {"type": "string"},
+            "aggr_type": {"type": "string", "enum":["count","sum","avg","min","max"]},
+            "window_size": {"type": "integer", "minimum": 1, "maximum": 86400},
+            "window_enabled": {"type": "boolean"},
+            "alarm_info": {
+              "type": "object",
+              "required":["enabled"],
+              "properties": {
+                "enabled": {"type": "boolean"},
+                "operator": {"type": "string", "enum":[">","<",">=","<=","==","!="]},
+                "delivery": {
+                  "type": "array",
+                  "items":{
+                    "type": "object",
+                    "properties": {
+                      "type": {"type": "string", "enum": ["shuttleio"]},
+                      "args": {
+                        "type": "object",
+                        "properties": {
+                          "environment": {"type": "string", "enum":["production","staging"]},
+                          "message": {"type": "string"},
+                          "scope_token": {"type": "string"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "children": {
+          "type": "array",
+          "items" : {
+            "$ref": "#/definitions/output"
+          }
+        }
+      }
+    },
+    "projection": {
+      "type": "object",
+      "properties": {
+        "node_id": {"type": "string"},
+        "type": {"type": "string", "enum":["projection"]},
+        "name": {"type": "string"},
+        "fields_to_project": {"type": "array", "items": {"type": "string"}},
+        "mode": {"type": "string"},
+        "projection_query": {"type": "string"},
+        "children": {
+          "type": "array",
+          "items" : {
+            "$ref": "#/definitions/output"
+          }
+        }
+      }
+    },
+    "filter":{
+      "type": "object",
+      "properties": {
+        "node_id": {"type": "string"},
+        "type": {"type": "string", "enum":["filter"]},
+        "name": {"type": "string"},
+        "automatic_vars": {"type": ["array","null"], "items":{"type": "string"}},
+        "query": {"type": "string"},
+        "children": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/aggregation"
+              },
+              {
+                "$ref": "#/definitions/filter"
+              },
+              {
+                "$ref": "#/definitions/projection"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "type": "object",
+  "properties": {
+    "node_id": {"type": "string"},
+    "type": {"type": "string", "enum":["start"]},
+    "name": {"type": "string"},
+    "children": {
+      "type": "array",
+      "items" : {
+        "$ref": "#/definitions/filter"
+      }
+    }
+  }
+}
