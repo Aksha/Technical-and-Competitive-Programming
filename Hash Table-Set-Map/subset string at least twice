@@ -1,0 +1,81 @@
+Leetcode problem: 187. Repeated DNA Sequences
+https://leetcode.com/problems/repeated-dna-sequences/description/ 
+
+We have a string s  -- uses only characters from the set {'a', 'b', 'c', 'd'}.
+We have an integer k > 0.
+
+Goal: Find all strings of length k that occur as substrings of s at least twice.
+
+Example:
+  
+    k = 3,    s = "aabaacdbcaaba"
+
+Answer: [aab, aba]
+
+Hashmap :
+[[aab, 2], [aba,2], [baa,1], [aac,1],[acd,1], [cdb,1], [dbc,1],[caa,1]]
+A - 0  --   00     aab: 000001
+B - 1  --   01     ccd: 101011
+C - 2  --   10
+D - 3       11
+[[001,2] [010,2],[100,1],[002,1]]
+
+int mask = 111111
+int val = 0
+for (char c : temp) {
+   val = ( (val << 2) | f(c) ) & mask
+
+aab --   val = 000001
+
+     000100 | 000010 = 000110
+     
+     (val << 2) | f(c)
+
+Pseudo Code:
+Check if the given string is empty
+Check if the string is less than or equal to k
+Create a hashmap
+Go over the string, one character at at time. O(nk) - time complexity. If a match is found, store the substring as a key and increment its count by 1
+Have a result vector that stores substrings that occur at least twice.
+
+Code:
+
+vector<string> substringMatch (string s, int k) {
+	set <string> result;
+	if (s.size() == 0 || s.size() <= k) {
+		return result;
+}
+unordered_map <string,int> buffer;
+ 	for (int i = 0; i < s.size()-k; i++) {
+			string_view temp = s.substr(i,i+k);
+			If (buffer.find(temp) != buffer.end()) {
+				if(buffer[temp]->second >= 2) {
+	result.insert(temp);
+	break;
+} 
+				buffer[temp]++;
+}
+else {
+	buffer.insert(make_pair(temp, 1));
+}
+}
+return result;
+}
+
+
+
+b c b 
+1 2 1
+Aab
+001
+Aba
+010
+001
+
+Cc
+
+Feedback:
+Communication 
+step through each line by myself
+
+
