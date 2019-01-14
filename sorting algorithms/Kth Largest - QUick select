@@ -51,3 +51,23 @@ void swap(int[] A, int i, int j) {
 	A[i] = A[j];
 	A[j] = tmp;				
 }
+
+Neat Solution: 
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        return helper(nums, 0, nums.length - 1, nums.length - k);
+    }
+    private int helper(int[] A, int left, int right, int k) {
+        int l = left, r = right;
+        int pivot = A[left];
+        while (left < right) {
+            while (left < right && A[right] >= pivot) right--;
+            A[left] = A[right];
+            while (left < right && A[left] <= pivot) left++;
+            A[right] = A[left];
+        }
+        if (left == k) return pivot;
+        else if (left < k) return helper(A, left+1, r, k);
+        else return helper(A, l, right-1, k);
+    }
+}
