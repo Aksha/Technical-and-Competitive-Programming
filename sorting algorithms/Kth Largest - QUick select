@@ -53,6 +53,21 @@ void swap(int[] A, int i, int j) {
 }
 
 Neat Solution: 
+
+Time Complexity = O(n)
+Space Complexity = O(1)
+Discard half each time: n+(n/2)+(n/4)..1 = n + (n-1) = O(2n-1) = O(n), because n/2+n/4+n/8+..1=n-1.
+
+The basic idea is to use Quick Select algorithm to partition the array with pivot:
+
+Put numbers < pivot to pivot's left
+Put numbers > pivot to pivot's right
+Then
+
+if indexOfPivot == k, return A[k]
+else if indexOfPivot < k, keep checking left part to pivot
+else if indexOfPivot > k, keep checking right part to pivot
+
 class Solution {
     public int findKthLargest(int[] nums, int k) {
         return helper(nums, 0, nums.length - 1, nums.length - k);
