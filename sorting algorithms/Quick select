@@ -1,21 +1,4 @@
-https://gist.github.com/unnikked/14c19ba13f6a4bfd00a3
 
-Skip to content
- 
-Search…
-All gists
-GitHub
-New gist
-@Aksha 
-  Star 10
-  Fork 2
-@unnikkedunnikked/QuickSelect.java
-Created 2 years ago • 
-Report gist
-Embed  
-<script src="https://gist.github.com/unnikked/14c19ba13f6a4bfd00a3.js"></script>
-  Download ZIP
- Code  Revisions 1  Stars 10  Forks 2
 A basic implementation of quickselect algorithm in Java. Intentionally unused generics.
 Raw
  QuickSelect.java
