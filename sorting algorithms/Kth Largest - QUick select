@@ -20,7 +20,8 @@ Time complexity = O(n)
 
 Discard half each time: n+(n/2)+(n/4)..1 = n + (n-1) = O(2n-1) = O(n), because n/2+n/4+n/8+..1=n-1.
 
-Quick Select Solution Code:
+Quick Select Solution Code: 
+https://en.wikipedia.org/wiki/Quickselect
 
 public int findKthLargest(int[] nums, int k) {
 	if (nums == null || nums.length == 0) return Integer.MAX_VALUE;
@@ -54,6 +55,9 @@ void swap(int[] A, int i, int j) {
 
 Neat Solution: 
 
+
+https://en.wikipedia.org/wiki/Quickselect
+
 Time Complexity = O(n)
 Space Complexity = O(1)
 Discard half each time: n+(n/2)+(n/4)..1 = n + (n-1) = O(2n-1) = O(n), because n/2+n/4+n/8+..1=n-1.
@@ -86,3 +90,9 @@ class Solution {
         else return helper(A, l, right-1, k);
     }
 }
+
+Solution with Linear time complexity worst case : 
+
+https://en.wikipedia.org/wiki/Median_of_medians
+
+
