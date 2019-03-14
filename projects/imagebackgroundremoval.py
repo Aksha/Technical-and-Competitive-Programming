@@ -1,3 +1,14 @@
+Input: 
+    Fix color analysis of images (was: "white shoe" / "white dress" / "white bag" problem)
+    any idea why these searches for white return non white product images?
+    it might be that these products come in white, too.
+    
+My Inference: 
+    Most products returned in the search results have a white background. 
+    I believe there’s code that sets a threshold for the amount of white pixels in an image and and returns those images that 
+    cross the threshold when you search for white products, i.e., shoes, dresses, handbags, etc. Since the background size is
+    more than actual image size for shoes, the search results are worse.
+
 
 https://making.lyst.com/2014/02/13/background-removal/
 
