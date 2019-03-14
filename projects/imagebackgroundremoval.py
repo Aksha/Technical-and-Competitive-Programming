@@ -11,7 +11,9 @@ My Inference:
 
 
 https://making.lyst.com/2014/02/13/background-removal/
-
+    
+Code that does it: (Use ipython in terminal)
+    
 import pgmagick as pg
 
 def trans_mask_sobel(img):
@@ -56,3 +58,8 @@ def remove_background(filename):
     img = alphacomposite(transmask, img)
     img.trim()
     img.write('out.png')
+
+    Question here: Does Java have pgmagick library or it's equivalent?
+        
+    To be continued...
+    
