@@ -1,6 +1,3 @@
-Hi Luis,
- 
-This e-mail is a follow up to my last e-mail.. Apologies, I just noticed that I had accidently sent the same hash function twice. Here is what I had meant to send you:
  
 int hash (string word) {
     int result = 0;
@@ -27,15 +24,7 @@ unsigned hash_str(string s)
    return h %. TABLE_SIZE;
 }
  
-Best,
-Akshaya
- 
-From: "Akshaya.Ravichandran" <Akshaya.Ravichandran@target.com>
-Date: Wednesday, July 25, 2018 at 1:10 PM
-To: "Luis.Stevens" <Luis.Stevens@target.com>
-Subject: Next tasks items - p010 (version 2) and p011
- 
-Hello Luis,
+
  
 I am sending out this e-mail that has both my inference about the question raised by you during our meeting and my next task items. I would like to hear your feedback on my inferences.
  
