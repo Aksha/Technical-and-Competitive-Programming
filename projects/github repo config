@@ -1,0 +1,22 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = git@github.rakops.com:ShopStyle/shopstyle.git
+	projectname = shopstyle.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+	rebase = true
+[remote "mine"]
+	url = git@github.rakops.com:akshaya-ravichandran/shopstyle.git
+	fetch = +refs/heads/*:refs/remotes/mine/*
+[branch "development"]
+	remote = origin
+	merge = refs/heads/development
+	rebase = true
