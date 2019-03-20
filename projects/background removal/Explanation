@@ -1,0 +1,108 @@
+
+Product Development
+/
+Catalog Systems
+restrictions.nonemetadata.attachments
+ Watching Watching
+Share
+
+Image Background Removal
+
+OLD APPROACH:
+
+The code can be found under ProductImportDriver3 class in the store (shopstyle repo). It calls ColorMatcher class from shopstyle-catalog repo. The main method in ColorMatcher class invokes getColorHistogram method. The getColorHistogram() has logic for removing background and calculating histogram.
+
+Before background removal:
+
+
+
+The removebackground() method called from getColorHistogram() returns the following image:
+
+
+
+Histogram values returned: 
+
+Histogram: {com.shopstyle.model.CanonicalColor@3d79116:Brown=11888, com.shopstyle.model.CanonicalColor@21fe83:Gray=24149, com.shopstyle.model.CanonicalColor@4fadc09:White=1141539, com.shopstyle.model.CanonicalColor@25f596:Pink=19, com.shopstyle.model.CanonicalColor@1fa47a:Blue=55738, com.shopstyle.model.CanonicalColor@8f29f3dc:Purple=484, com.shopstyle.model.CanonicalColor@3d18fc4:Beige=14347, com.shopstyle.model.CanonicalColor@3d49fdf:Black=17464, com.shopstyle.model.CanonicalColor@dffae464:NoMatch=24682, com.shopstyle.model.CanonicalColor@41ddee3:Green=698}
+
+
+
+Flaws in this approach:
+
+A background color is calculated from the edges.
+The image is iterated, Pixel by pixel and the distance between the current color and background color is computed. 
+Depending on the distance returned, the "left border" is computed and the pixels from the beginning until the left border are added to a variable that keeps track of the pixels to be removed. Similarly, a "right border" is computed.
+The flaw with this approach is when the background color and the image/ portion of the image are of the same color, that portion gets added to the pixels that need to be removed.
+Also, an assumption about a threshold of 70% (percentage of pixels) is made. If the number of pixels that need to be removed is below threshold, the image is returned with its background removed. If the number of pixels to be removed is over the threshold, the original image is returned. Under the above circumstances, an image without the matching color is returned.
+New Approach:
+
+This approach uses a combination of image manipulation techniques like trans_mask_sobel and alpha composite.
+
+Trans_mask_sobel technique detect the edges of the product, blurring the non product portion of the image, applies a threshold to the image and carefully disassociates the background from the product.
+Alpha_composite removes the background.
+Finally, the size of the image is trimmed after the background is removed.
+
+
+Black and White image example:
+
+Before applying trans_mask_sobel: 
+
+
+
+After applying trans_mask_sobel:
+
+
+
+After alpha masking:
+
+
+
+
+
+After image trimming:
+
+
+
+
+
+
+
+
+
+Histogram analysis result:
+
+
+
+
+
+
+
+Colored Image example:
+
+Before: 
+
+ 
+
+
+
+After Alpha Masking:
+
+
+
+
+
+Final Image (trimmed):
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
