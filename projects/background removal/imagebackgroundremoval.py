@@ -8,6 +8,9 @@ My Inference:
     I believe there’s code that sets a threshold for the amount of white pixels in an image and and returns those images that 
     cross the threshold when you search for white products, i.e., shoes, dresses, handbags, etc. Since the background size is
     more than actual image size for shoes, the search results are worse.
+    
+    Histogram analysis:
+        https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_histograms/py_histogram_begins/py_histogram_begins.html
 
 
 https://making.lyst.com/2014/02/13/background-removal/
