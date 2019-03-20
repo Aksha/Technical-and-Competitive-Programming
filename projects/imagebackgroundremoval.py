@@ -63,3 +63,57 @@ def remove_background(filename):
         
     To be continued...
     
+    Updated code with histogram analysis:
+        import pgmagick as pg
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+
+def trans_mask_sobel(img):
+
+    image = pg.Image(img)
+
+    # Find object
+    image.negate()
+    image.edge()
+    image.blur(1)
+    image.threshold(24)
+    image.adaptiveThreshold(5, 5, 5)
+
+    # Fill background
+    image.fillColor('magenta')
+    w, h = image.size().width(), image.size().height()
+    image.floodFillColor('0x0', 'magenta')
+    image.floodFillColor('0x0+%s+0' % (w-1), 'magenta')
+    image.floodFillColor('0x0+0+%s' % (h-1), 'magenta')
+    image.floodFillColor('0x0+%s+%s' % (w-1, h-1), 'magenta')
+
+    image.transparent('magenta')
+    image.write('threshold.png')
+    return image
+
+def alpha_composite(image, mask):
+
+    compos = pg.Image(mask)
+    compos.composite(
+        image,
+        image.size(),
+        pg.CompositeOperator.CopyOpacityCompositeOp
+    )
+    return compos
+
+def remove_background():
+
+    img = pg.Image('shoe-1.png')
+    transmask = trans_mask_sobel(img)
+    img = alpha_composite(transmask, img)
+    img.write('alpha-composite.png')
+    img.trim()
+    img.write('out-1.jpg')
+
+remove_background()
+
+#histogram analysis
+image = cv2.imread('out-1.jpg',0)
+plt.hist(image.ravel(),256,[0,256]); plt.show()
