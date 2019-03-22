@@ -1,0 +1,55 @@
+
+    /**
+     * Executes the specified command (broken up into arguments in commandArray) in the specified
+     * directory, capturing the output in the specified StringBuilder (if specified)
+     *
+     * @param workingDir Can be null (use current working directory)
+     * @param output Can be null
+     */
+
+    public static void exec(File workingDir, StringBuilder output, String... commandArray)
+            throws IOException {
+        if (log.isDebugEnabled()) {
+            log.debug("Executing " + StringUtils.join(commandArray, ' '));
+        }
+
+        Process process = Runtime.getRuntime().exec(commandArray, null, workingDir);
+        byte[] buffer = new byte[1024];
+
+        int count;
+        while ((count = process.getInputStream().read(buffer)) != -1) {
+            if (output != null) {
+                output.append(new String(buffer, 0, count, "UTF8"));
+            }
+        }
+
+        StringBuilder errorOutput = new StringBuilder();
+        while ((count = process.getErrorStream().read(buffer)) != -1) {
+            errorOutput.append(new String(buffer, 0, count, "UTF8"));
+        }
+
+        process.getOutputStream().close();
+        process.getInputStream().close();
+        process.getErrorStream().close();
+
+        while (true) {
+            try {
+                process.waitFor();
+                break;
+            } catch (InterruptedException e) {
+                // Preserve interrupt status
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        if (process.exitValue() != 0) {
+            throw new IOException("'" + StringUtils.join(commandArray, ' ') + "' exited with "
+                    + process.exitValue() + "\n" + errorOutput.toString());
+        }
+
+        if (log.isDebugEnabled()) {
+            log.debug("Done Executing " + StringUtils.join(commandArray, ' '));
+        }
+    }
+
+   
