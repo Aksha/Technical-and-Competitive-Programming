@@ -1,0 +1,153 @@
+from PIL import Image
+from PIL import ImageOps
+from PIL import ImageFilter
+from PIL import ImageChops
+
+
+im = Image.open("shoe.png")
+
+negate = ImageOps.invert(im)
+#negate.save('negatePIL.png')
+
+imageWithEdges = negate.filter(ImageFilter.FIND_EDGES)
+#imageWithEdges.save('edgePIL.png')
+
+imageAfterBlur = imageWithEdges.filter(ImageFilter.BLUR)
+#imageAfterBlur.save('blurPIL.png')
+
+threshold = 5
+imageAfterThreshold = imageAfterBlur.point(lambda p: p > threshold and 255)
+imageAfterThreshold.save('thresholdPIL.png')
+
+
+#Changing background pixel color to magenta
+changeBackgroundPixelColor = imageAfterThreshold#.convert("RGBA")
+pixdata = changeBackgroundPixelColor.load()
+
+width, height = changeBackgroundPixelColor.size
+for y in range(height):
+    for x in range(width):
+        if pixdata[x, y] == (0, 0, 0):
+            pixdata[x, y] = (255, 0, 255)
+
+changeBackgroundPixelColor.save("floodfillPIL.png")
+
+
+#Set Transparency
+transparencyImage = changeBackgroundPixelColor.convert("RGBA")
+datas = transparencyImage.getdata()
+
+newData = []
+for item in datas:
+    if item[0] == 255 and item[1] == 0 and item[2] == 255:
+        newData.append((255, 0, 255, 0))
+    else:
+        newData.append(item)
+
+transparencyImage.putdata(newData)
+transparencyImage.save("transparent_piltest.png", "PNG")
+
+'''
+#calculating pixel color and improving accuracy
+width,height = imageAfterThreshold.size
+
+def boundaries(imageAfterThreshold, height, width):
+    if width >= 0 and width < imageAfterThreshold[0].size and height >= 0 and height < imageAfterThreshold[1].size:
+        return True
+    else:
+        return False
+
+pixelColor = imageAfterThreshold.load()'''
+
+
+'''img = Image.open('open_science_logo.png')
+img = img.convert("RGBA")
+datas = img.getdata()
+
+newData = []
+for item in datas:
+    if item[0] == 255 and item[1] == 255 and item[2] == 255:
+        newData.append((255, 255, 255, 0))
+    else:
+        if item[0] > 150:
+            newData.append((0, 0, 0, 255))
+        else:
+            newData.append(item)
+            print(item)
+
+
+img.putdata(newData)
+img.save("open_science_logo_transparent.png", "PNG")
+
+transparency = changeBackgroundPixelColor.convert("RGBA")
+data = transparency.getdata()
+
+for item in data:
+    if item[0] == 255 and item[1] == 0 and item[2] == 255:
+        newData.append((255, 0, 255, 0))
+
+transparency.putdata(newData)
+transparency.save("transparentPIL.png", "PNG")
+'''
+
+
+
+'''
+
+alphaComposite = Image.new('RGBA', transparency.size, (255, 255, 255, 255))
+
+im = im.convert("RGBA")
+
+alphaComposite = Image.alpha_composite(im, transparency)
+alphaComposite.show()
+
+
+def trim(input, border=(255,255,255)):
+    bg = Image.new(input.mode, input.size, border)
+    diff = ImageChops.difference(input, bg)
+    bbox = diff.getbbox()
+    if bbox:
+     return im.crop(bbox)
+    else:
+     raise ValueError("cannot trim; image was empty")
+
+final = trim(transparencyImage,border=(255,255,255))
+final.save("outPIL.png")
+final.show()
+'''
+
+
+
+Alpha composite is a mess: 
+
+from PIL import Image
+from PIL import ImageChops
+
+image1 = Image.open("shoe.png")
+image2 = Image.open("transparent_piltest.png")
+
+image1 = image1.convert("RGBA")
+
+# Make sure the images have alpha channels
+image1.putalpha(1)
+image2.putalpha(1)
+
+# Display the images
+image1.show()
+image2.show()
+
+alphaComposited = Image.alpha_composite(image1, image2)
+
+'''
+image = ImageChops.add(image1, image2)
+
+mask1 = Image.eval(image, lambda a: 0 if a <= 24 else 255)
+mask2 = mask1.convert('1')
+
+blank = Image.eval(image, lambda a: 0)
+
+new = Image.composite(image2, blank, mask2)
+new.save("alpha_composite_PIL.png")
+'''
+
+alphaComposited.show()
