@@ -1,0 +1,33 @@
+
+
+Getting started
+
+Install RVM stable with ruby:
+\curl -sSL https://get.rvm.io | bash -s stable --ruby
+source ~/.rvm/scripts/rvm
+rvm install 2.4.2
+rvm use --default ruby-2.4.2
+Install bundler: gem install bundler
+Checkout Gardian: git clone git@github.rakops.com:ShopStyle/gardian.git
+Install Firefox (yes, the web browser)
+Run bundler: cd gardian; bundle install
+cp drivers/chromedriver /usr/local/bin/
+cp drivers/geckodriver /usr/local/bin/
+For Appium
+
+You may be required to update your XCode to the latest at step 1. Find the latest XCode here: https://developer.apple.com/download/more/
+
+TBD
+
+How to run tests
+
+You can target individual tests at the tag or suite level by specifying a specific "@tag" to run.
+
+How to run all  Web UI tests: cucumber -p ss_web
+How to run all BVT tests for : cucumber -p ss_web_bvt
+How to run all  UI tests: cucumber -p ssc
+How to check whether the correct tag is deployed to qaweb11: cucumber --tags @shopstyle-ping BE_TAG=8b5637C43B VERBOSE=1
+How to run API tests with junit formatted output and output results to /results: cucumber -p store_api -p junit
+How to run SEO tests against QA as QAbot: cucumber -p ss_seo
+How to run tests on your local environment: cucumber -t @shopstyle-api_product_histogram TARGET=BE-LOCAL
+How to run Admin portal tests on your local environment: cucumber -t @shopstyle-admin_api_campaigns TARGET=PORTAL-LOCAL
