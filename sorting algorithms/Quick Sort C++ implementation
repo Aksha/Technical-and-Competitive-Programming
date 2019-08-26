@@ -1,4 +1,4 @@
-/*On the average quicksort has O(n log n) complexity,In worst case, quicksort runs O(n2) time */
+/*On the average quicksort has O(n log n) complexity,In worst case, quicksort runs O(n2) time, runs in constant time */
 
 
 void quickSort(int arr[], int left, int right) {
