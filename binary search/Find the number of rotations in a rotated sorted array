@@ -4,14 +4,13 @@ EG: 1 2 4 6 7 8 11 14 is the sorted array and 6 7 8 11 14 1 2 4 is its rotated s
 /*if you're thinking about using Binary search to solve this, then you're on the right track. Time complexity O(logn).
 There is another way to do it. You could find where the minimum element in the array is and calculate the number of rotations
 with that. This is not the most optimal way to do it as you would be going over all the elements in that case with a time 
-complexity of O(n)*/
+complexity of O(n). */
 
 int rotation(vector<int> a){
   int length = a.size();
   int start = 0;
   int end = length - 1;
   int rotationPoint;
-  int count = 0;
   while(start <= end) {
     int mid = start + (end-start)/2;
     if(a[mid] < a[start]) {
@@ -24,10 +23,7 @@ int rotation(vector<int> a){
       rotationPoint = mid;
     }
   }
-  while(rotationPoint <= length){
-    rotationPoint++;
-    count++;
-  }
-  return count;
+  int result = length - rotationPoint;
+  return result;
 }
 
