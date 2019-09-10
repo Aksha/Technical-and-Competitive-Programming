@@ -1,0 +1,26 @@
+Lexicographical Numbers:
+
+Given an integer n, return 1 - n in lexicographical order.
+
+For example, given 13, return: [1,10,11,12,13,2,3,4,5,6,7,8,9].
+
+Please optimize your algorithm to use less time and space. The input size may be as large as 5,000,000.
+
+class Solution {
+public:
+    static bool compare(const int& num1, const int& num2)
+    {
+        string string_1 = to_string(num1);
+        string string_2 = to_string(num2);
+        return string_1 < string_2;
+    }
+
+    vector<int> lexicalOrder(int n) {
+        vector<int> res;
+        for(int i = 1; i <= n; i++){
+            res.push_back(i);
+        }
+        sort(res.begin(), res.end(), compare);
+        return res;
+    }
+};
