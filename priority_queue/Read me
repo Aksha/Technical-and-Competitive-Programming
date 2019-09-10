@@ -1,0 +1,3 @@
+A priority queue is a max heap and a set is a min heap. 
+A priority queue returns a given unsorted array in descendingly sorted order. (highest element first)
+
