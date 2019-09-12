@@ -1,0 +1,210 @@
+#include <iostream>
+#include <vector>
+#include <utility>
+
+
+using namespace std;
+/*
+
+Suppose we have some input data describing a graph of relationships between parents and children over multiple generations. The data is formatted as a list of (parent, child) pairs, where each individual is assigned a unique integer identifier.
+
+For example, in this diagram, 6 and 8 have a common ancestor of 4.
+
+         14  13
+         |   |
+1   2    4   12
+ \ /   / | \ /
+  3   5  8  9
+   \ / \     \
+    6   7     11
+
+parentChildPairs1 = [
+    (1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5),
+    (4, 8), (4, 9), (9, 11), (14, 4), (13, 12), (12, 9)
+]
+
+Write a function that takes the graph, as well as two of the individuals in our dataset, as its inputs and returns true if and only if they share at least one ancestor.
+
+Sample input and output:
+
+hasCommonAncestor(parentChildPairs1, 3, 8) => false
+hasCommonAncestor(parentChildPairs1, 5, 8) => true
+hasCommonAncestor(parentChildPairs1, 6, 8) => true
+hasCommonAncestor(parentChildPairs1, 6, 9) => true
+hasCommonAncestor(parentChildPairs1, 1, 3) => false
+hasCommonAncestor(parentChildPairs1, 7, 11) => true
+hasCommonAncestor(parentChildPairs1, 6, 5) => true
+hasCommonAncestor(parentChildPairs1, 5, 6) => true
+
+Additional example: In this diagram, 4 and 12 have a common ancestor of 11.
+
+        11
+       /  \
+      10   12
+     /  \
+1   2    5
+ \ /    / \
+  3    6   7
+   \        \
+    4        8
+
+parentChildPairs2 = [
+    (11, 10), (11, 12), (10, 2), (10, 5), (1, 3),
+    (2, 3), (3, 4), (5, 6), (5, 7), (7, 8),
+]
+
+hasCommonAncestor(parentChildPairs2, 4, 12) => true
+hasCommonAncestor(parentChildPairs2, 1, 6) => false
+hasCommonAncestor(parentChildPairs2, 1, 12) => false
+
+
+*/
+
+Answer:
+
+Create a hash map of child->parents mapping.
+For the given children, list out its parents and ancestors. Store it in two separate arrays.
+Compare to see if these arrays have a common value. If They do, then they have a common ancestor. So, return true. Else return false.
+
+
+Hashmap type = unordered_map <int,vector<int>> hmap
+[[3,[1,2]], [6,[3,5]], [7,[5]],[5,[4]],[8,[4]],[9,[4]],[11,[9]],[4,[14]],[12,13],[9,[12]]]
+
+vector<int> holder;
+Vector <int> result;
+Vector <int> allAncestors(unordered_map<int, vector<int>> hmap, int child1) {
+	if(hmap.find(child1) != hmap.end()) {
+		Vector <int> temp = hmap->second;
+	for(int i = 0; i < temp.size(); i++) {
+		holder.push_back(temp[i]);
+}
+}
+Else{
+Return S;
+}
+result.push_back(holder.front());
+Int new_child = holder.front();
+holder.erase(holder.begin());
+allAncestors(hmap,new_child);
+}
+
+hasCommonAncestor(parentChildPairs,child1,child2) {
+	//create the hashmap with child parents mapping - hmap
+	Vec1 = allAncestors(hmap, child1)
+	result.clear();
+	Vec2 = allAncestors(hmap,child2);
+	For (int i = 0; i < vec1.size(); i++) {
+		if(std::find(vec2.begin(),vec2.end(),vec1[i]) != vec2.end())
+			Return true
+}
+//if not found
+Return false;
+}
+
+int main() {
+ 
+  vector<pair<int, int>> parentChildPairs1 = {
+    std::make_pair(1, 3),
+    std::make_pair(2, 3),
+    std::make_pair(3, 6),
+    std::make_pair(5, 6),
+    std::make_pair(5, 7),
+    std::make_pair(4, 5),
+    std::make_pair(4, 8),
+    std::make_pair(4, 9),
+    std::make_pair(9, 11),
+    std::make_pair(14, 4),
+    std::make_pair(13, 12),
+    std::make_pair(12, 9)
+  };
+
+  vector<pair<int, int>> parentChildPairs2 = {
+    std::make_pair(11, 10),
+    std::make_pair(11, 12),
+    std::make_pair(10, 2),
+    std::make_pair(10, 5),
+    std::make_pair(1, 3),
+    std::make_pair(2, 3),
+    std::make_pair(3, 4),
+    std::make_pair(5, 6),
+    std::make_pair(5, 7),
+    std::make_pair(7, 8)
+  };
+
+
+  
+  
+  return 0;
+}
+
+// hash map = {key = child; value = {parents up to 2}};
+
+
+/*Psuedocode:
+
+hasCommonAncestor(parentChildPairs1, 3, 8) => false
+
+
+helper_method(root, left, right)
+  if(root,left,right == NULL)
+    return false;
+  if(root == left || root == right)
+    return true;
+  TreeNode p = helper_method(root->first->parent,p, q)
+  TreeNode q = helper_method(root->right->parent,p,q)
+
+  if(p == q || p==NULL || q == NULL)
+    return true
+  else 
+    return false
+*/
+
+For left child build out a collections of all its parents
+For right child build out a collections of all its parents. 
+Check if any values in the collections match.
+
+
+
+
+
+
+
+Object Oriented programming
+Composition and Inheritance difference
+https://javarevisited.blogspot.com/2015/06/difference-between-inheritance-and-Composition-in-Java-OOP.html
+Threads
+Dependency injection
+RAM usage is more than CPU usage
+How to alleviate a deadlock preemtion circular wait mutual exclusion and hold/wait
+How can you run multiple threads on a single service in 1 sec when only one thread is running
+
+MySQL command:
+
+
+-- Your code here!
+
+create table Students(id integer, name varchar(100), teachers_id integer);
+insert into Students(id,name,teachers_id) values(1,"Jerry",4);
+insert into Students(id,name,teachers_id) values(2,"Benny",4);
+insert into Students(id,name,teachers_id) values(3,"Craig",8);
+insert into Students(id,name,teachers_id) values(4,"Gary",12);
+insert into Students(id,name,teachers_id) values(5,"Picard",8);
+
+create table Teachers(id integer, name varchar(100));
+
+insert into Teachers(id,name) values (4,"Bruce");
+insert into Teachers(id,name) values (8,"Martha");
+
+SELECT Students.id, Students.name, Teachers.id
+FROM Students
+LEFT JOIN Teachers
+ON Students.teachers_id=Teachers.id;
+
+Output:
+1	Jerry	4
+2	Benny	4
+3	Craig	8
+5	Picard	8
+4	Gary	NULL
+
+
