@@ -16,7 +16,7 @@ bool isBST_helper(TreeNode* root, int left, int right){
     return false;
   if(right != NULL && root->val > right)
     return false; 
-  if(!isBST_helper(root->left,left,root->val) && !isBST_helper(root->right,root->val,right))
+  if(!isBST_helper(root->left,left,root->val) || !isBST_helper(root->right,root->val,right))
     return false;
   return true;
 }
