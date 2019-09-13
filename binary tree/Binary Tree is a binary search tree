@@ -12,9 +12,11 @@ bool isBST(TreeNode* root){
 bool isBST_helper(TreeNode* root, int left, int right){
   if(root == NULL)
     return true;
-  if((left != NULL && root->val < left) || (right != NULL && root->val > right))
+  if(left != NULL && root->val < left) 
     return false;
-  if(!isBST_helper(root->left,left,root->val) || !isBST_helper(root->right,root->val,right))
+  if(right != NULL && root->val > right)
+    return false; 
+  if(!isBST_helper(root->left,left,root->val) && !isBST_helper(root->right,root->val,right))
     return false;
   return true;
 }
