@@ -1,0 +1,104 @@
+C++ implementation:
+
+#include <iostream>
+
+using namespace std;
+
+struct TreeNode {
+         int val;
+         TreeNode *left;
+         TreeNode *right;
+        TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+
+int main() {
+    TreeNode* root = new TreeNode(3);
+
+    TreeNode* left = root->left;
+    left = new TreeNode(9);
+
+    TreeNode* right = root->right;
+    right = new TreeNode(20);
+
+    TreeNode* rightChild1 = right->left;
+    rightChild1 = new TreeNode(15);
+
+
+    TreeNode* rightChild2 = right->right;
+    rightChild2 = new TreeNode(7);
+
+    cout << rightChild2->val << endl;
+    cout << rightChild1->val << endl;
+
+    return 0;
+}
+
+Another way to think about this: 
+#include <iostream>
+
+using namespace std;
+
+struct TreeNode {
+         int val;
+         TreeNode *left;
+         TreeNode *right;
+        TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+
+int main() {
+    TreeNode* root = new TreeNode(3);
+    root->left = new TreeNode(9);
+    root->right = new TreeNode(20);
+    root->right->left = new TreeNode(15);
+    root->right->right = new TreeNode(7);
+
+    cout << root->right->left->val << endl;
+    cout << root->right->right->val << endl;
+
+    return 0;
+}
+
+
+C implementation:
+
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+    int data;
+    struct node *left;
+    struct node *right;
+};
+
+
+struct node* newNode(int data)
+{
+// Allocate memory for new node
+    struct node* node = (struct node*)malloc(sizeof(struct node));
+
+// Assign data to this node
+    node->data = data;
+
+// Initialize left and right children as NULL
+    node->left = NULL;
+    node->right = NULL;
+    return(node);
+}
+
+
+int main()
+{
+
+    struct node *root = newNode(1);
+    root->left	 = newNode(2);
+    root->right	 = newNode(3);
+
+    root->left->left = newNode(4);
+
+    printf ("%d", root->left->left->data);
+    getchar();
+    return 0;
+}
