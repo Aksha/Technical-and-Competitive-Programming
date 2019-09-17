@@ -1,0 +1,93 @@
+C++: 
+1. Given a string with a wildcard character, 
+ex: 
+a?b?c?d: Replace the wild card character with a letter in such a way that adjacent characters are not the same.
+a?b?c?
+
+ex: ?ebece --> aebece
+ex: a?b?c?d?e?f?g?h?i?j?k?l?m?n?o?p?q?r?s?t?u?v?w?x?y?z?
+ex: ????
+
+Solution: 
+?ab?
+
+string wildCardReplace(string s) {
+    int length = s.size();
+    if(length == 0)
+        return "";
+    if(length == 1 && s == '?')
+        return 'a';
+    else if (length == 1 & s != '?') 
+        return  s;
+    for(int i = 0; i < length; i++) {
+        if(s[i] == '?') {
+            for(char c = 'a'; c < 'z'; c++) {
+                if(i-1 >= 0 && i+1 != length && s[i-1] != c && s[i+1] != c) {
+                    s[i] = c;
+                }  
+                else if (i - 1 < 0 && s[i+1] != c) {
+                    s[i] = c;
+                }
+                else if (i+1 == length && s[i-1] != c) {
+                    s[i] = c;
+                }
+                else if (i - 1 < 0 && i + 1 == length){
+                    s[i] = c;
+                }
+                break;
+            }
+        }
+    }
+   return s;
+}
+
+
+1. Speed.
+2. Subroutine always write.
+3. always solve a problem thinking that someone is listening to you. 
+
+Solution: 
+
+1. Given a string with a wildcard character, 
+ex: 
+a?b?c?d: Replace the wild card character with a letter in such a way that adjacent characters are not the same.
+a?b?c?
+
+ex: ?ebece --> aebece
+ex: a?b?c?d?e?f?g?h?i?j?k?l?m?n?o?p?q?r?s?t?u?v?w?x?y?z?
+ex: ????
+
+Solution: 
+?ab?
+
+string wildCardReplace(string s) {
+    int length = s.size();
+    if(length == 0)
+        return "";
+    if(length == 1 && s == '?')
+        return 'a';
+    else if (length == 1 & s != '?') 
+        return  s;
+    for(int i = 0; i < length; i++) {
+        if(s[i] == '?') {
+            for(c='a' to 'z') {
+                s[i]=c;
+                if(isValidate(s,i)) break;
+            }
+                
+        }
+    }
+   return s;
+}
+boolean isValidate(string s , int i) {
+    boolean result=true;
+    if(i-1>=0 && s[i-1]!=s[i]){
+        result=false;
+    }
+    if(i+1<s.length && s[i+1]!=s[i]) {
+        result=false;
+    }
+    return result;
+}
+
+
