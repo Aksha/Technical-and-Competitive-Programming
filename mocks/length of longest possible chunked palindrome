@@ -1,0 +1,39 @@
+return the length of lonngest possible chunked palindrome
+geeksforgeeks
+(geeks)(for)(geeks)  = 3
+(merchant) =1
+(m) (a) (d) (a) (m) = 5
+
+volvo 
+(vo) (l) (vo) = 3
+  geeksforgeeks
+  
+  azmadam = 1 
+  
+  vo vo =   
+  
+  volvo
+  
+Catch: substring to substring check adds O(n). O(n^2)
+optimize
+always look for a pattern.
+
+Algo:
+1. initialize start = 0, end = length -1; set ptr1 = 0 set ptr 2 = length -1. Initilize count = 1; 
+    While (ptr1 < ptr2) {
+        if(s.substr(start,ptr1) == s.substr(ptr2, end) {
+            count += 2;
+            start = ptr1 +1;
+            end = ptr2 - 1;
+         }
+         ptr1++;
+         ptr2--;   
+        }
+    return count;
+    }
+    
+    
+    Better solution:
+    
+    iterate as long as you find a character match; once you get a character match, calculate the substring match.
+    
