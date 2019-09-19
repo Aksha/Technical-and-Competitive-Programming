@@ -33,7 +33,32 @@ Algo:
     }
     
     
+    int start = 0; end = size of, ptr1 = 0, ptr = 
+    
     Better solution:
     
     iterate as long as you find a character match; once you get a character match, calculate the substring match.
+    
+    class Solution {
+    public:
+    int longestDecomposition(string text) {
+        int n = text.size();
+        if(n == 0 || n == 1)
+            return n;
+        int start = 0, ptr1 = 0, end = text.size() - 1, ptr2 = text.size() - 1;
+        int count = 1;
+        while(start < end) {
+            if(text[start] == text[ptr2]) {
+                if(text.substr(start,ptr1-start-1) == text.substr(ptr2)){
+                    count += 2;
+                    start = ptr1+1;
+                    end = ptr2-1;
+                }
+                ptr1++;
+                ptr2--;
+            }
+        }
+        return count;
+    }
+};
     
