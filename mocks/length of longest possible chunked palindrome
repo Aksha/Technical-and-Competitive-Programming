@@ -62,3 +62,36 @@ Algo:
     }
 };
     
+    The above solution is quadratic and time limit will exceed. The solution below is the best. Use deque.
+    
+    class Solution {
+    public:
+    int longestDecomposition(string text) {
+        deque<int> left;
+        deque<int> right;
+
+        int maxSplits = 0;
+        const int textSize = text.size();
+        int i = 0;
+        int j = textSize - 1;
+
+        while (i < j) {
+            left.push_back(text[i]);
+            right.push_front(text[j]);
+
+            if (left == right) {
+                maxSplits += 2;
+                left.clear();
+                right.clear();
+            }
+            ++i;
+            --j;
+        }
+
+        if (!left.empty() || i == j) {
+            ++maxSplits;
+        }
+
+        return maxSplits;
+    }
+};
