@@ -1,0 +1,46 @@
+Template: Write a method/function that can take in parameters of ANY ANY data type and perform the same operations on them.
+
+
+include <iostream>
+using namespace std;
+  
+// One function works for all data types.  This would work
+// even for user defined types if operator '>' is overloaded
+template <typename T>
+T myMax(T x, T y)
+{
+   return (x > y)? x: y;
+}
+  
+int main()
+{
+  cout << myMax<int>(3, 7) << endl;  // Call myMax for int
+  cout << myMax<double>(3.0, 7.0) << endl; // call myMax for double
+  cout << myMax<char>('g', 'e') << endl;   // call myMax for char
+  
+  return 0;
+}
+
+Std library unique: 
+
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <cctype>
+
+using namespace std;
+
+int main()
+{
+   // remove duplicate elements
+   std::vector<int> v{1,2,3,1,2,3,3,4,5,4,5,6,7};
+   std::sort(v.begin(), v.end()); // 1 1 2 2 3 3 3 4 4 5 5 6 7
+   auto last = std::unique(v.begin(), v.end());
+   // v now holds {1 2 3 4 5 6 7 x x x x x x}, where 'x' is indeterminate
+   v.erase(last, v.end());
+   for (int i : v)
+     std::cout << i << " ";
+   std::cout << "\n";
+   return 0;
+}
+
