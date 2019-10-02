@@ -1,0 +1,252 @@
+Helper method recursion:
+
+Recursive problems can be solved when there is an absolute process in place.
+
+Terminology for helper method recursion:
+Base case
+Recursive case
+Scope variables
+State - values that track progress.
+Single and multiple recursion
+
+top down (recursive call comes at the end) , bottom up (recursive call comes at the beginning)
+Return_type helper_method(input parameters) {
+	Base case or terminating condition
+		Return result here;
+	Logic
+	Recursive call;
+	//maybe more logic
+	Return result of recursive calls;
+}
+
+
+Return_type wrapper_function() {
+	Scope variables;
+	Result variable;
+	Call helper() method
+	Return result;
+}
+
+
+Int main() {
+	Data_type result = Wrapper function();
+	Return 0;
+}
+
+
+Bottom up approach:
+
+Single recursion.
+Start at the least value until it reaches the input value/terminating condition.
+
+Top down approach:
+Single/multiple inheritance.
+Give a BT, is it BST
+Min max approach if any node is less than min or great than max return false. Return treu for empty. Now keep checking for all nodes in the tree and define min max appropriately
+
+Size of largest bst in a bt
+isBST, size, min, max each node returns approach
+https://www.youtube.com/watch?v=4fiDs7CCxkc
+
+Lowest common ancestor
+Two approaches.
+Quadratic solution and space: traverse from root to leaf and build an array of paths from root to leaf. Find out where the path diverges
+
+Linear solution:
+Left and right approach. Find left node pass it on to root. Find right node pass it on to root, return root. Or find one of the nodes and return to root and if the other node is a part of its child subtree, just return that node to root.
+
+Level order traversal:
+2 list approach with layer.. Or getHeight approach and writing variables based on level number from height and taking in node and level for queue BFS..
+
+ZigZag traversal
+Two stack approach
+
+Max path sum
+Return non result variable in helper method() approach
+https://www.youtube.com/watch?v=peyO-Nu1jGc
+
+Self/ self+left/ self+right or self+left+right
+
+maxL, maxR, maxSingle (root or root+left, root+right), maxAll, return maxSingle
+
+
+
+
+Num of trees from 1 to N
+Dynamic programming problem:
+class Solution {
+public:
+   int numTrees(int n) {
+    int dp[n+1];
+    dp[0] = dp[1] = 1;
+    for (int i=2; i<=n; i++) {
+        dp[i] = 0;
+        for (int j=1; j<=i; j++) {
+            dp[i] += dp[j-1] * dp[i-j];
+        }
+    }
+    return dp[n];
+}
+};
+
+/*The problem can be solved in aun dynamic programming way. I’ll explain the intuition and formulas in the following.
+
+Given a sequence 1…n, to construct a Binary Search Tree (BST) out of the sequence, we could enumerate each number i in the sequence, and use the number as the root, naturally, the subsequence 1…(i-1) on its left side would lay on the left branch of the root, and similarly the right subsequence (i+1)…n lay on the right branch of the root. We then can construct the subtree from the subsequence recursively. Through the above approach, we could ensure that the BST that we construct are all unique, since they have unique roots.
+
+The problem is to calculate the number of unique BST. To do so, we need to define two functions:
+
+G(n): the number of unique BST for a sequence of length n.
+
+F(i, n), 1 <= i <= n: the number of unique BST, where the number i is the root of BST, and the sequence ranges from 1 to n.
+
+As one can see, G(n) is the actual function we need to calculate in order to solve the problem. And G(n) can be derived from F(i, n), which at the end, would recursively refer to G(n).
+
+First of all, given the above definitions, we can see that the total number of unique BST G(n), is the sum of BST F(i) using each number i as a root.
+i.e.
+
+G(n) = F(1, n) + F(2, n) + ... + F(n, n). 
+Particularly, the bottom cases, there is only one combination to construct a BST out of a sequence of length 1 (only a root) or 0 (empty tree).
+i.e.
+
+G(0)=1, G(1)=1. 
+Given a sequence 1…n, we pick a number i out of the sequence as the root, then the number of unique BST with the specified root F(i), is the cartesian product of the number of BST for its left and right subtrees. For example, F(3, 7): the number of unique BST tree with number 3 as its root. To construct an unique BST out of the entire sequence [1, 2, 3, 4, 5, 6, 7] with 3 as the root, which is to say, we need to construct an unique BST out of its left subsequence [1, 2] and another BST out of the right subsequence [4, 5, 6, 7], and then combine them together (i.e. cartesian product). The tricky part is that we could consider the number of unique BST out of sequence [1,2] as G(2), and the number of of unique BST out of sequence [4, 5, 6, 7] as G(4). Therefore, F(3,7) = G(2) * G(4).
+
+i.e.
+
+F(i, n) = G(i-1) * G(n-i)	1 <= i <= n 
+Combining the above two formulas, we obtain the recursive formula for G(n). i.e.
+
+G(n) = G(0) * G(n-1) + G(1) * G(n-2) + … + G(n-1) * G(0) 
+In terms of calculation, we need to start with the lower number, since the value of G(n) depends on the values of G(0) … G(n-1).
+
+With the above explanation and formulas, here is the implementation in Java.
+*/
+
+
+
+Count of unival subtrees:
+Count Univalue Subtrees
+
+https://www.youtube.com/watch?v=7HgsS8bRvjo
+Question
+Given a complete binary tree, count the number of nodes. In a complete binary tree every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.
+Universal value binary tree means all value in that tree is the same.
+//C++: 4ms
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
+O(n^2)  because there are two functions that both involve O(n) recursive calls.
+Int total_count = 0;
+Bool is_unival(TreeNode* root) {
+	if(root == NULL)
+		Return true;
+	if(root->left && root->left->val != root->val)
+		Return false;
+	if(root->right && root->right->val != root->val) 
+		Return false;
+	if(root->left && root->right && root->val == root->left->val && root->val == root->right->val)
+Return true;
+Return false; 
+}
+
+int count_unival(TreeNode* root) {
+	if(root == NULL)
+		Return 0;
+`	total_count = count_unival(root->left) + count_unival(root->right);
+	if(is_unival) {
+		Total_count += 1;
+}
+Return total_count;
+}
+
+
+
+class Solution {
+Public:
+
+ bool helper(TreeNode* root, int &cnt){
+        if(!root) return true;
+        bool left = helper(root->left, cnt);
+        bool right = helper(root->right, cnt);
+        if(left && right &&
+            root->left && root->left->val == root->val &&
+            root->right && root->right->val == root->val) {
+            cnt++;
+            return true;
+        }
+
+        return false;
+    }
+
+    int countUnivalSubtrees(TreeNode* root) {
+        int cnt = 0;
+        helper(root, cnt);
+        return cnt;
+    }
+   };
+
+
+687. Longest Univalue Path
+Given a binary tree, find the length of the longest path where each node in the path has the same value. This path may or may not pass through the root.
+The length of path between two nodes is represented by the number of edges between them.
+ 
+Example 1:
+Input:
+             5
+             / \
+            4   5
+           / \   \
+          1   1   5
+ 
+Output: 2
+ 
+Example 2:
+Input:
+             1
+             / \
+            4   5
+           / \   \
+          4   4   5
+ 
+Output: 2
+ 
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+
+class Solution {
+    int ans;
+    public int longestUnivaluePath(TreeNode root) {
+        ans = 0;
+        arrowLength(root);
+        return ans;
+    }
+    public int arrowLength(TreeNode node) {
+        if (node == null) return 0;
+        int left = arrowLength(node.left);
+        int right = arrowLength(node.right);
+        int arrowLeft = 0, arrowRight = 0;
+        if (node.left != null && node.left.val == node.val) {
+            arrowLeft += left + 1;
+        }
+        if (node.right != null && node.right.val == node.val) {
+            arrowRight += right + 1;
+        }
+        ans = Math.max(ans, arrowLeft + arrowRight);
+        return Math.max(arrowLeft, arrowRight);
+    }
+}
+
