@@ -1,0 +1,128 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void helper_islands(vector <vector <int> > &mat,int row,int col){
+    if(row < 0 || col < 0 || row >= mat.size() || col >= mat[0].size() || mat[row][col] == 0)
+        return;
+    mat[row][col] = 0;
+    helper_islands(mat, row-1, col);
+    helper_islands(mat, row+1, col);
+    helper_islands(mat, row, col-1);
+    helper_islands(mat, row, col+1);
+    helper_islands(mat, row+1, col-1);
+    helper_islands(mat, row+1, col+1);
+    helper_islands(mat, row-1, col-1);
+    helper_islands(mat, row-1, col+1);
+    return;
+}
+
+//i,j
+//i-1,j
+//i+1,j
+//i,j-1
+//i, j+1
+// i+1, j-1
+//i+1, j+1
+//i-1,j-1
+//i-1,j+1
+
+int main() {
+    // you can write to stdout for debugging purposes, e.g.
+    vector <vector <int> > mat = 
+    int counter = 0;
+    int row = mat.size();
+    int col = mat[0].size();
+    if(row == 0 || col == 0) 
+        return 0;
+    for (int i = 0; i < row; i++) {
+        for(int j = 0; j < col; j++ ) {
+            if(mat[i][j] == 1) {
+                helper_islands(mat,i,j);
+                counter++;
+
+            }
+        }
+    }
+    cout << "the number of islands is : " << counter << endl;
+    return 0;
+}
+
+
+// [0,0], [0,1], [1,1], [2,0]
+
+//[4,0]
+
+// [1,4], [2,3] , [2,4] 
+
+// [4,2]
+
+//[4,4]
+
+
+
+/* 
+
+outer function 
+1. iterate over each cell
+2. if '1' is encoutered, increment a count var by 1.
+3. recursively check its neighbouring cells. check boundary conditions
+4. reset the value of the curr and neighbouring cells to 0.
+*/
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+unordered_map <int, pair<int, unsigned long int>> hmap;
+
+void put(int key, int val) {
+    if(hmap.find(key)!=hmap.end()) {
+        hmap[key].insert(make_pair(val,current_time()));
+    }
+    else {
+        hmap.insert(make_pair(key,make_pair(val,current_time())));
+    }
+}
+
+int get (int key, int timestamp) (
+    int result;
+    if(hmap.find(key)!= hmap.end()) {
+        for(unordered_map <int, pair<int, unsigned long int>:: iterator it = hmap.begin(); it!= hmap.end(); it++ ) {
+            if(it->second <= timestamp)
+            {   
+               result.push_back(it->first);
+                
+            }
+        }
+    }
+    int n = result.size();
+    return result[n-1];
+)
+
+// key    1     
+// value       10-----15------------20
+// timestamp   1------2-----3----4---5
+
+int get(int key) {
+    
+}
+himanshu.sahay@bird.co
+
+int main() {
+    
+    put(1, 3);
+    val timestamp = current_time();
+    put(1, 5);
+    get(1);
+    // get(1, timestamp); // 3
+    put(10, 4);
+    put(10, 5);  
+    
+    return 0;
+}
+
+
+
