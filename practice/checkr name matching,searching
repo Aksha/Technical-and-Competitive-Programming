@@ -1,0 +1,200 @@
+Implement this in Python programming language:
+
+/******************
+ * Name Matching
+ *
+ *   At Checkr, one of the most important aspects of our work is accurately matching records
+ * to candidates. One of the ways that we do this is by comparing the name on a given record
+ * to a list of known aliases for the candidate. In this exercise, we will implement a
+ * `nameMatch` method that accepts the list of known aliases as well as the name returned
+ * on a record. It should return true if the name matches any of the aliases and false otherwise.
+ *
+ * The nameMatch method will be required to pass the following tests:
+ *
+ * 1. Exact match
+ *
+ *   knownAliases = ["Alphonse Gabriel Capone", "Al Capone"]
+ *   nameMatch(knownAliases, "Alphonse Gabriel Capone") => true
+ *   nameMatch(knownAliases, "Al Capone")               => true
+ *   nameMatch(knownAliases, "Alphonse Francis Capone") => false
+ *
+ *
+ * 2. Middle name missing (on alias)
+ *
+ *   knownAliases = ["Alphonse Capone"]
+ *   nameMatch(knownAliases, "Alphonse Gabriel Capone") => true
+ *   nameMatch(knownAliases, "Alphonse Francis Capone") => true
+ *   nameMatch(knownAliases, "Alexander Capone")        => false
+ *
+ *
+ * 3. Middle name missing (on record name)
+ *
+ *   knownAliases = ["Alphonse Gabriel Capone"]
+ *   nameMatch(knownAliases, "Alphonse Capone")         => true
+ *   nameMatch(knownAliases, "Alphonse Francis Capone") => false
+ *   nameMatch(knownAliases, "Alexander Capone")        => false
+ *
+ *
+ * 4. More middle name tests
+ *    These serve as a sanity check of your implementation of cases 2 and 3
+ *
+ *   knownAliases = ["Alphonse Gabriel Capone", "Alphonse Francis Capone"]
+ *   nameMatch(knownAliases, "Alphonse Gabriel Capone") => true
+ *   nameMatch(knownAliases, "Alphonse Francis Capone") => true
+ *   nameMatch(knownAliases, "Alphonse Edward Capone")  => false
+ *
+ *
+ * 5. Middle initial matches middle name
+ *
+ *   knownAliases = ["Alphonse Gabriel Capone", "Alphonse F Capone"]
+ *   nameMatch(knownAliases, "Alphonse G Capone")       => true
+ *   nameMatch(knownAliases, "Alphonse Francis Capone") => true
+ *   nameMatch(knownAliases, "Alphonse E Capone")       => false
+ *   nameMatch(knownAliases, "Alphonse Edward Capone")  => false
+ *   nameMatch(knownAliases, "Alphonse Gregory Capone") => false
+ *
+ *
+ * Bonus: Transposition
+ *
+ * Transposition (swapping) of the first name and middle name is relatively common.
+ * In order to accurately match the name returned from a record we should take this
+ * into account.
+ *
+ * All of the test cases implemented previously also apply to the transposed name.
+ *
+ *
+ * 6. First name and middle name can be transposed
+ *
+ *   "Gabriel Alphonse Capone" is a valid transposition of "Alphonse Gabriel Capone"
+ *
+ *   knownAliases = ["Alphonse Gabriel Capone"]
+ *   nameMatch(knownAliases, "Gabriel Alphonse Capone") => true
+ *   nameMatch(knownAliases, "Gabriel A Capone")        => true
+ *   nameMatch(knownAliases, "Gabriel Capone")          => true
+ *   nameMatch(knownAliases, "Gabriel Francis Capone")  => false
+ *
+ *
+ * 7. Last name cannot be transposed
+ *
+ *   "Alphonse Capone Gabriel" is NOT a valid transposition of "Alphonse Gabriel Capone"
+ *   "Capone Alphonse Gabriel" is NOT a valid transposition of "Alphonse Gabriel Capone"
+ *
+ *   knownAliases = ["Alphonse Gabriel Capone"]
+ *   nameMatch(knownAliases, "Alphonse Capone Gabriel") => false
+ *   nameMatch(knownAliases, "Capone Alphonse Gabriel") => false
+ *   nameMatch(knownAliases, "Capone Gabriel")          => false
+ */
+    
+// "a b".split(" ") => [a, b]
+// 
+public class Solution {
+  
+  public static boolean exactMatch(String[] knownAliases, String recordName) {
+        String[] exactMatch = recordName.split(" ");
+        for (int i = 0; i < exactMatch.length; i++) {
+          System.out.println(exactMatch[i]);
+        }
+        String firstName = exactMatch[0];
+        String middleName = exactMatch[1];
+        String lastName = exactMatch[2];
+      
+        for(int i = 0 ; i < knownAliases.length; i++) {
+          String[] givenText = knownAliases[i].split(" ");
+          if(firstName.equals(givenText[0]) && middleName.equals(givenText[1]) && lastName.equals(givenText[2])){
+            return true;
+          }
+        }
+        return false;
+  }
+  
+  public static boolean middleNameMatch1(String[] knownAliases, String recordName) {
+    String[] exactMatch = recordName.split(" ");
+    
+    String firstName = exactMatch[0];
+    String middleName = exactMatch[1];
+    String lastName = exactMatch[2];
+    
+    for(int i = 0 ; i < knownAliases.length; i++) {
+          String[] givenText = knownAliases[i].split(" ");
+          if(givenText.length == 2 && firstName.equals(givenText[0]) && lastName.equals(givenText[1])){
+            return true;
+          }
+          else if(givenText.length == 3 && firstName.equals(givenText[0]) && lastName.equals(givenText[2])) {
+            return true;
+        }
+    }
+     return false;
+  }
+  
+  public static boolean middleNameMatch2(String[] knownAliases, String recordName) {
+    
+    
+    return false;
+  }
+    
+    public static boolean nameMatch(String[] knownAliases, String recordName) {
+        // Implement me
+      
+        boolean exactMatchResult = exactMatch(knownAliases, recordName);
+      
+        boolean middleNameMissing1 = middleNameMatch1(knownAliases, recordName);
+      
+        boolean middleNameMissing2 = middleNameMatch2(knownAliases, recordName);
+      
+        System.out.println(middleNameMissing1);
+      
+        return false;
+    }
+
+    public static void assertEqual(boolean expected, boolean result, String errorMessage) {
+        if (result != expected) {
+            System.out.println(errorMessage);
+            System.out.println("expected: " + expected);
+            System.out.println("actual: " + result);
+            System.out.println("");
+        }
+    }
+
+    public static void main(String[] args) {
+        String[] knownAliases = new String[]{"Alphonse Gabriel Capone", "Al Capone"};
+        assertEqual(true,  nameMatch(knownAliases, "Alphonse Gabriel Capone"), "error 1.1");
+        assertEqual(true,  nameMatch(knownAliases, "Al Capone"),               "error 1.2");
+        assertEqual(false, nameMatch(knownAliases, "Alphonse Francis Capone"), "error 1.3");
+
+        knownAliases = new String[]{"Alphonse Capone"};
+        assertEqual(true,  nameMatch(knownAliases, "Alphonse Gabriel Capone"), "error 2.1");
+        assertEqual(true,  nameMatch(knownAliases, "Alphonse Francis Capone"), "error 2.2");
+        assertEqual(false, nameMatch(knownAliases, "Alexander Capone"),        "error 2.3");
+
+        knownAliases = new String[]{"Alphonse Gabriel Capone"};
+        assertEqual(true,  nameMatch(knownAliases, "Alphonse Capone"),         "error 3.1");
+        assertEqual(false, nameMatch(knownAliases, "Alphonse Francis Capone"), "error 3.2");
+        assertEqual(false, nameMatch(knownAliases, "Alphonse Edward Capone"),  "error 3.3");
+
+        knownAliases = new String[]{"Alphonse Gabriel Capone", "Alphonse Francis Capone"};
+        assertEqual(true,  nameMatch(knownAliases, "Alphonse Gabriel Capone"), "error 4.1");
+        assertEqual(true,  nameMatch(knownAliases, "Alphonse Francis Capone"), "error 4.2");
+        assertEqual(false, nameMatch(knownAliases, "Alphonse Edward Capone"),  "error 4.3");
+
+        knownAliases = new String[]{"Alphonse Gabriel Capone", "Alphonse F Capone"};
+        assertEqual(true,  nameMatch(knownAliases, "Alphonse G Capone"),       "error 5.1");
+        assertEqual(true,  nameMatch(knownAliases, "Alphonse Francis Capone"), "error 5.2");
+        assertEqual(false, nameMatch(knownAliases, "Alphonse E Capone"),       "error 5.3");
+        assertEqual(false, nameMatch(knownAliases, "Alphonse Edward Capone"),  "error 5.4");
+        assertEqual(false, nameMatch(knownAliases, "Alphonse Gregory Capone"), "error 5.5");
+
+        knownAliases = new String[]{"Alphonse Gabriel Capone"};
+        assertEqual(true,  nameMatch(knownAliases, "Gabriel Alphonse Capone"), "error 6.1");
+        assertEqual(true,  nameMatch(knownAliases, "Gabriel A Capone"),        "error 6.2");
+        assertEqual(true,  nameMatch(knownAliases, "Gabriel Capone"),          "error 6.3");
+        assertEqual(false, nameMatch(knownAliases, "Gabriel Francis Capone"),  "error 6.4");
+
+        knownAliases = new String[]{"Alphonse Gabriel Capone"};
+        assertEqual(false, nameMatch(knownAliases, "Alphonse Capone Gabriel"), "error 7.1");
+        assertEqual(false, nameMatch(knownAliases, "Capone Alphonse Gabriel"), "error 7.2");
+        assertEqual(false, nameMatch(knownAliases, "Capone Gabriel"),          "error 7.3");
+
+        System.out.println("Test run finished");
+    }
+}
+
