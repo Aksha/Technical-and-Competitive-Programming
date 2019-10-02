@@ -1,0 +1,180 @@
+What happens when a user sends a request or types in a url?
+Web cookies: cookies are small files stored in a user’s computer. It has session information that both web client and web server can use. When user establishes a connection with a server, the server/website sends small piece of data that is stored in the user’s computer by a web browser.  Cookies were designed to be a reliable mechanism for websites to remember stateful information (such as items added in the shopping cart in an online store) or to record the user's browsing activity (including clicking particular buttons, logging in, or recording which pages were visited in the past). They can also be used to remember arbitrary pieces of information that the user previously entered into form fields such as names, addresses, passwords, and credit card numbers.
+What does HTTP request and response have? 
+HTTP Requests
+Section
+Start line
+Section
+HTTP requests are messages sent by the client to initiate an action on the server. Their start-line contain three elements:
+An HTTP method, a verb (like GET, PUT or POST) or a noun (like HEAD or OPTIONS), that describes the action to be performed. For example, GET indicates that a resource should be fetched or POST means that data is pushed to the server (creating or modifying a resource, or generating a temporary document to send back).
+The request target, usually a URL, or the absolute path of the protocol, port, and domain are usually characterized by the request context. The format of this request target varies between different HTTP methods. It can be
+An absolute path, ultimately followed by a '?' and query string. This is the most common form, known as the origin form, and is used with GET, POST, HEAD, and OPTIONS methods.
+POST / HTTP/1.1
+GET /background.png HTTP/1.0
+HEAD /test.html?query=alibaba HTTP/1.1
+OPTIONS /anypage.html HTTP/1.0
+A complete URL, known as the absolute form, is mostly used with GET when connected to a proxy.
+GET http://developer.mozilla.org/en-US/docs/Web/HTTP/Messages HTTP/1.1
+The authority component of a URL, consisting of the domain name and optionally the port (prefixed by a ':'), is called the authority form. It is only used with CONNECT when setting up an HTTP tunnel.
+CONNECT developer.mozilla.org:80 HTTP/1.1
+The asterisk form, a simple asterisk ('*') is used with OPTIONS, representing the server as a whole.
+OPTIONS * HTTP/1.1
+The HTTP version, which defines the structure of the remaining message, acting as an indicator of the expected version to use for the response.
+Headers
+Section
+HTTP headers from a request follow the same basic structure of an HTTP header: a case-insensitive string followed by a colon (':') and a value whose structure depends upon the header. The whole header, including the value, consist of one single line, which can be quite long.
+There are numerous request headers available. They can be divided in several groups:
+General headers, like Via, apply to the message as a whole.
+Request headers, like User-Agent, Accept-Type, modify the request by specifying it further (like Accept-Language), by giving context (like Referer), or by conditionally restricting it (like If-None).
+Entity headers, like Content-Length which apply to the body of the request. Obviously, there is no such header transmitted if there is no body in the request.
+
+Body
+Section
+The final part of the request is its body. Not all requests have one: requests fetching resources, like GET, HEAD, DELETE, or OPTIONS, usually don't need one. Some requests send data to the server in order to update it: as often the case with POST requests (containing HTML form data).
+Bodies can be broadly divided into two categories:
+Single-resource bodies, consisting of one single file, defined by the two headers: Content-Type and Content-Length.
+Multiple-resource bodies, consisting of a multipart body, each containing a different bit of information. This is typically associated with HTML Forms.
+HTTP Responses
+Section
+Status line
+Section
+The start line of an HTTP response, called the status line, contains the following information:
+The protocol version, usually HTTP/1.1.
+A status code, indicating success or failure of the request. Common status codes are 200, 404, or 302
+A status text. A brief, purely informational, textual description of the status code to help a human understand the HTTP message.
+A typical status line looks like: HTTP/1.1 404 Not Found.
+Headers
+Section
+HTTP headers for responses follow the same structure as any other header: a case-insensitive string followed by a colon (':') and a value whose structure depends upon the type of the header. The whole header, including its value, presents as a single line.
+There are numerous response headers available. These can be divided into several groups:
+General headers, like Via, apply to the whole message.
+Response headers, like Vary and Accept-Ranges, give additional information about the server which doesn't fit in the status line.
+Entity headers, like Content-Length, apply to the body of the response. Typically, no such headers are transmitted when there is no body in the response.
+
+Body
+Section
+The last part of a response is the body. Not all responses have one: responses with a status code, like 201 or 204, usually don't.
+Bodies can be broadly divided into three categories:
+Single-resource bodies, consisting of a single file of known length, defined by the two headers: Content-Type and Content-Length.
+Single-resource bodies, consisting of a single file of unknown length, encoded by chunks with Transfer-Encoding set to chunked.
+Multiple-resource bodies, consisting of a multipart body, each containing a different section of information. These are relatively rare.
+
+4. How the internet works: https://www.youtube.com/watch?v=7_LPdttKXPc
+It takes a long time for your requests to reach the destination and the response to arrive if the data centers/server are far away. Building another server/data center and connecting them near your requested area is a bad idea because it is an expensive operation. What is a cost effective replacement? 
+Cache - 
+
+Private browser caches
+Section
+A private cache is dedicated to a single user. You might have seen "caching" in your browser's settings already. A browser cache holds all documents downloaded via HTTP by the user. This cache is used to make visited documents available for back/forward navigation, saving, viewing-as-source, etc. without requiring an additional trip to the server. It likewise improves offline browsing of cached content.
+
+
+Shared proxy caches
+Section
+A shared cache is a cache that stores responses to be reused by more than one user. For example, an ISP or your company might have set up a web proxy as part of its local network infrastructure to serve many users so that popular resources are reused a number of times, reducing network traffic and latency.
+
+How to setup APIs: 
+
+6. HOW DO SERVERS know how to respond to a user request?
+They get http request from the client that has start line, header (entity, general and request) and a body. It knows how to respond depending on the content that is requested.
+
+Max product with triplets (has negatives):
+
+Solution: O(nlogn) time and O(1) space
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+// Given a list of ints, find the greatest product of 3 of the ints
+
+// ex. [1,2,3] => 6
+// ex. [0, 4, -1, 0] => 0 --> [-1,0,0,4]
+// ex. [-10, 30, 20, -100] => 30000
+
+//ex. [10,-1, 1, 4] --> 40
+
+// ex [10, -9, -8, 3, 7, 2] --> [-9, -8, 2, 3, 7, 10] --> 720
+
+// To execute C++, please define "int main()"
+
+
+int maxOf3Product(vector <int> arr) {
+  if(arr.size() < 3)
+    return static_cast<int>(NULL);
+  sort(arr.begin(), arr.end());
+  int size = arr.size();
+  int maximum = max((arr[0]*arr[1]*arr[size-1]), (arr[size-3]*arr[size-2]*arr[size-1]));
+  return maximum;
+}
+                    
+int main() {
+  vector <int> arr = {10,-1, 1, 4};
+  int result = maxOf3Product(arr);
+  cout << result << endl;
+  return 0;
+}
+
+Better solution is O(n) time and O(1) space.
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <climits>
+using namespace std;
+
+// Given a list of ints, find the greatest product of 3 of the ints
+
+// ex. [1,2,3] => 6
+// ex. [0, 4, -1, 0] => 0 --> [-1,0,0,4]
+// ex. [-10, 30, 20, -100] => 30000
+
+//ex. [10,-1, 1, 4] --> 40
+
+// ex [10, -9, -8, 3, 7, 2] --> [-9, -8, 2, 3, 7, 10] --> 720
+
+// To execute C++, please define "int main()"
+
+
+int maxOf3Product(vector <int> arr) {
+  int n = arr.size();
+  if( n < 3)
+    return static_cast<int>(NULL);
+  int maxA = INT_MIN, maxB = INT_MIN, maxC = INT_MIN;
+  int minA = INT_MAX, minB = INT_MAX;
+  for(int i = 0; i < n; i++) {
+    if(arr[i] > maxA) {
+      maxC = maxB;
+      maxB = maxA;
+      maxA = arr[i];
+    }
+    else if (arr[i] > maxB) {
+      maxC = maxB;
+      maxB = arr[i];
+    } 
+    else if (arr[i] > maxC) {
+      maxC = arr[i];
+    }
+    
+    if(minA > arr[i]){
+      minB = minA;
+      minA = arr[i];
+    }
+    else if (minB > arr[i]) {
+      minB = arr[i];  
+    }
+  }
+  cout << maxA << " " << maxB << " " << maxC << " " << minA << " " << minB << " " << maxA << endl;
+  int maximum = max((maxA*maxB*maxC), (minA*minB*maxA));
+  return maximum;
+}
+                    
+int main() {
+  vector <int> arr = {-10, 30, 20, -100};
+  int result = maxOf3Product(arr);
+  cout << result << endl;
+  return 0;
+}
+
+
