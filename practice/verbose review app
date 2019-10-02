@@ -1,0 +1,218 @@
+User follow
+User unfollow
+User comments arranged in descending order of time with the most recent comment at the top.
+Display Top n comments from the people I follow.
+
+
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <map>
+#include <string>
+#include <sys/time.h>
+#include <unordered_set>
+
+using namespace std;
+
+//First implementation of post(U1,review):
+
+/*struct Node {
+   int tym;
+   string rev;
+};
+
+struct compare
+{
+   bool operator() ( const Node& I1, const Node& I2);
+};
+
+bool compare::operator()(const Node& I1, const Node& I2) {
+   return I1.tym > I2.tym;
+}
+
+//typedef  map<unsigned long int, string> RII;
+
+typedef unordered_set<Node,compare> RII;
+
+*void post(string s,string review, unordered_map<string, RII> &postResult){
+*   Node n;
+*   n.tym = (int)time(NULL);
+*   n.rev = review;
+*   unordered_set<Node, compare> temp;
+*   temp.insert(n);
+*   if(postResult.find(s) == postResult.end())
+*       postResult.insert(make_pair(s, temp));
+*   else if (postResult.find(s) != postResult.end())
+*       postResult[s] = (temp);
+*}
+*/
+unordered_map<string, vector<string>> followResult;
+
+typedef vector<pair<unsigned long int,string>> RII;
+
+unordered_map<string, RII> postResult;
+
+vector<string> topFeeds;
+
+vector<string> mergeTwoLists(vector <string> l1, vector <string> l2) {
+   vector <string> result;
+   int n = l1.size();
+   int m = l2.size();
+   int i = 0;
+   int j = 0;
+   int maximum = max(n,m);
+   while(i < maximum || j < maximum) {
+       if( i+1 == n && j < m) {
+           while(j < m) {
+               result.push_back(l2[j]);
+               j++;
+           }
+       }
+       else if (j+1 == m && i < n) {
+           while(i < n) {
+               result.push_back(l1[i]);
+               i++;
+           }
+       }
+       if(l1[i] > l2[j]){
+           result.push_back(l1[i]);
+           i++;
+       }
+       else if(l2[j] > l1[i]) {
+           result.push_back(l2[j]);
+           j++;
+       }
+       else {
+           result.push_back(l1[i]);
+           result.push_back(l2[j]);
+           i++;
+           j++;
+       }
+   }
+   return result;
+}
+
+vector<string> mergeKSortedArrays(vector<vector<string>> totalFeeds) {
+   vector <string> empty;
+   if(totalFeeds.empty()){
+       return empty;
+   }
+   while(totalFeeds.size() > 1){
+       vector <string> temp = mergeTwoLists(totalFeeds[0], totalFeeds[1]);
+       totalFeeds.push_back(temp);
+       totalFeeds.erase(totalFeeds.begin());
+       totalFeeds.erase(totalFeeds.begin());
+   }
+   return totalFeeds.front();
+}
+
+
+void getFeed(string user) {
+   vector<vector<string>> totalFeeds;
+   vector<string> users;
+   if(followResult.find(user) != followResult.end()){
+       for(vector<string>:: iterator it = followResult[user].begin(); it != followResult[user].end(); it++) {
+           users.push_back(*it);
+       }
+   }
+   for(int i = 0; i < users.size(); i++) {
+       if(postResult.find(users[i]) != postResult.end()) {
+           vector<string> temp;
+           for(vector<pair<unsigned long int,string>>::iterator it = postResult[users[i]].begin(); it != postResult[users[i]].end(); it++) {
+               temp.push_back(it->second);
+           }
+           totalFeeds.push_back(temp); //has all the comments from the all the users that our user follows
+       }
+   }
+   topFeeds = mergeKSortedArrays(totalFeeds);
+}
+
+
+void post(string s, string review) {
+   unsigned long int tym = time(NULL);
+   RII temp;
+   temp.push_back(make_pair(tym, review)); //use priority_queue
+   sort(temp.rbegin(), temp.rend());
+   if(postResult.find(s) == postResult.end()) {
+       postResult.insert(make_pair(s, temp));
+   }
+   else if(postResult.find(s) != postResult.end()){
+       postResult[s].push_back(make_pair(tym,review));
+   }
+}
+
+void dontFollow(string s1, string s2) {
+
+   if(followResult.find(s1) != followResult.end()) {
+       vector<string>::iterator itr = find(followResult[s1].begin(), followResult[s1].end(), s2);
+       int val = itr-followResult[s1].begin();
+       followResult[s1].erase (followResult[s1].begin()+val);
+   }
+}
+
+void follow (string s1, string s2) {
+   if(followResult.find(s1) == followResult.end()) {
+       //result[s1].push_back(s2); //result.insert(make_pair<string,vector<string>>(s1,s2)); or result.insert(s1, {s2});
+       vector<string> temp;
+       temp.push_back(s2);
+       followResult.insert(make_pair(s1,temp));
+   }
+   else {
+       followResult[s1].push_back(s2);
+   }
+}
+
+
+int main() {
+   string s1 = "a";
+   string s2 = "b";
+   string s3 = "c";
+   string s4 = "d";
+   string s5 = "e";
+   follow(s1, s2);
+   follow(s1, s3);
+   follow(s1, s4);
+   follow(s2, s5);
+   follow(s2, s3);
+
+   cout << "After following : " << endl;
+   for(unordered_map<string, vector<string>>:: iterator itr = followResult.begin(); itr != followResult.end(); itr++) {
+       for(vector<string>::iterator i = itr->second.begin(); i != itr->second.end(); i++) {
+           cout << itr->first << " : " << *i << endl;
+       }
+   }
+
+   dontFollow(s2, s3);
+   cout << "After unfollowing: " << endl;
+   for(unordered_map<string, vector<string>>:: iterator itr = followResult.begin(); itr != followResult.end(); itr++) {
+       for(vector<string>::iterator i = itr->second.begin(); i != itr->second.end(); i++) {
+           cout << itr->first << " : " << *i << endl;
+       }
+   }
+
+
+   string review1 = "hello the food is great";
+   string review2 = "Food smells great";
+   string review3 = "Food is bad";
+
+   post(s1,review1);
+   post(s1,review2);
+   post(s2,review3);
+   post(s2,review1);
+
+   for(unordered_map<string, RII>:: iterator itr = postResult.begin(); itr != postResult.end(); itr++) {
+       cout << "size: " << itr->second.size() << endl;
+       for(RII::iterator i = itr->second.begin(); i != itr->second.end(); i++) {
+           cout << "User: " << itr->first << " timestamp : " << i->first << " review : " << i->second << endl;
+       }
+   }
+   int number = 3;
+   getFeed(s1);
+
+   for(int i = 0; i < number; i++) {
+       cout << "comment  " << i << " : " << topFeeds[i] << endl;
+   }
+
+   return 0;
+}
+
