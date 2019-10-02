@@ -1,0 +1,149 @@
+Question 1: 
+
+C++: 
+1. Given a string with a wildcard character, 
+ex: 
+a?b?c?d: Replace the wild card character with a letter in such a way that adjacent characters are not the same.
+a?b?c?
+
+ex: ?ebece --> aebece
+ex: a?b?c?d?e?f?g?h?i?j?k?l?m?n?o?p?q?r?s?t?u?v?w?x?y?z?
+ex: ????
+
+Solution: 
+?ab?
+
+string wildCardReplace(string s) {
+    int length = s.size();
+    if(length == 0)
+        return "";
+    if(length == 1 && s == '?')
+        return 'a';
+    else if (length == 1 & s != '?') 
+        return  s;
+    for(int i = 0; i < length; i++) {
+        if(s[i] == '?') {
+            for(char c = 'a'; c < 'z'; c++) {
+                if(i-1 >= 0 && i+1 != length && s[i-1] != c && s[i+1] != c) {
+                    s[i] = c;
+                }  
+                else if (i - 1 < 0 && s[i+1] != c) {
+                    s[i] = c;
+                }
+                else if (i+1 == length && s[i-1] != c) {
+                    s[i] = c;
+                }
+                else if (i - 1 < 0 && i + 1 == length){
+                    s[i] = c;
+                }
+                break;
+            }
+        }
+    }
+   return s;
+}
+
+
+Speed.
+Subroutine always write.
+always solve a problem thinking that someone is listening to you. 
+
+Better solution: 
+
+1. Given a string with a wildcard character, 
+ex: 
+a?b?c?d: Replace the wild card character with a letter in such a way that adjacent characters are not the same.
+a?b?c?
+
+ex: ?ebece --> aebece
+ex: a?b?c?d?e?f?g?h?i?j?k?l?m?n?o?p?q?r?s?t?u?v?w?x?y?z?
+ex: ????
+
+Solution: 
+?ab?
+
+string wildCardReplace(string s) {
+    int length = s.size();
+    if(length == 0)
+        return "";
+    if(length == 1 && s == '?')
+        return 'a';
+    else if (length == 1 & s != '?') 
+        return  s;
+    for(int i = 0; i < length; i++) {
+        if(s[i] == '?') {
+            for(c='a' to 'z') {
+                s[i]=c;
+                if(isValidate(s,i)) break;
+            }
+                
+        }
+    }
+   return s;
+}
+boolean isValidate(string s , int i) {
+    boolean result=true;
+    if(i-1>=0 && s[i-1]!=s[i]){
+        result=false;
+    }
+    if(i+1<s.length && s[i+1]!=s[i]) {
+        result=false;
+    }
+    return result;
+}
+
+
+Question 2: 
+
+
+return the length of lonngest possible chunked palindrome
+geeksforgeeks
+(geeks)(for)(geeks)  = 3
+(merchant) =1
+(m) (a) (d) (a) (m) = 5
+
+volvo 
+(vo) (l) (vo) = 3
+  geeksforgeeks
+  
+  azmadam = 1 
+  
+  vo vo =   
+  
+  volvo
+  
+Catch: substring to substring check adds O(n). O(n^2)
+optimize
+always look for a pattern.
+
+Algo:
+1. initialize start = 0, end = length -1; set ptr1 = 0 set ptr 2 = length -1. Initilize count = 1; 
+    While (ptr1 < ptr2) {
+        if(s.substr(start,ptr1) == s.substr(ptr2, end) {
+            count += 2;
+            start = ptr1 +1;
+            end = ptr2 - 1;
+         }
+         ptr1++;
+         ptr2--;   
+        }
+    return count;
+    }
+    
+    
+    Better solution:
+    
+    iterate as long as you find a character match; once you get a character match, calculate the substring match.
+    
+geeksforgeeks
+(geeks)(for)(geeks)  = 3
+(merchant) =1
+(m) (a) (d) (a) (m) = 5
+
+volvo 
+(vo) (l) (vo) = 3
+  geeksforgeeks
+  
+  azmadam = 1 
+
+
