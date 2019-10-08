@@ -1,0 +1,60 @@
+#include <iostream>
+#include<string>
+#include<sstream>
+#include<istream>
+#include<unordered_map>
+#include<fstream>
+#include <vector>
+
+using namespace std;
+
+unordered_map<string,int> timestamps;
+
+//create an unordered hashmap that keeps track of each timestamp and its count.
+void count_timestamps(string s) {
+   vector <string> result;
+   result.clear();
+   istringstream words(s);
+   while(words) {
+       string word = "";
+       words >> word;
+       result.push_back(word);
+   }
+   result[3].erase(0,1);
+   if(timestamps.find(result[3]) == timestamps.end()) {
+       timestamps.insert(make_pair(result[3],1));
+   }
+   else {
+       timestamps[result[3]]++;
+   }
+}
+int main()
+{
+    // read the string filename
+    string filename;
+    cin >> filename;
+    string temp = "";
+    ifstream infile;
+    infile.open(filename);
+    if(!infile) {
+        cout << "given file is empty" << endl;
+        return 1;
+    }
+    while(!infile.eof()) {
+        getline(infile,temp);
+        count_timestamps(temp);
+    }
+    infile.close();
+    ofstream outfile;
+    string req_filename = "req_" + filename;
+    cout << req_filename << endl;
+    outfile.open(req_filename);
+    for(unordered_map<string,int>::iterator it = timestamps.begin(); it != timestamps.end(); it++) {
+        if(it->second > 1) {//if a timestamp appears more than once, print it to the output file
+            string temp = it->first;
+            outfile << temp << "\n";
+        }
+    }
+    outfile.close(); 
+    return 0;
+}
