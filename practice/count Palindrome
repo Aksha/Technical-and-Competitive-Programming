@@ -1,0 +1,23 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+
+
+/*
+ * Complete the 'countPalindromes' function below.
+ *
+ * The function is expected to return an INTEGER.
+ * The function accepts STRING s as parameter.
+ */
+
+int countPalindromes(string s) {
+    int res = 0, n = s.length();
+        for(int i = 0; i < n; i++){
+            for(int j = 0; i-j >= 0 && i+j < n && s[i-j] == s[i+j]; j++)res++; //even length string : substring s[i-j, ..., i+j]
+            for(int j = 0; i-1-j >= 0 && i+j < n && s[i-1-j] == s[i+j]; j++)res++; //odd length string: substring s[i-1-j, ..., i+j]
+        }
+        return res;
+}
+
+int main()
