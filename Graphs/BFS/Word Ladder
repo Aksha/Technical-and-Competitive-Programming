@@ -117,3 +117,74 @@ class WordNode{
         return 0;
   }
 }
+
+
+Easier implementation (terse):
+
+using a set
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        queue<pair<string, int>> q;
+        unordered_set<string> hset(wordList.begin(), wordList.end());
+        
+        if (!hset.count(endWord))
+            return 0;
+        
+        q.push(make_pair(beginWord, 0));
+        hset.erase(beginWord);
+        
+        while (!q.empty()) {
+            string cur = q.front().first;
+            int level  = q.front().second;
+            q.pop();
+            
+            if (cur == endWord)
+                return level + 1;
+            
+            for (int i = 0; i < cur.size(); i++) {
+                string tmp = cur;
+                for (int j = 0; j < 26; j++) {
+                    tmp[i] = 'a' + j;
+                    if (hset.count(tmp)) {
+                        q.push(make_pair(tmp, level + 1));
+                        hset.erase(tmp);
+                    }
+                }
+            }
+        }
+        
+        return 0;
+    }
+};
+
+My solution using a set and a queue <pair<string,int>>
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_set<string> hset(wordList.begin(),wordList.end());
+        if (!hset.count(endWord))
+            return 0;
+        queue<pair<string,int>> Q;
+        Q.push(make_pair(beginWord,0));
+        while(!Q.empty()) {
+            string currWord = Q.front().first;
+            int level = Q.front().second;
+            Q.pop();
+            if(currWord == endWord)
+                return level+1;
+            for(int i = 0; i < currWord.size(); i++) 
+            {
+                string temp = currWord;
+                for(char ch = 'a'; ch <= 'z'; ch++) {
+                    temp[i] = ch;
+                    if(hset.count(temp) > 0) {
+                        Q.push(make_pair(temp,level+1));
+                        hset.erase(temp);
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+};
