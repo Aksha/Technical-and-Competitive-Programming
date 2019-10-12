@@ -1,0 +1,134 @@
+/*
+
+M*N and each cell has 0/1
+
+connected cells, top, down, left, right
+
+1 0 1
+1 0 1
+1 1 0
+0 1 0
+
+10001
+11011
+01100
+
+1 1 1
+1 0 1
+1 1 1
+
+unordered_map<string,int> hmap
+p1 ->5
+p2 ->3
+
+cell[i][j] = -1;
+parent[cell[i][j] = p1;
+
+
+
+patch area = noOfConnectedCells
+
+flip operation -> 0 to 1
+
+max possb area of a patch with at most 1 flip
+
+Algorithm: 
+
+1. Run a dfs. Find the patches and its values. Store the patch and value as akey value pair in hmap. ALso keep track of visited cells and the patch it belongs to.
+2. Now go over each cell in the grid. For cells with value 0, check if any of its neighbors have a value 1. all 4 positions. for eah position, find out which patch the visited cell belongs to and add its value. storeit in a variable called maximum. repeatit for every cell in the grid with value 0 and has a valid neighbour
+3. return maximum count.
+*/
+
+
+
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+unordered_map<int, int> hmap;
+int parentValue = 0;
+
+bool isValid(vector<vector<int>> grid, int i, int j) {
+    if(i >= 0 && i < grid.size() && j >= 0 && j < grid[0].size())
+        return true;
+    return false;
+}
+
+void dfs_patch(vector<vector<int>> &grid, int i, int j, int &counter, vector<vector<int>> &parent) {
+    if (isValid(grid,i,j) && grid[i][j] == 1){
+        counter++;
+        parent[i][j] = parentValue;
+        grid[i][j] = -1;
+        dfs_patch(grid, i - 1, j, counter, parent);
+        dfs_patch(grid, i + 1, j, counter, parent);
+        dfs_patch(grid, i, j - 1, counter, parent);
+        dfs_patch(grid, i, j + 1, counter, parent);
+        return;
+    }
+}
+
+// To execute C++, please define "int main()"
+int main() {
+    vector<vector<int>> grid = {{1,1,0,0,0},
+                                {1,0,0,0,1},
+                                {1,1,1,0,1},
+                                {1,0,0,1,0}};
+    int m = grid.size();
+    int n = grid[0].size();
+    std::vector<std::vector<int> > parent(m,std::vector<int>(n, -1));
+    for(int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            if (grid[i][j] == 1) {
+                int counter = 0;
+                dfs_patch(grid, i, j, counter,parent);
+                hmap.insert(make_pair(parentValue, counter));
+                parentValue++;
+            }
+        }
+    }
+    for(unordered_map<int,int>::iterator it = hmap.begin(); it != hmap.end(); it++) {
+        cout << it->first << " " << it->second << endl;
+    }
+
+
+    int maximum = 0;
+    for(int i = 0; i < m; i++) {
+        for(int j = 0; j < n; j++) {
+            int currMax = 0;
+            unordered_map<int, int> temp = hmap;
+            if(grid[i][j] == 0) {
+                if(isValid(grid,i-1,j) && grid[i-1][j] == -1 && parent[i-1][j] != -1) {
+                    if(temp.find(parent[i-1][j]) != temp.end()) {
+                        currMax += temp[parent[i - 1][j]];
+                        temp[parent[i - 1][j]] = 0;
+                    }
+                }
+                if(isValid(grid,i,j+1) && grid[i][j+1] == -1 && parent[i][j+1] != -1){
+                    if(temp.find(parent[i][j+1]) != temp.end()) {
+                        currMax += temp[parent[i][j+1]];
+                        temp[parent[i][j+1]] = 0;
+                    }
+                }
+                if(isValid(grid,i,j-1) && grid[i][j-1] == -1 && parent[i][j-1] != -1) {
+                    if(temp.find(parent[i][j-1]) != temp.end()) {
+                        currMax += temp[parent[i][j-1]];
+                        temp[parent[i][j-1]] = 0;
+                    }
+                }
+                if(isValid(grid,i+1,j) && grid[i+1][j] == -1 && parent[i+1][j] != -1) {
+                    if(temp.find(parent[i+1][j]) != temp.end()) {
+                        currMax += temp[parent[i+1][j]];
+                        temp[parent[i+1][j]] = 0;
+                    }
+                }
+                if(currMax+1 > maximum) {
+                    maximum = currMax+1;
+                }
+            }
+        }
+    }
+    cout << "maximum is: " << maximum << endl;
+    return 0;
+}
