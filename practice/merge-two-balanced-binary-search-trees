@@ -99,6 +99,7 @@
       Practice more (simpler) problems in BT.
       No optimal solution
       took more hints than necessary.
+      avoid constant back and forth
       hint : Propose BST -> sorted doubly linked list instead of arrays.
       
       node* buildTree (int inorder[], int start, int end)  
