@@ -1,0 +1,129 @@
+1. 
+
+       7
+     4    9
+   3   6 8   20
+   
+   
+        13
+      5    18
+      
+      ==> 
+          13   
+      5        9
+    4    6    8  20
+  3        7
+              8
+                  9
+      
+      //Notes 
+      //1. Create Inorder traversal of both BST. // 
+      //2. Merge two sorted arrays // 
+      //3. Build BST out of it. 
+      //TC: 0(M+N)
+      //SC: 0(M) +0(N) +0(M+N)
+      
+      
+      iterate through B1. inorder traversal, store values in an array B1
+      iterate through B2, inorder, store values in an array B2
+      merge the sorted arrays B3
+      construct a BST from B3
+      
+      
+      vector <int> B1;
+      vector <int> B2;
+      vector <int> result;
+      in the main method B1 = inOrder(root of B1, array B1);
+      main method B2 = inorder(root of B2, array B2);
+      
+      Struct TreeNode {
+          int val;
+          TreeNode* left;
+          TreeNode* right;
+          TreeNode(int value) : val(value), left(NULL), right(NULL) {}
+      };
+      
+      void inOrder(TreeNode* root, vector<int> &A){
+          if(root == NULL)
+              return;
+          inorder(root->left);
+          A.push_back(root->val);
+          inorder(root->right);
+      }  
+      
+      [3,4,6,7,8,9,10]
+      [5,13,18]
+      
+      vector<int> merge2sortedArrays (vector<int> B1, vector<int> B2) {
+          int i = 0;
+          int j = 0;
+          int size1 = B1.size();
+          int size2 = B2.size();
+          vector<int> result(size1+size2);
+          int k = 0;
+          while(i<size1 && j < size2) {
+              if(B1[i] <= B2[j]) {
+                  result[k] = B1[i];
+                  i++;
+                  k++;
+              }
+              else {
+                  result[k]= B2[j];
+                  j++;
+                  k++;
+              }
+          }
+          while(i < size1) {
+              result[k++] = B1[i++];
+          }
+          while(j < size2) {
+              result[k++] = B2[j++];
+          }
+      }
+      
+      //build BST 
+      
+      TreeNode* buildBSTTree(vector <int> result, int start, int end) {
+          if(start>end) {
+              return NULL;
+          }
+          int mid = start + (end-start)/2;     
+          TreeNode* root = new TreeNode(result[mid]);
+          root->left = buildBSTTree(root, start, mid-1);
+          root->right = buildBSTTree(root, mid+1, end);
+          return root;
+      }
+      
+      
+      Lack practice
+      Practice more (simpler) problems in BT.
+      No optimal solution
+      took more hints than necessary.
+      hint : Propose BST -> sorted doubly linked list instead of arrays.
+      
+      node* buildTree (int inorder[], int start, int end)  
+      {  
+            if (start > end)  
+                return NULL;  
+          
+            /* Find index of the maximum element from Binary Tree */
+            int i = max (inorder, start, end);  
+          
+            /* Pick the maximum value and make it root */
+            node *root = newNode(inorder[i]);  
+          
+            /* If this is the only element in inorder[start..end],  
+            then return it */
+            if (start == end)  
+                return root;  
+          
+            /* Using index in Inorder traversal, construct left and  
+            right subtress */
+            root->left = buildTree (inorder, start, i - 1);  
+            root->right = buildTree (inorder, i + 1, end);  
+          
+            return root;  
+      }  
+      
+      
+      //https://www.geeksforgeeks.org/merge-two-balanced-binary-search-trees/
