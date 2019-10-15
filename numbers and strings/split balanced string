@@ -1,0 +1,47 @@
+Balanced strings are those who have equal quantity of 'L' and 'R' characters.
+
+Given a balanced string s split it in the maximum amount of balanced strings.
+
+Return the maximum amount of splitted balanced strings.
+
+ 
+
+Example 1:
+
+Input: s = "RLRRLLRLRL"
+Output: 4
+Explanation: s can be split into "RL", "RRLL", "RL", "RL", each substring contains same number of 'L' and 'R'.
+Example 2:
+
+Input: s = "RLLLLRRRLR"
+Output: 3
+Explanation: s can be split into "RL", "LLLRRR", "LR", each substring contains same number of 'L' and 'R'.
+Example 3:
+
+Input: s = "LLLLRRRR"
+Output: 1
+Explanation: s can be split into "LLLLRRRR".
+
+int balancedStringSplit(string s) {
+        int diff = 0, count = 0;
+        for (int i = 0; i < s.length(); i++) {
+            diff += s[i] == 'R' ? 1 : -1;
+            if (diff == 0) ++count;
+        }
+        return count;
+    }
+    
+    
+    int balancedStringSplit(string s) {
+        int l_num = 0, r_num = 0;
+        int res = 0;
+        for (char c : s) {
+            if (c == 'L')
+                l_num++;
+            else if (c == 'R')
+                r_num++;
+            if (l_num == r_num)
+                res++;
+        }
+        return res;
+    }
