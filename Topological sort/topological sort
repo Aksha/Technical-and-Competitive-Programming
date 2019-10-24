@@ -1,5 +1,16 @@
 https://www.youtube.com/watch?v=ddTC4Zovtbc
 
+topological sort 
+
+other ’s’ starting character data structures: set and stack
+
+1. if not visited, add it to set.
+2. full on dfs
+3. if visited skip
+4. if has no children move it from set to stack.
+5. if already visited and child has been visited, move it from set to stack
+6. pop all elements from the stack 
+
 
 // A C++ program to print topological sorting of a DAG 
 #include <iostream> 
