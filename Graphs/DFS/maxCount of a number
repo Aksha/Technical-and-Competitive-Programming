@@ -1,0 +1,97 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+using namespace std;
+
+// To execute C++, please define "int main()"
+/*
+@param matrix, a 2-d array (list of lists) of integers
+@return the size of the largest contiguous block (horizontally/vertically connected) of numbers with the same value
+
+[1, 2, 3]
+[4, 1, 6]
+[4, 5, 1]
+Result: 2 (PASSED)
+==============
+[1, 1, 1, 2, 4]
+[5, 1, 5, 3, 1]
+[3, 4, 2, 1, 1]
+Result: 4 (PASSED)
+==============
+[3, 3, 3, 3, 3, 1]
+[3, 4, 4, 4, 3, 4]
+[2, 4, 3, 3, 3, 4]
+[2, 4, 4, 4, 4, 4]
+Result: 11 (PASSED)
+==============
+[1, 1, 1, 1, 1]
+[1, 1, 1, 1, 1]
+[1, 1, 0, 1, 1]
+[1, 1, 1, 1, 1]
+[1, 1, 1, 1, 1]
+Result: 24 (PASSED)
+==============
+Time Complexity O(nm)
+Space Complexity : O(1)
+
+[1 1 1
+1 1 1
+1 1 1]
+
+DFS or recursion
+1. For every element in the grid, check if its ne
+
+
+
+
+[1, 2, 3]
+[4, 1, 6]
+[4, 5, 1]
+*/
+void calculateCount(vector<vector<int>> grid, int i, int j, int& count, int number, vector<vector<bool>>& visited) {
+    if( i < 0 || i >= grid.size() || j < 0 || j >= grid[0].size() || visited[i][j] == 1 || grid[i][j] != number) {
+        return;
+    }
+    visited[i][j] = true;
+    count++;
+    calculateCount(grid,i+1,j,count, number, visited);
+    calculateCount(grid,i-1,j,count, number, visited);
+    calculateCount(grid,i,j+1,count, number, visited);
+    calculateCount(grid,i,j-1,count, number, visited);
+    calculateCount(grid,i+1,j+1,count, number, visited);
+    calculateCount(grid,i-1,j-1,count, number, visited);
+    calculateCount(grid,i+1,j-1,count, number, visited);
+    calculateCount(grid,i-1,j+1,count, number, visited);
+    return;
+}
+
+int main() {
+    vector<vector<int>> grid = {{3, 3, 3, 3, 3, 1},
+                                {3, 4, 4, 4, 3, 4},
+                                {2, 4, 3, 3, 3, 4},
+                                {2, 4, 4, 4, 4, 4}};
+    int row = grid.size();
+    int col = grid[0].size();
+
+    if(row == 0 & col == 0)
+        return 0;
+    vector<vector<bool>> visited(row,vector<bool>(col,false));
+
+    //bool visited[row][col];
+    //visited[row][col] = {false};
+
+    int maxCount = INT_MIN;
+    int count = 0;
+    for(int i = 0; i < row; i++) {
+        for(int j = 0; j < col; j++) {
+            if(visited[i][j] == false) {
+                int count = 0;
+                int number = grid[i][j];
+                calculateCount(grid, i, j, count, number, visited);
+                maxCount = max(maxCount, count); //3
+            }
+        }
+    }
+    cout << "maximum count: " <<  maxCount << endl;
+    return 0;
+}
