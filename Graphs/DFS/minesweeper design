@@ -1,0 +1,79 @@
+Design a minesweeper game given row/col and number of mines.
+
+3 mins, 4 rows, 5 cols
+
+*1110
+23*10
+*1110
+
+Input: mines, rows and columns;
+
+Output: grid vector<vector<string>>
+
+Corner cases: If row is 0, col is 0 return empty grid.
+No mines: return grid with all 0s.
+
+Bool isValid(Grid,int i, int j) {
+	Int rowSize = grid.size();
+	Int colSize = grid[0].size();
+	if( i < rowSize && i >= 0 && j < colSize && j >= 0_
+}
+
+Int calcCellValue(vector<vector<String> grid, int r, int c) {
+	Int val = 0;
+	if(isValid(grid,i-1,j-1) && grid[i-1][j-1] == ‘*’) {
+		Val = grid[i-1][j-1] - ‘0’;
+}
+if(isValid(grid,i-1,j) && grid[i-1][j] == ‘*’ ) {
+		Val = grid[i-1][j] - ‘0’;
+}
+
+if(isValid(grid,i-1,j+1 && grid[i-1][j+1] == ‘*’)) {
+		Val = grid[i-1][j+1] - ‘0’;
+}
+
+if(isValid(grid,i,j-1 && grid[i][j-1] == ‘*’)) {
+		Val = grid[i][j-1] - ‘0’;
+}
+if(isValid(grid,i,j+1 && grid[i][j+1] == ‘*’)) {
+		Val = grid[i][j+1] - ‘0’;
+}
+
+if(isValid(grid,i+1,j-1 && grid[i+1][j-1] == ‘*’)) {
+		Val = grid[i+1][j-1] - ‘0’;
+}
+
+if(isValid(grid,i+1,j) && grid[i+1][j] == ‘*’) {
+		Val = grid[i+1][j] - ‘0’;
+}
+
+if(isValid(grid,i+1,j+1) && grid[i+1][j+1] == ‘*’) {
+		Val = grid[i+1][j+1] - ‘0’;
+}
+
+
+}
+vector<vector<string>> minesweeper_design(int mines, int row, int col) {
+	Int rowSize = row.size();
+	Int colSize = col.size();
+	Vector <vector<string>> grid(‘0’,(colSize,’0’));
+   	Int i = 0;
+	while(mines != 0) {
+		Int r = rand() % row;
+		Int c = rand() % col;
+		if(grid[r][c] != ‘*’) {
+			Grid[r][c] = ‘*’;
+			mines--;
+}
+}
+
+for(int i = 0; i < rowSize; i++) {
+	for(int j = 0; j < colSize; j++) {
+		if(grid[i][j] != ‘*’) {
+			Int val  = calculateCellValue(grid,i,j);
+			Grid[i][j] = val.c_str();
+}
+}
+}
+Return grid[i][j];
+}
