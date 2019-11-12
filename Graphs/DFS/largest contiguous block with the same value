@@ -6,7 +6,7 @@ using namespace std;
 // To execute C++, please define "int main()"
 /*
 @param matrix, a 2-d array (list of lists) of integers
-@return the size of the largest contiguous block (horizontally/vertically connected) of numbers with the same value
+@return the size of the largest contiguous block (horizontally/vertically/diagonal connected) of numbers with the same value
 
 [1, 2, 3]
 [4, 1, 6]
