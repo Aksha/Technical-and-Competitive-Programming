@@ -1,0 +1,134 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+struct Node {
+    int x;
+    int y;
+    char direction;
+    Node() {}
+    Node(int i, int j,char dir) {
+        x = i;
+        y = j;
+        direction = dir;
+    }
+};
+
+bool valid (vector<vector<int>> grid, int x, int y) {
+    if(x < 0 || x >= grid.size() || y < 0 || y >= grid[0].size())
+        return false;
+    return true;
+}
+
+Node marsExploration(vector<vector<int>>& grid, Node initialPos, string A) {
+    Node final;
+    int x = initialPos.x;
+    int y = initialPos.y;
+    char d = initialPos.direction;
+    int i = 0;
+    int size = A.size();
+    cout << "size of string: " << size << endl;
+    /*facing dir;
+    dir = static_cast<facing>(direct);*/
+    while( i < size) {
+        if(A[i] == 'L') {
+            if(d == 'N') {
+                d = 'W';
+            }
+            else if(d == 'W') {
+                d = 'S';
+            }
+            else if(d == 'S') {
+                d = 'E';
+            }
+            else if(d == 'E') {
+                d = 'N';
+            }
+        }
+        else if(A[i] == 'R') {
+            if(d == 'N'){
+                d = 'E';
+            }
+            else if(d == 'E') {
+                d = 'S';
+            }
+            else if(d == 'S') {
+                d = 'W';
+            }
+            else if(d == 'W') {
+                d = 'N';
+            }
+        }
+        else if(A[i] == 'M') {
+            switch (d) {
+                case 'N': {
+                    if (valid(grid, x, y))
+                        x--;
+                    break;
+                }
+                case 'S': {
+                    if (valid(grid, x, y))
+                        x++;
+                    break;
+                }
+                case 'E': {
+                    if (valid(grid, x, y)) {
+                        y++;
+                    }
+                    break;
+                }
+                case 'W': {
+                    if (valid(grid, x, y))
+                        y--;
+                    break;
+                }
+                default: {
+                    x--;
+                    exit(0);
+                }
+            }
+            final.x = x;
+            final.y = y;
+            final.direction = d;
+        }
+        i++;
+    }
+    return final;
+}
+
+/*Example: Input: Given Initial Position = (1,2,'N') - x,y,direction coordinate, 5X5 matrix with all 0s and a String A = "LMLMLMLMM"
+ * Output: find its final position
+ *
+ *
+ *
+ * 0 0 1 0 0
+ * 0 1 1 0 0
+ * 0 1 1 0 0
+ * 0 0 0 0 0
+ * 0 0 0 0 0
+ *
+ * x = 0 y = 2 final direction = N
+*/
+
+int main() {
+    string A = "LMLMLMLMM";
+    Node initialPos(1,2,'N');
+    int r = initialPos.x;
+    int c = initialPos.y;
+    int row = 5;
+    vector<vector<int>> grid(row,vector<int>(row,0));
+    grid[r][c] = 1;
+    Node final;
+    final = marsExploration(grid, initialPos, A);
+    cout << "Final position of x : " << final.x << " final position of y : " << final.y << " final direction: " << final.direction << endl;
+    grid[final.x][final.y] = 1;
+    cout << "For reference, the final position and initial position are represented by 1s in the grid" << endl;
+    for(int i = 0; i < grid.size(); i++) {
+        for(int j = 0; j < grid[0].size(); j++) {
+            cout << grid[i][j] << " ";
+        }
+        cout << endl;
+    }
+    return 0;
+}
