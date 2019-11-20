@@ -1,6 +1,6 @@
 #   Akshaya Ravichandran
 
-Sunnyvale, CA | 650.457.3229 |akshaya89@gmail.com
+San Jose, CA | 650.457.3229 |akshaya89@gmail.com
 
 | **LinkedIn:** [linkedin.com/in/akshayaravichandran](http://linkedin.com/in/akshayaravichandran) | **GitHub:** [github.com/Aksha](https://github.com/Aksha) | **AngelList:** [angel.co/akshayaravichandran](https://angel.co/akshayaravichandran) |
 | --- | --- | --- |
