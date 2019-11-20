@@ -51,7 +51,7 @@ Sunnyvale, CA | 650.457.3229 |akshaya89@gmail.com
 
 **EDUCATION**
 
-Master of Science in Computer Science\*(Thesis Dissertation pending), Miami University - Oxford, Ohio
+Master of Science in Computer Science\*, Miami University - Oxford, Ohio
 
 Bachelor of Technology in Information Technology (Computer Science), Anna University - Chennai, India
 
