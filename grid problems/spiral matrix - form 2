@@ -1,0 +1,91 @@
+Given a r X c grid and the starting position at x,y, write a program to spiral through 
+the grid/matrix starting at 1,4 until you touch every cell in the grid.
+
+#include <iostream>
+#include <vector>
+ 
+using namespace std;
+ 
+bool valid(vector<vector<int>>& matrix, int i, int j) {
+  if(i < 0 || i >= matrix.size() || j < 0 || j >= matrix[0].size())
+    return false;
+  return true;
+}
+ 
+void spiralMatrix(vector<vector<int>>& matrix, int i, int j) {
+  int currNum = 1;
+  int tracker = 1;
+  int r = matrix.size();
+  int c = matrix[0].size();
+  int maximum = r*c; //gives the total number of cells in the grid/matrix
+  /*
+  if(valid(matrix,i,j)) {
+      matrix[i][j] = currNum;
+      currNum++;
+      j++;
+  }
+  if(valid(matrix,i,j)) {
+      matrix[i][j] = currNum;
+      currNum++;
+      i++;
+  }
+  tracker++;
+  */
+ 
+  if(valid(matrix,i,j)) {
+    matrix[i][j] = currNum;
+    currNum++;
+  }
+ 
+  while(currNum <= maximum) {
+    int R = 0, D = 0, L = 0, U = 0;
+    if(tracker %2 != 0) {
+      while(R < tracker) {
+        if(valid(matrix,i,j)) {
+          matrix[i][j] = currNum;
+          currNum++;
+        }
+        R++;
+        j++;
+      }
+      while(D < tracker) {
+        if(valid(matrix,i,j)) {
+          matrix[i][j] = currNum;
+          currNum++;
+        }
+        D++;
+        i++;
+      }
+    }
+    else if ( tracker % 2 == 0) {
+      while(L < tracker) {
+        if(valid(matrix,i,j)) {
+          matrix[i][j] = currNum;
+          currNum++;
+        }
+        L++;
+        j--;
+      }
+      while(U < tracker) {
+        if(valid(matrix,i,j)) {
+          matrix[i][j] = currNum;
+          currNum++;
+        }
+        U++;
+        i--;
+      }
+    }
+    tracker++;
+  }  
+}
+ 
+int main() {
+  int r = 4;
+  int c = 6;
+  int x = 1;
+  int y = 4;
+  
+ 
+  vector<vector<int>> matrix(r,vector<int>(c));
+ 
+  //cout << " Row : " << matrix.size();
