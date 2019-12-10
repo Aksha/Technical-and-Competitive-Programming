@@ -8,9 +8,9 @@ void quickSort(int arr[], int left, int right) {
  
       /* partition */
       while (i <= j) {
-            while (arr[i] < pivot)
+            while ( i <= j && arr[i] < pivot)
                   i++;
-            while (arr[j] > pivot)
+            while (i <= j && arr[j] > pivot)
                   j--;
             if (i <= j) {
                   tmp = arr[i];
