@@ -1,0 +1,35 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+bool sortbysec(pair<int,int> a, pair <int,int> b) {
+    return a.second < b.second;
+}
+
+int main() {
+    vector <pair<int,int>> input;
+    input.push_back(make_pair(10,4));
+    input.push_back(make_pair(5,10));
+    input.push_back(make_pair(10,8));
+    input.push_back(make_pair(20,8));
+    input.push_back(make_pair(20,3));
+
+
+    //sort by first then sort by second
+    sort(input.begin(), input.end());
+    int size = input.size();
+    cout << "initially sort by first " << endl;
+    for(int i = 0; i < size; i++) {
+        cout << input[i].first << ' ' << input[i].second << endl;
+    }
+
+    //sort by second
+    cout << "Sorting by second " << endl;
+    sort(input.begin(), input.end(), sortbysec);
+    for(int i = 0; i < size; i++) {
+        cout << input[i].first << ' ' << input[i].second << endl;
+    }
+
+    return 0;
+}
