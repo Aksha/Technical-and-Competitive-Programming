@@ -1,0 +1,46 @@
+#include <iostream>
+#include <unordered_map>
+#include <fstream>
+#include <vector>
+#include <sstream>
+#include <istream>
+#include <locale>
+#include <string>
+
+using namespace std;
+
+vector<string> getWordByWord(string temp) {
+    vector <string> result;
+    istringstream words(temp);
+    while(words) {
+        string word = "";
+        words >> word;
+        result.push_back(word);
+    }
+    return result;
+}
+
+int main() {
+    string temp = "";
+    ifstream myfile;
+    myfile.open(("/Users/Aks/Desktop/doc_test.txt"));
+    if(!myfile) {
+        cout << "Cannot open input file.\n";
+        return 1;
+    }
+    int counter = 0;
+    while(!myfile.eof()) {
+        getline(myfile,temp);
+        vector<string> word = getWordByWord(temp);
+        int n = word.size();
+        for(int i = 0; i < n; i++) {
+            if ((word[i]) == "Shakespeare") //check corner cases. lower cases, followed by punctuation etc.
+            {
+                counter++;
+            }
+        }
+    }
+    cout << "Count of Shakespeare: " << counter << endl;
+    myfile.close();
+    return 0;
+}
