@@ -1,0 +1,56 @@
+https://images.app.goo.gl/mwkK6bBLebF3zGPCA
+
+Design a Jigsaw puzzle solver. You are given:
+• a set of pieces 
+• a test function which, given two edges, will return whether they match
+• a function that takes an edge and returns whether it's flat, a hole, or a tab. You do not need to worry about matching colors.
+ 
+Given: pieces, bool function that returns if two edges match and a function that returns flat, hole, tab
+ 
+ 
+ 
+char edgeType = ‘f’ ‘H’ = hole and ‘t’ = tab
+Bool isMatch(edge1, edge2) returns true or false 
+
+Class edge {
+Enum edgeType {‘flat’, ‘hole’,’tab’};
+	Piece parent;
+	Bool fitsWith(Edge edge);
+}
+
+Class Piece {
+	Orientation direction = //90,180,270,0;
+	Edge left, right, top, bottom;
+}
+
+Class JigsawPuzzle {
+	vector<vector<piece>> solution;
+	vector <piece> input;
+	Vector <edge> edges; //flat, hole, tab;
+	Vector <piece> outer_pieces;
+
+	char edgeCalculator(Edge edge) {
+		//find out the type
+		Return ‘f’ || ‘h’ || ‘t’;
+}
+
+Bool isMatch(Edge edge1, Edge edge2) {
+	if(edge1 && edge2 fit)
+		Return true;
+	Return false;
+}
+
+vector<vector<piece>> outer_layer (vector<piece> input) {
+	If the given piece has 1 flat, it is not a corner piece but belongs to the outer_pieces. So push it in outer_pieces.
+	If the given piece has 2 flats, it forms one of the corners of the jigsaw puzzle grid. Depending on the orientation, add it in the appropriate position in the outer_pieces 2D array;
+	Return outer_edges;
+	//list of outermost edges;
+}
+	
+	Void solve () {
+		Foreach outermost piece
+}
+}
+
+
+input: list[Piece]
