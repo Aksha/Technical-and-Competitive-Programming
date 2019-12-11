@@ -1,0 +1,42 @@
+#include <iostream>
+#include <unordered_map>
+#include <map>
+#include <algorithm>
+#include <set>
+
+using namespace std;
+
+struct Node {
+    int key;
+    int value;
+    Node(){};
+    Node(int k,int v) : key(k), value(v) {}
+};
+
+struct sortbysec
+{
+    template<typename T>
+    bool operator()(const T& l, const T& r) const
+    {
+        return l.value < r.value;
+    }
+};
+
+
+int main() {
+    set <Node, sortbysec> hSet;
+    Node ob;
+    ob.key = 5;
+    ob.value = 15;
+    hSet.insert(ob);
+    Node ob1;
+    ob1.key = 5;
+    ob1.value = 4;
+    hSet.insert(ob1);
+    Node ob2(5,10);
+    hSet.insert(ob2);
+    for(set<Node,sortbysec>::iterator it = hSet.begin(); it != hSet.end(); it++) {
+        cout << it->key << " " << it->value << endl;
+    }
+    return 0;
+}
