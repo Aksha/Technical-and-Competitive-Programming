@@ -1,0 +1,64 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include<istream>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+bool sortbysec(pair<string,int> a, pair <string,int> b) {
+    return a.second > b.second;
+}
+
+int main() {
+    ifstream infile;
+    infile.open(("/Users/Aks/Desktop/doc_test.txt"));
+    if(!infile) {
+        cout << "Input file is empty or doesn't exist" << endl;
+        return 1;
+    }
+
+    unordered_map<string,int> wordCount;
+    if(infile.is_open()) {
+        string temp = "";
+        while(getline(infile,temp)) {
+            string tempWord = "";
+            istringstream iss(temp);
+            while(getline(iss, tempWord, ' ')) {
+                if(wordCount.find(tempWord) != wordCount.end()) {
+                    wordCount[tempWord]++;
+                }
+                else {
+                    wordCount.insert(make_pair(tempWord,1));
+                }
+            }
+        }
+    }
+    infile.close();
+    vector <pair<string,int>> sortedWordCount;
+
+    for(unordered_map<string,int>::iterator it = wordCount.begin(); it != wordCount.end(); it++) {
+        sortedWordCount.push_back(make_pair(it->first,it->second));
+    }
+
+    sort(sortedWordCount.begin(), sortedWordCount.end(), sortbysec);
+
+    int counter = 0;
+    for(auto i:sortedWordCount) {
+        if(counter < 10) {
+            string temporary = "";
+            string temporary2 = " ";
+            string key = i.first;
+            int value = i.second;
+            if(key.compare(temporary) && key.compare(temporary2)) {
+                cout << key << " : " << value << endl;
+                counter++;
+            }
+        }
+    }
+
+    return 0;
+}
