@@ -1,8 +1,4 @@
-Asana: 
-
-￼
-
-closest(k, list[coordinates]) -> list[coordinates]
+￼closest(k, list[coordinates]) -> list[coordinates]
 
 List[coordinates] -> list of (x,y)
 Origin - (0,0)
