@@ -1,0 +1,40 @@
+Asana: 
+
+￼
+
+closest(k, list[coordinates]) -> list[coordinates]
+
+List[coordinates] -> list of (x,y)
+Origin - (0,0)
+K = 3
+List[coorindatinates] -> {{1,2},{-3,5},{2,1},{8,10}, {-1,2}, {8,-1}, {-8,-1} }
+
+
+distance_to_origin(coordinate) -> integer
+List[coordinates] -> list[distance]
+
+
+
+
+Calculate distance between the origin and every point. Sort the distance ascendingly. K points from the distance list and those will be the ones   that have the minimum distance
+
+
+[7, 1, 300, 4, 2, 0 … ], k = 3
+
+[7, 1, 300, 4, 2, 0 … ]
+ i			 j
+[0, 1, 300, 4, 2, 7 … ]
+       pivot j
+	     i
+
+[0 1 2 … ] 300 [ 304 700 … ] 
+
+
+
+3 -> pivot; (2nd index position)
+
+If the value of the element is less than 3, do nothing
+
+Apply Quick select algorithm
+
+
