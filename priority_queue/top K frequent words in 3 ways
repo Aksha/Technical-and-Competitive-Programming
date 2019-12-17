@@ -1,0 +1,107 @@
+1. using a hashmap and vector.
+2. using 2 hashmaps.
+3. using a priority queue.
+#include <iostream>
+#include <string>
+#include <queue>
+#include <istream>
+#include <sstream>
+#include <fstream>
+#include <unordered_map>
+#include <cstddef>
+#include <map>
+
+using namespace std;
+
+struct wordAndCount {
+    int count;
+    string Word;
+    wordAndCount() {}
+    wordAndCount(int c, string w) {
+        count = c;
+        Word = w;
+    }
+};
+
+struct compareWord {
+    bool operator()(const wordAndCount &a, const wordAndCount &b) {
+        return a.count < b.count;
+    }
+};
+
+bool sortByCount(pair<string,int> &a, pair<string,int> &b) {
+    return a.second > b.second;
+}
+
+int main() {
+    //read from a file and return the top k most frequent elements
+    unordered_map <string, int> wordCount;
+    ifstream infile;
+    infile.open("/Users/Aks/Desktop/doc_test.txt");
+    if(!infile) {
+        cout << " The file is not present or empty or invalid path" << endl;
+        return 1;
+    }
+    if(infile.is_open()) {
+        string line = "";
+        while(getline(infile,line)) {
+            istringstream iss(line);
+            string word = "";
+            while(getline(iss, word, ' ')) {
+                size_t found = word.find_first_of(" ");
+                if(found != string::npos)
+                    continue;
+                if (wordCount.find(word) != wordCount.end())
+                    wordCount[word]++;
+                else
+                    wordCount.insert(make_pair(word, 1));
+            }
+        }
+    }
+    infile.close();
+
+    cout << "way 1: using hashmaps and vectors " << endl;
+    vector<pair<string,int>> topKWords;
+    for(unordered_map<string,int>::iterator it = wordCount.begin(); it != wordCount.end(); it++) {
+        topKWords.push_back(make_pair(it->first,it->second));
+    }
+
+    sort(topKWords.begin(), topKWords.end(), sortByCount);
+
+    int k = 5;
+    for(int i = 0; i < k; i++){
+        cout << topKWords[i].first << " : " << topKWords[i].second << endl;
+    }
+
+    cout << "way 2: use 2 hashmaps one for wordCOunt, for for topKWords and print the value." << endl;
+
+    map <int,string,greater<int> > countWords;
+
+    for(auto word:wordCount) {
+        countWords.insert(make_pair(word.second,word.first));
+    }
+
+    int counter = 0;
+    for(map<int,string>::iterator it = countWords.begin(); it != countWords.end(); it++) {
+        if(counter < k) {
+            cout << it->first << ":" << it->second << endl;
+            counter++;
+        }
+    }
+
+    cout << "way 3 use priority queue priority queue takes only one input . So key value pair? is important" << endl;
+    priority_queue<wordAndCount, vector<wordAndCount>, compareWord> pq;
+
+    for(auto word: wordCount) {
+        wordAndCount w;
+        w.count = word.second;
+        w.Word = word.first;
+        pq.push(w);
+    }
+
+    for(int i = 0; i < k; i++) {
+        cout << pq.top().count << " : " << pq.top().Word << endl;
+        pq.pop();
+    }
+    return 0;
+}
