@@ -106,7 +106,7 @@ public:
                   while (entry->getNext() != NULL) {
                         entry = entry->getNext(); //make it constant time
                   }
-                  if (entry->getKey() == key) {//what if the key is not present towards the end. fix this!!!
+                  if (entry->getKey() == key) {//collision resolution. If two keys map to the same hash. if the key is the same set value, else move to next until you are able to create a new hash entry with the current key value pair
                         entry->setValue(value);
                   }
                   else {
