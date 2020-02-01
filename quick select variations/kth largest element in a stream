@@ -1,3 +1,5 @@
+For Kth smallest : Use a max heap instead of a min heap
+
 class KthLargest {
 public:
     
