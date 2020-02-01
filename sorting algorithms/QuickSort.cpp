@@ -19,7 +19,11 @@ using namespace std;
 //         p i    j
 
 
-int partition(vector <int> &A, int start, int end, int pivot) {
+int partition(vector <int> &A, int start, int end) {
+    //int pivot = A[(start+end)/2]; 
+    int left = start;
+    int pivot = A[left]; 
+    start++; 
     while(start <= end) {
         while(A[start] < pivot) {
             start++;
@@ -31,14 +35,14 @@ int partition(vector <int> &A, int start, int end, int pivot) {
             swap(A[start++],A[end--]);
         }
     }
+    swap(A[start], A[left]);
     return start;
 }
 
 void quicksort(vector<int> &A, int start, int end) {
     if(start >= end)
         return;
-    int pivot = A[(start + end)/2];
-    int index = partition(A, start, end, pivot);
+    int index = partition(A, start, end);
     quicksort(A, start,index-1);
     quicksort(A, index, end);
 }
