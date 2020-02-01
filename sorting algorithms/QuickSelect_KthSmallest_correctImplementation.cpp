@@ -3,7 +3,7 @@
 
 using namespace std;
 
-/*int partition(vector <int> &A, int start, int end, int pivot) {
+/*int partition(vector <int> &A, int start, int end, int pivot) { hoarse's partitioing algorithm
     while(start <= end) {
         while(A[start] < pivot) {
             start++;
@@ -18,7 +18,7 @@ using namespace std;
     return start;
 }*/
 
-int partition(vector<int> &arr, int start, int end) {
+int partition(vector<int> &arr, int start, int end) { //lomuto's partitioning algorithm
     int i = start;
     int pivot = arr[end];
     for(int j = start; j <= end-1; j++) {
