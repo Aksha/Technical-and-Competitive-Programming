@@ -11,11 +11,11 @@ public:
             pq.pop();
         }
         
-        if (pq.size() < k) pq.push(INT_MIN);
+        if (pq.size() < k) pq.push(INT_MIN); // the heap should be of size 'k'. so that there is no confusion while inserting new elements
     }
 
     int add(int val) {
-        if (val > pq.top()) {
+        if (val > pq.top()) { 
             pq.pop();
             pq.push(val);
         }
