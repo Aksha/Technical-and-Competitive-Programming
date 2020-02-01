@@ -1,9 +1,15 @@
+Variation of this could be kth largest element
+  
 #include <iostream>
 #include <vector>
 
 using namespace std;
 
-/*int partition(vector <int> &A, int start, int end, int pivot) {
+int partition(vector <int> &A, int start, int end) {
+    //int pivot = A[(start+end)/2]; 
+    int left = start;
+    int pivot = A[left]; 
+    start++; 
     while(start <= end) {
         while(A[start] < pivot) {
             start++;
@@ -15,10 +21,11 @@ using namespace std;
             swap(A[start++],A[end--]);
         }
     }
+    swap(A[start], A[left]);
     return start;
-}*/
+}
 
-int partition(vector<int> &arr, int start, int end) {
+int partition(vector<int> &arr, int start, int end) { //lomuto's partitioning algorithm
     int i = start;
     int pivot = arr[end];
     for(int j = start; j <= end-1; j++) {
