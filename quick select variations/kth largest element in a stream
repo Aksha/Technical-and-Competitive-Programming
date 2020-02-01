@@ -1,0 +1,35 @@
+class KthLargest {
+public:
+    
+    using priority_queue_class = priority_queue<int, vector<int>, greater<>>;
+    
+    KthLargest(int k, const vector<int>& nums) {
+
+        pq = priority_queue_class(nums.begin(), nums.end());
+        
+        while (pq.size() > k) {
+            pq.pop();
+        }
+        
+        if (pq.size() < k) pq.push(INT_MIN);
+    }
+
+    int add(int val) {
+        if (val > pq.top()) {
+            pq.pop();
+            pq.push(val);
+        }
+        return pq.top();
+    }
+private:
+    priority_queue_class pq;
+};
+
+/**
+ * Your KthLargest object will be instantiated and called as such:
+ * KthLargest* obj = new KthLargest(k, nums);
+ * int param_1 = obj->add(val);
+ */
+ 
+ 
+ Important: Don't use quick select on a stream where you have to keep re-sorting everytime an element in inserted. Use a min heap. Explanation in the gold book
