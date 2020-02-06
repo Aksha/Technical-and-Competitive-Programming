@@ -1,0 +1,209 @@
+Top K
+
+
+
+Problem Statement:
+
+
+
+You are given an array of integers arr, of size n, which is analogous to a continuous stream of integers input. Your task is to find K largest elements from a given stream of numbers.
+
+By definition, we don't know the size of the input stream. Hence, produce K largest elements seen so far, at any given time. For repeated numbers, return them only once.
+
+
+
+If there are less than K distinct elements in arr, return all of them.
+
+
+
+Note:
+
+Don't rely on size of input array arr.
+Feel free to use built-in functions if you need a specific data-structure.
+
+
+Input/Output Format For The Function:
+
+
+
+Input Format:
+
+
+
+There is only one argument: Integer array arr.
+
+
+
+Output Format:
+
+
+
+Return an integer array res, containing K largest elements. If there are less than K unique elements, return all of them.
+
+Order of elements in res does not matter.
+
+
+
+Input/Output Format For The Custom Input:
+
+
+
+Input Format:
+
+
+
+The first line of input should contain an integer n, denoting size of input array arr. In next n lines, ith line should contain an integer arr[i], denoting a value at index i of arr.
+
+In the next line, there should be an integer, denoting value of K.
+
+
+
+If n = 5, arr = [1, 5, 4, 4, 2] and K = 2, then input should be:
+
+
+
+5
+
+1
+
+5
+
+4
+
+4
+
+2
+
+2
+
+
+
+Output Format:
+
+
+
+Let’s denote size of res as m, where res is the array of integers returned by solution function.
+
+Then, there will be m lines of output, where ith line contains an integer res[i], denoting value at index i of res.
+
+
+
+For input n = 5, arr = [1, 5, 4, 4, 2] and K = 2, output will be:
+
+
+
+4
+
+5
+
+
+
+Constraints:
+
+1 <= n <= 10^5
+1 <= K <= 10^5
+arr may contains duplicate numbers.
+arr may or may not be sorted
+
+
+Sample Test Case:
+
+
+
+Sample Test Case 1:
+
+
+
+Sample Input 1:
+
+
+
+arr = [1, 5, 4, 4, 2]; K = 2
+
+
+
+Sample Output 1:
+
+
+
+[4, 5]
+
+
+
+Sample Test Case 2:
+
+
+
+Sample Input 2:
+
+
+
+arr = [1, 5, 1, 5, 1]; K = 3
+
+
+
+Sample Output 2:
+
+
+
+[5, 1]
+
+
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+int partition(vector<int> &arr, int start, int end) {
+    int pivot = arr[end];
+    int j = start;
+    for(int i = start; i < end; i++) {
+        if(arr[i] <= pivot) {
+            swap(arr[i], arr[j]);
+            j++;
+        }
+    }
+    swap(arr[j], arr[end]);
+    return j;
+}
+
+void quickSelect(vector<int> &arr, int start, int end, int k) {
+    if (start <= end) {
+        int pivotIndex = partition(arr, start, end);
+        if (pivotIndex == k) {
+            return;
+        } else if (pivotIndex > k) {
+            quickSelect(arr, start, pivotIndex - 1, k);
+        } else {
+            quickSelect(arr, pivotIndex + 1, end, k);
+        }
+    }
+    return;
+}
+
+void removeDuplicates(vector<int> &arr) {
+    vector<int>::iterator ip;
+    ip = std::unique(arr.begin(), arr.end());
+    arr.resize(std::distance(arr.begin(), ip));
+}
+
+int main() {
+//top k elements
+    vector<int> arr = {1, 5, 4, 4, 2};
+    int n = arr.size();
+    int k = 2;
+    removeDuplicates(arr);
+    cout << "actual array " << endl;
+    for(int i = 0; i < arr.size(); i++) {
+        cout << arr[i] << ",";
+    }
+    quickSelect(arr, 0, n-1, n-1-k);
+    cout << "\nresult " << endl;
+    for(int i = n-k; i < n-1; i++) {
+        cout << arr[i] << ",";
+    }
+    cout << arr[n-1] << endl;
+
+    return 0;
+}
