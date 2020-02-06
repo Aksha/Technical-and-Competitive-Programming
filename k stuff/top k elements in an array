@@ -148,10 +148,9 @@ Sample Output 2:
 
 [5, 1]
 
-
 #include <iostream>
 #include <vector>
-#include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -183,27 +182,50 @@ void quickSelect(vector<int> &arr, int start, int end, int k) {
 }
 
 void removeDuplicates(vector<int> &arr) {
-    vector<int>::iterator ip;
-    ip = std::unique(arr.begin(), arr.end());
-    arr.resize(std::distance(arr.begin(), ip));
+   int n = arr.size();
+   int count[n];
+   count[n] = {0};
+   for(int i = 0; i < n; i++) {
+       count[arr[i]]++;
+   }
 }
 
 int main() {
 //top k elements
-    vector<int> arr = {1, 5, 4, 4, 2};
-    int n = arr.size();
-    int k = 2;
-    removeDuplicates(arr);
+    vector<int> arr = {4,
+            8,
+            9,
+            6,
+            6,
+            2,
+            10,
+            2,
+            8,
+            1,
+            2};
+    int n = arr.size()-1;
+    int k = 9;
     cout << "actual array " << endl;
-    for(int i = 0; i < arr.size(); i++) {
+    for(int i = 0; i < n; i++) {
         cout << arr[i] << ",";
     }
-    quickSelect(arr, 0, n-1, n-1-k);
+    cout << arr[n] << endl;
+
+    quickSelect(arr, 0, n, n-k);
+
+    cout << "post quick select  " << endl;
+    for(int i = 0; i < n; i++) {
+        cout << arr[i] << ",";
+    }
+    cout << arr[n] << endl;
+
+    //removeDuplicates(arr);
+
     cout << "\nresult " << endl;
-    for(int i = n-k; i < n-1; i++) {
+    for(int i = n-k; i < n; i++) {
         cout << arr[i] << ",";
     }
-    cout << arr[n-1] << endl;
+    cout << arr[n] << endl;
 
     return 0;
 }
