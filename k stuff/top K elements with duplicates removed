@@ -35,3 +35,72 @@ print topK(a, k)
 a = [1, 5, 1, 5, 1]
 k = 2
 print topK(a, k)
+
+
+C++ implementation: 
+#include <iostream>
+#include <queue>
+#include <unordered_set>
+#include <set>
+
+using namespace std;
+
+vector<int> topK(vector<int> arr, int k) {
+    vector<int> result;
+    vector<int> newArr;
+    priority_queue<int,vector<int>, greater<int>> maxK;
+    unordered_set<int> hset;
+    int n = arr.size();
+    for(int i = 0; i < n; i++) {
+        hset.insert(arr[i]);
+    }
+
+    for(int i : hset) {
+        newArr.push_back(i);
+    }
+
+    int nS = newArr.size();
+
+    for(int i = 0; i < k; i++) {
+        if(i < nS)
+            maxK.push(newArr[i]);
+    }
+
+    for(int i = k; i < n; i++) {
+        if(newArr[i] > maxK.top()) {
+            maxK.push(newArr[i]);
+            maxK.pop();
+        }
+    }
+
+    int mS = maxK.size();
+    for(int i = 0; i < mS; i++) {
+        result.push_back(maxK.top());
+        maxK.pop();
+    }
+
+    return result;
+}
+
+int main() {
+    //n = 5, arr = [1, 5, 4, 4, 2] and K = 2
+    //time complexity: O(nlogk)
+    vector<int> arr = {4,
+            8,
+            9,
+            6,
+            6,
+            2,
+            10,
+            2,
+            8,
+            1,
+            2};
+    int k = 9;
+    vector <int> result = topK(arr,k);
+    int n = result.size();
+    for(int i = 0; i < n-1; i++)
+        cout << result[i] << ",";
+    cout << result[n-1] << endl;
+    return 0;
+}
