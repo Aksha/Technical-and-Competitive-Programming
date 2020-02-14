@@ -2,30 +2,38 @@ Chapter 9 in Cracking the coding interview:
 
 O(n2^n) time and space.
 
-vector<vector<int>> subset<vector<int> input){
-  vector<vector<int>> subset;
-  vector<int> empty;
-  subset.push_back(empty);
-  for(int i = 0; i < subset.size(); i++){
-    vector<int> subset_temp = subset;
-    for(int j = 0; j < subset_temp.size();j++)
-      subset_temp[j].push_back(set[i]);
-    for(int j = 0; j < subset.size(); i++)
-      subset.push_back(subset_temp[j]);
-  }
-  return subset;
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+vector< vector<int> > printAllSubsets(vector<int> arr)
+{
+    vector< vector<int> > subset;
+    vector<int> empty;
+    subset.push_back( empty );
+
+    for (int i = 0; i < arr.size(); i++)
+    {
+        vector< vector<int> > subsetTemp = subset;
+
+        for (int j = 0; j < subsetTemp.size(); j++)
+            subsetTemp[j].push_back( arr[i] );
+
+        for (int j = 0; j < subsetTemp.size(); j++)
+            subset.push_back( subsetTemp[j] );
+    }
+    return subset;
 }
 
-vector<vector<int>> subsetofAllset(vector<int> input){
-  vector <vector<int>> subset;
-  vector<int> empty;
-  subset.push_back(empty);
-  int index = 0;
-  if(input.size() < 1)
-     return subset;
-  return subsetofAllset_helper(set, input, empty, index);
-}
-
-void subsetofAllset_helper(vector<int> input, vector <int> temp, vector<vector<int>> subset){
-  
+int main() {
+    vector<int> arr = {1,2,3};
+    vector<vector<int>> subset = printAllSubsets(arr);
+    for(int i = 0; i < subset.size(); i++) {
+        for(int j = 0; j < subset[i].size(); j++) {
+            cout << subset[i][j] << ",";
+        }
+        cout << endl;
+    }
+    return 0;
 }
