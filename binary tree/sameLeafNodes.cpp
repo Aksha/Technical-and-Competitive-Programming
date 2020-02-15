@@ -40,10 +40,22 @@ struct iterator {
 }
 
 struct leafNodeIterator : iterator {
-      leafNodeIterator(Node n) {}
+      stack S;
+      leafNodeIterator(Node n) {
+      	S.push(n);
+      }
+      bool hasNext() {
+      	if(currentLeafNode != NULL)
+		return true;
+	while(!s.empty()) {
+		.......
+	}
+      }
+      
 }
 
 //Some magical method for understanding: 
+
 
 bool isEqualLeafNodes(Node tree1, Node tree2) {
       iterator <Node> it1 = new leafNodeIterator(tree1);
