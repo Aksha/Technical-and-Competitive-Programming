@@ -26,9 +26,6 @@ void toDLL(Node* n, FirstLast FL) {
   }
   FL.last = n;
   toDLL(n->right,FL);
-  if(FL.last == NULL) {
-    FL.last = n;
-  }
 } 
 
 NodeToDLL( Node* root) {
