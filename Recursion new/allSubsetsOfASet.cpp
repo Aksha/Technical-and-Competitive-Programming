@@ -1,7 +1,8 @@
 //Combination problem:
 
-Time complexity: O(N.2^N)
-Space complexity: call stack O(N)
+//Time complexity: O(N.2^N)
+//Space complexity: call stack O(N)
+
 #include <iostream>
 #include <vector>
 
