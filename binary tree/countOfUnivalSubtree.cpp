@@ -1,6 +1,6 @@
 // Find the count of Unival Subtrees:
 
-// Solution: Time complexity: O(n), space: O(n)
+// Solution: Time complexity: O(n), space: O(logn) = height
 
 Node {
   int val;
