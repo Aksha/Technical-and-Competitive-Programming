@@ -28,5 +28,6 @@ bool countSVT(Node n , Counter c) {
 
 
 int count SingleValueTree(Node n) {
-  return countSVT(Node n, Counter c); 
+   countSVT(Node n, Counter c); 
+   return C.counter
 }
