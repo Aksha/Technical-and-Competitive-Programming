@@ -18,7 +18,7 @@ second tree:
   c   d   e */
   
   
-/*  Solution: 
+/*  Solution: Time complexity : O(m+n) worst case where m is the number of nodes in Tree1 and n is the number of nodes in Tree2
 A Simple Solution is traverse first tree and store leaves from left and right in an array. Then traverse other tree and store leaves in another array. Finally compare two arrays. If both arrays are same, then return true.
 
 The above solution requires O(m+n) extra space where m and n are nodes in first and second tree respectively.
