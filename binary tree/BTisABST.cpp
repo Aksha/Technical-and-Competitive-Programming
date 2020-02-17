@@ -14,3 +14,6 @@ bool isBST(TreeNode* root){
     return isBST_helper(root,minimum,maximum);
 
 }
+
+
+//Another way : eliminate all "false" cases. Then by default, the answer is true.
