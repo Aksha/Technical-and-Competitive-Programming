@@ -34,35 +34,32 @@
  *       3   1
  *
  */
-class TreeNode {
-    TreeNode left;
-    TreeNode right;
-    int data;
-}
- 
-TreeNode* reverse(TreeNode* node) {
-    // implementation here
+/*
+    class TreeNode{
+        int val;
+        TreeNode* left_ptr;
+        TreeNode* right_ptr;
+    };
+*/
+
+/*
+    Complete the function below
+*/
+TreeNode* flipUpsideDown(TreeNode* root){
+    if (!root || !root->left_ptr) {
+        return root;
+    }
     
-}
-class TreeNode {
-    TreeNode left;
-    TreeNode right;
-    int data;
-}
- 
-TreeNode* reverse(TreeNode* node) {
-    // implementation here
-    if(node == NULL) 
-        return NULL;
-    if(node->left == NULL && node->right == NULL) 
-        return node->left;
-    Node* newRoot = reverse(node->left);
-    node->left->left = node->right;
-    node->left->right = node;
-    node->left = node->right = NULL;
+    TreeNode* newRoot = flipUpsideDown(root->left_ptr);
+    root->left_ptr->left_ptr = root->right_ptr;
+    root->left_ptr->right_ptr = root;
+    root->left_ptr = NULL;
+    root->right_ptr = NULL;
     
-    return newRoot ? newRoot: node;
+    return newRoot;
 }
+
+
 
 Right solution: 
 class Solution {
