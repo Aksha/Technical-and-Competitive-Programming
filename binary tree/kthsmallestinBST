@@ -1,0 +1,13 @@
+void inOrder(TreeNode* root, vector<int> &arr) {
+    if(root == NULL)
+        return;
+    inOrder(root->left_ptr,arr);
+    arr.push_back(root->val);
+    inOrder(root->right_ptr,arr);
+}
+
+int kth_smallest_element(TreeNode* root, int k) {
+    vector<int> arr;
+    inOrder(root,arr);
+    return arr[k-1];
+}
