@@ -1,0 +1,21 @@
+
+
+
+int find_height(TreeNode* root) {
+    if (root == nullptr) return 0;
+    queue<TreeNode*> q; q.push(root);
+    int depth = 0;
+    while (!q.empty()) {
+        int breadth = q.size();
+        for (int _ = 0; _ < breadth; ++_) {
+            TreeNode* node = q.front(); 
+            q.pop();
+            for (auto child : node->children) {
+                if (child) 
+                q.push(child);
+            }
+        }
+        depth += 1;
+    }
+    return depth-1;
+}
