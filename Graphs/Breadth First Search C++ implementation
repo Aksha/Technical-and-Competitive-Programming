@@ -3,64 +3,33 @@
 Another important property:  
 prints all paths from root to leaf (Facebook interview question)
 
-void BFS(vector<vector<int>> AL, int S) {
-	for(int i = 0; i < AL.size(); i++) {
-		 color[i] = 0;
-		parent[i] = NIL;
-		distance[i] = INT_MAX;
-}
+void BFS(vector<vector<TreeNode*>> AM, TreeNode* S) {
+	for(int i = 0; i < AM.size(); i++) {
+		color[i] = 0;
+		parent[i] = NULL;
+		distance[i] = INT_MAX; //infinity
+	}
 
-color[S] = 0;
-distance[S] = 0;
-parent[S] = NIL;
+	color[S] = 0;
+	distance[S] = 0;
+	parent[S] = NULL;
 
-queue<int> BFS;
-BFS.push_back(S);
+	queue<int> BFS;
+	BFS.push_back(S);
 	
 	while(!BFS.empty()) {
-		int top = BFS.front();
-for(int i = 0; i < AL[top].size(); i++) {
-	if(color[AL[top][i]] == 0) {
-		color[AL[top][i]] = 1;
-		parent[AL[top][i]] = top;
-		distance[AL[top][i]] = distance[top]+1;
-		BFS.push_back(AL[top][i]);
-}
-}	
-BFS_queue.pop();
-color[top] = 2;
-}
-}
-
-void BFS(vector <vector<int>> AL){
-	for(int i = 0; i < AL.size(); i++) {
-		if(i == source) {
-	color[i] = 1;
-	distance[i] = 0;
-	pred[i] = NIL;
-}
-else{
-	color[i] = 0;
-	distance[i] = INT_MAX;
-	pred[i] = NIL;
-}
-
-queue <int> BFS;
-BFS.push(source);
-while(!BFS.empty()){
-	int top = BFS.front();
-	for(int i = 0; i < AL[top].size();i++) {
-		if(color[AL[top][i]] == 0) {
-	color[AL[top][i]] = 1; //grey
-	distance[AL[top][i]] = distance[top] + 1;
-	pred[AL[top][i]] = top;
-	BFS.push(AL[top][i]]);
-}
-}
-BFS.pop();
-color[top] = 2; //black
-}
-}
+		Node* top = BFS.front();
+		for(int i = 0; i < AM[top].size(); i++) {
+			if(color[AM[top][i]] == 0) {
+				color[AM[top][i]] = 1;
+				parent[AM[top][i]] = top;
+				distance[AM[top][i]] = distance[top]+1;
+				BFS.push_back(AM[top][i]);
+			}
+		}	
+		BFS_queue.pop();
+		color[top] = 2;
+	}
 }
 
 Java implementation:
