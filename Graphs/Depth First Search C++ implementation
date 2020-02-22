@@ -8,24 +8,25 @@ void DFS(vector<vector<int>> AL) {
 	for(int i = 0; i < AL.size(); i++) {
 		color[i] = 0;
 		parent[i] = NIL;
+	}
+	int time = 0;
+	for(int i = 0; i < AL.size(); i++) {
+		if(color[i] == 0) {
+			DFS_Visit(i);
+		}
+	}
 }
-int time = 0;
-for(int i = 0; i < AL.size(); i++) {
-	if(color[i] == 0) {
-		DFS_Visit(i);
-}
-}
-}
+
 void DFS_Visit(int i) {
 	color[i] = 1;
 	start_time[i] = time+1;
 	for(int j = 0; j < AL[i].size(); j++) {
 		if(color[j] == 0) {
 			DFS_visit(j);
-}
-}
-end_time[i] = time + 1;
-color[i] = 2;
+		}
+	}
+	end_time[i] = time + 1;
+	color[i] = 2;
 }
 
 
@@ -33,13 +34,13 @@ void DFS(vector<vector<int>> AL) {
 	for(int i = 0; i < AL.size(); i++) {
 	color[i] = 0;
 	pred[i] = NIL;
-}
-int time = 0;
-for(int i = 0; i < AL.size();i++) {
-	if(color[i] == 0) {
-		DFS_visit(i);
-}
-}
+	}
+	int time = 0;
+	for(int i = 0; i < AL.size();i++) {
+		if(color[i] == 0) {
+			DFS_visit(i);
+		}
+	}
 }
 
 void DFS_visit(int i) {
@@ -47,13 +48,13 @@ void DFS_visit(int i) {
 	color[i] = 1;
 	start_time = time;
 	for(int j = 0; j < AL[i].size(); j++) {
-	if(color[j] == 0){
-		parent[j] = i;
-	DFS_visit(j);
-}
-}
-end_time = time + 1;
-color[i] = 2;
+		if(color[j] == 0){
+			parent[j] = i;
+			DFS_visit(j);
+		}
+	}
+	end_time = time + 1;
+	color[i] = 2;
 }
 
 C++ implementation lesser:
