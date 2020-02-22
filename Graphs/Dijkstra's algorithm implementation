@@ -6,9 +6,9 @@ Given: weighted, directed graph with non negative edge weights.
 Time Complexity : O(V+E(logV))
 Space complexity: O(V) ??
 
-Struct Node { //Every node has a number and weight associated with it.  
+struct Node { //Every node has a number and weight associated with it.  
 	int number;
-int weight;
+	int weight;
 }
 
 bool compare (const e &N1, const Node &N2) {
