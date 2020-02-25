@@ -10,53 +10,57 @@ Solution:
 --------------------------------------------------------------------------------------------------------------------
 
 Class Solution {
-  vector <char> make_graph(vector<string> words) {
-    if(words.size() == 1) return words[0];
-    Graph g = createGraph(words);
-    return topologicalSort(g);
-  }
   
-  void topologicalSort_helper(Graph& g, bool& visited, bool& current_record, vector<char> &result, vector<char>::iter input){
-    if(current_record[input]) return true;
-    if(visited[input]) return false;
-    current_record[input] = true;
-    visited[input] = true;
-    for(vector<char>::iter i = g[input].begin(); i != G[input].end(); i++)
-      if(!topologicalSort_helper(g, current_record[input], visited[input], result, i) == false)
-        return false;
-    result.push_back(i);
-    return true;
-  }
-  
-  vector<char>  topologicalSort(Graph g){
-    vector <char> result;
-    bool visited[g.size()] = {false};
-    bool current_record[g.size()] = {false};
-    for(vector<char>::iterator i = g.begin(); i != g.end(); i++)
-      if(!topological_helper(g, visited[i], current_record[i],result, *i))
-        return false;
-    reverse(result.begin(), result.end());
-    return result;
-  }
-  
-  Graph createGraph(vector <string> words) {
-    unordered_map <char, unordered_set<char>> G;
-    for(int i = 1; i < words.size(); i++) {
-      bool seen = false;
-      string word1 = words[i-1];
-      string word2 = words[i];
-      int length = max(word1.size(), word1.size())
-      for(int j = 0; i < length; i++) {
-        if(G.find(word1[i]) == G.end() && i < word1.size()) 
-            G[word1[i]).insert(unordered_set<char>());
-        if(G.find(word2[i]) == G.end() && i < word2.size()) 
-            G[word2[i]).insert(unordered_set<char>());
-        if(G.find(word1[i]) == G.end() && G.find(word2[i]) == G.end() && word1[i] != word2[i] && seen == false)
-            G[word1[i]].insert(word2[i]);
+/*
+ * Complete the function below.
+ */
+ 
+  unordered_map <char, unordered_set<char>> createGraph(vector <string> words) {
+      unordered_map <char, unordered_set<char>> G;
+      for(int i = 1; i < words.size(); i++) {
+        bool seen = false;
+        string word1 = words[i-1];
+        string word2 = words[i];
+        int length = max(word1.size(), word1.size())
+        for(int j = 0; j < length; j++) {
+          if(G.find(word1[i]) == G.end() && i < word1.size()) 
+              G[word1[i]).insert(unordered_set<char>());
+          if(G.find(word2[i]) == G.end() && i < word2.size()) 
+              G[word2[i]).insert(unordered_set<char>());
+          if(G.find(word1[i]) == G.end() && G.find(word2[i]) == G.end() && word1[i] != word2[i] && seen == false)
+              G[word1[i]].insert(word2[i]);
+        }
       }
-    }
-    return G;
+      return G;
   }
-  
-  
+
+  bool topologicalSort_helper(unordered_map <char, unordered_set<char>>& g, bool& visited, bool& current_record, vector<char> &result, vector<char>::iter input){
+      if(current_record[input]) return true;
+      if(visited[input]) return false;
+      current_record[input] = true;
+      visited[input] = true;
+      for(vector<char>::iter i = g[input].begin(); i != g[input].end(); i++)
+        if(!topologicalSort_helper(g, current_record[input], visited[input], result, i) == false)
+          return false;
+      result.push_back(i);
+      return true;
+  }
+
+  vector<char>  topologicalSort(unordered_map <char, unordered_set<char>> g){
+      vector <char> result;
+      bool visited[g.size()] = {false};
+      bool current_record[g.size()] = {false};
+      for(vector<char>::iterator i = g.begin(); i != g.end(); i++)
+        if(!topological_helper(g, visited[i], current_record[i],result, *i))
+          return false;
+      reverse(result.begin(), result.end());
+      return result;
+  }
+
+
+  string find_order(vector <string> words) {
+      if(words.size() == 1) return words[0];
+      unordered_map <char, unordered_set<char>> g = createGraph(words);
+      return topologicalSort(g);
+  }
 }
