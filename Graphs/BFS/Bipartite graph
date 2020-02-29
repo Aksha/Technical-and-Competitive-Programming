@@ -54,7 +54,7 @@ bool isBipartite(vector<vector<int>> G, int src)
             if (G[u][v] && colorArr[v] == -1)
             {
                 // Assign alternate color to this adjacent v of u
-                colorArr[v] = 1 - colorArr[u]; //this way color would get set to "0" or "1" alternately.
+                colorArr[v] = 1 - abs(colorArr[u]); //this way color would get set to "0" or "1" alternately.
                 q.push(v);
             }
  
