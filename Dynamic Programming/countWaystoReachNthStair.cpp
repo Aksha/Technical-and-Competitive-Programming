@@ -44,7 +44,7 @@ For input n = 7 and steps = [2, 3], output will be:
 3
 */
 
-// Complete the countWaysToClimb function below.
+// Wrong Complete the countWaysToClimb function below. What is wrong? Do you know?
 long long int countWaysToClimb(vector<int> steps, int n) {
     long long int res[n + 1]; 
     res[0] = 1; 
@@ -59,3 +59,17 @@ long long int countWaysToClimb(vector<int> steps, int n) {
     return res[n]; 
 }
 
+//Right Solution:
+long long int countWaysToClimb(vector<int> steps, int n) {
+    vector<long long int> dp(n+1,0);
+    dp[0]=1;
+    for (int i=1;i<=n;i++)
+    {
+        for (int j=0;j<steps.size();j++)
+        {
+            dp[i]+=(i>=steps[j])?dp[i-steps[j]]:0;
+        }
+    }
+    
+    return dp[n];
+}
