@@ -27,6 +27,61 @@ Output: false
 
 //Solution:
 
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+/*
+ * Complete the equalSubSetSumPartition function below.
+ *
+ * @param s : input array as parameter.
+ */
+
+//Partial solution solved in class. Suggest brute force
+
+bool equalSubSetSumPartition(vector<int> &s)
+{
+    int inputLength = s.size();
+    int sum = 0;
+    for(int i = 0; i < inputLength; i++) {
+        sum += s[i];
+    }
+    if(sum%2 != 0)
+        return {};
+
+    int halfSum = sum/2;
+    vector<vector<bool>> dp(inputLength+1,vector<bool>(halfSum+1));
+
+    for(int i = 0; i <= inputLength;i++)
+        dp[i][0] = true;
+
+    for(int currSum = 1; currSum <= halfSum; ++currSum)
+        dp[inputLength][currSum] = false;
+
+    for(int i = inputLength - 1; i >= 0; --i) {
+        for(int currSum = 1; currSum <= halfSum; ++currSum) {
+            if(currSum >= s[i])
+                dp[i][currSum] = dp[i+1][currSum - s[i]] || dp[i+1][currSum];
+            else {
+                cout << "do I come here : " << endl;
+                dp[i][currSum] = false;
+            }
+        }
+    }
+    return dp[0][halfSum];
+}
+
+
+
+int main() {
+    vector <int> arr = {3,1};
+    bool result = equalSubSetSumPartition(arr);
+    cout << "the result is : " << result << endl;
+    return 0;
+}
+
+//Leetcode solution:
 class Solution {
 public:
     bool canPartition(vector<int>& nums) {
