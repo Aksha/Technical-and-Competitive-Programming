@@ -57,7 +57,7 @@ void DFS_visit(int i) {
 	color[i] = 2;
 }
 
-C++ implementation lesser:
+C++ implementation (Stack based):
 
 *
   initialize result.
