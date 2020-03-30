@@ -4,13 +4,14 @@ Helps find what all edges are reachable from a given vertex and build a depth fi
 
 Time Complexity: Exactly theta(V+E)
 
+vector<int> vertices; // all vertices
 void DFS(vector<vector<int>> AL) {
 	for(int i = 0; i < AL.size(); i++) {
 		color[i] = 0;
 		parent[i] = NIL;
 	}
 	int time = 0;
-	for(int i = 0; i < AL.size(); i++) {
+	for(int i = 0; i < vertices.size(); i++) {
 		if(color[i] == 0) {
 			DFS_Visit(i);
 		}
