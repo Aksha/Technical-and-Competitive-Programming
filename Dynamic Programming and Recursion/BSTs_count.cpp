@@ -31,7 +31,47 @@ long long int how_many_BSTs(int n)
 	return BSTs[n];
 }
 
-# Recursive Solution with memoization:
+
+//Recursive solution with memorization approach 1: 
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+long long int how_many_BSTs(int n, long long int sum, long long int leftSubtreeCount, long long int rightSubtreeCount, vector<long long int>& BSTs) {
+
+    //https://www .youtube.com/watch?v=UfA_v0VmiDg - Intuitive way to solve the problem
+    if(n == 0 || n == 1) {
+        return 1LL;
+    }
+    if(BSTs[n] != -1) {
+        return BSTs[n];
+    }
+    sum = 0LL;
+    leftSubtreeCount = 0LL;
+    rightSubtreeCount = 0LL;
+    long long int tempBST = 0LL;
+    for(int k = 1; k <= n; k++) {
+        leftSubtreeCount = how_many_BSTs(k-1, sum, leftSubtreeCount, rightSubtreeCount, BSTs);
+        rightSubtreeCount = how_many_BSTs(n-k, sum, leftSubtreeCount, rightSubtreeCount, BSTs);
+        tempBST += (leftSubtreeCount * rightSubtreeCount);
+    }
+    BSTs[n] = tempBST;
+    return tempBST;
+}
+
+int main() {
+    long long int sum = 0LL;
+    long long int leftSubtreeCount = 0LL;
+    long long int rightSubtreeCount = 0LL;
+    int n = 8;
+    vector<long long int> BSTs(n+1, -1LL);
+    long long int result = how_many_BSTs(n, sum, leftSubtreeCount, rightSubtreeCount, BSTs);
+    std::cout << "result is: " << result << std::endl;
+    return 0;
+}
+
+//# Recursive Solution with memoization Approach 2:
 
 
 const int MAX_N = 16;
