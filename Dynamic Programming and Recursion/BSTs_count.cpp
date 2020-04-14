@@ -131,3 +131,34 @@ long long int how_many_BSTs(int n)
 	memorized_BSTs[n] = BSTs;
 	return BSTs;
 }
+
+//Recursion without memoization:
+
+long long int how_many_BSTs_helper(int n, long long int sum, long long int leftSubtreeCount, long long int rightSubtreeCount) {
+
+    //https://www .youtube.com/watch?v=UfA_v0VmiDg - Intuitive way to solve the problem
+    if(n == 0 || n == 1) {
+        return 1LL;
+    }
+    else {
+        sum = 0LL;
+        leftSubtreeCount = 0LL;
+        rightSubtreeCount = 0LL;
+        for(int k = 1; k <= n; k++) {
+            leftSubtreeCount = how_many_BSTs_helper(k-1, sum, leftSubtreeCount, rightSubtreeCount);
+            rightSubtreeCount = how_many_BSTs_helper(n-k, sum, leftSubtreeCount, rightSubtreeCount);
+            sum += (leftSubtreeCount * rightSubtreeCount);
+        }
+    }
+    return sum;
+}
+
+long long int how_many_BSTs(int n) {
+  
+    //https://www .youtube.com/watch?v=UfA_v0VmiDg - Intuitive way to solve the problem
+    long long int sum = 0LL;
+    long long int leftSubtreeCount = 0LL;
+    long long int rightSubtreeCount = 0LL;
+    long long int result = how_many_BSTs_helper(n, sum, leftSubtreeCount, rightSubtreeCount);
+    return result;
+}
