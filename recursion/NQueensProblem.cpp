@@ -1,6 +1,6 @@
 
 /*
- * Complete the function below.
+ * Solved using the solution discussed in class by instructor Manoj Krishnan @ 3 hours into the IK recursion live class video
  */
 void genRes(vector<int>& info, vector<vector<string>>& res) {
     vector<string> ans;
