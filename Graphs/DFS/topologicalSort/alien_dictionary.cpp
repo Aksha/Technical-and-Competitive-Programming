@@ -91,14 +91,15 @@ unordered_map <char, vector<char>> get_edges(vector <string> words) {
     for(int i = 0; i < words.size()-1; i++) {
         int j = 0;
         int k = 0;
-        while(j < words[i] && k < words[i+1]) {
-            if(words[i][j] != words[i][k]){
+        while(j < words[i].size() && k < words[i+1].size()) {
+            cout << " character 1 : " << words[i][j] << "; character 2 : " << words[i+1][k] << endl;
+            if(words[i][j] != words[i+1][k]){
                 if(edges.find(words[i][j]) == edges.end()) {
-                    edges.insert(make_pair(words[i][j], words[i][k]));
+                    vector <char> temp = {words[i+1][k]};
+                    edges.insert(make_pair(words[i][j], temp));
                 }
-                else {
-                    edges[words[[i][j]].push_back(words[i][k]);
-                }
+                else
+                    edges[words[i][j]].push_back(words[i+1][k]);
                 break;
             }
             else {
@@ -107,12 +108,18 @@ unordered_map <char, vector<char>> get_edges(vector <string> words) {
             }
         }
     }
+    cout << "Edges size: " << edges.size() << endl;
+    for(auto vertex : edges) {
+        for(auto it : vertex.second) {
+            cout << vertex.first << " : " << it << endl;
+        }
+    }
     return edges;
 }
- 
+
 void topological_sort(unordered_map <char, vector<char>> edges, char vertex,  unordered_set<char> &visited, stack <char> &S) {
     visited.insert(vertex);
-    for(vector<char>::iterator V = edges[vertex]->second.begin(); V != edges[vertex]->second.end(); ++V) {
+    for(vector<char>::iterator V = edges[vertex].begin(); V != edges[vertex].end(); ++V) {
         if(visited.find(*V) == visited.end()) {
             topological_sort(edges, *V, visited, S);
         }
@@ -122,14 +129,16 @@ void topological_sort(unordered_map <char, vector<char>> edges, char vertex,  un
 
 string find_order(vector <string> words) {
     unordered_map <char, vector<char>> edges = get_edges(words);
-    unordered_set<char> visited;
+    unordered_set <char> visited;
     stack <char> S;
     string result = "";
-    for(int i = 0; i < edges.size(); i++) {
-        if(visited.find(edges[i]) == visited.end())
-            topological_sort(edges,edges[i],visited,stack);
+   for(unordered_map <char, vector<char>>::iterator vertex = edges.begin(); vertex != edges.end(); ++vertex) {
+        if(visited.find(vertex->first) == visited.end())
+            topological_sort(edges,vertex->first,visited,S);
     }
-    return S;
+    while(!S.empty()) {
+        result += S.top();
+        S.pop();
+    }
+    return result;
 }
-
-
