@@ -86,6 +86,32 @@ Why topological sort?
   4) Finally, add this node to a stack (recursive)
   
  */
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+#include <unordered_map>
+#include <stack>
+
+using namespace std;
+/*
+ * When we can do a normal character to character comparison in this function, why do we need to use DFS/topological sort?
+ Imagine the case where we have words  = {"caa", "aaa", "dab"}. A normal character to character comparison only gives us the following result = cad but the actual answer here is cadb. All nodes have to be visited. This is where topological sort helps/comes in.
+
+ Better example: {"caa", "aaa", "aad", "bad", "da"}
+ c->a
+ a->b
+ a->d
+ b->d
+ How will I write this in an output array?
+  c,a,d is wrong, the actual answer is c,a,b,d. Hence, we need to use DFS on a Directed Acylic graph , i.e., topological sort. Try out to check if this graph is acylic.
+
+  Now to use topological sort.
+  1) We need a hashmap of edges
+  2) DFS (generates helper method) on every node if not visited (have a set or boolean array to keep track of visited)
+  3) recursive call on the helper method for all of the neighbours of the current node/edges, in this case, character
+  4) Finally, add this node to a stack (recursive)
+
+ */
 unordered_map <char, vector<char>> get_edges(vector <string> words) {
     unordered_map <char, vector<char>> edges;
     for(int i = 0; i < words.size()-1; i++) {
@@ -141,4 +167,13 @@ string find_order(vector <string> words) {
         S.pop();
     }
     return result;
+}
+
+
+
+int main() {
+    vector<string> words = {"baa", "abcd", "abca", "cab", "cad"};
+    string result = find_order(words);
+    cout <<"the output is : "  << result << endl;
+    return 0;
 }
