@@ -47,3 +47,38 @@ Node *build_other_graph( Node *root ) {
     return build_other_graph_helper( root, mapping );
 } 
 
+//Easy to understand solution:
+void dfs(Node *node, unordered_map<int, Node *> &reversed)
+{	
+	/*
+	Note that we are passing reversed by reference, either use passing by reference or use global 
+	variable. 
+	*/
+	// First create new node.
+	reversed[node->val] = new Node(node->val);
+	int n = node->neighbours.size();
+	// Visit all the neighbours.
+	for (int i = 0; i < n; i++)
+	{
+		// If node is not visited then first visit it.
+		if (reversed.find(node->neighbours[i]->val) == reversed.end())
+		{
+			dfs(node->neighbours[i], reversed);
+		}
+		// Add the reverse edge. 
+		reversed[node->neighbours[i]->val]->neighbours.push_back(reversed[node->val]);
+	}
+}
+
+Node *build_other_graph(Node *node)
+{
+	/*
+	In constraints we are given that each node contains distinct values, so we can keep track of 
+	node address using that value. {value : node}.
+	*/
+	unordered_map<int, Node *> reversed;
+	// Build the graph.
+	dfs(node, reversed);
+	// Return any node of the new graph. 
+	return reversed.begin()->second;
+}
