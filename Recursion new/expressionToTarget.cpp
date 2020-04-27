@@ -250,3 +250,48 @@ int main() {
 }
 
 
+//Discard existing solution... Making progress.. Have trouble getting concatenation right
+
+/*
+ * Complete the function below.
+ */
+ 
+
+
+//helper method should have variables "index" position and "stringSoFar" 
+//3 recursive calls about insert '+', '*' and concat at the right index position
+//base case: stop when end is reached and calculate the value here. If currValue == target, push the respective string into result variable of type vector<string>.
+void generate_all_expressions_helper(string s, int index, string stringSoFar, vector<string>& result, int n, int target, int currValue, int last) {
+    if(index == n) {
+        if(currValue == target) {
+            result.push_back(stringSoFar);
+        }
+        //result.push_back(stringSoFar);
+        //values.push_back(currValue);
+        return;
+    }
+    if (index == 0) {
+        string temp = "";
+        generate_all_expressions_helper(s, index + 1, temp + s[index], result, n, target,(s[index] - '0'), (s[index] - '0'));
+    }
+    else {
+        generate_all_expressions_helper(s, index + 1, stringSoFar + "+" + s[index], result, n, target,
+                                        currValue + (s[index] - '0'), (s[index] - '0'));
+        generate_all_expressions_helper(s, index + 1, stringSoFar + "*" + s[index], result, n, target,
+                                        currValue - last + (last * (s[index] - '0')),
+                                        last * (s[index] - '0'));
+        generate_all_expressions_helper(s, index + 1, stringSoFar + s[index], result, n, target,
+                                        currValue * 10 + (s[index] - '0'), (s[index] - '0'));
+    }
+    return;
+}
+
+vector<string> generate_all_expressions(string s, int target) {
+    int index = 0;
+    vector<string> result; // collects all strings
+    string stringSoFar = "";
+    int n = s.length();
+    generate_all_expressions_helper(s,index,stringSoFar,result,n, target,0,0);
+    return result;
+}
+
