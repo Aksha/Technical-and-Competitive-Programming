@@ -295,3 +295,86 @@ vector<string> generate_all_expressions(string s, int target) {
     return result;
 }
 
+
+//Fixed the concatenation bug.. Final program:
+#include <iostream>
+#include <vector>
+#include <string>
+#include <cmath>
+
+using namespace std;
+
+//All expressions that sum to the target value
+/*
+* Input:
+s="222", target=24.
+Output:
+
+["22+2", "2+22"] and ["2+22", "22+2"] are both correct outputs.
+
+22+2=24: we inserted the “join” operator between the first two characters and the “+” operator between the last two characters of s.
+2+22=24: we inserted the “+” operator between the first two characters and the “join” operator between the last two characters of s.
+
+ This problem has two parts.. Getting the expressions string and then calculating its value to check if evaluates to the target.
+ * */
+
+
+/* this is essential for concatenation */
+int str_to_i(string input){
+    int num = 0;
+    for(int i =0;i< input.length();i++) {
+        num = num*10 + (input[i] - '0');
+    }
+    return num;
+
+}
+
+void generate_all_expressions_helper(string &s, int index, string stringSoFar, vector<string>& result, int n, int target, int currValue, int last) {
+    if(index == n) {
+        if(currValue == target) {
+            result.push_back(stringSoFar);
+        }
+        //result.push_back(stringSoFar);
+        //values.push_back(currValue);
+        return;
+    }
+    for(int i = index; i < n; i++) { //This for loop is for concatenation ..concatenating, 2 chars, 3 chars, so on until n chars from position 'index' to 'n'
+        string remaining_str = s.substr(index, i - index + 1);
+        //cout << "current string + remaining string : " << stringSoFar + "+" + remaining_str << endl;
+        //cout << "currentString * remainng string : " << stringSoFar + "*" + remaining_str << endl;
+        int no_to_add = str_to_i(remaining_str);
+        if (index == 0) {
+            generate_all_expressions_helper(s, i + 1, remaining_str, result, n, target, no_to_add,
+                                            no_to_add);
+        } else {
+            generate_all_expressions_helper(s, i + 1, stringSoFar + "+" + remaining_str, result, n, target,
+                                            currValue + no_to_add, no_to_add);
+            generate_all_expressions_helper(s, i + 1, stringSoFar + "*" + remaining_str, result, n, target,
+                                            currValue - last + (last * no_to_add),
+                                            last * no_to_add);
+        }
+    }
+}
+
+vector<string> generate_all_expressions(string s, int target) {
+    int index = 0;
+    vector<string> result; // collects all strings
+    string stringSoFar = "";
+    int n = s.length();
+    generate_all_expressions_helper(s,index,stringSoFar,result,n, target,0,0);
+    return result;
+}
+
+
+int main() {
+    string s = "222";
+    long long int target = 24;
+    vector<string> expressions = generate_all_expressions(s, target);
+    cout << "Printing the generated strings: " << endl;
+    int n = expressions.size();
+    cout << n << endl;
+    for(int i = 0; i < n; i++) {
+       cout << expressions[i] << endl;
+    }
+    return 0;
+}
