@@ -11,81 +11,52 @@ output: http://ti.me
 2. What will be the maximum size of the tinyURL? 62^7 = 3.5 trillion combinations
 
 
-string dict = "0123456789abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ";
-unordered_map<string,string> result; //longURL key -> tinyURL value
-unordered_map<int,string> idMAP; //ID key -> longURL value
-int id = 0;
+#include <iostream>
+#include <unordered_map>
+#include <string>
+#include <cmath>
 
-count = 1;
+using namespace std;
 
-//1000000
-//2000000
-//Z000000
-//1100000
-//idmap = 1 -> longURL1
-//2 - > longURL2
-
-string encode(string longURL){
-    if(result.find(longURL) != result.end()) return result[longURL];
-    string tinyURL = "";
-    id++;
-    int count = id;
-    while(count > 0){
-        tinyURL = dict[count % 62] + tinyURL;
-        count /= 62)
+string dict = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"; // if you prefer using base64 encoding, throw '+' and '/' into the mix
+    int id = 899;
+    unordered_map<string,string> m;  //key is longURL, value is shortURL
+    unordered_map<int, string> idm;  //key is id in DB, value is longURL
+    // Encodes a URL to a shortened URL.
+    string encode(string longUrl) {
+        if(m.find(longUrl) != m.end())return m[longUrl];
+        string res = "";
+        id++; //1
+        int count = id;
+        while(count > 0) {
+            res = dict[count%62] + res; //res = 1
+            count /= 62; //count = 0
+        }
+        while(res.size() < 6) {
+            res = "0" + res; //000001
+        }
+        m[longUrl] = res; //m["www.google.com"] = 000001
+        idm[id] = longUrl; //idm[1] = www.google.com
+        return res;
     }
-    while(tinyURL.size() < 7)
-        tinyURL += "0";
-    result[longURL] = tinyURL;
-    idMAP[id] = longURL;
-}
 
-string decode(string tinyURL){
-    int id = 0;
-    for(int i = 0; i < tinyURL.size(); i++){
-        id = 62*id + (int)dict.find(tinyURL[i]);
+    // Decodes a shortened URL to its original URL.
+    string decode(string shortUrl) {
+        long long int id = 0;
+        for(int i = 0; i < shortUrl.size(); i++) {
+            id = (int)(dict.find(shortUrl[i])) + 62 * id;
+            cout << "id : " << id << endl;
+
+        }
+        if(idm.find(id) != idm.end())return idm[id];
+        return "";
     }
-    if (idMAP.find(id) != idMAP.end()) return idMAP[id];
-    return "";
-}
-https://docs.google.com/document/d/1Q8KTUFX8Kg321Kjeav5zwVZ2fxj8Gy1zLO8BbyJVSug/edit?usp=drive_web for detailed system design and software architecture
-
-
-Final Answer:
-
-string dict = "0123456789abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ";
-unordered_map<string,string> result; //longURL key -> tinyURL value
-unordered_map<int,string> idMAP; //ID key -> longURL value
-int id = 0;
-
-string encode(string longURL){
-    if(result.find(longURL) != result.end()) return result[longURL];
-    string tinyURL = "";
-    id++;
-    int count = id;
-    while(count > 0){
-        tinyURL = dict[count % 62] + tinyURL;
-        count /= 62;
-    }
-    while(tinyURL.size() < 7)
-        tinyURL += "0";
-    result[longURL] = tinyURL;
-    idMAP[id] = longURL;
-    return result[longURL];
-}
-
-string decode(string tinyURL){
-    int id = 0;
-    for(int i = 0; i < tinyURL.size(); i++){
-        id = 62*id + (int)dict.find(tinyURL[i]);
-    }
-    if (idMAP.find(id) != idMAP.end()) return idMAP[id];
-    return "";
-}
 
 int main() {
-    cout << "Hello world!" << endl;
-    string temp_result = encode("https://leetcode.com/problems/design-tinyurl/description/");
-    string decoded_result = decode(temp_result);    
-    return 0;
+        string shortURL = encode("www.google.com");
+        string longURL = decode(shortURL);
+        std::cout << "shortURL : " << shortURL << std::endl;
+        cout << "LongURL : " << longURL << endl;
+
+        return 0;
 }
