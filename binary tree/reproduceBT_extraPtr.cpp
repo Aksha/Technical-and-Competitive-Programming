@@ -49,13 +49,35 @@ Node* reproduceBT_helper(Node* root, unordered_map <int,int> extra_pointers) {
     if(root->right_ptr)
         newRoot->right_ptr = reproduceBT_helper(root->right_ptr, extra_pointers);
     if(root->extra_ptr)
-        extra_pointers.insert(make_pair(root->extra_ptr->value, root->value);
+        extra_pointers.insert(make_pair(root->extra_ptr->value, root->value));
     return newRoot;
 }
 
-void reproduceBT_helper_extra(Node* root, Node** newRoot, unordered_map <int,int> extra_pointers) {
+void searchParentAndChild(int parentValue, int childValue, Node** root1) {
+    Node* node1 = new Node();
+    Node* node2 = new Node();
+    if((*root1)->value == parentValue)
+        node1 = (*root1);
+    if((*root1)->value == childValue && parentValue != childValue)
+        node2 = (*root1);
+    if(!node1 && !node2) {
+        node1->extra_ptr = node2;
+        Node* node1 = new Node();
+        Node* node2 = new Node();
+    }
+    if((*root1)->left_ptr) {
+        (*root1) = (*root1)->left_ptr;
+        searchParentAndChild(parentValue, childValue, root1);
+    }
+    if((*root1)->right_ptr) {
+        (*root1) = (*root1)->right_ptr;
+        searchParentAndChild(parentValue, childValue, root1);
+    }
+}
+
+Node* reproduceBT_helper_extra(Node* root, Node* root1, unordered_map <int,int> extra_pointers) {
     if(root == NULL)
-        return;
+        return NULL;
     int parentValue = 0;
     int childValue = 0;
     if(root->extra_ptr) {
@@ -64,26 +86,34 @@ void reproduceBT_helper_extra(Node* root, Node** newRoot, unordered_map <int,int
             parentValue = root->extra_ptr->value;
             childValue = extra_pointers[root->extra_ptr->value];
         }
-        Node* node1 = new Node();
-        Node* node2 = new Node();
-        
-        //search for both these values in the newRoot tree
-        //node1 = parentValue Node
-        //node2 = extra_pointer pointing to this node
-        node1->extra_ptr = node2;
+        searchParentAndChild(parentValue, childValue, &root1);
     }
-    return;
+    if(root->left_ptr)
+        reproduceBT_helper_extra(root->left_ptr, root1, extra_pointers);
+    if(root->right_ptr)
+        reproduceBT_helper_extra(root->right_ptr, root1, extra_pointers);
+    return root1;
 }
 
 Node* reproduceBT(Node* root) {
     unordered_map<int,int> extra_pointers;
-    Node* newRoot = reproduceBT_helper(root, extra_pointers);
-    reproduceBT_helper_extra(root, &newRoot, extra_pointers);
+    Node* root1 = reproduceBT_helper(root, extra_pointers);
+    Node* newRoot = reproduceBT_helper_extra(root, root1, extra_pointers);
     return newRoot;
 }
 
 int main(){
     Node* root = new Node(7);
+    root->left_ptr = new Node(5);
+    root->right_ptr = new Node(8);
+    root->left_ptr->left_ptr = new Node(6);
+    root->left_ptr->right_ptr = new Node(1);
+    root->left_ptr->extra_ptr = root->right_ptr;
+    root->extra_ptr = root->left_ptr->left_ptr;
+    root->left_ptr->left_ptr->extra_ptr = root;
     Node* newRoot = reproduceBT(root);
+    cout << "--------TESTING--------" << endl;
+    cout << newRoot->value << endl;
+    cout << newRoot->extra_ptr->value <<endl;
     return 0;
 }
