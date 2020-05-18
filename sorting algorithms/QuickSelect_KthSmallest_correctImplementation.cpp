@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int partition(vector <int> &A, int start, int end) {
+int partition(vector <int> &A, int start, int end) { //hoar's partitioning algorithm
     //int pivot = A[(start+end)/2]; 
     int left = start;
     int pivot = A[left]; 
