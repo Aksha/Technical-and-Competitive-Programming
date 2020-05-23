@@ -1,0 +1,91 @@
+/*
+Questions: Longest Substring With Balanced Parentheses
+
+
+
+Given a string brackets that may only contain characters '(' and ')', find the length of the longest substring that has balanced parentheses.
+
+A string is defined as having balanced parentheses if and only if it has an equal number of '(' and ')' and its every prefix has at least as many '('s as ')'s.
+
+Return the length, not the substring.
+
+
+
+Example One
+
+Input: "((((())(((()"
+
+
+
+Output: 4
+
+Because "(())" is the longest substring with balanced parentheses.
+
+
+
+Example Two
+
+Input: "()()()"
+
+
+
+Output: 6
+
+The entire string "()()()" has parentheses balanced.
+
+
+
+*/
+
+
+int find_max_length_of_matching_parentheses(string brackets) {
+    stack<char> s;
+    int n = brackets.size();
+    int result = 0, count = 0;
+    int i = 0;
+    // go from left to right. 
+    // restart the count when too many offending ')' found
+    while (i < n) {
+        if (brackets[i] == '(')
+            s.push(brackets[i]);
+        if (brackets[i] == ')') {
+            if (s.empty()) {
+                result = max(result, count);
+                count = 0;
+            }
+            else {
+                s.pop();
+                count += 2;
+            }
+        }
+        i++;
+    }
+    // if full string was valid then take the count into account.
+    // if too many open '(' then don't use the count. That case is taken care of by 
+    // reverse walk of the string.
+    if (s.empty())
+        result = max(result, count);
+    while (!s.empty())
+        s.pop();
+    
+    i = n-1;
+    count = 0;
+    while (i >= 0) {
+        if (brackets[i] == ')')
+            s.push(brackets[i]);
+        if (brackets[i] == '(') {
+            if (s.empty()) {
+                result = max(result, count);
+                count = 0;
+            }
+            else {
+                s.pop();
+                count += 2;
+            }
+        }
+        i--;
+    }
+    if (s.empty())
+        result = max(result, count);
+    return result;   
+}
