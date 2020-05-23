@@ -1,0 +1,74 @@
+/*
+ * Complete the 'merge_sort' function below.
+ *
+ * The function accepts the head of the linked list as parameter.
+ */
+
+SinglyLinkedListNode* sortedMerge(SinglyLinkedListNode* l1, SinglyLinkedListNode* l2){
+    SinglyLinkedListNode* res = new SinglyLinkedListNode(0);
+    SinglyLinkedListNode* current = res; // starts before the head of current
+    while (current != NULL){
+        if (!l1){
+            current->next = l2;
+            break;
+        }
+        if (!l2){
+            current->next = l1;
+            break;
+        }
+        if (l1->data < l2->data){
+            current->next = l1;
+            l1 = l1->next;
+        }else{
+            current->next = l2;
+            l2 = l2->next;
+        }
+        current = current->next;
+    }
+    return res->next; //returning the pointer to the head of current
+}
+
+// Split a list into two parts, using slow/fast pointers
+void split(SinglyLinkedListNode* head, SinglyLinkedListNode** aRef, SinglyLinkedListNode** bRef){
+    SinglyLinkedListNode* slow;
+    SinglyLinkedListNode* fast;
+    if (head==NULL || head->next==NULL){
+        *aRef = head;
+        *bRef = NULL;
+    }else{
+        slow = head;
+        fast = head;
+        while (fast!=NULL && fast->next!=NULL){
+            fast = fast->next->next;
+            if (fast==NULL){break;} // this is important
+            slow = slow->next;
+        }
+        *aRef = head;
+        *bRef = slow->next;
+        slow->next=NULL;
+    }
+}
+
+// MergeSort LinkedList
+void mergeSort(SinglyLinkedListNode** headRef){
+    SinglyLinkedListNode* head = *headRef;
+    SinglyLinkedListNode* a;
+    SinglyLinkedListNode* b;
+
+    if (head==NULL || head->next==NULL){
+        return;
+    }
+
+    split(head,&a,&b);   //split the list
+
+    mergeSort(&a);       //sort the first part
+    mergeSort(&b);       //sort the second part
+
+    *headRef = sortedMerge(a,b);    // merge two sorted part
+}
+
+//main function
+SinglyLinkedListNode* merge_sort(SinglyLinkedListNode* head) {
+    mergeSort(&head);
+    return head;
+}
