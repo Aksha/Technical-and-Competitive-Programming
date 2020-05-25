@@ -1,0 +1,107 @@
+	/*
+	Write a function that return true if the following problem has a solution, false otherwise.
+	SEND + MORE = MONEY
+	each letter represents a unique number [0,9]
+	You only need to solve for the equation above
+	Brute force is fine.
+    
+    s=1, e=2, n=3, d=4 send=1234
+    m = 5, o = 6, r = 7, e = 2
+    1234 + 5672 = 
+    M = 1
+    O = 2
+    N = 3
+    E = 4
+    Y = 5
+    
+    a + b = c
+    assume a value for c..
+    M = 1
+    O = 2
+    R = 1
+    E = 4
+    
+    S = x
+    E = 4
+    N = 3
+    D = 1
+    
+    SEND + MORE = MONEY
+    9524   8735   17259
+    
+    LHS        RHS
+    s = 9     m = 
+    e = 5     o
+              n
+              e
+              y
+     S = 10
+     E = 9
+     N = 8
+     D = 7
+     M = 6
+     O = 5
+     R = 4
+     Y = 3
+	*/
+
+#include <iostream>
+#include <unordered_set>
+#include <vector>
+
+using namespace std;
+
+bool IsSENDMONEYSolvable() {
+    vector <bool> flag(8,0);
+    for(int S = 0; S <= 9; S++) {
+        for(int E = 0; E <= 9 && E != S; E++) {
+            if (flag[E]) continue;
+            else flag[E] = 1;
+            for(int N = 0; N <= 9; N++) {
+                if (flag[N]) continue;
+                else flag[N] = 1;
+                for(int D = 0; D <= 9; D++) {
+                    if (flag[D]) continue;
+                    else flag[D] = 1;
+                    for(int M = 0; M <= 9; M++) {
+                        if (flag[M]) continue;
+                        else flag[M] = 1;
+                        for(int O = 0; O <= 9; O++) {
+                            if (flag[O]) continue;
+                            else flag[O] = 1;
+                            for(int R = 0; R <= 9; R++) {
+                                if (flag[R]) continue;
+                                else flag[R] = 1;
+                                for(int Y = 0; Y <= 9; Y++) {
+                                    if (flag[Y]) continue;
+                                    else flag[Y] = 1;
+                                    if(((S*10 + E * 10 + N * 10 + D) + (M*10 + O) * (10 + R) * (10 + E))  == ((M*10 + O) * (10 + N) * (10 + E) * (10 + Y))) {
+                                        cout << "S: " << S << "; E: " << E << "; N: " << N << "; D: " << D << "; M: " << M << "; O: " << O << "; R: " << R << "; E: " << E << endl;
+                                        cout << "LHS1 : " << (S*10 + E) * (10 + N) * (10 + D) << " LHS2: " << (M*10 + O) * (10 + R) * (10 + E) << " RHS : " << ((M*10 + O) * (10 + N) * (10 + E) * (10 + Y)) << endl;
+                                        return true;
+                                    }
+                                    flag[Y] = 0;
+                                }
+                                flag[R] = 0;
+                            }
+                            flag[O] = 0;
+                        }
+                        flag[M] = 0;
+                    }
+                    flag[D] = 0;
+                }
+                flag[N] = 0;
+            }
+            flag[E] = 0;
+        }
+        flag[S] = 0;
+    }
+
+    return false;
+}
+
+
+int main() {
+    cout << IsSENDMONEYSolvable() << endl;
+    return 0;
+}
