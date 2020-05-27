@@ -99,3 +99,22 @@ bool check_if_sum_possible(vector <long long int> arr, long long int k) {
 }
 
 //Improving speed: Return true as soon as 1 combination is found and not wasting iterations on future operations
+void is_subSet_sum(vector<long long int> &arr, int i, bool &check, long long int sum_so_far, long long int k, bool &is_element_used){
+    if(sum_so_far == k && is_element_used == true){
+        check = true;
+        return;
+    }
+    if(i == arr.size()){
+        return;
+    }
+    is_element_used = false;
+    is_subSet_sum(arr, i+1, check, sum_so_far, k, is_element_used);
+    is_element_used = true;
+    is_subSet_sum(arr, i+1, check, sum_so_far + arr[i], k, is_element_used);
+} 
+bool check_if_sum_possible(vector <long long int> &arr, long long int k) {
+    bool check = false;
+    bool is_element_used = false;
+    is_subSet_sum(arr, 0, check, 0, k, is_element_used );
+    return check;
+}
