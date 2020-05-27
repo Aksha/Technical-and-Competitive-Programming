@@ -64,7 +64,7 @@ int main() {
 //Covering edge case where K = 0;
 
 void check_if_sum_possible_helper (vector <long long int> arr,long long int k, long long int sum, long long int index, bool& flag) {
-    if(sum > 0)
+    if(sum > k)
         return;
     else if (sum == k) {
         flag = true;
