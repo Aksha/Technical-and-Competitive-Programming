@@ -41,10 +41,16 @@ int calculate_power(long long a, long long b)
  * @param b : exponent
  */
  
+/*
+ * Complete the calculate_power function below.
+ * @param a : base
+ * @param b : exponent
+ */
+ 
 int calculate_power_helper(long long a, long long b, long long count, long long exponent) {
         if(count == b)
             return (int)(exponent) % 1000000007;
-        exponent = (exponent * a * a) % 1000000007;
+        exponent = (exponent * a) % 1000000007;
         return calculate_power_helper(a,b,count+1,exponent);
 }
 
@@ -61,9 +67,8 @@ int calculate_power(long long a, long long b)
         return 1LL;
     long long count = 0;
     long long exponent = 1;
-    return calculate_power_helper(a%1000000007,b/2,count,exponent);
+    int half_product = calculate_power_helper(a%1000000007,b/2,count,exponent);
+    int product = (half_product * half_product) % 1000000007;
+    return product;
 }
-
-
-
 
