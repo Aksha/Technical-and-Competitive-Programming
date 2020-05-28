@@ -27,8 +27,14 @@ int calculate_power(long long a, long long b)
     return calculate_power_helper(a%1000000007,b,count,exponent);
 }
 
-//Smarter SOlution which has a O(n/2) time complexity. It makes a difference
+//Smarter SOlution which has a O(n/2) time complexity. It makes a difference as 'n' is a long long
 
+/*
+ * Complete the calculate_power function below.
+ * @param a : base
+ * @param b : exponent
+ */
+ 
 /*
  * Complete the calculate_power function below.
  * @param a : base
@@ -37,8 +43,8 @@ int calculate_power(long long a, long long b)
  
 int calculate_power_helper(long long a, long long b, long long count, long long exponent) {
         if(count == b)
-            return (int)((exponent*exponent) % 1000000007);
-        exponent = (exponent * a) % 1000000007;
+            return (int)(exponent) % 1000000007;
+        exponent = (exponent * a * a) % 1000000007;
         return calculate_power_helper(a,b,count+1,exponent);
 }
 
@@ -57,5 +63,7 @@ int calculate_power(long long a, long long b)
     long long exponent = 1;
     return calculate_power_helper(a%1000000007,b/2,count,exponent);
 }
+
+
 
 
