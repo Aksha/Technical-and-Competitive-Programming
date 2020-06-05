@@ -57,6 +57,15 @@ A A A
 Every cell labeled with A will sink at (0, 0), whereas B will sink at (0, 2).
 */
 
+/*
+Algorithm: 
+    1. for every cell in the matrix
+    2. if it is not visited
+    3. calculated the lowest of its four neighbours and itself and make a note of it.
+    4. If the minimum cell calculated from the step above is already visited, note its value and assign it to the current cell.
+    5. If the minimum cell is not visited, assign it to a count variable (connect_components) and increment the count variable.
+    Also, update the value of the current cell.
+*/
 
 #include <iostream>
 #include <vector>
