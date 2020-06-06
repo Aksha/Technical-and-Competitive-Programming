@@ -66,3 +66,17 @@ int main() {
     cout << "the total number of ways : " << result << endl;
     return 0;
 }
+
+//variation: Find the minimum number of ways to reach the target:
+int minimum_coins(vector<int> coins, int value)  {
+    int n = coins.size();
+    vector<int> dp(value+1, INT_MAX);
+    dp[0] = 0;
+    for(int i = 1; i<=value; i++) {
+        for(int j = 0; j<n; j++) {
+            if(coins[j] <= i)
+                dp[i] = min(dp[i], 1+dp[ i-coins[j] ]);
+        }
+    }
+    return dp[value];
+}
