@@ -1,4 +1,7 @@
 /*
+
+This problem is similar to shortest distance from the guard problem on practice problem set 2:
+
 m*n
 
 input:
