@@ -1,0 +1,128 @@
+/*
+Coin Play
+
+
+
+Consider a row of n coins of values v1, . . ., vn. We play a game against an opponent by alternating turns. In each turn, a player selects either the first or last coin from the row, removes it from the row permanently, and receives the value of the coin. Determine the maximum possible amount of money we can definitely win if we move first.
+
+Assume full competency by both players.
+
+
+
+Example
+
+Input: [8, 15, 3, 7]
+
+Output: 22
+
+Player 1 can start two different ways: either picking 8 or picking 7. Depending on the choice they make, the end reward will be different. We want to find the maximum reward player 1 can collect.
+
+
+
+Case one: player 1 starts by picking 8.
+
+Remaining v = [15, 3, 7].
+
+The opponent will have two choices: pick either 15 or 7. They would always pick 15 to maximize their own amount.
+
+Remaining v = [3, 7].
+
+Player 1 will have two choices: pick either 3 or 7.
+
+Player 1 would always pick 7 to maximize their own amount.
+
+Hence in this case player 1 can get a maximum of 8 + 7 = 15.
+
+(This is a greedy strategy, picking the highest at every step.)
+
+
+
+Case two: player 1 starts by picking 7.
+
+Remaining v = [8, 15, 3].
+
+Opponent will have two choices, either pick 8 or 3.
+
+The opponent would pick 8 to maximize their own amount. (If they pick 3 at this step, the answer will be the same though.)
+
+Remaining v = [15, 3].
+
+Player 1 will have two choices, either pick 15 or 3.
+
+Player 1 would always pick 15.
+
+Hence in this case player 1 can get a maximum of 7 + 15 = 22.
+
+
+
+Given these two strategies, we want 22 as the answer, and not 15.
+
+
+
+Notes
+
+Input Parameters: You will be given an array of integers v.
+
+
+
+Output: Return an integer max, denoting the maximum possible amount of sum that you can accumulate.
+
+
+
+Constraints:
+
+1 <= n <= 1000
+1 <= v[i] <= 10^6
+
+
+Custom Input
+
+Input Format:
+
+The first line should contain an integer n, denoting no. of coins. In next n lines, i-th line should contain an integer vi, denoting value of ith coin in input array v.
+
+If n = 4 and v = [8, 15, 3, 7], then input should be:
+
+4
+
+8
+
+15
+
+3
+
+7
+
+
+
+Output Format: There will be only one line, containing an integer max, denoting the maximum possible amount of sum that you can accumulate. For input n = 4 and v = [8, 15, 3, 7], output will be:
+
+22
+*/
+
+Solution: 
+
+// Complete the maxWin function below.
+int maxValue(vector<int>& v, int i, int j, vector<vector<int>>& cache)
+{
+    if(cache[i][j]) {
+        return cache[i][j];
+    }
+    if(i == j) {
+        return v[i];
+    } else if (i+1 == j) {
+        return std::max(v[j], v[i]);
+    }
+    
+    cache[i][j] = std::max(
+                    (v[i] + std::min(maxValue(v,i+2,j,cache), maxValue(v,i+1,j-1,cache))),
+                    (v[j] + std::min(maxValue(v,i,j-2,cache), maxValue(v,i+1,j-1,cache)))
+                  );
+    return cache[i][j];
+}
+
+int maxWin(vector<int> v) {
+    vector<vector<int>> cache(v.size(), vector<int>(v.size(), 0));
+    return maxValue(v,0,v.size()-1, cache);
+}
+
