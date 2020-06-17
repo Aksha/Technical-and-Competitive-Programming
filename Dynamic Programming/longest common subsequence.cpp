@@ -34,9 +34,7 @@ string lcs(string a, string b) {
     for(int i = 0; i < n; i++) {
         dp[0][n] = 0;
     }
-    /*for(int i = 0; i < m+1; i++) {
 
-    }*/
     for(int i = 1; i < m+1; i++) {
         for(int j = 1; j < n+1; j++) {
             if(a[i-1] == b[j-1]) {
@@ -48,23 +46,13 @@ string lcs(string a, string b) {
         }
     }
 
-    if(dp[m][n] == 0) {
-        return "-1";
-    }
-
-    for(int i = 0; i <= m; i++) {
-        for(int j = 0; j <= n; j++) {
-            cout << dp[i][j] << " ";
-        }
-        cout << endl;
-    }
     //trace the string backward.
     string res = "";
 
     int r = dp.size()-1;
     int c = dp[0].size()-1;
 
-    for(int i = r, j = c;i >= 0 && j >= 0;) {
+    for(int i = r, j = c;i > 0 && j > 0;) {
         if(a[i-1] == b[j-1]){
             res = res + a[i-1];
             i--;
@@ -77,7 +65,6 @@ string lcs(string a, string b) {
     }
 
     reverse(res.begin(),res.end());
-
     return !res.empty() ? res : "-1";
 }
 
