@@ -1,0 +1,39 @@
+/*
+Largest sub-square matrix with all 1s 
+
+
+
+Given a two-dimensional binary matrix, find the largest square submatrix with all 1s.
+
+
+
+Example
+
+Input: [
+
+[1, 0, 0],
+
+[0, 1, 1],
+
+[0, 1, 1]
+
+]
+
+Output: 2
+
+The 1s in bold form a square submatrix 2x2 with all 1s. That’s the largest one. Length of its side is 2.
+*/
+
+
+vector<vector<int>> table(n+1, vector<int>(m+1, 0));
+    int largest = 0;
+    
+    for (int i = 1; i < n + 1; i++) {
+        for (int j = 1; j < m + 1; j++) {
+            if (mat[i-1][j-1]) {
+                table[i][j] = min(table[i][j-1], min(table[i-1][j-1], table[i-1][j])) + 1;
+            }
+            largest = max (largest, table[i][j]);
+        }
+    }
+    return largest;
