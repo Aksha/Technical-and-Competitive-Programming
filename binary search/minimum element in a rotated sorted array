@@ -1,0 +1,99 @@
+/*
+
+Minimum Element In A Sorted And Rotated Array
+Find the minimum element in an array that has been sorted and rotated by an unknown pivot.
+Example
+Input: [ 4, 5, 6, 7, 8, 1, 2, 3]
+Output: 1
+The array is sorted in the ascending order and right rotated by pivot 5. The minimum value 1 is at index 5.
+
+*/
+
+//Solution:
+/*
+* Complete the 'find_minimum' function below.
+*
+* The function accepts INTEGER ARRAY as parameter.
+* Return INTEGER.
+
+1 2 3 4 5 6 7 8
+
+4 5 6 7 8 1 2 3
+1       m     2  
+
+4 5 6 7 8 1 2 3
+        1 m   2 
+        
+4 5 6 7 8 1 2 3
+        1
+        m 2    
+        
+        
+3 4 5 6 7 8 1 2
+
+while(first != last) {\
+    mid = first + (last - first)/2;
+    if(arr[mid] < arr[first]) {
+        last = mid;
+    }
+    else if(arr[mid] > arr[last]) {
+        first = mid;
+    }
+    else
+        return arr[first];
+}
+
+
+*/
+int find_minimum_increasing(vector<int> &arr, int lo, int hi){
+    while(lo <= hi){
+        int mid = (lo+hi)/2;
+        if(arr[mid] > arr[mid+1])
+            return arr[mid+1];
+        if(arr[lo] < arr[mid])
+            lo = mid+1;
+        else
+            hi = mid;
+    }
+    return -1;
+}
+
+// 6 5 4 3 2 1 8 7
+int find_minimum_decreasing(vector<int> &arr, int lo, int hi){
+    while(lo <= hi){
+        int mid = (lo+hi)/2;
+        if(arr[mid] < arr[mid+1])
+            return arr[mid];
+        if(arr[lo] > arr[mid])
+            lo = mid+1;
+        else
+            hi = mid;
+    }
+    return -1;
+}
+
+int find_minimum(vector<int> arr) 
+{
+    int n = arr.size();
+    
+    if(n==1)
+        return arr[0];
+    if(n==2)
+        return min(arr[0], arr[1]);
+    if(n==3)
+        return min(arr[0],min(arr[1],arr[2]));
+    
+    if(arr[0]-arr[n-1] <=0 && arr[0]-arr[1] <= 0 && arr[n-2] <= arr[n-1] )
+        return arr[0];
+        
+    //10 9 8 7 6 5 4 
+    if(arr[0]-arr[n-1] >= 0 && arr[0]-arr[1] >= 0 && arr[n-2] >= arr[n-1])
+        return arr[n-1];
+    
+    //4 5 6 7 8 1 2 3
+    if(arr[0] - arr[n-1] > 0)
+        return find_minimum_increasing(arr, 0, n-1);
+    else //6 5 4 3 2 1 8 7 
+        return find_minimum_decreasing(arr, 0, n-1);
+   
+}
