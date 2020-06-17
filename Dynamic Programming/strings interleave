@@ -1,0 +1,118 @@
+/*
+Strings Interleave
+
+
+
+You are given three strings: a, b and i. Write a function that checks whether i is an interleaving of a and b.
+
+String i is said to be interleaving string a and b, if:
+
+len(i) = len(a) + len(b).
+
+i only contains characters present in a or b.
+
+i contains all characters of a. From a, any character a[index] should be added exactly once in i.
+
+i contains all characters of b. From b, any character b[index] should be added exactly once in i.
+
+Order of all characters in individual strings (a and b) is preserved.
+
+
+
+Example One
+
+Input:
+
+a = "123"
+
+b = "456"
+
+i = "123456"
+
+
+
+Output: True
+
+
+
+Example Two
+
+Input:
+
+a = "AAB"
+
+b = "AAC"
+
+i = "AAAABC"
+
+
+
+Output: True
+
+
+*/
+
+
+/*
+ * Complete the 'doStringsInterleave' function below.
+ *
+ * The function is expected to return a BOOLEAN.
+ * The function accepts following parameters:
+ *  1. STRING a
+ *  2. STRING b
+ *  3. STRING i
+ */
+
+bool doStringsInterleave(string a, string b, string i) {
+    if (a.length() + b.length() != i.length()){
+        return false;
+    }
+    
+    /*
+    Convention: str[0 : x] = first x chars of str.
+    
+    dp[a_i][b_i] =  True if i[0 : (a_i + b_i)] is an interleaving
+                    of a[0 : a_i] and b[0 : b_i], else False.
+    */
+    bool dp[a.length() + 1][b.length() + 1];
+    
+    for (int ai = 0; ai <= a.length(); ai++){
+        for (int bi = 0; bi <= b.length(); bi++){
+            /*
+            To dp[a_i][b_i] be true, at least one of the below two should be true:
+            
+            1) i[0 : (a_i + b_i - 1)] should be an interleaving
+                of a[0 : (a_i - 1)] and b[0 : b_i]
+                and a[ai - 1] == i[ai + bi - 1].
+            
+            2) i[0 : (a_i + b_i - 1)] should be an interleaving
+                of a[0 : a_i] and b[0 : (b_i - 1)]
+                and b[bi - 1] == i[ai + bi - 1].
+            */
+            
+            // Keeps track of the above mentioned #1 
+            bool dp_ai_min_1_bi = false;
+            // Keeps track of the above mentioned #2
+            bool dp_ai_bi_min_1 = false;
+            
+            if (ai > 0){
+                dp_ai_min_1_bi = dp[ai - 1][bi] && 
+                                 (a[ai - 1] == i[ai + bi - 1]);
+            }
+            if (bi > 0){
+                dp_ai_bi_min_1 = dp[ai][bi - 1] && 
+                                 (b[bi - 1] == i[ai + bi - 1]);
+            }
+            
+            // dp[0][0] = Will be true because empty string is an interleaving
+            // of two empty strings.
+            dp[ai][bi] = (ai == 0 && bi == 0) || 
+                         dp_ai_min_1_bi || 
+                         dp_ai_bi_min_1;
+        }
+    }
+    
+    return dp[a.length()][b.length()];
+}
+
+
