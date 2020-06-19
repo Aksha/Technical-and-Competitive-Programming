@@ -51,3 +51,46 @@ int main() {
     cout << "The partition exists? :  " << result << endl;
     return 0;
 }
+
+//Dynamic Programming solution: O(n*halfSum) time and O(n*halfSum) space
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+bool testfortie(vector<int> arr, int halfSum) {
+    int m = arr.size();
+    int n = halfSum;
+    vector<vector<bool>> dp(m+1,vector<bool>(n+1));
+    for(int i = 0; i < m+1; i++) {
+        dp[i][0] = true;
+    }
+    for(int i = 0; i <= halfSum; i++) {
+        dp[m][i] = false;
+    }
+    for(int i = m-1; i >=0; i--){
+        for(int j = 1; j <= halfSum; j++) {
+            if( j - arr[i] >= 0)
+                dp[i][j] = dp[i+1][j] || dp[i+1][j-arr[i]];
+        }
+    }
+    return dp[0][halfSum];
+}
+
+int main() {
+    vector <int> arr = {1,2,3,4,5,6,7};
+    bool result;
+    if(arr.size() == 0 || arr.size() == 1)
+        result = false;
+    int sum = 0;
+    for(int i = 0; i < arr.size(); i++) {
+        sum += arr[i];
+    }
+    if(sum % 2 != 0)
+        result = false;
+    int halfSum = sum/2;
+    result = testfortie(arr, halfSum);
+    cout << "The partition exists? :  " << result << endl;
+    return 0;
+}
