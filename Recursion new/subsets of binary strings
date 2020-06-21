@@ -1,0 +1,51 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<string> binaryStrings_recursion(int n, vector <string> result) {
+    if(n == 1)
+        return {"0","1"};
+    vector<string> temp = binaryStrings_recursion(n-1, result);
+    for(string s : temp) {
+        result.push_back(s + "0");
+        result.push_back(s + "1");
+    }
+    return result;
+}
+
+vector<string> binaryStrings_iteration(int n) {
+    vector<vector<string>> dp;
+    vector<string> temp;
+    temp.push_back("0");
+    temp.push_back("1");
+    dp.push_back(temp);
+    for(int i = 1; i < n; i++) {
+        vector<string> temp1;
+        for(int j = 0; j < dp[i-1].size(); j++) {
+            temp1.push_back(dp[i-1][j] + "0");
+            temp1.push_back(dp[i-1][j] + "1");
+        }
+        dp.push_back(temp1);
+    }
+    return dp[n-1];
+}
+
+int main() {
+    int n = 3;
+    vector<string> result;
+    vector<string> bs1 = binaryStrings_recursion(n, result);
+
+    for(int j = 0; j < bs1.size(); j++) {
+        cout << bs1[j] << " ";
+    }
+
+    cout << endl;
+
+    vector<string> bs2 = binaryStrings_iteration(n);
+    for(int j = 0; j < bs2.size(); j++) {
+        cout << bs2[j] << " ";
+    }
+    return 0;
+}
