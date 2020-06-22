@@ -45,3 +45,65 @@ int main() {
 }
 
 //Iterative Solution: 
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int permutations_iteration(vector<int> arr, int target) {
+    vector<int> dp(target+1,0);
+    int initialValue = *min_element(arr.begin(), arr.end());
+    dp[0] = 1;
+    for(int i = 1; i <= target; i++) {
+        int value = 0;
+        for(int j = 0; j < arr.size(); j++) {
+            if(i >= arr[j])
+                value += dp[i-arr[j]];
+        }
+        dp[i] = value;
+    }
+    return dp[target];
+}
+
+void permutations_recursion(vector<int> arr,int target, int index, int & count, vector<int> temp, vector<vector<int>>& result) {
+    if(target == 0) {
+        count++;
+        result.push_back(temp);
+        temp.clear();
+        return;
+    }
+    if (target < 0)
+        return;
+    for(int i = 0; i < arr.size(); i++) {
+        if (target - arr[i] >= 0) {
+            temp.push_back(arr[i]);
+            permutations_recursion(arr, target - arr[i], index, count, temp,result);
+            temp.pop_back();
+        }
+    }
+    return;
+}
+
+int main() {
+    vector<int> arr = {2, 3, 7};
+    int target = 5;
+    int count = 0;
+    int index = 0;
+    vector<int> temp;
+    vector<vector<int>> result;
+    permutations_recursion(arr, target, index, count, temp, result);
+    cout << "The perumations are : " << endl;
+    for(int i = 0; i < result.size(); i++) {
+        for(int j = 0; j < result[i].size(); j++) {
+            cout << result[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << "THE count of permutations : " << count << endl;
+
+
+    cout << "------------------ITERATION --------------------" << endl;
+    int count_permutation = permutations_iteration(arr,target);
+    cout << "The total count of permutations calculated iteratively : " << count_permutation << endl;
+    return 0;
+}
