@@ -1,3 +1,6 @@
+//recursive solution: O(n^target) where n is the number of elements in the array
+
+
 #include <iostream>
 #include <vector>
 
@@ -40,3 +43,5 @@ int main() {
     cout << "THE count of permutations : " << count << endl;
     return 0;
 }
+
+//Iterative Solution: 
