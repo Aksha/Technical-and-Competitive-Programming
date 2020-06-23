@@ -13,13 +13,15 @@ void permutations(vector<int> arr,int target, int index, int & count, vector<int
         temp.clear();
         return;
     }
-    if (target < 0)
+    else if (target < 0 || index == arr.size())
         return;
-    for(int i = 0; i < arr.size(); i++) {
-        if (target - arr[i] >= 0) {
-            temp.push_back(arr[i]);
-            permutations(arr, target - arr[i], index, count, temp,result);
-            temp.pop_back();
+    else {
+        for(int i = 0; i < arr.size(); i++) {
+            if (target - arr[i] >= 0) {
+                temp.push_back(arr[i]);
+                permutations(arr, target - arr[i], index, count, temp,result);
+                temp.pop_back();
+            }
         }
     }
     return;
