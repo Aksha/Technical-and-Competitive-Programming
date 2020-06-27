@@ -1,3 +1,32 @@
+/*
+Knight's tour!
+Given a phone keypad as shown below:
+
+1 2 3
+4 5 6
+7 8 9
+– 0 –
+
+How many different phone numbers of given length can be formed starting from the given digit? The constraint is that the movement from one digit to the next is similar to the movement of the Knight in chess.
+For example if we are at 1 then the next digit can be either 6 or 8, if we are at 6 then the next digit can be 1, 7 or 0.
+
+Repetition of digits is allowed, e.g. 1616161616 is a valid number.
+The problem requires us to just give the count of different phone numbers and not necessarily list the numbers.
+Find a polynomial-time solution, based on Dynamic Programming.
+
+Example One
+Input: startdigit = 1, phonenumberlength = 2
+Output: 2
+Two possible numbers of length 2: 16, 18.
+
+Example Two
+Input: startdigit = 1, phonenumberlength = 3
+Output: 5
+
+The possible numbers of length 3: 160, 161, 167, 181, 183
+*/
+
+
 #include <iostream>
 #include <vector>
 #include <unordered_map>
