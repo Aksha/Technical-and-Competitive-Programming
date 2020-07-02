@@ -6,21 +6,22 @@ using namespace std;
 int partition(vector <int> &A, int start, int end) { //hoar's partitioning algorithm
     //int pivot = A[(start+end)/2]; 
     int left = start;
-    int pivot = A[left]; 
-    start++; 
-    while(start <= end) {
-        while(A[start] < pivot) {
-            start++;
+    int right = end;
+    int pivot = A[start]; 
+    left++; 
+    while(left <= right) {
+        while(A[left] < pivot) {
+            left++;
         }
-        while(A[end] > pivot) {
-            end--;
+        while(A[right] > pivot) {
+            right--;
         }
-        if(start <= end) {
-            swap(A[start++],A[end--]);
+        if(left <= right) {
+            swap(A[left++],A[right--]);
         }
     }
     swap(A[start], A[left]);
-    return start;
+    return left;
 }
 
 int partition(vector<int> &arr, int start, int end) { //lomuto's partitioning algorithm
