@@ -19,7 +19,7 @@ using namespace std;
 //         p i    j
 
 
-int partition(vector <int> &A, int start, int end) {
+int partition(vector <int> &A, int start, int end) { //hoare's
     //int pivot = A[(start+end)/2]; 
     int left = start;
     int pivot = A[left]; 
@@ -37,6 +37,19 @@ int partition(vector <int> &A, int start, int end) {
     }
     swap(A[start], A[left]);
     return start;
+}
+
+int partition(vector<int> &arr, int start, int end) { //lomuto's partitioning algorithm
+    int i = start;
+    int pivot = arr[end];
+    for(int j = start; j <= end-1; j++) {
+        if(arr[j] <= pivot) {
+            swap(arr[i],arr[j]);
+            i++;
+        }
+    }
+    swap(arr[i], arr[end]);
+    return i;
 }
 
 void quicksort(vector<int> &A, int start, int end) {
