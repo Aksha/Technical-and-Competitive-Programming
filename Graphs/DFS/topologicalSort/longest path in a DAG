@@ -1,0 +1,150 @@
+
+/*
+ * Complete the function below.
+	For the weighted graph:
+	1. The number of nodes is <name>_nodes.
+	2. The number of edges is <name>_edges.
+	3. An edge exists between <name>_from[i] to <name>_to[i] and the weight of the edge is <name>_weight[i].
+	
+		Apply topological sort because it is a DAG and the find the longest path f(1,4) = f(1,3) + f(3,4);
+        //build the adjacency list first (unordered_map<int,vector<int>> adj; (from_vertex , to_vertices).
+        From here just apply the topological sort algorithm
+        
+void Graph::topologicalSortUtil(int v, vector<bool> &visited,
+                                stack<int>& Stack)
+{
+
+    visited[v] = true;
+
+    for (auto it = adj[v].begin(); it != adj[v].end(); ++it) {
+        if (visited[*it] != true) {
+            topologicalSortUtil(*it, visited, Stack);
+        }
+    }
+
+    Stack.push(v);
+}
+
+void Graph::topologicalSort()
+{
+    stack<int> Stack;
+
+    // Mark all the vertices as not visited
+    vector<bool> visited(V+1,false);
+    // Call the recursive helper function to store Topological
+    // Sort starting from all vertices one by one
+    for (int i = 0; i < V; i++)
+        if (visited[i] == false)
+            topologicalSortUtil(i, visited, Stack);
+
+    // Print contents of stack
+    while (Stack.empty() == false) {
+        cout << Stack.top() << ", ";
+        Stack.pop();
+    }
+}
+
+*/
+
+//Solution when function definition is given:
+
+vector< vector<pair<int, int>> > createAdjlist(int dag_nodes, vector <int> dag_from, vector <int> dag_to, vector <int> dag_weight)
+{    
+    
+    vector< vector<pair<int, int>> > adjlist (dag_nodes+1, vector<pair<int, int>>(0));
+    for (int i = 0; i < dag_from.size(); i++)
+    {
+        adjlist[dag_from[i]].push_back(make_pair(dag_to[i], dag_weight[i]));
+    }
+    return adjlist;
+}
+
+
+
+void dfs(int from_node,  vector<int> &visited,  vector<int> &order, vector< vector<pair<int, int>> > &adjlist)
+{
+    visited[from_node] =1;
+
+    for (int i = 0; i < adjlist[from_node].size(); i++)
+    {
+        int neigh = adjlist[from_node][i].first;
+        if (visited[neigh] == -1)
+        {
+            dfs(neigh, visited, order, adjlist);
+        }
+        
+    }
+    order.push_back(from_node);
+}
+
+vector<int> topological_sort(int dag_nodes, vector< vector<pair<int, int>> > &adjlist)
+{
+   vector<int> visited (dag_nodes+1, -1);
+   vector <int> order;
+   for (int i = 1; i <= dag_nodes; i++)
+   {
+       if (visited[i] == -1)
+       {
+           dfs(i, visited, order, adjlist);
+       }
+   }
+   reverse(order.begin(), order.end());
+   return order;
+}
+
+vector <int> find_longest_path(int dag_nodes, vector <int> dag_from, vector <int> dag_to, vector <int> dag_weight, int from_node, int to_node) {
+
+
+   vector< vector<pair<int, int>> > adjlist;
+
+   vector<int> path;
+   
+   vector<long long int> longest_path(dag_nodes+1, -1);
+   
+   vector<int> parent(dag_nodes+1, 0);
+   vector<int> order;
+   
+   
+   adjlist = createAdjlist(dag_nodes, dag_from, dag_to, dag_weight);
+   order = topological_sort(dag_nodes, adjlist);
+   
+   longest_path[from_node] = 0;
+   
+   for (int i = 0; i < dag_nodes; i++)
+   {
+       int src = order[i];
+       if (longest_path[src] >= 0)
+       {
+           if (src == to_node)
+           {
+               break;
+           }
+           else
+           {
+               for (int idx = 0; idx< adjlist[src].size(); idx++)
+               {
+                   int nbr = adjlist[src][idx].first;
+                   int nbr_weight = adjlist[src][idx].second;
+                   if (longest_path[nbr] <= longest_path[src] + nbr_weight)
+                   {
+                       longest_path[nbr] = longest_path[src] + nbr_weight;
+                       parent[nbr] = src;
+                   }
+               }
+           }
+       }
+       
+   }
+   
+   int nbr = to_node;
+   while (nbr != from_node)
+   {
+       
+       path.push_back(nbr);
+       nbr = parent[nbr];
+   }
+   path.push_back(from_node);
+   reverse(path.begin(), path.end());
+   return path;
+}
+
