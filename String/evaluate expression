@@ -1,0 +1,101 @@
+evaluate expression : Interviewing.io : 
+
+// Implement a function to evaluate an expression string. The expression string may contain the plus + or minus sign -, non-negative integers.
+// Assume that the given expression is always valid.
+
+// Examples =>
+// "2" = 2
+// "2+3" = 5
+// "3-5" = -2
+// "2-7+3" = -2
+// "200-100" = 100
+
+// Note: Do not use the built-in library functions like eval(python) etc.
+
+
+/* 
+  1. variables required: (int)op1, op2, operator, (integer)curr_total
+  2. aggregate the values of op1, op2. 
+  3. when op1 & op2 != 0 & operator != -1, calculate curr_total += op1 operator op2
+  
+  200 - 100
+  
+  if(sign -1)
+   if(gien characters are numbers)
+      op1 = 0 {
+        op1 = s[i] - '0';
+      }
+      else {
+        op1 = op1*10 + s[i] - '0';
+      }
+    else {
+    sign = s[i]
+    } 
+  else(sign != -1)
+
+      op2 = 0 {
+        op2 = s[i] - '0';
+      }
+      else {
+        op2 = op1*10 + s[i] - '0';
+      }
+      else {}
+  
+ 
+   if(sign && op1 != 0 && op2 != 0){
+    curr_total += op1 (sign)  op2;
+    op1 = 0
+    op2 = 0;
+    sign = -1;
+  }
+  
+  return curr_total;
+*/
+
+
+#include <iostream>
+using namespace std;
+
+int evaluate_expression(string s) {
+  int curr_total = 0;
+  if(s.size() == 0) {
+    return curr_total;
+  }
+  int operand = 0;
+  int n = s.size();
+  char sign = '+';
+  for(int i = 0; i < n; i++) {
+    if(s[i] != '+' && s[i] != '-') {
+      if(operand == 0) {
+        operand = s[i] - '0';
+      }
+      else {
+        operand = operand*10 + (s[i] - '0');
+      }
+    }
+    else {
+      // +200|-100|+10|-10|+1
+      // prev sign = sign and the operand 
+      if (sign == '+') {
+        curr_total += operand;
+      } else {
+        curr_total -= operand;
+      }
+      
+      sign = s[i];
+      operand = 0
+    
+    }
+    // if(sign != '-1' && operand != 0) {
+    //   curr_total += operand  
+    // }
+  }
+  return curr_total;
+}
+// To execute C++, please define "int main()"
+int main() {
+  string s = "200-100";
+  int result = evaluate_expression(s);
+  cout << " The output is " << result << endl;
+  return 0;
+}
