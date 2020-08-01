@@ -79,11 +79,12 @@ string longest_repeated_substring(string s) {
         int comparison = compare_string(substring_list[i], substring_list[i+1]);
         if( comparison > maximum) {
             maximum = comparison;
-            output = s.substr(i,comparison);
+            output = substring_list[i].substr(0,comparison);
         }
     }
     return output;
 }
+
 int main() {
     string s = "banana";
     string output  = longest_repeated_substring(s);
