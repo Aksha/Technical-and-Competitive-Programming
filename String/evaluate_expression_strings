@@ -20,10 +20,10 @@ int evaluate_expression(string S) {
     for(char a : S) {
         if(a != '+' && a != '-') {
             if(operand == 0) {
-                operand = a - '0'; //1
+                operand = a - '0';
             }
             else {
-                operand *= 10 + (a - '0'); //100
+                operand = operand * 10 + (a - '0');
             }
         }
         else {
@@ -34,17 +34,19 @@ int evaluate_expression(string S) {
                 total -= operand;
             }
             operand = 0;
-            sign = a; //-
+            sign = a;
         }
+        //cout << " operand : " << operand << "; sign: " << sign << "; total: " << total << endl;
     }
     if(sign == '+') {
-        total += operand;
+        total = total + operand;
     }
     else {
-        total -= operand;
+        total = total - operand;
     }
     return total;
 }
+
 
 int main() {
     string S = "200-100";
