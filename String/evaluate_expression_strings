@@ -1,0 +1,54 @@
+#include <iostream>
+
+using namespace std;
+
+/*
+Input is a string.
+Output is an int
+
+S = "2"; Output: 2
+S = "200-100"; Output:100
+S = "2 + 7 - 3"; Output: 6
+S = ""; Output: 0
+S = "10 - 20"; Output: -10
+*/
+
+int evaluate_expression(string S) {
+    int total = 0;
+    char sign = '+';
+    int operand = 0;
+    for(char a : S) {
+        if(a != '+' && a != '-') {
+            if(operand == 0) {
+                operand = a - '0'; //1
+            }
+            else {
+                operand *= 10 + (a - '0'); //100
+            }
+        }
+        else {
+            if(sign == '+') {
+                total += operand;
+            }
+            else {
+                total -= operand;
+            }
+            operand = 0;
+            sign = a; //-
+        }
+    }
+    if(sign == '+') {
+        total += operand;
+    }
+    else {
+        total -= operand;
+    }
+    return total;
+}
+
+int main() {
+    string S = "200-100";
+    int result = evaluate_expression(S);
+    cout << " The answer is : " << result << endl;
+    return 0;
+}
