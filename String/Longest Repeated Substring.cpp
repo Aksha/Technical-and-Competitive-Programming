@@ -25,13 +25,6 @@ using namespace std;
  *   ana    - 3
  *   na     - 4
  *   a      - 5
- 
- a        - 5 
- ana      - 3
- anana    - 1
- banana   - 0
- na       - 4
- nana     - 2
  *
  *
  * */
@@ -53,7 +46,7 @@ int compare_string(string a, string b) {
 }
 
 string longest_repeated_substring(string s) {
-    int n = s.size()-1;
+    int n = s.size();
     if(n == 0 || n == 1) {
         return s;
     }
@@ -68,8 +61,8 @@ string longest_repeated_substring(string s) {
         }
     }
     vector<string> substring_list;
-    for(int i = 0; i <= n; i++) {
-        string temp = s.substr(i, n - i + 1);
+    for(int i = 0; i < n; i++) {
+        string temp = s.substr(i, n - i);
         substring_list.emplace_back(temp);
     }
     sort(substring_list.begin(), substring_list.end());
@@ -86,7 +79,7 @@ string longest_repeated_substring(string s) {
 }
 
 int main() {
-    string s = "banana";
+    string s = "aa";
     string output  = longest_repeated_substring(s);
     cout << "the longest repeated substring is : " << output << endl;
     return 0;
