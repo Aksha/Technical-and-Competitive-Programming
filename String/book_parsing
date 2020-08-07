@@ -1,94 +1,96 @@
 Round1:
 
-#include <iostream>
-#include <cmath>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <algorithm>
+#include <iostream>
+#include <cmath>
+#include <cstdio>
+#include <string>
+#include <vector>
+#include <algorithm>
 
-using namespace std;
+using namespace std;
 
-// index of a book
-//function takes booktype next page()
+// index of a book
+//function takes booktype next page()
 /*
-    page 1 : "Bloomberg interview is great"
-    page 2 : "Life is good"
-    page 3 : "how are you? Bloomberg is nice"
-    
-   
-    
-    O/P:
-    is : 3, {1,2,3}
-    Bloomberg: 2 , { 1,3}
-    interview : 1
-    great : 1
-    good : 1
-    how : 1
-    nice : 1
-    
-    hmap1 = word : no of occurences
-    hmap2 = word : {pages numbers}
-    
-    1. store word and occurences
-    2. sort based on occurences using priority queue or ordered map
-    3. store word and page numbers.
-    4. return word and page numbers in sorted order.
+    page 1 : "Test interview is great"
+    page 2 : "Life is good"
+    page 3 : "how are you? Test is nice"
+    
+   
+    
+    O/P:
+    is : 3, {1,2,3}
+    Test: 2 , { 1,3}
+    interview : 1
+    great : 1
+    good : 1
+    how : 1
+    nice : 1
+    
+    hmap1 = word : no of occurences
+    hmap2 = word : {pages numbers}
+    
+    1. store word and occurences
+    2. sort based on occurences using priority queue or ordered map
+    3. store word and page numbers.
+    4. return word and page numbers in sorted order.
 */
 
-struct book {
-    nextPage();
+struct book {
+    nextPage(); //--> this gives the next object 
 };
 
 /*
- Bloomberg L.P. provides financial software tools and enterprise applications such as analytics and equity trading platform, data services, and news to financial companies and organizations through the Bloomberg Terminal (via its Bloomberg Professional Service), its core revenue-generating product. Bloomberg L.P. also includes a wire service (Bloomberg News), a global television network (Bloomberg Television), websites, radio stations (Bloomberg Radio), subscription-only newsletters, and two magazines: Bloomberg Businessweek and Bloomberg Markets.
- 
- Bloomberg
- bloomberg
- BLoomberg
- 
- bloomberg, 3
+ Test L.P. provides financial software tools and enterprise applications such as analytics and equity trading platform, data services, and news to financial companies and organizations through the Test Terminal (via its Test Professional Service), its core revenue-generating product. Test L.P. also includes a wire service (Test News), a global television network (Test Television), websites, radio stations (Test Radio), subscription-only newsletters, and two magazines: Test Businessweek and Test Markets.
+ 
+ Test
+ Test
+ Test
+ 
+ Test, 3
 */
 
-void word_sorting(Book b) { 
-    unordered_map<string, int> hmap1;
-    unordered_map<string, vector<int>> hmap2;
-    /*if(b->nextPage() == NULL) {
-        cout << "the book is empty" << endl;
-    }
-    if(b->nextPage()->nextPage() == NULL) {
-        
-    }*/
-    int pageNumber = 0;
-    string page = b->nextPage();
-    while(page) {
-        pageNumber++;
-        string temp = "";
-        while(getline(page,temp)) { //Bloomberg is great
-            istringstream word(temp);
-            string currWord = "";
-            while(getline(word,currWord,' ')) { //bloomberg
-                //sanitize(currWord);
-                if(hmap1.find(currWord) == hmap1.end()) {
-                    vector<int> pageNumbers;
-                    pageNumbers.push_back(oageNumber);
-                    hmap1.insert(make_pair(currWord,1)); //bloomberg, 1
-                    hmap2.insert(make_pair(currWord,pageNumbers)); // bloomberg, {1}
-                }
-                else {
-                    hmap1[currWord]++; // bloomberg, 2
-                    hmap2[currWord].push_back(pageNumber); // bloomberg, {1,1};
-                }
-            }
-        }
+void word_sorting(Book b) { 
+    unordered_map<string, int> hmap1;
+    unordered_map<string, vector<int>> hmap2;
+    /*if(b->nextPage() == NULL) {
+        cout << "the book is empty" << endl;
+    }
+    if(b->nextPage()->nextPage() == NULL) {
+        
+    }*/
+    int pageNumber = 0;
+    string page = b->nextPage();
+    while(page) {
+        pageNumber++;
+        string temp = "";
+        while(getline(page,temp)) { //Test is great
+            istringstream word(temp);
+            string currWord = "";
+            while(getline(word,currWord,' ')) { //Test
+                //sanitize(currWord);
+                if(hmap1.find(currWord) == hmap1.end()) {
+                    vector<int> pageNumbers;
+                    pageNumbers.push_back(oageNumber);
+                    hmap1.insert(make_pair(currWord,1)); //Test, 1
+                    hmap2.insert(make_pair(currWord,pageNumbers)); // Test, {1}
+                }
+                else {
+                    hmap1[currWord]++; // Test, 2
+                    hmap2[currWord].push_back(pageNumber); // Test, {1,1};
+                }
+            }
+        }
         page = b->nextPage();
-    }
-    map<int, vector<string>> sorted_words;
-    for(unordered_map<int, string> it = hmap1.begin(); )
+    }
+    map<int, vector<string>> sorted_words;
+    for(unordered_map<int, string> it = hmap1.begin(); )
 }
 
 
-int main() {
- 
-    return 0;
+int main() {
+        
+    return 0;
 }
+
+
