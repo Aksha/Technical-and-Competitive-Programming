@@ -1,0 +1,82 @@
+#include <iostream>
+#include <cmath>
+#include <cstdio>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+
+/*
+person 1 : [{15, 16} ,{9 , 10), {16,17}]
+person 2 :  [{3,5},{2,3}]
+person 3 : [{10, 12}, {3,4}]
+
+Meeting: [{1,2}, {5,6}]
+
+1. sort the meeting times based on start time of every person. person 1: [{9 , 10), {15,16}, {16,17}];
+2. merge overlaps in the calender for each person person 1: [{9,10}, {15,17}];
+ {{{9 , 10}, {15,17}},
+ {{14,17}},
+ 
+ 
+{{10, 12}, {15,16}}, {{9,10}, {14,17}}}
+
+{}
+
+, 
+3. merge K sorting algorithm
+4. ifnd the free time and add it to the result
+
+time compleity : O(nlogn) + O(n) + O(nk) where n is the number of people, and k the the size of the person with highest meetings.
+space complexity: O(nk)
+*/
+
+vector<pair<int,int>> merge_overlapping_intervals(vector<pair<int,int>> person_calendar) {
+    vector<pair<int,int>> merged_list;
+    for(int i = 0; i < person_calendar.size()-1; i++) {
+        if(person_calendar[i].second >= person_calendar[i+1].first) { // {{9,1}, {11,12}, {12,1}}
+         merged_list.push_back(make_pair(min(person_calendar[i].first, person_calendar[i+1].first),max(person_calendar[i+1].second, person_calendar[i+1].second)); 
+        }
+    }
+    return merged_list;
+}
+
+vector<pair<int,int>> merge_k_list(vector<vector<pair<int,int>>> arr) {
+     //vector<pair<int, int>> all_people_meeting_times;
+     while(arr.size() > 1) {
+        vector<int> result;
+        vector<int> first = arr[0];
+        int m = first.size();
+        vector<int> second = arr[1];
+        if(first[0] <= first[m-1])
+            result = merge_overlapping_intervals(first,second);
+        else if(first[0] > first[m-1])
+            result = mergeInvert(first,second);
+        arr.push_back(result);
+        arr.erase(arr.begin() + 0);
+        arr.erase(arr.begin() + 0);
+        merge_K_list(arr);
+    }
+    return arr.front();
+}
+vector<pair<int,int>> available_meeting_time(vector<vector<pair<int,int>>> people_calender) {
+    vector<pair<int,int>> meeting_times;
+    vector<vector<pair<int,int>>> merged_list;
+    for(int i = 0; i < people_calendar.size(); i++) {
+        sort(people_calendar[i].begin(), people_calendar[i].end()); // [{9 , 10), {15,16}, {16,17} ]
+         merge_list.push(merge_overlapping_intervals(people_calendar[i]));
+    }
+    meeting_times = merge_k_list(merged_list);
+    return meeting_times;   
+}
+
+int main() {
+     vector<vector<pair<int,int>>> people_calender = {{3,4},{9 , 10),{4,5}};
+     vector<pair<int,int>> meeting_times = available_meeting_time(people_calendar);
+     for(int i = 0; i < meeting_times.size(); i++) {
+         cout << meeting_times[i].first << " , " << meeting_times[i].second << endl;
+     }
+    return 0;
+}
