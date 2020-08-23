@@ -1,3 +1,8 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
 bool is_palindrome_number(long long int n) {
     long long int palindrome = -1;
     long long int ncopy = n;
@@ -19,8 +24,15 @@ bool is_palindrome_number(long long int n) {
 }
 
 long long int find_next_palindrome_number(long long int n) {
+    n++;
     while(is_palindrome_number(n) == false) {
         n = n+1;
     }
     return n;
+}
+int main() {
+    long long int n = 10;
+    long long int result = find_next_palindrome_number(n);
+    cout << result << endl;
+    return 0;
 }
