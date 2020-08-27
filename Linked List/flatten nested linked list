@@ -1,0 +1,73 @@
+#include <iostream>
+using namespace std;
+
+/*
+ *               curr
+[1] -> [2] -> [3] -> [8] -> [10]
+              |      |
+               |     [9]
+               |
+              [4] -> [5] -> [6]
+              tail           |
+                            [7]
+
+output:
+
+[1] -> [2] -> [3] -> [4] - >[5] -> [6]->[7]-[8]->[9]->[10]
+
+ * */
+
+struct Node {
+    int val;
+    Node* next;
+    Node* down;
+    Node() {}
+    Node(int value) : val(value), next(NULL), down(NULL) {}
+};
+void flattenLL_helper(Node** curr, Node** tail) {
+    Node* next = (*curr)->next;
+    (*curr)->next = (*tail);
+    while((*tail)->next != NULL) {
+        (*tail) =  (*tail)->next;
+    }
+    (*tail)->next =  next;
+}
+
+void flattenLL(Node** root) {
+    Node* newRoot = *root;
+    while(newRoot != NULL) {
+        Node* head = newRoot;
+        if(newRoot->down) {
+            Node* curr = newRoot;
+            Node* tail = newRoot->down;
+            flattenLL_helper(&curr,&tail);
+            newRoot->down = NULL;
+        }
+        newRoot = head->next;
+    }
+}
+
+int main() {
+    Node* root = new Node(1);
+    root->next = new Node(2);
+    Node* second = root->next;
+    second->next = new Node(3);
+    Node* third = second->next;
+    third->down = new Node(4);
+    Node* four = third->down;
+    four->next = new Node(5);
+    Node* five = four->next;
+    five->next = new Node(6);
+    Node* six = five->next;
+    six->down = new Node(7);
+    third->next = new Node(8);
+    Node* eight = third->next;
+    eight->down = new Node(9);
+    eight->next = new Node(10);
+
+    flattenLL(&root);
+
+    cout << root->val << " : " << root->next->val << " : " << root->next->next->val << " : " << root->next->next->next->val << " : " << root->next->next->next->next->val << " : " << root->next->next->next->next->next->val << " : " << root->next->next->next->next->next->next->val << " : " << root->next->next->next->next->next->next->next->val << " : " << root->next->next->next->next->next->next->next->next->val << " : " << root->next->next->next->next->next->next->next->next->next->val << endl;
+
+    return 0;
+}
