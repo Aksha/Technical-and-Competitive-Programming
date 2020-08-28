@@ -1,0 +1,77 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+/*
+person 1 : [{15, 16} ,{9 , 10), {16,17}]
+person 2 :  [{15,17},{14,15}]
+person 3 : [{10, 12}, {15,16}]
+*/
+typedef pair<int,int> p;
+
+vector<p> flatten_input(vector<vector<p>> arr) {
+    vector<p> flattened_arr;
+    for(int i = 0; i < arr.size(); i++) {
+        for(int j = 0; j < arr[i].size(); j++) {
+            flattened_arr.push_back(arr[i][j]);
+        }
+    }
+    return flattened_arr;
+}
+
+vector<p> merge_overlapping_intervals(vector<p> flattened_arr) {
+    vector<p> merged_list;
+    int i = 1;
+    while( flattened_arr.size() > 1) {
+        if(flattened_arr[i-1].second >= flattened_arr[i].first) {
+            merged_list.push_back(make_pair(min(flattened_arr[i-1].first, flattened_arr[i].first), max(flattened_arr[i-1].second, flattened_arr[i].second)));
+            flattened_arr.erase(flattened_arr.begin());
+        }
+        else {
+            merged_list.push_back(make_pair(flattened_arr[i-1].first, flattened_arr[i-1].second));
+            merged_list.push_back(make_pair(flattened_arr[i].first, flattened_arr[i].second));
+        }
+        i++;
+    }
+    return merged_list;
+}
+
+vector<p> slot_availability(vector<p> merged_list) {
+    vector<p> available_slots;
+    for(int i = 1; i < merged_list.size(); i++) {
+        if(merged_list[i-1].second < merged_list[i].first) {
+            available_slots.push_back(make_pair(merged_list[i-1].second, merged_list[i].first));
+        }
+    }
+    return available_slots;
+}
+
+int main() {
+    vector<vector<p>> arr = {{{15, 16} ,{9 , 10}, {16,17}},{{15,17},{14,15}},{{10, 12}, {15,16}}};
+    vector<p> flattened_arr = flatten_input(arr);
+    for(int i = 0; i < flattened_arr.size(); i++) {
+        cout << "{ " << flattened_arr[i].first << " , " << flattened_arr[i].second << " }, ";
+    }
+    cout << endl;
+    sort(flattened_arr.begin(), flattened_arr.end());
+    cout << "After sorting :" << endl;
+    for(int i = 0; i < flattened_arr.size(); i++) {
+        cout << "{ " << flattened_arr[i].first << " , " << flattened_arr[i].second << " }, ";
+    }
+    cout << endl;
+    vector<p> merged_list = merge_overlapping_intervals(flattened_arr);
+    cout << "After merging overlapping intervals : " << endl;
+    for(int i = 0; i < merged_list.size(); i++) {
+        cout << "{ " << merged_list[i].first << " , " << merged_list[i].second << " }, ";
+    }
+    cout << endl;
+
+    vector<p> available_slots = slot_availability(merged_list);
+    cout << "After merging overlapping intervals : " << endl;
+    for(int i = 0; i < available_slots.size(); i++) {
+        cout << "{ " << available_slots[i].first << " , " << available_slots[i].second << " }, ";
+    }
+    cout << endl;
+
+    return 0;
+}
