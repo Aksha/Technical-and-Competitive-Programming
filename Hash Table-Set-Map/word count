@@ -1,0 +1,99 @@
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+#include <sstream>
+#include<istream>
+#include <map>
+using namespace std;
+// index of a book
+//function takes booktype next page()
+/*
+    page 1 : "interview is great get more info"
+    page 2 : "interview is ok"
+    page 3 : "how are you? interview is nice"
+
+
+
+    O/P:
+    is : 3, {1,2,3}
+    Bloomberg: 2 , { 1,3}
+    interview : 1
+    great : 1
+    good : 1
+    how : 1
+    nice : 1
+    1. go over the sentence, get words, store count and page number in a unordered_map.
+    2. exchange key value pair and use a map data structure to store in descending order;
+    3. print from the end;
+
+*/
+
+struct count_page{
+    int count;
+    vector<int> page_number;
+};
+
+unordered_map<string,count_page> word_count(unordered_map<string,int> sentence_page){
+    unordered_map<string,count_page> umap;
+    for(auto it = sentence_page.begin(); it != sentence_page.end() ; it++) {
+        string page_content = it->first;
+        istringstream iss(page_content);
+        string word = "";
+        while(getline(iss,word,' ')) {
+            if(umap.find(word) == umap.end()) {
+                vector<int> page;
+                page.push_back(it->second);
+                count_page cp;
+                cp.count = 1;
+                cp.page_number = page;
+                umap.insert(make_pair(word,cp));
+            }
+            else {
+                umap[word].count = umap[word].count + 1;
+                umap[word].page_number.push_back(it->second);
+            }
+        }
+    }
+    return umap;
+}
+
+int main() {
+    unordered_map<string,int> sentence_page;
+    sentence_page.insert(make_pair("interview is great get more info",1));
+    sentence_page.insert(make_pair("interview is ok",2));
+    sentence_page.insert(make_pair("how are you? interview is nice",3));
+    unordered_map<string,count_page> umap = word_count(sentence_page);
+    map<int,vector<string>> omap;
+    for(auto it = umap.begin(); it != umap.end() ; it++) {
+        int count = it->second.count;
+        if(omap.find(count) == omap.end()) {
+            vector<string> temp;
+            temp.push_back(it->first);
+            omap.insert(make_pair(count, temp));
+        }
+        else {
+            omap[count].push_back(it->first);
+        }
+    }
+
+    vector<pair<string,count_page>> result;
+    for(auto it = omap.begin(); it != omap.end(); it++) {
+        for(int i = 0; i < it->second.size(); i++) {
+            count_page cp;
+            cp.count = it->first;
+            cp.page_number = umap[it->second[i]].page_number;
+            result.push_back(make_pair(it->second[i],cp));
+        }
+    }
+
+    cout << result.size() << endl;
+
+    for(int i = 0; i < result.size(); i++) {
+        cout << result[i].first << " : " << result[i].second.count << ", { ";
+        for(int j = 0; j < result[i].second.page_number.size()-1; j++) {
+            cout << result[i].second.page_number[j] << " , ";
+        }
+        cout << result[i].second.page_number[result[i].second.page_number.size()-1] << " } " << endl;
+    }
+    return 0;
+}
