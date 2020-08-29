@@ -1,0 +1,107 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+/**
+
+Events Printer
+
+Step 1 - Print one event:
+Given an event (start time, end time), print this event in the form of a timeline on the screen. The timeline is represented by a series of ‘|’ characters. For example, if an event runs during instants 2-4 (inclusive), there will be ‘|’ on positions 2,3,4 and ‘_’ otherwise. Timeline starts at Instant 0.
+Examples:
+When input is (3, 5), output should be:
+___|||
+When input is (1, 4), output should be:
+_||||
+
+Step 2 - Print multiple events:
+Now that we can print one event, we will move on to printing multiple events. A list of Event tuples will be provided as input and output should be a combined timeline of all events with each event on a new line. The timeline is padded to the right with ‘_’ characters so that all the events extend upto the same point on the screen.
+For example, if input list is:
+[(3, 5), (1, 4), (7, 10)]
+Output is:
+___|||_____
+_||||______
+_______||||
+
+Step 3 - Merge events:
+We will now create a single merged view of all events. So, given a list of events, for any given instant, print a ‘|’ if there is at least one event occurring at that instant or '_' if not
+For example, when input is [(3, 5), (1, 4), (7, 10)], output for above will be -
+_|||||_||||
+Note that we are taking the list of events as input here and not the output from step 2.
+
+[(3, 5), (1, 4), (7, 10)] - sort
+
+[(1,4), (3,5), (7,10)] - merge overlapping intervals
+
+[(1,5),(7,10)]
+
+
+
+
+*/
+
+typedef pair<int,int> p;
+
+string print_event(pair<int,int> p) {
+    string E(p.second+1,'_');
+    for(int i = 0; i <= p.second; i++) {
+        if(i >= p.first && i <= p.second) {
+            E[i] = '|';
+        }
+    }
+    return E;
+}
+
+vector<string> print_events(vector<p> events) {
+    int maximum = INT_MIN;
+    for(int i = 0; i < events.size(); i++) {
+        /*if(maximum < events[i].second) {
+            maximum = events[i].second;
+        }*/
+        maximum = max(maximum,events[i].second);
+    }
+    vector <string> output;
+    for(int i = 0; i < events.size(); i++) {
+        string E(maximum,'_');
+        int start = events[i].first;
+        int end = events[i].second;
+        for(int j = start; j <= end; j++) {
+            E[j] = '|';
+        }
+        output.push_back(E);
+    }
+    return output;
+}
+
+string merge_multiple_events(vector<p> events) {
+    int maximum = INT_MIN;
+    for(int i = 0; i < events.size(); i++) {
+        maximum = max(maximum,events[i].second);
+    }
+    string E(maximum,'_');
+    for(int i = 0; i < events.size(); i++) {
+        int start = events[i].first;
+        int end = events[i].second;
+        for(int j = start; j <= end; j++) {
+            E[j] = '|';
+        }
+    }
+    return E;
+}
+
+int main() {
+    p input = {3,5};
+    string E1 = print_event(input);
+    cout << "Event 1 : " << endl;
+    cout << E1 << endl;
+    vector<p> events = {{3,5}, {1,4}, {7,10}};
+    vector <string> E2 = print_events(events);
+    cout << "Event 2 : " << endl;
+    for(int i = 0; i < E2.size(); i++) {
+        cout << E2[i] << endl;
+    }
+    string E3 = merge_multiple_events(events);
+    cout << "Event 3 : " << endl;
+    cout << E3 << endl;
+    return 0;
+}
