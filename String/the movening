@@ -1,0 +1,141 @@
+#include <iostream>
+#include <vector>
+/*
+Part Two: The Movening
+
+Unlike crossword puzzles and books, alphabet soup is a dynamic tapestry of letters. Predict the words that will appear at some given snapshot of time. You will be given two arrays of the same size. The first is the same as before, an NxN matrix of characters.
+
+But now, thanks to the advances of modern technology, we've been able to affix an instrument onto each letter to track its velocity with respect to the bowl. We've hooked this matrix of instruments up such that it produces an NxN matrix of numbers :
+1 => letter is moving down
+0 => letter is stationary
+-1 => letter is moving up
+
+Given these two matrices, and an arbitrary number of steps (n), produce a list of words that will appear in the soup after n seconds. Note that speeds are associated with the starting characters in the alphabet soup.
+
+
+# Input
+char[][] soup = {
+        {'c', 'o', 'w', ' '},
+        {' ', 'w', 'o', 'w'},
+        {'h', ' ', ' ', ' '},
+        {' ', 'e', 'y', ' '}
+};
+int[][] speeds = {
+        {0, 0, 0, 0},
+        {0, 0, 0, 1},
+        {0, 0, 0, 0},
+        {0, -1, -1, 0}
+};
+
+
+# Output
+
+movingWords(soup, speeds, 0) == [ 'cow', 'wow', 'h', 'ey' ]
+movingWords(soup, speeds, 1) == [ 'cow', 'wo', 'heyw']
+movingWords(soup, speeds, 2) == [ 'cow', 'wo', 'hey', 'w' ]
+*/
+using namespace std;
+
+vector<string> print_words_rowwise(vector<vector<char>> soup) {
+    vector<string> result;
+    for(int i = 0; i < soup.size(); i++) {
+        string temp = "";
+        for(int j = 0; j < soup[i].size(); j++) {
+            if(soup[i][j] == ' ') {
+                if(temp.size() != 0) {
+                    result.push_back(temp);
+                    temp = "";
+                }
+            }
+            else {
+                temp += soup[i][j];
+            }
+        }
+        if(temp.size() != 0) {
+            result.push_back(temp);
+        }
+    }
+    return result;
+}
+
+bool out_of_bounds_check(vector<vector<char>> new_soup,int row, int col) {
+    int m = new_soup.size();
+    if(row >= m || row < 0 || new_soup[row][col] != ' ') {
+        return false;
+    }
+    return true;
+}
+
+vector<string> movening(vector<vector<char>> soup, int speed[4][4], int move) {
+    vector<string> result;
+    int m = soup.size();
+    int n = soup[0].size();
+    vector<vector<char>> new_soup(m,vector<char>(n,' '));
+    for(int i = 0; i < m; i++) {
+        for(int j = 0; j < n; j++) {
+            if(speed[i][j] == 0){
+                if(new_soup[i][j] == ' ')
+                    new_soup[i][j] = soup[i][j];
+            }
+            else if(speed[i][j] == 1) {
+                if(out_of_bounds_check(new_soup,i+move,j)) {
+                    new_soup[i+move][j] = soup[i][j];
+                }
+            }
+            else if(speed[i][j] == -1) {
+                if(out_of_bounds_check(new_soup,i-move,j)) {
+                    new_soup[i-move][j] = soup[i][j];
+                }
+            }
+        }
+    }
+   /* for(int i = 0; i < m; i++) {
+        for(int j = 0; j < n; j++) {
+            cout << new_soup[i][j] << ",";
+        }
+        cout << endl;
+    } */
+    return print_words_rowwise(new_soup);
+}
+
+int main() {
+    vector<vector<char>> soup = {
+            {'c', 'o', 'w', ' '},
+            {' ', 'w', 'o', 'w'},
+            {'h', ' ', ' ', ' '},
+            {' ', 'e', 'y', ' '}
+    };
+
+    vector<string> result1 = print_words_rowwise(soup);
+    for(int i = 0; i < result1.size(); i++) {
+        cout << result1[i] << ",";
+    }
+    cout << endl;
+
+    int speed[4][4] = {
+            {0, 0, 0, 0},
+            {0, 0, 0, 1},
+            {0, 0, 0, 0},
+            {0, -1, -1, 0}
+    };
+
+    vector<string> result4 = movening(soup, speed, 0);
+    for(int i = 0; i < result4.size(); i++) {
+        cout << result4[i] << ",";
+    }
+    cout << endl;
+
+    vector<string> result2 = movening(soup, speed, 1);
+    for(int i = 0; i < result2.size(); i++) {
+        cout << result2[i] << ",";
+    }
+    cout << endl;
+
+    vector<string> result3 = movening(soup, speed, 2);
+    for(int i = 0; i < result3.size(); i++) {
+        cout << result3[i] << ",";
+    }
+    cout << endl;
+
+    return 0;
+}
