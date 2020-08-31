@@ -1,0 +1,135 @@
+#include <iostream>
+#include<unordered_map>
+#include<vector>
+#include<sstream>
+#include<istream>
+#include<string>
+
+using namespace std;
+
+string ltrim(const string & );
+string rtrim(const string & );
+
+/*
+ * Complete the 'countSentences' function below.
+ *
+ * The function is expected to return a LONG_INTEGER_ARRAY.
+ * The function accepts following parameters:
+ *  1. STRING_ARRAY wordSet
+ *  2. STRING_ARRAY sentences
+ */
+
+/*
+------------------------
+MY ALGORITHM : PLEASE READ
+------------------------
+    this question has two parts.
+    find the anagram. The output is stored in a unordered hashmap unordered_map<string,string> anagrams
+    the sentences that can be formed by interchanging the anagrams. This is solved recursively or using dynamic programming.
+
+    if two words can be interchanged in a sentence store it in the hashmap called 'anagrams'
+    listen it is silent (listen and silent interchanged)
+    anagrams = {listen,silent}, {silent,listen}
+    recursion algorithm: time complexity = O(2 ^ n) ,where n is the number of words in the sentence.
+
+
+    root                    listen it is silent
+ change index = first word  no change - {listen it is silent}, change - {silent it is silent}
+ change index =second word      no change as 'it' is not a part of anagram 
+change index = third word      no change as 'is' is not a part of anagram
+change index = fourth word   no change{listen it is silent}, change{listen it is listen},
+no change {silent it is silent}, change{silent it is listen}
+
+final possibilities = 4
+converting it to Dynamic Programming : 
+the algorithm is Time complexity(O(n)) where 'n' num of words in the input sentence
+vector<long> dp{num of words in sentence.size(),0};
+for(size_t i = 0; i < dp.size(); i++) {
+    if(dp[i] == part of anagram)
+        dp[i] = dp[i-1] + 2;
+    else {
+        dp[i] = dp[i-1];
+    }
+    return dp[num of words in sentence.size()];
+}
+Total DP time complexity = O(number of sentences * number of words in the biggest sentence)
+DP space complexity = O(n) where 'n' num of words in the input sentence
+
+Result space complexity = O(num of sentences) as the 'result' variable has that many values.
+*/
+
+unordered_map < string, string > find_anagrams(vector < string > wordSet) {
+    unordered_map < string, string > anagrams;
+    int size = wordSet.size();
+    if (size < 2)
+        return anagrams;
+    for (int i = 0; i < wordSet.size(); i++) {
+        string word1 = wordSet[i];
+        int m = word1.size();
+        sort(word1.begin(), word1.end());
+        for (int j = 0; j < wordSet.size() && j != i; j++) {
+            string word2 = wordSet[j];
+            int n = word2.size();
+            if (m != n)
+                continue;
+            sort(word2.begin(), word2.end());
+            if (word1 == word2) {
+                if (anagrams.find(wordSet[i]) == anagrams.end()) {
+                    anagrams.insert(make_pair(wordSet[i], wordSet[j]));
+                    anagrams.insert(make_pair(wordSet[j], wordSet[i]));
+                }
+            }
+        }
+    }
+    return anagrams;
+}
+
+long dynamic_programming(unordered_map < string, string > anagrams, vector < string > words) {
+    long n = words.size();
+    long dp[n + 1];
+    dp[0] = 0;
+    for (auto i = 0; i < n; i++) {
+        if (anagrams.find(words[i]) != anagrams.end())
+            dp[i + 1] = dp[i] + 2;
+        else {
+            dp[i + 1] = dp[i];
+        }
+    }
+    return dp[n];
+}
+//dynamic programming for computing sentence combination
+vector < long > sentence_combinations(unordered_map < string, string > anagrams, vector < string > sentences) {
+    vector < long > result;
+    for (auto i = 0; i < sentences.size(); i++) {
+        vector < string > words;
+        string curr_sentence = sentences[i];
+        istringstream iss(curr_sentence);
+        string word = "";
+        while (getline(iss,word,' ')) {
+            words.push_back(word);
+        }
+        long curr_result = dynamic_programming(anagrams, words);
+        result.push_back(curr_result);
+    }
+    return result;
+}
+
+//core method
+vector < long > countSentences(vector < string > wordSet, vector < string > sentences) {
+    vector < long > result;
+    //find anagrams and store it in unordered hashmap called 'anagrams'
+    unordered_map < string, string > anagrams = find_anagrams(wordSet);
+    //find the number of sentence combinations possible with the read anagrams and store it in result
+    result = sentence_combinations(anagrams, sentences);
+    return result;
+}
+
+int main() {
+    vector<string> wordSet = {"listen", "silent", "cat", "act", "is", "it", "bat", "tab"};
+    vector<string> sentences = {"cat in the bag","listen it is silent"};
+    vector<long> result = countSentences(wordSet,sentences);
+    for(int i = 0; i < result.size(); i++) {
+        cout << result[i] << ", ";
+    }
+    return 0;
+}
