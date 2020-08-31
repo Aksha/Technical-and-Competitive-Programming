@@ -1,0 +1,94 @@
+#include <bits/stdc++.h>
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+string ltrim(const string &);
+string rtrim(const string &);
+vector<string> split(const string &);
+
+
+/*
+ * Complete the 'onesGroups' function below.
+ *
+ * The function is expected to return an INTEGER_ARRAY.
+ * The function accepts following parameters:
+ *  1. 2D_INTEGER_ARRAY grid
+ *  2. INTEGER_ARRAY queries
+ */
+
+ /*
+    time complexity = O(m*n) where m and n are the row size and column size of the grid respectively.
+    Space complexity = the "num_of_groups" variables holds the groups size and its count which can be O(m*n) and the result variable = O(Q) where Q = queries.size() from the input variables.
+ */
+
+/*
+count_groups method counts the total number of groups present for every size in the grid.
+perform a Depth first search to determine the size and number of  groups present in the grid.
+The variable has the total number of groups present. The 'group_size' variable has the size of each group. the 'num_of_groups' variable has the key value pair where key is group_size, value is the count of that group size
+*/
+
+
+void DFS(vector<vector<int>> &grid, int row, int col, int &count) {
+    if(row < grid.size() && row >= 0 && col < grid[0].size() && col >= 0 && grid[row][col] == 1) {
+        count++;
+        grid[row][col] = -1;
+        DFS(grid,row+1,col,count);
+        DFS(grid,row-1,col,count);
+        DFS(grid,row,col+1,count);
+        DFS(grid,row,col-1,count);
+    }
+    return;
+}
+
+unordered_map<int,int> count_groups(vector<vector<int>> grid) {
+    unordered_map<int,int> num_of_groups;
+    int m = grid.size();
+    int n = grid[0].size();
+    int count = 0;
+    vector<int> group_size;
+    //DFS helps in determining the groups
+    for(int i = 0; i < m; i++) {
+        for(int j = 0; j < n; j++) {
+            if(grid[i][j] == 1) {
+                DFS(grid,i,j,count);
+                group_size.push_back(count);
+                count = 0;
+            }
+        }
+    }
+    //Once the groups are determined and added to 'group_size' array, the size of each group is computed and stored under number_of_groups
+    for(int i = 0; i < group_size.size(); i++) {
+        if(num_of_groups.find(group_size[i]) != num_of_groups.end()) {
+            num_of_groups[group_size[i]]++;
+        }
+        else {
+            num_of_groups.insert(make_pair(group_size[i],1));
+        }
+    }
+    return num_of_groups;
+}
+
+vector<int> onesGroups(vector<vector<int>> grid, vector<int> queries) {
+    vector<int> result;
+    unordered_map<int,int> num_of_groups; 
+    //key is the size of the group, 
+    //value is the number of groups with that size.
+
+    num_of_groups = count_groups(grid);
+    //finding out how many groups of a particular query size is present in the grid
+    for(int i = 0; i < queries.size(); i++) {
+        if(num_of_groups.find(queries[i]) != num_of_groups.end()) {
+            int temp = num_of_groups[queries[i]];
+            result.push_back(temp);
+        }
+        else {
+            result.push_back(0);
+        }
+    }
+    /*for(int i = 0; i < result.size(); i++) {
+        cout << result[i] << " ,";
+    }*/
+    return result;
+}
+int main()
