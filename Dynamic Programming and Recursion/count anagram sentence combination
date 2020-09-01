@@ -46,7 +46,7 @@ the algorithm is Time complexity(O(n)) where 'n' num of words in the�
 vector<long> dp{num of words in sentence.size(),0};
 for(size_t i = 0; i < dp.size(); i++) {
     if(dp[i] == part of anagram)
-        dp[i] = dp[i-1] + 2;
+        dp[i] = dp[i-1] * 2;
     else {
         dp[i] = dp[i-1];
     }
@@ -87,10 +87,11 @@ unordered_map < string, string > find_anagrams(vector < string > wordSet) {
 long dynamic_programming(unordered_map < string, string > anagrams, vector < string > words) {
     long n = words.size();
     long dp[n + 1];
-    dp[0] = 0;
+    dp[0] = 1;
     for (auto i = 0; i < n; i++) {
-        if (anagrams.find(words[i]) != anagrams.end())
-            dp[i + 1] = dp[i] + 2;
+        if (anagrams.find(words[i]) != anagrams.end()) {
+            dp[i + 1] = dp[i] * 2;
+        }
         else {
             dp[i + 1] = dp[i];
         }
@@ -119,6 +120,9 @@ vector < long > countSentences(vector < string > wordSet, vector < string > sent
     vector < long > result;
     //find anagrams and store it in unordered hashmap called 'anagrams'
     unordered_map < string, string > anagrams = find_anagrams(wordSet);
+    /*for(auto it = anagrams.begin(); it != anagrams.end(); it++) {
+        cout << it-> first << " : " << it->second << endl;
+    }*/
     //find the number of sentence combinations possible with the read anagrams and store it in result
     result = sentence_combinations(anagrams, sentences);
     return result;
@@ -126,7 +130,7 @@ vector < long > countSentences(vector < string > wordSet, vector < string > sent
 
 int main() {
     vector<string> wordSet = {"listen", "silent", "cat", "act", "is", "it", "bat", "tab"};
-    vector<string> sentences = {"cat in the bag","listen it is silent"};
+    vector<string> sentences = {"cat in the bat is silent","listen it is silent"};
     vector<long> result = countSentences(wordSet,sentences);
     for(int i = 0; i < result.size(); i++) {
         cout << result[i] << ", ";
