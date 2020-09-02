@@ -1,0 +1,150 @@
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+#include <cmath>
+
+using namespace std;
+/*
+
+1. register bill
+2. settle up everyone => who needs pay who and how much
+
+
+eg. ['Emily', 'Akshaya', 'jack']
+'Emily' 30
+akshaya -> emily 10
+jack -> emily 10
+
+ Algorithm:
+Emily => 30
+Akshaya => 0
+Jack => 0
+
+calculate sum :
+
+30
+
+compute each person: 30/3 = 10
+
+return :
+
+10 - 30 = -20
+10 - 0 = 10
+10 - 0 = 10
+
+ negative or 0 is lender but drop ppl with 0 as they don't get anything.
+ greater than 0 is a borrower and they owe ppl money. Once money owed is negative, or 0, remove the borrower from the last, adjust
+ the money on the borrower accordingly.
+Akshaya owes Emily 10;
+Jack owes Emily 10;
+*/
+
+typedef unordered_map <string, float> umap;
+typedef unordered_map<string,vector<pair<string,float>>> umap2;
+struct member {
+    string name;
+    float payments;
+};
+
+
+
+umap create_mapping(vector<member> arr) {
+    umap payments_distribution;
+    for(int i = 0; i < arr.size(); i++) {
+        payments_distribution.insert(make_pair(arr[i].name, arr[i].payments));
+    }
+    return payments_distribution;
+}
+
+umap2 money_owed(umap payments_distribution) {
+    float average = 0;
+    float sum = 0;
+    for(umap::iterator it = payments_distribution.begin(); it != payments_distribution.end(); it++) {
+        sum += it->second;
+    }
+    average = sum/payments_distribution.size();
+    umap lender;
+    umap borrower;
+    for(umap::iterator it = payments_distribution.begin(); it != payments_distribution.end(); it++) {
+        float temp = average - it->second;
+        if(temp < 0) {
+            lender.insert(make_pair(it->first,(temp*-1)));
+        }
+        else if(temp > 0) {
+            borrower.insert(make_pair(it->first,temp));
+        }
+    }
+    umap2 result;
+
+
+    for(umap::iterator it1 = lender.begin(); it1 != lender.end(); it1++) {
+        float balance = (it1->second);
+        for(umap::iterator it2 = borrower.begin(); it2 != borrower.end(); it2++) {
+            if (it2->second > 0) {
+                float excess_payment = 0;
+                float payment_this_round = it2->second;
+                float initial_balance = balance;
+                balance = balance - it2->second;
+                cout << "initial balance : " << initial_balance << " balance : " << balance << endl;
+                if (balance < 0) {
+                    it1->second = 0;
+                    it2->second = balance * -1;
+                    excess_payment = 1;
+                }
+                else if(balance == 0) {
+                    it1->second = 0;
+                    it2->second = 0;
+                }
+                else if(balance > 0) {
+                    it1->second = balance;
+                    it2->second = 0;
+                }
+                if(result.find(it2->first) == result.end()) {
+                    vector<pair<string,float>> v1;
+                    if (excess_payment == 0)
+                        v1.push_back(make_pair(it1->first, payment_this_round));
+                    else
+                        v1.push_back(make_pair(it1->first, initial_balance));
+                    result.insert(make_pair(it2->first,v1));
+                }
+                else {
+                    if (excess_payment == 0)
+                        result[it2->first].push_back(make_pair(it1->first, payment_this_round));
+                    else
+                        result[it2->first].push_back(make_pair(it1->first, initial_balance));
+
+                }
+            }
+        }
+    }
+    return result;
+}
+
+int main() {
+    //vector<string> names = {"Emily", "Akshaya", "Jack", "Ryan", "Nils"};
+    vector<member> arr;
+    member m1;
+    m1.name = "Emily";
+    m1.payments = 60;
+    arr.push_back(m1);
+    m1.name = "Akshaya";
+    m1.payments = 15;
+    arr.push_back(m1);
+    m1.name = "Jack";
+    m1.payments = 0;
+    arr.push_back(m1);
+    m1.name = "Ryan";
+    m1.payments = 0;
+    arr.push_back(m1);
+    m1.name = "Nils";
+    m1.payments = 0;
+    arr.push_back(m1);
+    umap payments_distribution = create_mapping(arr);
+    umap2 result = money_owed(payments_distribution);
+    for(umap2::iterator it = result.begin(); it != result.end(); it++) {
+        for( vector<pair<string,float>>:: iterator v = it->second.begin(); v != it->second.end(); v++) {
+            cout << it->first << " owes " << v->first << " " << v->second << " dollars." << endl;
+        }
+    }
+    return 0;
+}
