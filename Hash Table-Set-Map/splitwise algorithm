@@ -74,22 +74,38 @@ umap2 money_owed(umap payments_distribution) {
             borrower.insert(make_pair(it->first,temp));
         }
     }
-    umap2 result;
 
+    /*for(umap::iterator it = lender.begin(); it != lender.end(); it++) {
+        cout << it->first << " : " << it->second << endl;
+    }
+    for(umap::iterator it = borrower.begin(); it != borrower.end(); it++) {
+        cout << it->first << " : " << it->second << endl;
+    }*/
+
+
+    umap2 result;
 
     for(umap::iterator it1 = lender.begin(); it1 != lender.end(); it1++) {
         float balance = (it1->second);
+        //cout << balance << endl;
         for(umap::iterator it2 = borrower.begin(); it2 != borrower.end(); it2++) {
             if (it2->second > 0) {
-                float excess_payment = 0;
                 float payment_this_round = it2->second;
                 float initial_balance = balance;
                 balance = balance - it2->second;
-                cout << "initial balance : " << initial_balance << " balance : " << balance << endl;
+                //cout << "initial balance : " << initial_balance << " balance : " << balance << endl;
                 if (balance < 0) {
                     it1->second = 0;
                     it2->second = balance * -1;
-                    excess_payment = 1;
+                    if(result.find(it2->first) == result.end()) {
+                        vector<pair<string,float>> v1;
+                        v1.push_back(make_pair(it1->first, initial_balance));
+                        result.insert(make_pair(it2->first,v1));
+                    }
+                    else {
+                        result[it2->first].push_back(make_pair(it1->first, initial_balance));
+                    }
+                    break;
                 }
                 else if(balance == 0) {
                     it1->second = 0;
@@ -101,18 +117,11 @@ umap2 money_owed(umap payments_distribution) {
                 }
                 if(result.find(it2->first) == result.end()) {
                     vector<pair<string,float>> v1;
-                    if (excess_payment == 0)
-                        v1.push_back(make_pair(it1->first, payment_this_round));
-                    else
-                        v1.push_back(make_pair(it1->first, initial_balance));
+                    v1.push_back(make_pair(it1->first, payment_this_round));
                     result.insert(make_pair(it2->first,v1));
                 }
                 else {
-                    if (excess_payment == 0)
-                        result[it2->first].push_back(make_pair(it1->first, payment_this_round));
-                    else
-                        result[it2->first].push_back(make_pair(it1->first, initial_balance));
-
+                    result[it2->first].push_back(make_pair(it1->first, payment_this_round));
                 }
             }
         }
@@ -128,7 +137,7 @@ int main() {
     m1.payments = 60;
     arr.push_back(m1);
     m1.name = "Akshaya";
-    m1.payments = 15;
+    m1.payments = 16;
     arr.push_back(m1);
     m1.name = "Jack";
     m1.payments = 0;
@@ -148,3 +157,12 @@ int main() {
     }
     return 0;
 }
+
+/*Output:
+
+Jack owes Emily 15.2 dollars.
+Ryan owes Emily 15.2 dollars.
+Nils owes Akshaya 0.8 dollars.
+Nils owes Emily 14.4 dollars.
+
+*/
