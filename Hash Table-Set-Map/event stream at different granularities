@@ -1,0 +1,128 @@
+
+// hello!
+/*
+    time epoch:
+    events:
+    type of events:
+    
+    at 9 am 
+    x event happend 20 times
+    y event happen 3 times
+    
+    'show me 'query' events that happened yesterday at hourly granularity'
+    [0 9am-9:59:59: 778 queries, 10am: 100 queries, 11am: 123, 23h]
+    
+    
+    hashmap key value of type of event - no of events that happened every min, time epoch
+*/
+
+#include <iostream>
+#include <unordered_map>
+#include <set>
+#include <ctime>
+#include <unistd.h>
+#include <vector>
+
+using namespace std;
+
+class events_aggregator {
+private:
+    long long int count_events = 1;
+    /* This hashmap keeps track of the event and the various times at which a particular event occurs as key value pair*/
+    unordered_map<string, vector < time_t>> event_time_aggregation;
+
+public:
+    /* This method creates the hashmap that keeps track of the event and the various times at which a particular event occurs*/
+
+    void aggregator(string event_type, time_t curr_time)
+    {
+        if (event_time_aggregation.find(event_type) == event_time_aggregation.end())
+        {
+            vector<time_t> temp;
+            temp.push_back(curr_time);
+            event_time_aggregation.insert(make_pair(event_type, temp));
+        }
+        else
+        {
+            event_time_aggregation[event_type].push_back(curr_time);
+        }
+    }
+
+    /* This method is only for testing */
+    void aggregator_printer() {
+        for (auto it = event_time_aggregation.begin(); it != event_time_aggregation.end(); it++) {
+            for (auto it1 = it->second.begin(); it1 != it->second.end(); it1++) {
+                cout << it->first << ":" << *it1 << endl;
+            }
+        }
+    }
+
+    /*This method takes in the event type and frequency at which these events should be counted (granularity is based on time passed in) */
+    unordered_map<time_t, vector < long long int>> histogram_computation(string event_type, string type_of_time) {
+        // type_of_time = minutes, hours, day
+        unordered_map<time_t, vector < long long int>> display_events;
+
+        //displaying in 2 seconds
+        //If the event_type is found in the aggregator hashmap, calculate its frequency of occurrence each event in 2 seconds granularity
+        if (event_time_aggregation.find(event_type) != event_time_aggregation.end()) {
+            vector<time_t> times = event_time_aggregation[event_type]; //time ordered {0,0,1,2,61,125}
+            for (int i = 0; i < times.size(); i++) {
+                if ( times[i] % 2 != 0 || times[i] == 0)  { // <-- for the purpose of demo, I've used 2 seconds here, the modulo value will  change to 60 for a "minute" and "3600" for an hour and "86400" for a day
+                    count_events += 1;
+                }
+                else {
+                    if (display_events.find(times[i]) == display_events.end()) {
+                        vector<long long int> temp2;
+                        temp2.push_back(count_events);
+                        display_events.insert(make_pair(times[i], temp2));
+                    }
+                    else {
+                        display_events[times[i]].push_back(count_events);
+                    }
+                    count_events = 1;
+                }
+            }
+        }
+        return display_events;
+    }
+};
+
+int main()
+{
+    events_aggregator ea;
+    ea.aggregator("query", time(nullptr));
+    sleep(1);
+    ea.aggregator("query", time(nullptr));
+    ea.aggregator("query", time(nullptr));
+    ea.aggregator("query", time(nullptr));
+    ea.aggregator("query", time(nullptr));
+    ea.aggregator("query", time(nullptr));
+    ea.aggregator("query", time(nullptr));
+    ea.aggregator("query", time(nullptr));
+    sleep(1);
+    ea.aggregator("query", time(nullptr));
+    ea.aggregator("query", time(nullptr));
+    ea.aggregator("query", time(nullptr));
+    sleep(2);
+    ea.aggregator("query", time(nullptr));
+    ea.aggregator("query", time(nullptr));
+    ea.aggregator("query", time(nullptr));
+    ea.aggregator("query", time(nullptr));
+    unordered_map<time_t, vector < long long int>> display_events = ea.histogram_computation("query", "2 seconds"); //<-- for the purpose of demo I've used 2 seconds here to reduce wait time.
+    vector<pair<time_t,long long int>> result;
+    long long int sum = 0;
+    for (auto it = display_events.begin(); it != display_events.end(); it++) {
+        sum = 0;
+        for (vector < long long int>::iterator it1 = it->second.begin(); it1 != it->second.end(); it1++) {
+            sum += (*it1);
+        }
+        result.push_back(make_pair(it->first,sum));
+    }
+
+    cout << "Frequency of QUERY event_type 2 seconds granularity (For demo purpose) : " << endl;
+    for(auto it = result.begin(); it != result.end(); it++) {
+        cout << it->first << " : " << it->second << endl;
+    }
+
+    return 0;
+}
