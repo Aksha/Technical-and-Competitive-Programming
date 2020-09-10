@@ -1,0 +1,85 @@
+#include <iostream>
+#include <sstream>
+#include <istream>
+#include<vector>
+
+using namespace std;
+/*
+ * Complete the 'play_game_of_zero' function below.
+ *
+ * The function is expected to return an INTEGER.
+ * The function accepts STRING number_string as parameter.
+ */
+bool isValid(int index, vector < long long int > number_int)
+{
+    if (index >= number_int.size() || index < 0)
+        return false;
+    return true;
+}
+
+int play_game_of_zero_helper(vector < long long int > number_int, int num_jumps, int position, vector<bool> visited)
+{
+    if (number_int[position] == 0)
+    {
+        return num_jumps;
+    }
+    num_jumps = num_jumps + 1;
+    if (isValid(position + number_int[position], number_int) && visited[position + number_int[position]] == 0)
+    {
+        visited[position + number_int[position]] = 1;
+        return play_game_of_zero_helper(number_int, num_jumps, position + number_int[position], visited);
+    }
+    if (isValid(position - number_int[position], number_int) && visited[position - number_int[position]] == 0)
+    {
+        visited[position - number_int[position]] = 1;
+        return play_game_of_zero_helper(number_int, num_jumps, position - number_int[position], visited);
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+vector < long long int > parsing(string number_string)
+{
+    vector < long long int > number_int;
+    istringstream iss(number_string);
+    string word;
+    while (getline(iss, word, ','))
+    {
+        int number = 0;
+        for (int i = 0; i < word.size(); i++)
+        {
+            if (word[i] != ' ')
+            {
+                if (number == 0)
+                {
+                    number = (word[i] - '0');
+                }
+                else
+                {
+                    number = number *10 + (word[i] - '0');
+                }
+            }
+        }
+        number_int.push_back(number);
+    }
+    return number_int;
+}
+
+int play_game_of_zero(string number_string)
+{
+    int num_jumps = 0;
+    vector < long long int > number_int = parsing(number_string);
+    int position = 0;
+    vector<bool> visited(number_int.size(), 0);
+    int jumps = play_game_of_zero_helper(number_int, num_jumps, position, visited);
+    return jumps;
+}
+
+int main() {
+    string number_string = "3, 0, 1, 2";
+    int number_jumps = play_game_of_zero(number_string);
+    cout << number_jumps << endl;
+    return 0;
+}
