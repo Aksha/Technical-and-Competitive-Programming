@@ -54,13 +54,14 @@ int compute_earliest_date(vector<p> bookings, vector<p> available_dates, int sta
     for (int i = 0; i < available_dates.size(); i++)
     {
         //{2,5}, {6,7}
-        if(available_dates[i].second >= current_date && available_dates[i].first >= current_date) {
+       if(available_dates[i].second >= current_date) { 
+         if(available_dates[i].first >= current_date) {
             if(available_dates[i].second - available_dates[i].first >= stay_length) {
                 result = available_dates[i].first;
                 return result;
             }
-        }
-        else if (available_dates[i].second >= current_date && available_dates[i].first < current_date) {
+         }
+         else if (available_dates[i].first < current_date) {
             int compare = available_dates[i].first;
             while(available_dates[i].second - compare >= stay_length) {
                 if(compare < current_date) {
@@ -70,10 +71,8 @@ int compute_earliest_date(vector<p> bookings, vector<p> available_dates, int sta
                     return compare;
                 }
             }
-        }
-        else {
-            continue;
-        }
+         }
+       }
     }
     return result;
 }
