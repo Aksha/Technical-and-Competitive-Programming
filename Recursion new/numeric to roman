@@ -1,0 +1,114 @@
+## Roman numerals
+
+# Implement a program that translates Arabic numerals into Roman numerals.
+# Roman numerals are represented by combinations of letters from the Latin alphabet. They employ seven symbols, each with a fixed integer value, as follows:
+
+# Symbol  I  V  X   L   C    D    M
+# Value   1  5  10  50  100  500  1,000
+
+{1,'I'} integer, char hmap
+{2,'II'}
+{3,'III'}
+.
+{5,'V'}
+.
+.
+{9,'IX'}
+{10,'X'}
+{}
+
+13
+
+13%1000  = 13
+
+13%100 = 13
+
+13%10 = 
+
+
+13/1000*hmap[1000] + 13/500 * hmap[500] + 13/100 * hmap[100] + 13/50 * hmap[50] + 13/10 * hmap[10] + 13%10 * hmap[10]
+
+string I[] = {"","I","II","III","IV","V","VI","VII","VIII","IX"};
+string X[] = {"X","XX","XXX","XL","L","LX","LXX","LXXX","LIX"};
+string C[] = {"C","CC","CCC","CD","D","DC","DCC","DCCC","DIX"};
+string M[] = {"M","MM","MMM","MMMM"};
+
+4999
+
+M[num/1000] + C[(num%1000)/100] + X[(num%100)/10] + I[num%10]
+
+
+# Your program should be able to convert the following numbers, sorted by the order of implementation priority:
+# 1    =>  I
+# 2    =>  II
+# 3    =>  III
+# 4    =>  IV
+# 5    =>  V
+# 6    =>  VI
+# 7    =>  VII
+# 8    =>  VIII
+# 9    =>  IX
+# 10   =>  X
+# 11   =>  XI
+# 14   =>  XIV
+# 19   =>  XIX
+# 20   =>  XX
+# 30   =>  XXX
+# 34   =>  XXXIV
+# 35   =>  XXXV
+# 39   =>  XXXIX
+# 40   =>  XL
+# 45   =>  XLV
+# 49   =>  XLIX
+# 50   =>  L
+# 75   =>  LXXV
+# 79   =>  LXXIX
+# 80   =>  LXXX
+# 85   =>  LXXXV
+# 90   =>  XC
+# 94   =>  XCIV
+# 95   =>  XCV
+# 100  =>  C
+# 495  =>  CDXCV
+# 500  =>  D
+# 540  =>  DXL
+
+
+*/
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+vector<string> I = {"","I","II","III","IV","V","VI","VII","VIII","IX"}; 
+vector<string> X = {"","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"};
+vector<string> C = {"","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"};
+vector<string> M = {"","M","MM","MMM","MMMM"};
+
+void recursive_roman(int num, string bit, string &result) {
+   if(bit == "unit") {
+       result += I[num%10];
+       return;
+   }
+   else if (bit == "ten") {
+       result += X(num%100)/10;
+       recursive_roman(num,unit,result);
+   }   
+   else if(bit == "hundred") {
+       result += C(num%1000)/100;
+        recursive_roman(num,ten,result);
+   }
+   else if(bit == ""thousand") {
+       result += M[num/1000];
+       recursive_roman(num,hundred,result);
+   }
+   return;
+    
+}
+
+int main() {
+  int num = 495;
+  string result = number_to_roman(num);   
+  cout << "The roman value of " << num << " is " << result << endl;
+  return 0;
+}
