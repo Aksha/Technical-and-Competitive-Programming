@@ -1,0 +1,122 @@
+Question:
+
+/**
+
+Input : 25525511135
+Output : [“255.255.11.135”, “255.255.111.35”]
+     
+Explanation: 
+These are the only valid possible
+IP addresses.
+
+Algorithm: 
+
+1. This looks like a multistage decision making process to me. 
+2. Recursion or DP at every index position
+
+Input : "25505011535"
+Output : []
+Explanation : 
+We cannot generate a valid IP
+address with this string.
+
+*/
+
+
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+bool isValid(string temp) {
+    int count = 0;
+    for(int i = 0; i < temp.size(); i++) {
+        if(temp[i] == '.') {
+            count++;
+        }
+    }
+    if(count == 3)
+        return true;
+    return false;
+}
+
+// "01"  "0"
+
+void generate_valid_ips(string input, vector<string> &valid_ips, string temp, int i, int size) { //25525511135, i = 0
+    //cout << "the temporary IP is : " << temp << endl;
+    if(input[i] == '0')
+        return;
+    if(i > size){
+        return;
+    }
+    if(i == size) {
+        if(isValid(temp)) {
+            valid_ips.push_back(temp);
+        }
+        return;
+    }
+    if(stoi(input.substr(i,1)) >=0 && stoi(input.substr(i,1)) <= 255) {
+        if(i+1 < size) {
+                generate_valid_ips(input,valid_ips, temp + input.substr(i,1) + '.', i+1, size);
+        }
+        else {
+                generate_valid_ips(input,valid_ips, temp + input.substr(i,1), i+1, size);
+        }  
+    }
+    else  
+        return;
+    //25525511135
+    if(stoi(input.substr(i,2)) >=0 && stoi(input.substr(i,2)) <= 255) {
+        if(i+2 < size) {
+            generate_valid_ips(input,valid_ips, temp + input.substr(i,2) + '.', i+2, size);
+        }
+        else {
+            generate_valid_ips(input,valid_ips, temp + input.substr(i,2), i+2, size);
+        }     
+    }
+    else  
+        return;
+    if(stoi(input.substr(i,3)) >= 0 && stoi(input.substr(i,3)) <= 255) {
+        if(i+3 < size)
+            generate_valid_ips(input,valid_ips, temp + input.substr(i,3) + '.', i+3, size);
+        else{
+            generate_valid_ips(input,valid_ips, temp + input.substr(i,3), i+3, size);
+        }
+    }
+    else 
+        return;
+    return;
+}
+
+int main() {
+  // string input = "25525511135";
+  // string input = "2552"; // 2.5.5.2
+  string input = "25505011535";
+  int size = input.size();
+  if(size < 4 && size > 12) {
+    cout << "invalid input " << endl;
+    return 0;
+  }
+  vector<string> valid_ips;
+  string temp = "";
+  int position = 0;
+  
+  /*temp = input.substr(1,3);
+  cout << temp << endl;
+  temp = input.substr(1,2);
+  cout << temp << endl;*/
+  generate_valid_ips(input,valid_ips,temp, position, size);
+  int size1 = valid_ips.size();
+  if(size1 == 0) {
+      cout << "There are no valid IPS, try again" << endl;
+      return 0;
+  }
+  cout << "The total number of valid IPS are : " << endl;
+
+  for(int i = 0; i < valid_ips.size(); i++ ) {
+      cout << valid_ips[i] << endl;
+  }
+  return 0;
+}
+
