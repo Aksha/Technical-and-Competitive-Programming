@@ -1,0 +1,136 @@
+/*
+At T********, We automatically charge Pros for customer requests that match their availability, so we need to provide a system for pros to block off the times that they're busy. In order to do this, we allow Pros to maintain a calendar on the app  where they can add Events denoting when they're busy.
+
+Design and implement a class that powers the Pro calendar availability system. It should support the following:
+
+Add an Event
+Retrieve an Event and its details
+Delete an Event
+Compute isSlotFree: Given a customer request with a start date/time and end date/time, return whether the pro is free to take that request.
+
+Example: 
+
+add an event : Takes start and end time (time_t start_time = time(nullptr));, string name;, add an event id. returns void
+
+retrieve an event: takes an id and returns start_time, end_time and name
+
+delete an event: takes an id and deletes the event associated with it
+
+Compute isSlotFree:  array of pairs <start_time,end_time> = {{start_time1,end_time1}, {start_time2,end_time2}}; sort {0,1}, {1,3}, {2,3}, {5,6};
+{0,3},{5,6}; {3,5}, {6,9};
+{4,5}
+
+
+hashmap1 = {key, value} where key = id and value = event object (event obkj {name,start_time,end_time});
+
+hashmap2 = {key,value} where key = date, value =  vector<pair> {start_time,end_time},
+
+key = {{11220, 11228} }, true
+
+11223 - 11229 is available = 
+
+1. add an event: start date,time end date,time and name and add an event ID and create a hashmap1 = Takes start and end time (time_t start_time = time(nullptr));, string name;, add an event id. returns void. Also, create hashmap2 (key,value) = {entry_date,{array of start_time,end_time}}
+
+2. retrieve an event: takes in Id and returns 'event' obj.
+
+3. delete an events: takes in id and delete event associated with it. Remove start_time and end_time from the date specified from hashmap2. 
+
+4. hashmap2 : look up the date in hashmap2 and go over all the entries in it and compute 
+
+*/
+
+#include<iostream>
+
+#include<vector>
+
+#include<algorithm>
+
+#include<unordered_map>
+
+using namespace std;
+
+struct event {
+    time_t start_time;
+    time_t end_time;
+    string name = "";
+    int date;
+};
+
+typedef pair < time_t, time_t > p;
+class events {
+private:
+    int id = 0;
+    //event e;
+
+    unordered_map < int, event > event_tracker;
+    unordered_map < int, vector < p >> date_tracker;
+
+public:
+    void add_event(time_t start_time1, time_t end_time1, string name1, int date1) {
+        id++;
+        event e;
+        e.start_time = start_time1;
+        e.end_time = end_time1;
+        e.name = name1;
+        e.date = date1;
+        event_tracker.insert(make_pair(id, e));
+        if (date_tracker.find(date1) == date_tracker.end()) {
+            vector < p > temp;
+            temp.push_back(make_pair(start_time1, end_time1));
+            date_tracker.insert(make_pair(date1, temp));
+        } else {
+            date_tracker[date1].push_back(make_pair(start_time1, end_time1));
+        }
+    }
+
+    event retrieve_event(int id_input) {
+        event e1;
+        if (event_tracker.find(id_input) != event_tracker.end()) {
+            e1 = event_tracker[id_input];
+        }
+        return e1;
+    }
+
+    void delete_event(int id_input) {
+        //delete from both date_tracker and event_tracker.
+        event e3;
+        int date1 = 0;
+        if (event_tracker.find(id_input) != event_tracker.end()) {
+            e3.name = event_tracker[id_input].name;
+            e3.start_time = event_tracker[id_input].start_time;
+            e3.end_time = event_tracker[id_input].end_time;
+            e3.date = event_tracker[id_input].date;
+            event_tracker.erase(id_input);
+        }
+        if (date_tracker.find(e3.date) != date_tracker.end()) {
+            vector<p> start_end_times = date_tracker[date1];
+            for(int i = 0; i < start_end_times.size(); i++) {
+                if(start_end_times[i].first == e3.start_time && start_end_times[i].second == e3.end_time) {
+                    start_end_times.erase(start_end_times.begin() + i);
+                }
+            }
+        }
+    }
+
+    bool isSlotFree(int date, time_t start_time, time_t end_time) {
+        return false;
+    }
+};
+int main() {
+    //add_event(time_t start_time1, time_t end_time1, string name1, int date)
+    //event retrieve_event(int id_input)
+
+    time_t start_time = time(nullptr);
+    time_t end_time = time(nullptr);
+    string name = "Anna";
+    int date = 4;
+
+    events event_obj;
+
+    event_obj.add_event(start_time, end_time, name, date);
+    event output = event_obj.retrieve_event(1);
+
+    cout << output.name << " : " << output.start_time << " : " << output.end_time << endl;
+
+    return 0;
+}
