@@ -112,10 +112,46 @@ public:
         }
     }
 
+    vector<p> merge_overlapping_intervals(vector<p> start_end_times) {
+        vector<p> merged_list;
+        for(int i = 0; i < start_end_times.size()-1; i++) {
+            if(start_end_times[i].second >= start_end_times[i+1].first ) {
+                merged_list.push_back(make_pair(min(start_end_times[i].first,start_end_times[i+1].first), max(start_end_times[i].second,start_end_times[i+1].second)));
+            }
+            else {
+                merged_list.push_back(make_pair(start_end_times[i].first, start_end_times[i].second));
+            }
+
+        }
+        return merged_list;
+    }
+
+    vector<p> find_available_slot(vector<p> merged_list) {
+        vector<p> available_slots;
+        for(int i = 0; i < merged_list.size()-1; i++) {
+            if(merged_list[i].second < merged_list[i+1].first) {
+                available_slots.push_back(make_pair(merged_list[i].second, merged_list[i+1].first));
+            }
+        }
+        return available_slots;
+    }
+
     bool isSlotFree(int date, time_t start_time, time_t end_time) {
+        if(date_tracker.find(date) != date_tracker.end()) {
+            vector<p> start_end_times = date_tracker[date];
+            sort(start_end_times.begin(), start_end_times.end());
+            vector<p> merged_list = merge_overlapping_intervals(start_end_times); //<-- pass the variable as an argument
+            vector<p> available_slots = find_available_slot(merged_list); //<-- available slots
+            for(int i = 0; i < available_slots.size(); i++) {
+                if(start_time >= available_slots[i].first && end_time <= available_slots[i].second) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 };
+
 int main() {
     //add_event(time_t start_time1, time_t end_time1, string name1, int date)
     //event retrieve_event(int id_input)
