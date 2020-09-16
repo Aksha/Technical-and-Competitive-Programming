@@ -1,0 +1,203 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+bool isValid(string temp) {
+    int count = 0;
+    for(int i = 0; i < temp.size(); i++) {
+        if(temp[i] == '.') {
+            count++;
+        }
+    }
+    if(count == 3)
+        return true;
+    return false;
+}
+
+//reduce time complexity: by doing initial validation to even check if the entire 11 letter character string would be more than the any valid IP ever.
+//This problem can also be solved by iteration using four “for” loops. Completely eliminate the call stack.
+//O(n*3^n) where n is the length of the string.
+void generate_valid_ips(string input, vector<string> &valid_ips, string temp, int i, int size) { //25525511135, i = 0
+    //cout << "the temporary IP is : " << temp << endl;
+    if(input[i] == '0')
+        return;
+    if(i > size){
+        return;
+    }
+    if(i == size) {
+        if(isValid(temp)) {
+            valid_ips.push_back(temp);
+        }
+        return;
+    }
+    if(stoi(input.substr(i,1)) >=0 && stoi(input.substr(i,1)) <= 255) {
+        if(i+1 < size) {
+            generate_valid_ips(input,valid_ips, temp + input.substr(i,1) + '.', i+1, size);
+        }
+        else {
+            generate_valid_ips(input,valid_ips, temp + input.substr(i,1), i+1, size);
+        }
+    }
+    else
+        return;
+    //25525511135
+    if(stoi(input.substr(i,2)) >=0 && stoi(input.substr(i,2)) <= 255) {
+        if(i+2 < size) {
+            generate_valid_ips(input,valid_ips, temp + input.substr(i,2) + '.', i+2, size);
+        }
+        else {
+            generate_valid_ips(input,valid_ips, temp + input.substr(i,2), i+2, size);
+        }
+    }
+    else
+        return;
+    if(stoi(input.substr(i,3)) >= 0 && stoi(input.substr(i,3)) <= 255) {
+        if(i+3 < size)
+            generate_valid_ips(input,valid_ips, temp + input.substr(i,3) + '.', i+3, size);
+        else{
+            generate_valid_ips(input,valid_ips, temp + input.substr(i,3), i+3, size);
+        }
+    }
+    else
+        return;
+    return;
+}
+
+//O(3^n) where n is the length of the string.
+void generate_valid_ips_upgraded(string input, vector<string> &valid_ips1, string temp, int i, int size,int count) { //25525511135, i = 0
+    //cout << input << " :  " << temp << " : " << i << " : " << size << " : " << count << endl;
+    if(count > 4)
+        return;
+    if(input[i] == '0')
+        return;
+    if(i > size){
+        return;
+    }
+    if(i == size) {
+        valid_ips1.push_back(temp);
+        return;
+    }
+    if(stoi(input.substr(i,1)) >=0 && stoi(input.substr(i,1)) <= 255) {
+        if(i+1 < size) {
+            generate_valid_ips_upgraded(input,valid_ips1, temp + input.substr(i,1) + '.', i+1, size, count+1);
+        }
+        else {
+            generate_valid_ips_upgraded(input,valid_ips1, temp + input.substr(i,1), i+1, size, count+1);
+        }
+    }
+    else
+        return;
+    //25525511135
+    if(stoi(input.substr(i,2)) >=0 && stoi(input.substr(i,2)) <= 255) {
+        if(i+2 < size) {
+            generate_valid_ips_upgraded(input,valid_ips1, temp + input.substr(i,2) + '.', i+2, size, count+1);
+        }
+        else {
+            generate_valid_ips_upgraded(input,valid_ips1, temp + input.substr(i,2), i+2, size, count+1);
+        }
+    }
+    else
+        return;
+    if(stoi(input.substr(i,3)) >= 0 && stoi(input.substr(i,3)) <= 255) {
+        if(i+3 < size)
+            generate_valid_ips_upgraded(input,valid_ips1, temp + input.substr(i,3) + '.', i+3, size, count+1);
+        else{
+            generate_valid_ips_upgraded(input,valid_ips1, temp + input.substr(i,3), i+3, size, count+1);
+        }
+    }
+    else
+        return;
+    return;
+}
+
+vector<string> generate_valid_ips_iteration(string input) {
+    vector<string> valid_ip;
+    int start = 0;
+    int end_of_input = input.size();
+    for(int i = 1; i <= 3; i++) {
+        string substr1 = input.substr(start, i);
+        if (stoi(substr1) >= 0 && stoi(substr1) <= 255 && substr1[0] != '0') {
+            for (int j = 1; j <= 3; j++) {
+                string substr2 = input.substr(start + i, j);
+                if (stoi(substr2) >= 0 && stoi(substr2) <= 255 && substr2[0] != '0') {
+                    for (int k = 1; k <= 3; k++) {
+                        string substr3 = input.substr(start + i + j, k);
+                        if (stoi(substr3) >= 0 && stoi(substr3) <= 255 && substr3[0] != '0') {
+                            for (int m = 1; m <= 3; m++) {
+                                string remaining = input.substr(start+i+j+k);
+                                int size = remaining.size();
+                                if(size > 3)
+                                    break;
+                                string substr4 = input.substr(start + i + j + k, m);
+                                if (stoi(substr4) >= 0 && stoi(substr4) <= 255 && substr4[0] != '0') {
+                                    if(start + i + j + k + m == end_of_input)
+                                        valid_ip.push_back(substr1 + "." + substr2 + "." + substr3 + "." + substr4);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return  valid_ip;
+}
+
+
+int main() {
+    // string input = "25525511135";
+    // string input = "2552"; // 2.5.5.2
+    string input = "25525511135";
+    int size = input.size();
+    if(size < 4 && size > 12) {
+        cout << "invalid input " << endl;
+        return 0;
+    }
+    size_t sz = 0;
+    if(stoll (input,&sz,0) > 255255255255) {
+        cout << "invalid input" << endl;
+        return 0;
+    }
+    vector<string> valid_ips;
+    string temp = "";
+    int position = 0;
+    generate_valid_ips(input,valid_ips,temp, position, size);
+    int size1 = valid_ips.size();
+    if(size1 == 0) {
+        cout << "There are no valid IPS, try again" << endl;
+        return 0;
+    }
+    cout << "The total number of valid IPS are : " << endl;
+
+    for(int i = 0; i < valid_ips.size(); i++ ) {
+        cout << valid_ips[i] << endl;
+    }
+    int count = 0;
+    vector<string> valid_ips1;
+    temp = "";
+    //checking if the input is valid as I go. Reduces time complexity (validation check method can be removed). (O(n) lesser). initial solution is O(n*3^n). with this change it'll be O(3^n)
+    generate_valid_ips_upgraded(input,valid_ips1,temp,position,size,count);
+    int size2 = valid_ips1.size();
+    if(size2 == 0) {
+        cout << "There are no valid IPS, try again" << endl;
+        return 0;
+    }
+    cout << "The total number of valid IPS1 (better recursion) are : " << endl;
+    for(int i = 0; i < valid_ips1.size(); i++ ) {
+        cout << valid_ips1[i] << endl;
+    }
+
+    //Iteration: use 4 "for" loops to loop over the given input and generate IPs. O(1) constant time complexity unlike recursion as each loop executes 3 times at the maximum.
+
+    vector<string> result_iteration = generate_valid_ips_iteration(input);
+    //cout << result_iteration.size() << endl;
+    cout << "The total number of valid IPS1 (iteration constant time complexity) are : " << endl;
+    for(int i = 0; i < result_iteration.size(); i++ ) {
+        cout << result_iteration[i] << endl;
+    }
+
+
+    return 0;
+}
