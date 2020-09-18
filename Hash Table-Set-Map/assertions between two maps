@@ -1,0 +1,128 @@
+// assertEquals(Map("one" -> 1), Map("one" -> 2))
+// “Map("one" -> 1) did not equal Map("one" -> 2)”
+
+/*
+“Map("six" -> 6, "four" -> 4, "two" -> 2, "one" -> 1, "three" -> 3, "five" -> 5) did not equal Map("three" -> 3, "one" -> 1, "two" -> 2, "four" -> 5, "six" -> 6, "five" -> 5)”
+
+map1        map2
+one->1      one->1
+two->2      two->2
+three->3    three->3
+four->4     four->5
+five->5     five->5
+six->6      six->6
+
+“Map("six" -> 6, "four" -> 4, "two" -> 2, "one" -> 1, "three" -> 3, "five" -> 5) did not equal Map("three" -> 3, "one" -> 1, "two" -> 2, "four" -> 5, "five" -> 5)”
+
+
+O/p
+four -> {4,5};
+six-> {6,NULL};
+
+unordered_map<string,<vector<int>> difference;
+
+true
+true
+true
+false
+true
+true
+*/
+
+#include<iostream>
+
+#include<unordered_map>
+
+#include<vector>
+
+using namespace std;
+
+struct Node {
+    int val;
+    string value;
+    Node() {}
+    Node(int v): val(v) {}
+};
+
+unordered_map < string, vector < Node >> calculate_differences(unordered_map < string, int > map1, unordered_map < string, int > map2) {
+    unordered_map < string, vector < Node >> differences;
+    if (map1.size() == 0 && map2.size() == 0)
+        return differences;
+    for (auto it = map1.begin(); it != map1.end(); it++) { //O(n).
+        if (map2.find(it -> first) != map2.end()) { //if key in map1 is present in map2
+            if (map1[it -> first] != map2[it -> first]) {
+                vector < Node > temp;
+                Node n1(map1[it -> first]);
+                n1.value = "NOTNULL";
+                Node n2(map2[it -> first]);
+                n2.value = "NOTNULL";
+                temp.push_back(n1);
+                temp.push_back(n2);
+                differences.insert(make_pair(it -> first, temp));
+            }
+        } else {
+            vector < Node > temp;
+            Node n1;
+            n1.val = map1[it->first];
+            n1.value = "NOTNULL";
+            Node n2;
+            n2.val = 0;
+            n2.value = "NULL";
+            temp.push_back(n1);
+            temp.push_back(n2);
+            differences.insert(make_pair(it -> first, temp));
+        }
+    }
+
+    for (auto it = map2.begin(); it != map2.end(); it++) { //O(m)
+        if (map1.find(it->first) == map1.end()) {
+            vector<Node> temp;
+            Node n1;
+            n1.val = map2[it->first];
+            n1.value = "NOTNULL";
+            Node n2;
+            n2.val = 0;
+            n2.value = "NULL";
+            temp.push_back(n1);
+            temp.push_back(n2);
+            differences.insert(make_pair(it->first, temp));
+        }
+    }
+    return differences;
+}
+
+//time complexity : max(O(m), O(n)).
+//space complexity : O(m+n)
+//Map("six" -> 6, "four" -> 4, "two" -> 2, "one" -> 1, "three" -> 3, "five" -> 5)
+int main() {
+    unordered_map < string, int > map1;
+    map1.insert(make_pair("one", 1));
+    map1.insert(make_pair("two", 2));
+    map1.insert(make_pair("three", 3));
+    map1.insert(make_pair("four", 4));
+    map1.insert(make_pair("five", 5));
+    map1.insert(make_pair("six", 6));
+
+    unordered_map < string, int > map2;
+    map2.insert(make_pair("one", 1));
+    map2.insert(make_pair("two", 2));
+    map2.insert(make_pair("three", 3));
+    map2.insert(make_pair("four", 5));
+    map2.insert(make_pair("six", 6));
+
+    unordered_map < string, vector < Node >> differences = calculate_differences(map1, map2);
+    cout << differences.size() << endl;
+    for (auto it = differences.begin(); it != differences.end(); it++) {
+        vector < Node > temp = it -> second;
+        cout << it -> first << " : ";
+        for (auto i: temp) {
+            if (i.value == "NOTNULL") {
+                cout << i.val << ", ";
+            } else {
+                cout << i.value << endl;
+            }
+        }
+        cout << endl;
+    }
+    return 0;
+}
