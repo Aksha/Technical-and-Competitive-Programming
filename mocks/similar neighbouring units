@@ -1,0 +1,126 @@
+#include <iostream>
+#include <unordered_map>
+#include<vector>
+
+using namespace std;
+
+/*
+ * ## Problem Statement
+S***** is a hospitality platform where guests can book units. Sonder is adding new units all the time. When guests book units, they sometimes want to explore other similar options.
+
+Your task is to build a unit manager (in memory, no persistence). This unit manager and the units its stores should supports several operations:
+
+    UnitManager#add_unit(Unit unit)
+
+Adds a Unit instance to a UnitManager instance.
+
+    UnitManager#nearest_similar_units(Unit unit, int limit)
+
+Returns the nearest units that are similar to unit. Cap the results by limit. You are free to define what "similar" means.
+Two possible methods for approximating the distance between units are [Euclidean Distance](https://en.wikipedia.org/wiki/Euclidean_distance) or the [Haversine Formula](https://en.wikipedia.org/wiki/Haversine_formula).
+
+## What You Get
+You are provided units serialized as JSON in a small file and a large one. Each unit looks something like this:
+
+    { "id": 2, "address": "8203 Wild Horse Dr", "baths": 2.0, "beds": 3, "city": "San Francisco, CA", "floor": 5, "has_elevator": 0, "has_parking": 1, "has_pool": 1, "has_view": 1, "lat": 37.786979969349275, "lng": -122.4884704600913, "square_feet": 1041.0 }
+ * */
+
+/*
+ * 1. add unit method has two hashmaps. one hashmap will store the unit ID as key and a json object as value.
+ * the second hashmap will have the location (lat and long) as key and unit ID as value.
+ * 2. nearest_smaller_units(unit information, int limit) {
+ *  int radius = 1;
+ *  while(curr_limit < limit) {
+ *     nearby units(euclidean distance) check for similarity
+ *     if(units gen from the previous step < limit) {
+ *      increment radius by 1.
+ *     }
+ *     }
+ *   }
+ *
+ * }
+ *
+ * */
+
+struct unit{
+    int id;
+    string address;
+    int baths;
+    int beds;
+    string city;
+    int floor;
+    bool has_elevator;
+    bool has_pool;
+    bool has_view;
+    int square_footage;
+    float lat;
+    float lon;
+};
+
+typedef unordered_map<int, unit> um;
+typedef unordered_map<pair<float,float>, int> lm;
+
+class unit_manager {
+private:
+    um unit_mapping;
+    lm location_mapping;
+public:
+
+    /*
+     * 2. nearest_smaller_units(unit information, int limit) {
+ *  int radius = 1;
+ *  while(curr_limit < limit) {
+ *     nearby units(euclidean distance) check for similarity
+ *     if(units gen from the previous step < limit) {
+ *      increment radius by 1.
+ *     }
+ *     }
+     * */
+    void add_units(unit U) {
+        unit_mapping.insert(make_pair(U.id, U));
+        pair<float,float> key = make_pair(U.lat, U.lon);
+        location_mapping.insert(make_pair(key,U.id));
+    }
+
+    vector<unit> nearby_units(unit U, int radius) {
+        vector<unit> available_units;
+        float latitude = 0.015;
+        float longitude = 0.015;
+        for(auto it = unit_mapping.begin(); it != unit_mapping.end(); it++) {
+            float curr_lat = it->second.lat;
+            float curr_lon = it->second.lon;
+            float latitude_diff = abs(sqrt(pow(U.lat,2) - pow(curr_lat,2)));
+            float longitude_diff = abs(sqrt(pow(U.lon,2) - pow(curr_lon,2)));
+            if(latitude_diff <= radius*0.015 && longitude_diff <= radius * 0.015) {
+                if(U.beds == it->second.beds && U.baths == it->second.baths) {
+                    available_units.push_back(it->second);
+                }
+            }
+        }
+        return available_units; //return closest distance first (use an ordered_set sort based on distance difference). 
+    }
+
+    vector<unit> nearest_similar_units(unit U, int limit) {
+        int radius = 1;
+        int curr_limit = 0;
+        vector<unit> available_units;
+        while(curr_limit < limit) {
+            available_units = nearby_units(U, radius);
+            curr_limit = available_units.size();
+            if(curr_limit < limit && radius <= 5) {
+                radius++;
+            }
+        }
+        if(curr_limit > limit) {
+            available_units.erase(available_units.begin());
+        }
+        return available_units;
+    }
+};
+
+int main() {
+    string input = "{/"id": 2, "address": "8203 Wild Horse Dr", "baths": 2.0, "beds": 3, "city": "San Francisco, CA", "floor": 5, "has_elevator": 0, "has_parking": 1, "has_pool": 1, "has_view": 1, "lat": 37.786979969349275, "lng": -122.4884704600913, "square_feet": 1041.0}";
+
+    std::cout << "Hello, World!" << std::endl;
+    return 0;
+}
