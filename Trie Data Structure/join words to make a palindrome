@@ -1,0 +1,235 @@
+Join Words To Make A Palindrome
+
+
+
+Given a list of strings words, of size n, check if there is any pair of words that can be joined (in any order) to form a palindrome then return the pair of words forming palindrome.
+
+
+
+Example One
+
+Input: words = [ “bat”, “tab”, “zebra” ]
+
+
+
+Output: result = [ “bat”, “tab” ]
+
+
+
+As “bat” + “tab” = “battab”, which is a palindrome.
+
+
+
+Example Two
+
+Input: words = [ “ant”, “dog”, “monkey” ]
+
+
+
+Output: result = [ “NOTFOUND”, “DNUOFTON” ]
+
+
+
+//Both hashmap and trie solutions
+
+
+#if 0
+// Trie solution
+class TrieNode{
+    public:
+    unordered_map<char,TrieNode*> child;
+    bool isWord;
+    int index;
+    TrieNode():isWord(false),index(-1){};
+};
+void insertTrie(TrieNode *root, string &s,int index)
+{
+    TrieNode *node = root;
+   // cout << "string:" << s;
+    for (auto c: s )
+    {
+        if(node->child.count(c) == 0)
+        {
+            node->child[c] = new TrieNode;
+        }
+        node = node->child[c];
+    }
+    node->isWord = true;
+    //cout << " is word" << endl;
+    node->index = index;
+    return;
+}
+bool isPalindrome(string &s, int start, int end)
+{
+    while(start < end && s[start++] == s[end--]);
+
+    if(start >= end)
+        return true;
+    return false;
+}
+
+bool findPlindromePair(TrieNode *root, string word, int &index)
+{
+    TrieNode *node = root;
+  
+    for(int i=0; i<word.size(); i++)
+    {
+        char ch = word[i];
+        
+        if(node->child.count(ch) == 0)
+            return false;
+            
+        node = node->child[ch];
+        
+        if(node->isWord)
+        {
+            index = node->index;
+            return isPalindrome(word,i+1,word.size()-1);
+  
+        }
+    }
+    
+    return false;
+}
+
+/*
+ * Complete the join_words_to_make_a_palindrome function below.
+ */
+vector<string> join_words_to_make_a_palindrome(vector<string> words) 
+{
+    TrieNode *trie = new TrieNode;
+    TrieNode *trieRev = new TrieNode;
+    int p1=0,p2=0;
+    
+    for(int i =0; i<words.size(); i++)
+    {
+        string word = words[i];
+        insertTrie(trie,word,i);
+        reverse(word.begin(),word.end());
+        insertTrie(trieRev,word,i);
+    }
+    
+    for(int i =0; i<words.size(); i++)
+    {
+        string word = words[i];
+        int index;
+        if(findPlindromePair(trieRev,word,index))
+        {
+            if(i != index){p1=i;p2=index;}
+        }
+        
+        reverse(word.begin(),word.end());
+        
+        if(findPlindromePair(trie,word,index))
+        {
+            if(i != index){p1=i;p2=index;}
+        }
+        if(p1!=p2)
+            break;
+    }
+    
+    if(p1==p2)
+    {
+        return {"NOTFOUND","DNUOFTON"};
+    }
+  
+    if(p1>p2)
+        swap(p1,p2);
+    return {words[p1],words[p2]};
+
+}
+#else
+bool isPalindrome(string s)
+{
+    int start=0;
+    int end=s.size()-1;
+    
+    while(start<end)
+        if(s[start++]!=s[end--])
+            return false;
+    
+    return true;
+}
+// Hash table solution
+/*
+ * Complete the join_words_to_make_a_palindrome function below.
+ */
+vector<string> join_words_to_make_a_palindrome(vector<string> words) 
+{
+    unordered_map<string,int> hashMap;
+    vector<string> output;
+    
+    for(auto word:words)
+    {
+        if(hashMap.count(word))
+            hashMap[word]++;
+        else
+            hashMap[word]=1;
+    }
+
+    for(auto word:words)
+    {
+        string str="";
+        
+        // case : Word length X >= Word Y
+        for(int j=0;j<word.size();j++)
+        {
+            //Reverse of all of its prefixes.
+            str = word[j] + str;
+            if(hashMap.count(str))
+            {
+                //cout << "str:" << str << endl;
+                // Checking whether it is the same word.
+                // Example: bbbb, it reverse is also bbbb, the same word is palindrom of itself.
+                if(str.compare(word) == 0 )
+                {
+                   // cout << "str.compare:" << word << " count:" << hashMap.count(str)<< endl;
+                    if(hashMap[str] > 1)
+                    {
+                        
+                        output.push_back(word);
+                        output.push_back(str);
+                        return output;
+                    }
+                }
+                else if(isPalindrome(word.substr(j+1)))
+                {
+                    output.push_back(word);
+                    output.push_back(str);
+                    return output;
+                }
+            }
+        }
+        str = "";
+        // case : Word length X < Word Y
+        for(int j=word.size()-1; j>=0; j--)
+        {
+            //Reverse of all of its sufixes.
+            str = str + word[j];
+            if(hashMap.count(str))
+            {
+                // Checking whether it is the same word.
+                // Example: bbbb, it reverse is also bbbb, the same word is palindrom of itself.
+                if(str.compare(word) == 0)
+                {
+                    if(hashMap[str] > 1)
+                    {
+                        output.push_back(str);
+                        output.push_back(word);
+                        return output;
+                    }
+                }
+                else if(isPalindrome(word.substr(0,j) ))
+                {
+                    output.push_back(str);
+                    output.push_back(word);
+                    return output;
+                }
+            }
+        }
+        
+    }
+    
+    return {"NOTFOUND","DNUOFTON"};
+}
+#endif
