@@ -1,0 +1,151 @@
+(Sept 29)
+
+#include <iostream>
+#include <cmath>
+#include <cstdio>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <unordered_set>
+
+using namespace std;
+
+/*
+import java.util.*;
+
+* An Iterator that takes in two Iterator sources and emits the 
+* distinct items in the union of the sources. 
+* 
+* Example: source1 is an iterator that emits [2, 5, 2, 2, 6, 1] and 
+* source2 is an iterator that emits [3, 3, 1, 7, 2]. A
+* DistinctUnionIterator with these two sources should emit
+* [7, 1, 2, 5, 3, 6] (though not necessarily in that order).
+public class DistinctUnionIterator implements Iterator<Integer> {
+
+    private Iterator<Integer> sourceA;
+    private Iterator<Integer> sourceB;
+    
+    public DistinctUnionIterator(
+            Iterator<Integer> sourceA,
+            Iterator<Integer> sourceB
+    ) {
+        this.sourceA = sourceA;
+        this.sourceB = sourceB;
+    }
+    
+    @Override
+    public boolean hasNext() {
+        throw new UnsupportedOperationException("Implement me");
+    }
+    
+    @Override
+    public Integer next() throws NoSuchElementException {
+        throw new UnsupportedOperationException("Implement me");
+    }
+    
+    public static void main(String[] args) {
+        
+    }
+}
+
+class InfiniteIterator {
+    int counter = 0
+    
+    hasNext() {
+        return true
+    }
+    
+    next() {
+        return counter++
+    }
+}
+
+[1, 1, 1, 1, 1]
+[1, 1, 1, 1, 1]
+
+hasNext = true # 1 element
+hasNext = true # 1 element
+next = 1
+hasNext = false # 9 elements
+hasNext = false # 9 elements
+
+[1]
+
+*/
+
+class InfiniteIterator {
+    private:
+        int counter = 0;
+        unordered_set<int> uset;
+        vector<int> arr1 = {2, 5, 2, 2, 6, 1};
+        vector<int> arr2 = {3, 3, 1, 7, 2};
+        int m = arr1.size();
+        int n = arr2.size();
+    public:
+    
+    void add (vector<int> arr1, vector<int> arr2, int m, int n){
+        if(counter < m) {
+            uset.insert(arr1[m]);
+        }
+        if(counter > m && counter < m+n) {
+            uset.insert(arr2[n]);
+        }
+    }
+    
+    bool hasNext() {
+        int temp = counter;
+        while(temp < m) {
+            if(uset.find(arr1[temp]) == uset.end()) {
+                return true;
+            }
+            else {
+                temp++;
+            }
+        }
+        while(temp >= m && temp < m+n) {
+            if(uset.find(arr2[temp]) == uset.end()) {
+                return true;
+            }
+            else {
+                temp++;
+            }
+        }
+        return false;
+    }
+    
+    int next() {
+        // try {
+            while(counter < m) {
+                if(uset.find(arr1[counter]) == uset.end()) {
+                    uset.insert(arr1[counter]);
+                    return arr1[counter];
+                }
+                else {
+                    counter++;
+                }
+            }
+            while(counter >= m && counter < m+n) {
+                if(uset.find(arr2[counter]) == uset.end()) {
+                    uset.insert(arr1[counter]);
+                    return arr2[counter];
+                }
+                else {
+                    counter++;
+                }
+            }
+            throw "unhappy";
+        // }
+        // catch (char *excp)  { 
+        //     cout << "Caught " << excp; 
+        // } 
+    }
+};
+
+int main() {
+    InfiniteIterator ii;
+    cout << ii.hasNext() << endl;
+    cout << ii.next() << endl;
+    cout << ii.hasNext() << endl;
+    cout << ii.next() << endl;
+    return 0;
+}
