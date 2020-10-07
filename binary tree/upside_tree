@@ -1,0 +1,44 @@
+#include <iostream>
+
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode() {}
+    TreeNode(int value) : val(value), left(NULL), right(NULL) {}
+};
+
+TreeNode* upside_down(TreeNode* root) {
+    if( !root || !root->left) {
+        return root;
+    }
+    TreeNode* newRoot = upside_down(root->left);
+    cout << "new Root : " <<  newRoot->val << endl;
+    root->left->left = root->right;
+    root->left->right = root;
+    root->left = NULL;
+    root->right = NULL;
+    return newRoot;
+}
+
+int main() {
+    TreeNode* root = new TreeNode(1);
+    TreeNode* left1 = new TreeNode(2);
+    root->left = left1;
+    TreeNode* right1 = new TreeNode(3);
+    root->right = right1;
+    left1->left = new TreeNode(4);
+    left1->right = new TreeNode(5);
+    left1->left->left = new TreeNode(6);
+    left1->left->right = new TreeNode(7);
+
+    cout << root->val << " : " << root->left->val << " : " << root->right->val << endl;
+
+    TreeNode* newRoot = upside_down(root);
+
+    cout << newRoot->val << " : " << newRoot->left->val << " : " << newRoot->right->val << endl;
+
+    return 0;
+}
