@@ -1,0 +1,128 @@
+#include <iostream>
+#include <unordered_map>
+#include <list>
+#include <vector>
+
+using namespace std;
+/*
+ * Example
+
+Input:
+
+capacity = 2
+
+query_type = [1,  1,  0,  1,   0,  1, 0]
+
+key = [5, 10, 5, 15, 10, 5, 5]
+
+value = [11, 22, 1, 33, 1, 55, 1]
+
+
+
+Output: [11, -1, 55]
+
+ algorithm: both work at constant time complexity. O(1). The hashmap keeps track of the key and the address of the key,value pair in the doubly linked list.
+
+ put/set operation :
+
+if(key not present) {
+    if(less than capacity) {
+        add it to the list
+        add it to the map (in the hashmap, key = first int, value = address. <-- common step
+    }
+    else {
+        go to the list, remove the last element and remove it from the hashmap too.
+        insert new key and value to the list.
+        insert new key and its address to the hashmap. <-- common step
+    }
+}
+else {
+    remove it from the list and hashmap
+    insert this new key, value pair in the list and hashmap (Store key and its address using list iterator)
+}
+
+
+Get operation :
+
+if(key is not present)
+    return -1;
+else {
+    get its address from the list.
+    erase from hashmap.
+    erase from list (with the address from the hashmap)
+    insert a new key value pair in the list in the front.
+    insert the new key and its address in the hashmap;
+}
+
+ * */
+
+class LRU_cache {
+private:
+    unordered_map<int,list<pair<int,int>>::iterator> cache_address;
+    list<pair<int,int>> cache;
+    list<pair<int,int>>::iterator address_iterator;
+    int capacity;
+public:
+    LRU_cache(int cap) {
+        capacity = cap;
+    }
+    int get(int key) {
+        if(cache_address.find(key) == cache_address.end())
+            return -1;
+        else {
+            address_iterator = cache_address[key];
+            int value = address_iterator->second;
+            cache.erase(address_iterator);
+            cache.push_front(make_pair(key,value));
+            return value;
+        }
+    }
+    void put(int key,int value) {
+        if(cache_address.size() < capacity) {
+            if(cache_address.find(key) != cache_address.end()) {
+                address_iterator = cache_address[key];
+                cache.erase(address_iterator);
+                cache_address.erase(key);
+                cache.push_front(make_pair(key, value));
+                cache_address[key] = cache.begin();
+            }
+            else {
+                cache.push_front(make_pair(key, value));
+                cache_address[key] = cache.begin();
+            }
+        }
+        else {
+            //eliminating the least recently visited
+            if(cache_address.find(key) != cache_address.end()) { //removing the existing key and re-creating it with the new key value pair.
+                address_iterator = cache_address[key];
+                cache.erase(address_iterator);
+                cache_address.erase(key);
+            }
+            else { //eliminating the least recently visited
+              cache_address.erase(cache.back().first);
+              cache.pop_back(); 
+            }
+            cache.push_front(make_pair(key, value));
+            cache_address[key] = cache.begin();
+        }
+    }
+};
+
+int main() {
+    /*list<int> l = {5,6,4,2,1,7,8,9,9,232,5,6,4,2,1,7,8,9,9,232};
+    list<int>::iterator it = l.begin();
+    l.erase(it);
+    it = l.begin();
+    cout << "Address : " << &it << "; value : " << *it << endl;
+    it++;
+    cout << "Address : " << &it << "; value : " << *it << endl; */
+
+    LRU_cache l(2);
+    l.put(5,11);
+    l.put(10,22);
+    cout << l.get(5) << endl;
+    l.put(22,22);
+    cout << l.get(10) << endl;
+    cout << l.get(22) << endl;
+    return 0;
+}
