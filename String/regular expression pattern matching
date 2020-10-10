@@ -1,0 +1,58 @@
+#include <iostream>
+
+using namespace std;
+
+/*
+ * Input: text = "abbbc" and pattern = "ab*c"
+Output: true
+Given pattern string can match:
+"ac", "abc", "abbc", "abbbc", "abbbbc", ...
+
+Input: text = "abcdefg" and pattern = "a.c.*.*gg*"
+Output: true
+ * */
+
+bool regular_expression_matcher(string text, string pattern, int i, int j,int m, int n) {
+    cout << "text : " << text[i] << " pattern : " << pattern[j] << " pointer text : " << i << " pointer j : " << j << endl;
+    if( i == m && j == n) {
+        return true;
+    }
+    else if(i == m) {
+        while(j < n) {
+            if(pattern[j] != '*')
+                return false;
+            else
+                j++;
+        }
+        return true;
+    }
+    else if(j == m) {
+        return false;
+    }
+    else {
+        if(text[i] == pattern[j]) {
+            return regular_expression_matcher(text, pattern, i+1, j+1, m, n);
+        }
+        else if(pattern[j] == '*'){
+            return regular_expression_matcher(text, pattern, i+1, j, m, n) || regular_expression_matcher(text,pattern,i,j+1,m,n);
+        }
+        else {
+            return false;
+        }
+    }
+}
+
+int main() {
+    string text = "abbbc";
+    string pattern = "ab*cd";
+    int i = 0;
+    int j = 0;
+    int m = text.size();
+    int n = pattern.size();
+    bool isMatch = regular_expression_matcher(text,pattern,i,j,m,n);
+    if(isMatch)
+        cout << "They are a match" << endl;
+    else
+        cout << "The text and pattern don't match " << endl;
+    return 0;
+}
