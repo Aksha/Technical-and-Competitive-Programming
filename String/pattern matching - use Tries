@@ -1,0 +1,70 @@
+/*
+Given a set of words and a pattern, return all the words which matches the pattern
+
+words = [bat, cat, hat, had, mad, what]
+
+pattern = "*at", return bat, cat, hat
+pattern = "h**", return hat, had
+pattern = "**d", return had, mad
+
+Query with a pattern could be called many times. -- Didn't observe, read question couple of times, think about scale . 
+
+1. remaining characters based match. 
+2. substitute every "*" with a lowercase character. 
+3. if all stars, find words whose sizes match and return those.'
+
+pattern size is max 2 - 20. So worst case time xomplexity is 26^20-1
+*/
+
+//Solution : 45 minutes
+    
+   
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+
+using namespace std;
+
+vector<string> pattern_match(vector<string> words, string pattern) { //pattern = *at
+    vector<string> matches;
+    unordered_map<int,char> notstar_indices;
+    for(int i = 0; i < pattern.size();i++) { //O(m)
+        if(pattern[i] != '*') { 
+            notstar_indices.insert(make_pair(i,pattern[i]));  // notstar_indices = {'a',1}, {'t',2}
+        }
+    }
+    //checking condition 3 mentioned above.
+                                 
+    if(notstar_indices.size() == 0) { //(O(n)
+        for(string w : words) {
+            if(pattern.size() ==w.size()) {
+                matches.push_back(w);
+            }
+        }
+    }  
+    
+    for(int i = 0; i < words.size(); i++) { //(O(n*m)) bat
+        bool match = true;
+        if(words[i].size() == pattern.size()) { //3 = 3
+            
+            for(auto it = notstar_indices.begin(); it != notstar_indices.end(); ++it) { //1,'a',{ 2, 't} <--- preincrement doesn't create a temp variable. check "why ++it not it++"
+                if(words[i][it->first] != it->second) { //
+                    match = false;
+                }
+            }
+            if(match)
+                matches.push_back(words[i]);
+        }
+    }
+    return matches;                                                                
+}
+
+int main() {
+    vector<string> words = {bat, cat, hat, had, mad, what};
+    string pattern = "*at";
+    vector<string> result = pattern_match(words,pattern);
+    for(auto a : result ) {
+        cout << a << endl;
+    }
+    return 0;
+}
