@@ -1,0 +1,46 @@
+#include <iostream>
+
+using namespace std;
+
+/*          1
+        2       3
+      4   5    6  7
+        8   9
+*/
+
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int value) : val(value), left(NULL), right(NULL) {}
+    TreeNode() {}
+};
+
+TreeNode* LCA(TreeNode* root, TreeNode* p, TreeNode* q) {
+    if(root == NULL || p == NULL || q == NULL )
+        return NULL;
+    if(root->val == p->val || root->val == q->val)
+        return root;
+    TreeNode* left = LCA(root->left, p,q);
+    TreeNode* right = LCA(root->right, p,q);
+    if(left && right)
+        return root;
+    return (left) ? left : right;
+}
+
+int main() {
+    TreeNode* root = new TreeNode(1);
+    root->left = new TreeNode(2);
+    root->right = new TreeNode(3);
+    root->left->left = new TreeNode(4);
+    root->left->right = new TreeNode(5);
+    root->right->left = new TreeNode(6);
+    root->right->right = new TreeNode(7);
+    root->left->right->left = new TreeNode(8);
+    root->left->right->right = new TreeNode(9);
+    TreeNode* p = new TreeNode(8);
+    TreeNode* q = new TreeNode(9);
+    TreeNode* result = LCA(root,p,q);
+    cout << result->val << endl;
+    return 0;
+}
