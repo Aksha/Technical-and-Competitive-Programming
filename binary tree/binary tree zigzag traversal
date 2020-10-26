@@ -1,0 +1,81 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+
+
+/*
+ *      3
+ *    9     20
+ *         15   7
+ * */
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int value) : val(value), left(NULL), right(NULL) {}
+    TreeNode() {}
+};
+
+struct Node {
+    TreeNode* value;
+    int distance;
+};
+vector<vector<int>> ZIGZAG(TreeNode* root) {
+    queue<Node> Q;
+    vector<vector<int>> non_zigzag(3);
+    int distance = 0;
+    Node n;
+    n.value = root;
+    n.distance = distance;
+    Q.push(n);
+    non_zigzag[distance].push_back(n.value->val);
+    while(!Q.empty()) {
+        Node N = Q.front();
+        Q.pop();
+        int dist = N.distance;
+        TreeNode* t = N.value;
+        if(t->left) {
+            Node curr;
+            curr.value = t->left;
+            curr.distance = dist+1;
+            Q.push(curr);
+            non_zigzag[curr.distance].push_back(curr.value->val);
+        }
+        if(t->right) {
+            Node curr;
+            curr.value = t->right;
+            curr.distance = dist+1;
+            Q.push(curr);
+            non_zigzag[curr.distance].push_back(curr.value->val);
+        }
+    }
+    vector<vector<int>> result;
+    for(int i = 0; i < non_zigzag.size(); i++) {
+        if(i % 2 == 0) {
+            result.push_back(non_zigzag[i]);
+        }
+        else {
+            reverse(non_zigzag[i].begin(), non_zigzag[i].end());
+            result.push_back(non_zigzag[i]);
+        }
+    }
+    return result;
+}
+
+int main() {
+    TreeNode* root = new TreeNode(3);
+    root->left = new TreeNode(9);
+    root->right = new TreeNode(20);
+    root->right->left = new TreeNode(15);
+    root->right->right = new TreeNode(7);
+    vector<vector<int>> result= ZIGZAG(root);
+    for(int i = 0; result.size(); i++) {
+        for(int j = 0; j < result[i].size(); j++) {
+            cout << result[i][j] << ", ";
+        }
+        cout << endl;
+    }
+    return 0;
+}
