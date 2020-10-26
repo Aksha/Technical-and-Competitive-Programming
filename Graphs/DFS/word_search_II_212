@@ -1,0 +1,83 @@
+Given a 2D board and a list of words from the dictionary, find all words in the board.
+
+Each word must be constructed from letters of sequentially adjacent cell, where "adjacent" cells are those horizontally or vertically neighboring. The same letter cell may not be used more than once in a word.
+
+ 
+
+Example:
+
+Input: 
+board = [
+  ['o','a','a','n'],
+  ['e','t','a','e'],
+  ['i','h','k','r'],
+  ['i','f','l','v']
+]
+words = ["oath","pea","eat","rain"]
+
+Output: ["eat","oath"]
+
+Result:
+
+class Solution {
+    private int[][] deltas = {
+        {0, 1},
+        {0, -1},
+        {1, 0},
+        {-1, 0}
+    };
+    public List<String> findWords(char[][] board, String[] words) {
+        List<String> re = new ArrayList<>();
+        int r = board.length;
+        int c = board[0].length;
+        int[][] used = new int[r][c];
+        for (String w: words) {
+            match(board, w, re, used);
+        }
+        return re;
+    }
+                
+    private void match(char[][] board, String w, List<String> re, int[][] used) {
+        int r = board.length;
+        int c = board[0].length;
+        for (int x = 0; x < r; x++) {
+            for (int y = 0; y < c; y++) {
+                if (match(x, y, board, used, w, 0, re)) {
+                    return;
+                }
+            }
+        }
+    }
+    
+    private boolean match(int x, int y, char[][] board, int[][] used, String w, int i, List<String> re) {
+        if (i == w.length()) {
+            re.add(w);
+            return true;
+        }
+        
+        if (x<0 || x >= board.length || y<0 || y >= board[0].length) {
+            return false;
+        }
+        
+        if (used[x][y] == 1) {
+            return false;
+        }
+        
+        if (board[x][y] != w.charAt(i)) {
+            return false;
+        }
+        
+        used[x][y] = 1;
+        boolean matched = false;
+        for (int[] delta : deltas) {
+            int x1 = x + delta[0];
+            int y1 = y + delta[1];
+            matched = matched || match(x1, y1, board, used, w, i+1, re);
+            if (matched) {
+                break;
+            }
+        }
+        used[x][y] = 0;
+        return matched;
+    }
+}
