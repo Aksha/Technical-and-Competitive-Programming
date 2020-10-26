@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int firstUniqChar(string s) {
+        int minimum = INT_MAX;
+        unordered_map<char,int> char_count;
+        unordered_map<char,int> char_index;
+        char unique;
+        for(int i = 0; i < s.size(); i++) {
+            if(char_count.find(s[i]) != char_count.end()) {
+                char_count[s[i]]++;
+            }
+            else {
+                char_count.insert(make_pair(s[i],1));
+                char_index.insert(make_pair(s[i],i));
+            }
+        }
+        for(auto it = char_count.begin(); it != char_count.end(); ++it) {
+            if(it->second == 1) {
+                if(minimum > char_index[it->first]) {
+                    minimum = char_index[it->first];
+                    unique = it->first;
+                }
+            }
+        }
+        return (minimum != INT_MAX) ? minimum : -1;        
+    }
+};
