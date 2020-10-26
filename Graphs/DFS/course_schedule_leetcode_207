@@ -1,0 +1,150 @@
+//########## There is a BFS solution to it that works faster than the DFS solution below but isn't the most intuitive solution
+// Reference: https://www.programcreek.com/2014/05/leetcode-course-schedule-java/
+
+
+
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+using namespace std;
+
+typedef unordered_set<int> s;
+
+/*
+ *  37/46 test cases passed
+ * class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& AL) {
+        vector<int> parent(numCourses,-1);
+        vector<bool> visited(numCourses,0);
+        for(int i = 0; i < AL.size(); i++) {
+            if(!visited[AL[i][0]]) {
+                visited[AL[i][0]] = 1;
+                visited[AL[i][1]] = 1;
+                parent[AL[i][1]] = AL[i][0];
+            }
+            else {
+                int seeker = AL[i][0];
+                int seeking = AL[i][1];
+                while(parent[seeker] != seeking && parent[seeker] != -1) {
+                    parent[AL[i][1]] = parent[AL[i][0]];
+                    seeker = seeking;
+                    seeking = parent[seeking];
+                }
+                if(parent[seeker] == seeking)
+                    return false;
+            }
+        }
+        return true;
+    }
+};
+
+ *
+ *
+ * 36/46 test cases passed
+ * bool course_schedule(vector<vector<int>> AL, int num_courses) {
+    vector<s> parent(num_courses,{-1});
+    vector<bool> visited(num_courses,0);
+    for(int i = 0; i < AL.size(); i++) {
+        if(!visited[AL[i][0]]) {
+            visited[AL[i][0]] = 1;
+            visited[AL[i][1]] = 1;
+            parent[AL[i][1]].insert(AL[i][0]);
+        }
+        else {
+            if(parent[AL[i][0]].find(AL[i][1]) != parent[AL[i][0]].end()) {
+                return false;
+            }
+            else {
+                parent[AL[i][1]] = parent[AL[i][0]];
+            }
+        }
+    }
+    return true;
+}
+*/
+
+/*
+ * There are two ways to solve problem 207 from leetcode
+ *
+ * Straight forward approach: Use topological sort
+ * 1. Get the AL (unordered_map<int,vector<int>> AL)
+ * 2. First build this adjacency list
+ * 3. then apply topological sort with a stack and set or vector<bool>
+ 4. Once you get the order in a vector, add it to an unordered hashmap to keep track of the values and its corresponding indices
+
+ (why hashmap and why not vector ? // Check if element 22 exists in vector
+std::vector<int>::iterator it = std::find(vecOfNums.begin(), vecOfNums.end(), 22);
+
+It accepts a range and an element to search in the given range. If element is found then it returns an iterator to the first element in the given range that’s equal to given element, else it returns an end of the list.
+if (it != vecOfNums.end())
+    std::cout << "Element Found" << std::endl;
+else
+    std::cout << "Element Not Found" << std::endl;
+
+If element is found then we can get its index from the iterator i.e.
+// Get index of element from iterator
+int index = std::distance(vecOfNums.begin(), it);)
+
+
+ *
+ * 5. Now we have the ordering of the actual elements and their indices or position in the output list.
+ * 6. Go over the prerequisites list given in the input and check if the index number of unordered_map[prerequisite[i][0]] > unordered_map[prerequisite[i][1]]
+ * as prerequisite[i][1] needs to be completed before prerequisite[i][0]. If this condition is violated, return false immediately. if it is never violated, return true.
+ *
+ * The time complexity of this solution : O(V+E) for topological sort + O(n) where n is prerequisite.size();
+ *
+ * ######################
+ * Solution number 2: Not so straight forward - detect cycles in the graph using DFS technique and marking the each vertex with different colors or meaning(0 = unvisited, 1 = processing, 2 processed).
+ * The concept here is to do a basic DFS and keep marking 0,1,2 according the stage of processing it is in. When a processing vertex is revisited, that means there exists a cycle
+ * A youtube video with explanation : https://www.youtube.com/watch?v=kXy0ABd1vwo&ab_channel=TECHDOSE. It is exactly the same as detecting cycles in a DIRECTED graph.
+ * In a directed graph, visited criteria alone doesn't guarantee a cycle (in an undirected graph, "visited" criteria guarantees a cycle). The stage of processing gives away if there exists a cycle in a DIRECTED graph.
+ *
+ * DAG is top sort... but how would you do a top sort? not possible. Top sort is to find the order when there definitely exists a rule undefying order.
+ *
+ *
+ *
+ *
+ * */
+
+//45 out of 46 test cases passed.
+bool is_cycle(int V,vector<vector<int>> AL,vector<int>& visited) {
+    if(visited[V] == 1) //if 'V' is currently processing
+        return true;
+    visited[V] = 1;
+    for(vector<int>::iterator it = AL[V].begin(); it != AL[V].end(); ++it) {
+        if(visited[*it] != 2) {//if 'V' has not been processed
+            if(is_cycle(*it, AL, visited)) {
+                return true;
+            }
+        }
+    }
+    visited[V] = 2;
+    return false;
+}
+
+bool course_schedule(vector<vector<int>> prerequisites, int num_courses) {
+    vector<vector<int>> AL(num_courses);
+    vector<int> visited(num_courses,0); //unvisited state
+    //create an adjacency list for a directed graph.
+    for(int i = 0; i < prerequisites.size(); i++) {
+        AL[prerequisites[i][0]].push_back(prerequisites[i][1]);
+    }
+    for(int i = 0; i < num_courses; i++) {
+        if(visited[i] == 0) {
+            if(is_cycle(i, AL,visited))
+                return false;
+        }
+    }
+    return true;
+}
+
+
+int main() {
+    vector<vector<int>> prerequisites = {{1,0}};
+    int num_courses = 2;
+    bool result = course_schedule(prerequisites, num_courses);
+
+    cout << result << endl;
+    return 0;
+}
