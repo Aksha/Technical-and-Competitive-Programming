@@ -1,0 +1,84 @@
+Question and Solution reference: https://www.youtube.com/watch?v=GSBLe8cKu0s&ab_channel=TusharRoy-CodingMadeSimple
+ 
+ //mycompare takes care of the edges cases that may arise due to same 'x'1 coordinates and same 'y' coordinates.
+bool mycompare(pair<int, int> &a, pair<int, int> &b)
+{
+    if (a.first == b.first)
+    {
+        return a.second > b.second;  //descending order of y coord
+    }
+    
+    return a.first < b.first; //ascending order of x coord
+}
+ 
+vector<vector<int>> findSkyline(vector<vector<int>> buildings) {
+
+
+  vector<pair<int, int>> points;
+  vector<vector<int>> result;
+  // create a multiset and 
+  multiset<int> mset;
+  int curr_max = 0;
+
+ //construct the points with x, ht for start and x, -ht for end;
+ 
+ for (int i = 0; i < buildings.size(); i++)
+ {
+     
+     points.push_back(make_pair(buildings[i][0], buildings[i][2]));
+     points.push_back(make_pair(buildings[i][1], (-1 * buildings[i][2])));
+ }
+ 
+ //sort( by x in ascending order and by ht in descending order if x are equal)
+ sort(points.begin(), points.end(), mycompare);
+ 
+ mset.emplace(0);
+  
+ for (int i = 0; i < points.size(); i++)
+ {
+     //cout<<"f:"<<points[i].first<<"s"<<points[i].second<<endl;
+     if (points[i].second >= 0)
+     {
+         //add  to the set for start
+         mset.emplace(points[i].second);
+         // compute the max
+         if (*mset.rbegin() > curr_max)
+         {
+             // see if it impacts result.
+             // if it does then add it to the result
+             curr_max = *mset.rbegin();
+             vector<int> row;
+             row.push_back(points[i].first);
+             row.push_back(points[i].second);
+             result.push_back(row);
+             //cout<<"f:"<<points[i].first<<"s"<<points[i].second<<endl;
+         }
+     }
+     else
+     {
+         // remove it from the multiset and see if it impacts result.
+         auto itr = mset.find((-1 * points[i].second));
+         if (itr != mset.end())
+             mset.erase(itr);
+          // if it does then add it to the result
+         if (*mset.rbegin() < curr_max)
+         {
+             // see if it impacts result.
+             // if it does then add it to the result
+             curr_max = *mset.rbegin();
+             vector<int> row;
+             row.push_back(points[i].first);
+             row.push_back((curr_max));
+             result.push_back(row);
+             //cout<<"f:"<<points[i].first<<"s"<<points[i].second<<endl;
+         }
+     }
+ }
+ 
+ return result;
+ 
+
+
+}
+
+
