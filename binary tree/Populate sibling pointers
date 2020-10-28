@@ -1,0 +1,66 @@
+Populate Sibling Pointers
+
+
+
+Given a binary tree, populate next_right pointers in each node and return the root of the tree.
+
+Definition of next_right node: If we store all the nodes of the same level in an array maintaining the same sequence as in the input tree then (i+1)th node is the next_right node of ith node.
+
+In normal binary tree we have left_ptr and right_ptr but for this question our binary tree node structure will have next_right along with left_ptr and right_ptr which will be null initially and you are supposed to populate that based on the above mentioned definition.
+
+There are three levels in the input tree. If we write the node values level wise then we get:
+
+Level 1: 100
+
+Level 2: 200, 300
+
+Level 3: 400, 500, 600, 700
+
+
+
+In the first level there is only one node. So, next right of node having value 1 is null.
+
+In the second level, there are 2 nodes. Left most node’s next right pointer is the rightmost node.
+
+In the third level, there are 4 nodes. Second node is next right of first node, third node is next right to second node and fourth node is next right of third node.
+
+
+
+/*
+    class TreeNode{
+        int val;
+        TreeNode* left_ptr;
+        TreeNode* right_ptr;
+        TreeNode* next_right;
+    };
+*/
+
+/*
+    Complete the function below
+*/
+TreeNode* populateSiblingPointers(TreeNode* root){
+   queue <TreeNode*> q;
+   q.push(root);
+   while(!q.empty()) {
+       int size = q.size();
+       for(int i = 0; i < size; i++) {
+           TreeNode* temp = q.top();
+           q.pop();
+           if(i+1 == size) 
+                temp->next_right = NULL;
+            else 
+                temp->next_right = q.top();
+            q.push(temp);
+       }
+       
+       for(int i = 0; i < size; i++) {
+            TreeNode* temp = q.top();
+            if(temp->left)
+                q.push(temp->left);
+            if(temp->right)
+                q.push(temp->right);
+            q.pop();
+       }
+   }
+   return root;
+}
