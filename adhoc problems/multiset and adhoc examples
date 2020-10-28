@@ -1,0 +1,44 @@
+#include <iostream>
+#include <set>
+#include<vector>
+using namespace std;
+
+struct comp {
+    bool operator()(pair<int,int> &a, pair<int,int> &b) {
+        if(a.first == b.first)
+            return a.second > b.second;
+        return a.first < b.first;
+    }
+};
+
+/*
+ * the above comparator can also be written as : 
+ * 
+ *  //mycompare takes care of the edges cases that may arise due to same 'x'1 coordinates and same 'y' coordinates.
+bool mycompare(pair<int, int> &a, pair<int, int> &b)
+{
+    if (a.first == b.first)
+    {
+        return a.second > b.second;  //descending order of y coord
+    }
+    
+    return a.first < b.first; //ascending order of x coord
+}
+ and called as sort(Arr.begin(), Arr.end(), mycompare); without the operator()
+ * 
+ * */
+int main() {
+    vector<pair<int,int>> arr = {{47,13},{47,12},{49,16},{13,1},{568,18},{1,1}};
+    sort(arr.begin(),arr.end(),comp());
+    for(int i = 0; i < arr.size(); i++) {
+        cout << arr[i].first << ", " << arr[i].second << endl;
+    }
+
+    multiset<int> s = {1,2,4,5,1,4};
+    cout << *s.rend() << endl;
+    for(multiset<int>::iterator it = s.end(); it != s.begin(); --it) {
+        cout << *it << endl;
+    }
+
+    return 0;
+}
