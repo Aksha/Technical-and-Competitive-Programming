@@ -1,0 +1,54 @@
+#include <iostream>
+#include <stack>
+#include <vector>
+using namespace std;
+
+/* How many asteroids reach the space station
+ * If there is a collision, the bigger asteroid crushes the smaller asteroid and takes the direction of the bigger asteroid.
+ * The bigger asteroid direction is negative, it keeps crushing.
+ * */
+
+struct asteroid {
+    int mass;
+    int direction;
+};
+
+int count_asteroids(vector<asteroid> arr) {
+    stack<asteroid> space_station_asteroids;
+    for(int i = 0; i < arr.size(); i++) {
+        if(arr[i].direction == 1) {
+            space_station_asteroids.push(arr[i]);
+        }
+        else if(arr[i].direction == -1){
+            if(space_station_asteroids.empty()) {
+                continue;
+            }
+            else if(!space_station_asteroids.empty()) {
+                arr[i].mass = arr[i].mass - space_station_asteroids.top().mass;
+                if(arr[i].mass > 0) {
+                    while(arr[i].mass > 0) {
+                        space_station_asteroids.pop();
+                        arr[i].mass = arr[i].mass - space_station_asteroids.top().mass;
+                    }
+                }
+                if(arr[i].mass < 0) { 
+                    space_station_asteroids.top().mass = space_station_asteroids.top().mass + arr[i].mass;
+                }
+                if(arr[i].mass == 0) {
+                    space_station_asteroids.pop();
+                    continue;
+                }
+            }
+        }
+    }
+    return space_station_asteroids.size();
+}
+
+
+int main() {
+    //vector<asteroid> arr = {{5,1},{10,1},{5,-1}}; //output : 2 asteroids reach the space station
+    vector<asteroid> arr = {{8,1},{8,-1}};
+    int result = count_asteroids(arr);
+    std::cout << "the number of asteroids that reach the space station are : " << result << std::endl;
+    return 0;
+}
