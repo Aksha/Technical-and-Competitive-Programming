@@ -1,0 +1,98 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+/*
+                4
+            2       5
+         1     3
+         
+         
+          (points to 5)<-1-><-2-><-3-><-4 5->(points to 1)
+
+*/
+
+struct TreeNode{
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int value) : val(value), left(NULL), right(NULL) {}
+};
+
+// no extra memory solution:
+void inorder_traversal(TreeNode* curr, TreeNode** head, TreeNode** tail) {
+    if(curr == NULL) {
+        return;
+    }
+    inorder_traversal(curr->left,head,tail);
+    if((*head) == NULL)
+        (*head) = curr;
+    if((*tail) == NULL)
+        (*tail) = curr;
+    else {
+        (*tail)->right = curr;
+        curr->left = (*tail);
+    }
+    (*tail) = curr;
+    inorder_traversal(curr->right,head,tail);
+}
+
+TreeNode* BTtoLL(TreeNode* root){
+    if(!root)
+        return NULL;
+    TreeNode* head = NULL;
+    TreeNode* tail = NULL;
+    inorder_traversal(root,&head,&tail);
+    head->left = tail;
+    tail->right = head;
+    return head;
+}
+
+void in_order(TreeNode* root, vector<TreeNode*> &in_order_list) {
+    if(root == NULL)
+        return;
+    in_order(root->left,in_order_list);
+    in_order_list.push_back(root);
+    in_order(root->right,in_order_list);
+}
+
+TreeNode* BTtoCLL(TreeNode* root) {
+    vector<TreeNode*> in_order_list;
+    in_order(root,in_order_list);
+    TreeNode* head = in_order_list[0];
+    TreeNode* tail = in_order_list[0];
+    for(int i = 1; i < in_order_list.size();i++) {
+        TreeNode* curr = in_order_list[i];
+        tail->right = curr;
+        curr->left = tail;
+        tail = curr;
+    }
+    head->left = tail;
+    tail->right = head;
+    return head;
+}
+
+int main() {
+    TreeNode* root = new TreeNode(4);
+    root->left = new TreeNode(2);
+    root->right = new TreeNode(5);
+    root->left->left = new TreeNode(1);
+    root->left->right = new TreeNode(3);
+    TreeNode* no_extra_memory = BTtoLL(root); // no extra memory solution
+    cout << no_extra_memory->val << " ";
+    no_extra_memory = no_extra_memory->right;
+    cout << no_extra_memory->val << " ";
+    no_extra_memory = no_extra_memory->right;
+    cout << no_extra_memory->val << " ";
+    no_extra_memory = no_extra_memory->right;
+    cout << no_extra_memory->val << " ";
+    no_extra_memory = no_extra_memory->right;
+    cout << no_extra_memory->val << " ";
+    no_extra_memory = no_extra_memory->right;
+    cout << no_extra_memory->val << " ";
+    /*TreeNode* extra_memory = BTtoCLL(root);
+    cout << extra_memory->val << endl;
+    cout << extra_memory->val << " head left : " << extra_memory->left->val << " head right : " << extra_memory->right->val << endl;*/
+     return 0;
+}
