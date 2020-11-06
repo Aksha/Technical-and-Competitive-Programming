@@ -1,0 +1,70 @@
+//DFS or topological sort?
+
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+/*
+Given a directed graph, find out whether it has a cycle.
+Example
+Input: Given graph has 5 vertices and 7 edges: [[0, 1], [0, 3], [1, 3], [1, 2], [2, 3], [4, 0], [2, 4]].
+Output: true
+Given graph has one cycle: 0→1→2→4→0.
+
+
+
+*/
+
+typedef pair<int,int> p;
+typedef unordered_map<int,vector<int>> u;
+
+unordered_map<int,vector<int>> create_adjacency_list(vector<p> arr) {
+    unordered_map<int,vector<int>> adj;
+    for(int i = 0; i < arr.size(); i++) {
+        if(adj.find(arr[i].first) == adj.end()) {
+            vector<int> temp;
+            temp.push_back(arr[i].second);
+            adj.insert(make_pair(arr[i].first,temp));
+        }
+        else {
+            adj[arr[i].first].push_back(arr[i].second);
+        }
+    }
+    return adj;
+}
+
+bool has_cycle(int source, u adj, vector<int>& visited) {
+    visited[source] = 1;
+    vector<int> adjacent_nodes = adj[source];
+    for(int i = 0; i < adjacent_nodes.size(); i++) {
+        if(visited[adjacent_nodes[i]] == 1)
+            return true;
+        else if(visited[adjacent_nodes[i]] == 0 && has_cycle(adjacent_nodes[i],adj,visited) == 1)
+            return true;
+    }
+    visited[source] = 2;
+    return false;
+}
+
+int main() {
+    //build an adjacency list - unordered_map
+    //run a dfs starting from the first node in the adjacency list.
+    //if node not visited, explore it and change it to processing while exploring.
+    //If node visited, skip.
+    //if node node is processing, return false.
+    vector<p> arr = {{0,1},{0,3},{1,3},{1,2},{2,3},{4,0},{2,4}};
+    unordered_map<int,vector<int>> adj = create_adjacency_list(arr);
+    vector<int> visited(adj.size()+1,0);
+    bool result = 0;
+    for(auto it = adj.begin(); it != adj.end(); ++it) {
+        if(visited[it->first] == 0){
+            if(has_cycle(it->first, adj, visited)) {
+                result = true;
+            }
+        }
+    }
+    cout << result << endl;
+    return 0;
+}
