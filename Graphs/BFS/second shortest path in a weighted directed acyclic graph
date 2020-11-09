@@ -1,0 +1,142 @@
+/*n courses 0 - (n-1), prereq (x,y) x represents a course that we take, y = prereq
+topological sort
+
+weighted graph, 2nd best path between two nodes a and b
+
+
+directed weight graph no cycles all positive weights non zero
+
+              1        3
+        
+        0-------6-------5
+         \              /
+              2------4
+              
+              
+              
+              
+              
+     0,1 = 3 
+     1,3 = 5
+     3,5 = 5
+     0,2 = 2
+     2,4 = 3
+     4,5 = 3
+     0,6 = 2
+     6,5 = 2
+     
+     0 - 6 - 5 = 4
+     
+     0,2 = 2
+     0,1 = 3
+     0,6
+     
+     0 - 2 - 4 - 5 = 8
+     0 - 1 - 3 - 5 = 13
+     
+     0-1 = 3
+     0-6 = 2
+     0-2 = 2 
+    
+     
+     
+*/
+
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+struct node{
+    int val;
+    int distance;
+    vector<int> path;
+};
+
+typedef vector<int,int> p;
+
+unordered_map<p,int>> u;
+
+unordered_map<int,vector<int>> build_adjacency_list(unordered_map<p,int>> input) {
+    unordered_map<int,vector<int>> adj;
+    for(auto it = input.begin(); it != input.end(); it++) {
+        if(adj.find(it->first) == adj.end()) {
+            vector<int> temp;
+            temp.push_back(it->first.second);
+            adj.insert(make_pair(it->first.first, it->first.second));
+        }
+        else {
+            adj[it->first.first].push_back(it->first.second);
+        }
+    }
+    return adj;
+}
+
+unordered_map<int,vector<int>> all_paths(unordered_map<int,vector<int>> adj, int source, int destination,unordered_map<p, int> input) {
+    unordered_map<int,vector<int>> dist_path;
+    node n;
+    n.distance = 0;
+    vector<int> temp;
+    temp.push_back(source);
+    queue<node> Q;
+    Q.push(n);
+    vector<node> parent;
+    memset (parent,{source,source,0},7);
+
+    while(!Q.empty()) {
+        node front = Q.front();
+        Q.pop();
+        for(int i = 0; i < adj[front].size(); i++) {
+            parent[adj[front][i]] = front.val;
+            if(adj[front][i] == destination) {
+                Node n1;
+                n1.val = adj[front][i];
+                vector<int> temp1;
+                temp1 = parent[adj[front][i]].path;
+                temp1.push_back(adj[front][i]);
+                n1.path = temp1;
+                n1.distance = parent[adj[front][i]].distance + input[adj[{front,adj[front][i]}]];
+                dist_path.insert(make_pair(n1.dist,n1.path));                                               continue;        
+            }
+            node n2;
+            n2.dist = parent[adj[front][i]].distance;
+            vector<int> temp = parent[adj[front][i]].path;
+            temp.push_back(adj[front][i]);
+            n2.path = push_back(temp);
+        }
+        
+    }
+    return dist_path;
+}
+
+int main() {
+    
+    unordered_map<p, int> input = {{{0,1}, 3}, 
+                                   {{1,3}, 5},
+    {{3,5},5}, 
+    {{0,2},2},
+    {{2,4},3},
+    {{4,5},3},
+    {{0,6},2},
+                                   {6,5},2}};
+        int source = 0;
+        int destination = 5;
+
+    //build adjacency list
+unordered_map<int,vector<int>> adj = build_adjacency_list(input, source, destination); // {0,{1,2,6}}, {2,{4}}, {1,{3}}, {6,{5}}
+    map<int,vector<int>> dist_path = all_paths(adj);
+    map<int,vector<int>>::iterator it = (dist_path.begin() + 1);
+    cout << "the path is: ";
+    vector<int> result = *it;
+    for(int i = 0; i < result.size(); i++){
+        cout << result[i] << ", ";
+    }
+    
+    return 0; 
+
+}
+
+
+
+
