@@ -25,13 +25,13 @@ vector <Node> Dijkstra(vector <vector< pair<int,int>>> AL, int source) {
 		N.number = i;
 		if(N.number == source) {
 			N.weight = 0;
-	}
-	else{
-		N.weight = INT_MAX;
-	}
-	weight[i] = N.weight;
-	visited[i] = false;
-	holder.insert(N); //the nodes always getting pushed in ascending order (All nodes 1,2,3,4..n)
+		}
+		else {
+			N.weight = INT_MAX;
+		}
+		weight[i] = N.weight;
+		visited[i] = false;
+		holder.insert(N); //the nodes always getting pushed in ascending order (All nodes 1,2,3,4..n)
 	}
 
 	while(!holder.empty()){
