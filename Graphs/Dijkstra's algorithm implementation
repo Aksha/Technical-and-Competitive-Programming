@@ -25,37 +25,37 @@ vector <Node> Dijkstra(vector <vector< pair<int,int>>> AL, int source) {
 		N.number = i;
 		if(N.number == source) {
 			N.weight = 0;
-}
-else{
-	N.weight = INT_MAX;
-}
-weight[i] = N.weight;
-visited[i] = false;
-holder.insert(N); //the nodes always getting pushed in ascending order (All nodes 1,2,3,4..n)
-}
-
-while(!holder.empty()){
-	set<Node>::iterator it = holder.begin();
-	int current = it->number;
-	visited[current] = true;
-	answer.push_back(*it);
-	
-	for(int i = 0; i < AL[current].size(); i++) {
-		if(visited[AL[current][i].first] == true || weight[current]+ AL[currrent][i].second > weight[AL[current][i].first] || weight[current] == INT_MAX) //if it is not reachable or if the weight of the current node + the node to be reached is greater than the exising weight of the node that is being tried to be reached or if the starting node hasn’t been reached (infinity value) yet go to the next node. 
-			continue;
-
-		Node temp; //create a temporary node
-		temp->number = AL[current][i].first; //initialize its key and value, i.e, //number and weight
-		temp->weight = AL[current][i].second;
-		set<Node>::iterator temp_it = holder.find(temp); //find that node in holder
-		temp_it->weight = weight[current] + AL[current][i].second; //sum of the weights
-		// can the above lines be replaced by 
-		/*if(holder.find(temp->number)) { 
-		weight[AL[current][i].first] = weight[current]+AL[current][i].second;
-		}*/
-		}
-			holder.erase(it);
 	}
-		//sort(answer.begin(), answer.end(), sortbysec); -returns the right ordering of nodes by weight like Dijkstra
+	else{
+		N.weight = INT_MAX;
+	}
+	weight[i] = N.weight;
+	visited[i] = false;
+	holder.insert(N); //the nodes always getting pushed in ascending order (All nodes 1,2,3,4..n)
+	}
+
+	while(!holder.empty()){
+		set<Node>::iterator it = holder.begin();
+		int current = it->number;
+		visited[current] = true;
+		answer.push_back(*it);
+
+		for(int i = 0; i < AL[current].size(); i++) {
+			if(visited[AL[current][i].first] == true || weight[current]+ AL[currrent][i].second > weight[AL[current][i].first] || weight[current] == INT_MAX) //if it is not reachable or if the weight of the current node + the node to be reached is greater than the exising weight of the node that is being tried to be reached or if the starting node hasn’t been reached (infinity value) yet go to the next node. 
+				continue;
+
+			Node temp; //create a temporary node
+			temp->number = AL[current][i].first; //initialize its key and value, i.e, //number and weight
+			temp->weight = AL[current][i].second;
+			set<Node>::iterator temp_it = holder.find(temp); //find that node in holder
+			temp_it->weight = weight[current] + AL[current][i].second; //sum of the weights
+			// can the above lines be replaced by 
+			/*if(holder.find(temp->number)) { 
+			weight[AL[current][i].first] = weight[current]+AL[current][i].second;
+			}*/
+			}
+				holder.erase(it);
+		}
+	}	//sort(answer.begin(), answer.end(), sortbysec); -returns the right ordering of nodes by weight like Dijkstra
 	return answer;
 }
