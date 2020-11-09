@@ -37,7 +37,17 @@ directed weight graph no cycles all positive weights non zero
      0-1 = 3
      0-6 = 2
      0-2 = 2 
-    
+     
+     The second shortest path can be found in three ways after enumerating all possible paths and their corresponding distances:
+     
+     1. quick select to find the kth smallest element (2nd) amortized linear time complexity
+    2. using a map data structure that holds the distance and the path O(nlogn)
+    3. using a two pointer approach to find the smallest and the second smallest distance (linear time complexity).
+     
+     
+     
+     How to do better??? 
+     Use a modification of Dijkstra's algorithm...
      
      
 */
