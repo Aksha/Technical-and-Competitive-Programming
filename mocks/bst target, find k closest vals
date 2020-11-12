@@ -1,0 +1,182 @@
+  Given a BST, with long values and a target value, return k closest values.
+    
+    stretch goal : Target value may or may not be present. 
+    
+                   25
+                 
+           10                40
+           
+      3        12       30      48 
+      
+    1    7   11   24  26   31 45    49
+    
+    
+    target = 26
+    k = 5
+    24,25,26,30,31
+    
+    1,3,7,10,11,12,24,25,26,30,31,40,45,48,49
+    
+    10,11,12,24,25,26,30,31,40,45,48;
+           i              j  
+    result = 26, 25, 24, 30, 31
+    
+    find k predecessor and k successor nodes
+    
+    
+    algorithm : 
+    
+    1. find k pred and succ nodes.
+    2. Pred nodes : 1 node
+        if the given node has a left subchild, it's right most node is the pred. if right node not present, return the left subchild.
+    else
+        check if parent is lesser than current node, if not, set curr = parent and parent = parent's parent and repeat until we get a lesser node.
+     
+    3. now set the current pred node to curr node and repeat the procedure k-1 times.
+    4. successor node: do the opposite of the pred node determination. 
+    5. aggregate pred and successor including target value in a list<long> k_possible_values.
+    6. get the k closest values to the target value from the list.
+    
+    
+*/
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+struct TreeNode{
+    long val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode* parent;
+    TreeNode(long value) : val(value), left(NULL), right(NULL), parent(NULL) {}
+};
+
+TreeNode* find_target(TreeNode* root, long target) {
+    if(root == NULL || root->val == target) 
+        return root;
+    find_target(root->left, target);
+    if(root->val == target) 
+        return target;
+    find_target(root->right,target);
+}
+
+//instead of using in_order traversal, I can leverage the property of BST to find the closest possible node. 
+
+void find_k_predecessor(target_node,k, &k_possible_closest_values) {
+    while(k != 0) {
+        if(target_node->left) {
+            TreeNode* curr = target_node->left;
+            while(curr->right) {
+                curr = curr->right;
+            }
+            k_possible_closest_values.push_back(curr->val);
+        }
+        else {
+            if(target_node->parent) {
+                TreeNode* curr = target_node;
+                TreeNode* par = target_node->parent;
+                if(par->val < target_node->val) {
+                    k_possible_closest_values.push_back(par->val);
+                    target_node = par;
+                    k--;
+                }
+                curr = parent;
+                parent = par->parent;
+            }
+        }
+    }
+}
+
+void find_k_successor(target_node,k, &k_possible_closest_values) {
+    while(k != 0) {
+        if(target_node->right) {
+            TreeNode* curr = target_node->right;
+            while(curr->left) {
+                curr = curr->left;
+            }
+            k_possible_closest_values.push_back(curr->val);
+        }
+        else {
+            if(target_node->parent) {
+                TreeNode* curr = target_node;
+                TreeNode* par = target_node->parent;
+                if(par->val > target_node->val) {
+                    k_possible_closest_values.push_back(par->val);
+                    target_node = par;
+                    k--;
+                }
+                curr = parent;
+                parent = par->parent;
+            }
+        }
+    }
+}
+
+vector<long> find_k_closest_values(k_possible_closest_values, long target) {
+    vector<long> k_closest_values;
+    int position = 0;
+    for(int i = 0; i < k_possible_closest_values.size(); i++) {
+        if(k_possible_closest_values[i] == target) {
+            position = i;
+        }
+    }
+    
+    int i = position; 
+    int j = position;
+    while(i >= 0 && j < k_possible_closest_value.size() && k > 0) {
+        long i_diff = abs(k_possible_closest_value[i] - k_possible_closest_value[position]);
+        long j_diff = abs(k_possible_closest_value[j] - k_possible_closest_value[position]);
+        if(i_diff < j_diff) {
+            k_closest_values.push_back(k_possible_closest_value[i]);
+            i--;
+        }
+        else if(j_diff < i_diff){
+            k_closest_values.push_back(k_possible_closest_value[j]);
+            j++;
+         
+        }
+        else {
+            k_closest_values.push_back(k_possible_closest_value[i]);
+            i--;
+            if(k > 0) {
+                k_closest_values.push_back(k_possible_closest_value[j]);
+                j++;
+                k--;
+            }
+        }
+        k--;
+    }
+    
+    while( i >= 0 && k > 0) {
+        k_closest_values.push_back(k_possible_closest_value[i]);
+        i--;
+        k--;
+    }
+    while( j < k_possible_closest_value.size() && k > 0) {
+        k_closest_values.push_back(k_possible_closest_value[i]);
+        j++;
+        k--;
+    }
+    return k_closest_values;
+}
+
+vector<long> find_k_closest_values(TreeNode* root, int k, long target) {
+    vector<long> k_closest_values;
+    vector<long> k_possible_closest_values;
+    TreeNode* target_node = find_target(root,target,target_node);
+    if(target_node != NULL)
+        k_possible_closest_values.push_back(target_node->val);
+    find_k_predecessor(target_node,k, k_possible_closest_values);
+    find_k_successor(target_node,k, k_possible_closest_values);
+    for(int i = 0; i < k_possible_closest_values.size(); i++) {
+        k_closest_values = find_k_closest_values(k_possible_closest_values);
+    }
+    return  k_closest_values;
+    
+}
+int main() {
+    
+    return 0;
+}
