@@ -1,0 +1,39 @@
+/**
+ * This function determines if the braces ('(' and ')') in a string are properly matched.
+ * it ignores non-brace characters.
+ * Some examples:
+ * "()()()()"   -> true
+ * "((45+)*a3)" -> true
+ * "(((())())"  -> false
+ * ")("         -> false
+ * "" -> true
+ * "76&^" -> true
+ */
+bool matched(string S) {
+  if(S.size() == 0) 
+    return true;
+  stack <char> st;
+  for(int i = 0; i < S.size(); i++) {
+    if(S[i] == '(') { // st = {}
+      st.push(S[i]);
+    }
+    else if(S[i] == ')') {
+      if(st.empty()) {
+        return false;
+      }
+      else {
+        st.pop();
+      }
+    }
+    else {
+      continue;
+    }
+  }
+  return (st.empty()) ? true : false;
+}
+
+int main() {
+  string S = "((45+)*a3)";
+  bool result = matched(S);
+  cout << result << endl;
+}
