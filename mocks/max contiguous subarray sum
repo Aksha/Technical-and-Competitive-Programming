@@ -1,0 +1,82 @@
+/* Write a function that, given a list of integers (both positive and negative)
+ * returns the sum of the contiguous subsequence with maximum sum.
+ * Thus, given the sequence (1, 2, -4, 1, 3, -2, 3, -1) it should return 5
+ 
+ * (-3, 4, -2, 5, -3) -> 7 
+ 
+ (1, 2, -4, 1, 3, -2, 3, -1)
+ 
+ brute force : O(n^2) 
+ 
+ 
+            0
+    1 2 3 
+    
+    
+    (-3, 4, -2, 5, -3) -> 7 
+    
+    {-3, 4, 
+    
+    4, -3+4
+ currSum = 4
+ maxSum = 7
+ */
+
+// (-1, -2, -4, -1, -3, -2, -3, -1) = -1
+
+int maxContiguousSubsequenceSum(vector<int> arr) {
+    // implementation here
+  if(arr.size() == 0) {
+    return 0;
+  }
+  int maxSum = arr[0]; //1
+  int currSum = arr[0]; //1
+  
+  for(int i = 1; i < arr.size(); i++) {
+    int currSum = max(arr[i],currSum + arr[i]); 
+    int maxSum = max(maxSum, currSum); //
+    /*if(currSum > maxSum) {
+      maxSum = currSum;
+    }*/
+  }
+  return maxSum;
+}
+
+/*
+index = 0
+  m  = 1
+  c  = 1
+  
+i = 1
+  curr = 2
+  c = max(2,1+2) = 3
+  m = max(1,3) = 3
+ i = 2
+ curr = -4
+ c = max(-4, 3-4) = -1
+ m = max(-1,3) = 3
+ 
+ i = 3 
+ curr = 1
+ c = max(1,-1+1) = 1
+ m = 3
+ 
+ i = 4
+ curr = 3
+c = max(3, 1 + 3) = 4
+m = 4
+
+i = 5
+curr = -2
+c = max(-2 , 4 - 2) = 2
+m = 4
+
+i = 6
+curr = 3
+c = max(3, 2+ 3) = 5
+m = 5
+
+i = 7
+curr = -1
+c = max(-1, -1+ 5) = 4
+m = max(4,5) = 5
