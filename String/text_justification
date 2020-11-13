@@ -1,0 +1,100 @@
+Given an array of words and a width maxWidth, format the text such that each line has exactly maxWidth characters and is fully (left and right) justified.
+
+You should pack your words in a greedy approach; that is, pack as many words as you can in each line. Pad extra spaces ' ' when necessary so that each line has exactly maxWidth characters.
+
+Extra spaces between words should be distributed as evenly as possible. If the number of spaces on a line do not divide evenly between words, the empty slots on the left will be assigned more spaces than the slots on the right.
+
+For the last line of text, it should be left justified and no extra space is inserted between words.
+
+Note:
+
+A word is defined as a character sequence consisting of non-space characters only.
+Each word's length is guaranteed to be greater than 0 and not exceed maxWidth.
+The input array words contains at least one word.
+Example 1:
+
+Input:
+words = ["This", "is", "an", "example", "of", "text", "justification."]
+maxWidth = 16
+Output:
+[
+   "This    is    an",
+   "example  of text",
+   "justification.  "
+]
+
+
+class Solution {
+public:
+    void fullJustify_helper(vector<string>& words, int maxWidth, vector<string>& ans, int i, int& j, int spaces) {
+        int extra = 0;
+        int words_this_line = 0;
+        int beginning = j;
+        while(i < maxWidth && i+words[j].size()+1 <= maxWidth) {
+            i += words[j].size() + 1;
+            spaces += 1;
+            j++;       
+            words_this_line++;
+        }
+        while(i < maxWidth) {
+            extra += 1;
+        }
+        spaces = spaces/(words_this_line-j-1) + 1
+        result.push_back(words[beginning++]);
+        while (extra--) {
+            ans.back().append(spaces+1, ' ');
+            ans.back().append(words[beginning++]);
+        }
+        while (beginning < j) {
+            ans.back().append(spaces, ' ');
+            ans.back().append(words[beginning++]);
+        }
+        ans.back().append(maxWidth-ans.back().size(), ' ');
+        fullJustify_helper(words,maxWidth,result,0,j,0);
+    }
+    
+    vector<string> fullJustify(vector<string>& words, int maxWidth) {
+        vector<string> result;
+        int i = 0;
+        int extra_spaces = 0;
+        int j = 0;
+        fullJustify_helper(words, maxWidth, result, i, j, extra_spaces);
+        return result;        
+    }
+};
+
+
+//Non recursive code: - iteration
+class Solution {
+public:
+    vector<string> fullJustify(vector<string> &words, int L) {
+        vector<string> ans;
+        int begin = 0;
+        while (begin < words.size()) {
+            int last = begin;
+            int linesize = words[begin++].size();
+            while (begin < words.size() && linesize + 1 + words[begin].size() <= L) {
+                linesize += 1 + words[begin].size();
+                begin++;
+            }
+            
+            int spaces = 1, extra = 0;
+            if (begin < words.size() && begin != last + 1) {
+                spaces = (L - linesize) / (begin - last - 1) + 1;
+                extra = (L - linesize) % (begin - last - 1);
+            }
+            
+            ans.push_back(words[last++]);
+            while (extra--) {
+                ans.back().append(spaces+1, ' ');
+                ans.back().append(words[last++]);
+            }
+            while (last < begin) {
+                ans.back().append(spaces, ' ');
+                ans.back().append(words[last++]);
+            }
+            ans.back().append(L-ans.back().size(), ' ');
+        }
+        return ans;
+    }
+};
