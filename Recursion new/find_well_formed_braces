@@ -1,0 +1,29 @@
+void find_all_well_formed_brackets(vector<string>& results, string& prefix, int l, int r, int k)
+{
+    if(l == k && r == k)
+    {
+        results.push_back(prefix) ;
+        return;
+    }
+    
+    int next{l + r};
+    
+    if (l < k)
+    {
+        prefix[next] = '(';
+        find_all_well_formed_brackets(results, prefix, l+1, r, k);
+    }
+    if(l > r )
+    {
+        prefix[next] = ')';
+        find_all_well_formed_brackets(results, prefix, l, r+1, k);
+    }
+}
+
+vector<string> find_all_well_formed_brackets(int n)
+{
+    vector<string> results;
+    string prefix(2*n, 0);
+    find_all_well_formed_brackets(results, prefix, 0, 0,n) ;
+    return results ; 
+}
