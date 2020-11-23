@@ -1,0 +1,91 @@
+#include <iostream>
+#include <ctime>
+#include <unistd.h>
+#include <chrono>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+struct key_timestamp{
+    string value;
+    uint64_t timestamp;
+};
+
+class KV {
+public:
+    unordered_map<string,vector<key_timestamp>> umap;
+    key_timestamp kt;
+    uint64_t minimum = INT_MAX;
+
+    time_t set(string key, string value) {   //O(1)
+        kt.value = value;
+        kt.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+        if(umap.find(key) == umap.end()) {
+            vector<key_timestamp> values;
+            values.push_back(kt);
+            umap.insert(make_pair(key,values));
+        }
+        else {
+            umap[key].push_back(kt);
+        }
+        return kt.timestamp;
+    }
+
+    string get(string key) {
+        if(umap.find(key) != umap.end()) {
+            vector<key_timestamp> temp = umap[key];
+            key_timestamp kt1;
+            kt1.value = temp.back().value;
+            return kt1.value;
+        }
+        return "";
+    }
+
+    string get(string key, uint64_t input_timestamp) { //O(logn)
+        if(umap.find(key) != umap.end()) {
+            string final_value;
+            vector<key_timestamp> temp = umap[key];
+            for(size_t i = 0; i < temp.size(); i++) {
+                uint64_t curr_minimum = input_timestamp - temp[i].timestamp;
+                if(curr_minimum == 0) {
+                    return temp[i].value;
+                }
+                if(curr_minimum < minimum) {
+                    minimum = curr_minimum;
+                    if(i == 0) {
+                        final_value = "not present";
+                    }
+                    else if(i == temp.size()-1) {
+                        final_value = temp[i].value;
+                    }
+                    else {
+                        final_value = temp[i-1].value;
+                    }
+                }
+            }
+            return final_value;
+        }
+        return "no key present";
+    }
+
+};
+
+
+int main() {
+    KV kv;
+    uint64_t timestamp1 = kv.set("foo","bar1");
+    usleep(1000000*3);
+    uint64_t timestamp2 = kv.set("foo","bar2");
+    cout << " GET without timestamp : " << kv.get("foo") << " ; get with timestamp1 not exact: "  << kv.get("foo", timestamp1 + 0.75) << "; get with timestamp exact : " << kv.get("foo", timestamp1) << "; get with second timestamp : " << kv.get("foo",timestamp2) << "; get with second timestamp not exact: " << kv.get("foo",timestamp2+1) << endl;
+
+    return 0;
+}
+
+/*int main() {
+    uint64_t now1 = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    usleep(1000000 * 3);
+    uint64_t now2 = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    std::cout << now1 << " : " << now2 << std::endl;
+    return 0;
+}*/
