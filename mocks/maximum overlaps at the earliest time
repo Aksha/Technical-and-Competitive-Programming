@@ -1,0 +1,111 @@
+
+/*
+    start = {1,3,8,6,5}
+    end = {4,5,13,8,13}
+    
+    
+    
+    1-4, 3-5, 5-13, 6-8, 8-13
+    
+    1 a   4  d
+    3 a   5  d
+    5 a   13 d
+    6 a   8  d
+    8 a   13 d
+ 
+ 1 a, 3 a, 4 d, 5 a, 6 a, 8 a, 8 d, 13 d, 13 d
+ 
+ 
+
+ 
+ 
+    result : at 6 the num of overlaps is 3
+    
+    
+*/
+
+#include<iostream>
+#include <vector>
+
+using namespace std;
+
+bool comp(pair<int,char> &a, pair<int,char> &b) {
+    if(a.first < b.first) {
+        return true;
+    }
+    else if (a.first == b.first) {
+           return a.second == 'a';
+    }
+    return false;
+} 
+
+vector<pair<int,char>> sorting(vector<int> start, vector<int> end) {
+    vector<pair<int,char>> result;
+    for(int i = 0; i < start.size(); i++) {
+        result.push_back(make_pair(start[i],'a'));
+        result.push_back(make_pair(end[i],'d'))
+    }
+    sort(result.begin(), result.end(), comp);
+     
+    return result;
+}
+
+pair<int,int> calculate_maximum_overlap(vector<pair<int,char>> sorted_intervals) {
+    unordered_map<pair<int,char>, int> max_overlaps;
+    int count = 0;
+    for(int i = 0; i < sorted_intervals.size(); i++) {
+        if(sorted_intervals[i].second == 'a') {
+            count = count+1;
+        }
+        else{
+            count = count-1;
+        }
+        pair<int,char> temp = make_pair(sorted_intervals[i].first, sorted_intervals[i].second);
+        max_overlaps[temp] = count;
+    }
+    /*
+         1,a - 1
+ 3,a - 2
+ 4,d - 1
+ 5,a - 2
+ 6,a - 3
+ 8,a - 4
+ 8,d - 3
+ 13,d - 2
+ 13,d - 1
+    */
+//I can avoid an additional hash map as a storage variable and finish these operations in the first traversal itself.
+    int maximum = INT_MIN;
+    int initial_time = 0;
+    int curr = 0;
+    for(auto it = max_overlaps.begin(); it != max_overlaps.end(); it++) {
+        curr = it->second;
+        if(maximum < curr) {
+            maximum = curr;
+            initial_time = it->first;
+        }
+        else if(maximum == curr) {
+            initial_time = min(initial_time, it->first);
+        }
+    }
+    
+    pair<int, int> result = make_pair(initial_time,maximum);
+    return result;
+}
+
+int main() {
+    vector<int> s = {1,3,8,6,5};
+    vector<int> e = {4,5,13,8,13};
+    int m = s.size();
+    int n = e.size();
+    if(m != n || (m == 0 & n == 0)) {
+        cout << "incorrect sizes input: " << endl;
+        exit(0);
+    }
+    vector<pair<int,char>> sorted_intervals = sorting(start,end);
+        //1 a, 3 a, 4 d, 5 a, 6 a, 8 a, 8 d, 13 d, 13 d
+
+    pair<int,int> max_overlap = calculate_maximum_overlap(sorted_intervals);
+    cout << "At" << max_overlap.first  << " : the num of max overlpas is : " << max_overlap.second << endl; //at 8 we have max overlaps of 4
+    return 0;
+}
