@@ -1,0 +1,160 @@
+/*
+ * Instructions to candidate.
+ *  1) Run this code in the REPL to observe its behaviour. The execution entry point is main().
+ *  2) Provide an implementation of the findAll method in MyPrefixSearch.
+ *  3) Describe any trade-offs arising from your implementation.
+ *  4) If time permits, try to improve your implementation.
+*/
+
+#include <iostream>
+#include <vector>
+#include <sstream>
+#include <istream>
+#include <unordered_map>
+#include <cctype>
+#include <algorithm>
+
+using namespace std;
+
+class MyPrefixSearch {
+    string _document;
+public:
+    MyPrefixSearch( string document )
+    {
+        _document = document;
+    }
+
+    /*
+    * findAll: Return a list of all locations in a document where the
+    * (case insensitive) word begins with the given prefix.
+    *
+    * Example:  given the document "a aa Aaa abca bca",
+    *   1) findAll("a")   -> [0, 2, 5, 9]
+    *   2) findAll("bc")  -> [14]
+    *   3) findAll("aA")  -> [2, 5]
+    *   4) findAll("abc") -> [9]
+    *
+    **/
+    bool starts_with(string big, string prefix) {
+        int prefix_size = prefix.size();
+        int big_size = big.size();
+        if(big_size < prefix_size)
+            return false;
+        int j = 0;
+        while(big[j] == ' ') {
+            j++;
+        }
+        for(int i = 0; i < prefix.size(); i++) {
+            if(tolower(big[j]) != prefix[i])
+                return false;
+            j++;
+        }
+        return true;
+    }
+    vector<int> findAll( string prefix )
+    {
+        // TODO: Implement this function
+        vector<int> locations;
+        unordered_map<string,vector<int>> text_index;
+        istringstream iss(_document);
+        string sentence = "";
+        int index = 0;
+        while(getline(iss,sentence)) {
+            istringstream curr(sentence);
+            string word = "";
+            while(getline(curr,word, ' ')) {
+                if(text_index.find(word) == text_index.end()) {
+                    vector<int> temp;
+                    temp.push_back(index);
+                    text_index.insert(make_pair(word,temp));
+                }
+                else {
+                    text_index[word].push_back(index);
+                }
+                index += word.size() + 1;
+            }
+        }
+
+        string prefixWord = "";
+        for(auto it = text_index.begin(); it!= text_index.end(); it++) {
+            if(starts_with(it->first,prefix) == true) {
+                prefixWord = it->first;
+                vector<int> curr_location = it->second;
+                for(int i = 0; i < curr_location.size(); i++)
+                    locations.push_back(curr_location[i]);
+            }
+        }
+        sort(locations.begin(), locations.end());
+        return locations;
+    }
+};
+
+
+///////////////    TESTS   ///////////////////
+
+const char * DOCUMENT = "In publishing and graphic design, lorem ipsum is a "
+                        "filler text commonly used to demonstrate the graphic elements of a "
+                        "document or visual presentation. Replacing meaningful content that "
+                        "could be distracting with placeholder text may allow viewers to focus "
+                        "on graphic aspects such as font, typography, and page layout. It also "
+                        "reduces the need for the designer to come up with meaningful text, as "
+                        "they can instead use hastily generated lorem ipsum text. The lorem "
+                        "ipsum text is typically a scrambled section of De finibus bonorum et "
+                        "malorum, a 1st-century BC Latin text by Cicero, with words altered, "
+                        "added, and removed to make it nonsensical, improper Latin. A variation "
+                        "of the ordinary lorem ipsum text has been used in typesetting since "
+                        "the 1960s or earlier, when it was popularized by advertisements for "
+                        "Letraset transfer sheets. It was introduced to the Information Age in "
+                        "the mid-1980s by Aldus Corporation, which employed it in graphics and "
+                        "word processing templates for its desktop publishing program, "
+                        "PageMaker, for the Apple Macintosh. A common form of lorem ipsum "
+                        "reads: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do "
+                        "eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
+                        "minim veniam, quis nostrud exercitation ullamco laboris nisi ut "
+                        "aliquip ex ea commodo consequat. Duis aute irure dolor in "
+                        "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla "
+                        "pariatur. Excepteur sint occaecat cupidatat non proident, sunt in "
+                        "culpa qui officia deserunt mollit anim id est laborum.";
+
+bool doTestsPass() {
+    bool result = false;
+    MyPrefixSearch prefixSearch(DOCUMENT);
+
+    vector<int> expected_demonstrate{80};
+    vector<int> expected_pub{3, 988 };
+    vector<int> expected_publishing{3, 988};
+    vector<int> expected_lab{ 1173, 1263, 1517 };
+    vector<int> expected_laborum{1517};
+    vector<int> expected_in{0, 404, 717, 839, 857, 873, 930, 1159, 1334, 1351, 1468};
+    vector<int> expected_lor{34, 434, 456, 686, 1061, 1080};
+    vector<int> expected_l{34, 309, 434, 456, 557, 651, 686, 806, 1061, 1080, 1173, 1263, 1517};
+    result = ( prefixSearch.findAll("demonstrate")   == expected_demonstrate
+               && prefixSearch.findAll("pub")         == expected_pub
+               && prefixSearch.findAll("publishing")  == expected_publishing
+               && prefixSearch.findAll("lab")         == expected_lab
+               && prefixSearch.findAll("laborum")     == expected_laborum
+               && prefixSearch.findAll("in")          == expected_in
+               && prefixSearch.findAll("lor")         == expected_lor
+               && prefixSearch.findAll("l")           == expected_l
+               && prefixSearch.findAll("hamburger").size() == 0
+               && prefixSearch.findAll(" ").size() == 0 );
+    /*vector<int> locations = prefixSearch.findAll(("lab"));
+    for(int i = 0; i < locations.size(); i++)
+        cout << locations[i] << endl;
+    if(prefixSearch.findAll(("lab")) == expected_lab)
+        cout << "true" ;
+    else
+        cout << "false";*/
+    return result;
+}
+
+int main()
+{
+    if (doTestsPass()) {
+        cout << "All tests passed." << endl;
+    }
+    else {
+        cout << "Test failed." << endl;
+    }
+    return 0;
+}
