@@ -1,0 +1,93 @@
+/*
+I/p: n = 7 
+permutation = [ 6, 4, 1, 5, 7, 2, 7 ]
+
+0  1  2  3  4  5  6
+ 
+6, 4, 1, 5, 7, 2, 7 
+2 4 1 5 7 6 7
+
+
+2  4  1  5  7  6  7 
+2  5  1  4  7  6  7
+5  2  1  4  7 6 7
+1 2 3 4 5 6 7 
+
+5  2  1 4  7  6  7
+1  5  2  4  7  6  3
+1  5  2  4  7  6  3
+1  7  2  4  5  6  3
+1 2 7 4 5 6 3
+1 2 3 4 5 6 7
+1 2 3 4 5 6 7
+
+
+
+
+if 2 ! = 0
+swap (2,arr[arr[i]-1])
+
+
+
+return = 7
+
+Linear time and constant space
+
+when he said linear, i could have come up with a near linear solution first
+
+Time complexity : O(n) * n/2
+space complexity : O(n) * n/2    
+*/
+
+//6, 4, 1, 5, 7, 2, 7 
+
+void swap(vector<int>& arr, int i, int j) {
+    int temp = arr[i]
+    arr[i] = arr[j];
+    arr[j] = temp;
+}
+
+int find_duplicate(vector<int>& arr) {
+    int n = arr.size();
+    int result = 0;
+    int i = 1;
+    while( i < n) {
+        while(arr[i] != i+1) { 
+            if(arr[i] != arr[arr[i]-1])
+                swap(arr, i, arr[i] - 1);
+            else {
+                return arr[i];
+            }
+        }
+        i++;
+    }
+    return result;
+}
+
+test 1: 6 != 1
+        swap(6,2)
+   //2, 4, 1, 5, 7, 6, 7    
+           2 != 1
+         swap(2,4)
+    
+    // 4 , 2 , 1, 5, 7, 6, 7
+    
+    4 != 1
+    swap(4,5)
+    // 5 , 2 , 1, 4, 3, 6, 7
+    swap(5,7)
+    // 3 , 2 , 1, 4, 5, 6, 7
+    //1, 2 , 3, 4, 5, 6, 7
+    //i = 1, j =2
+    i = 2, j = 3
+    i = 3 j = 4
+     i = 6, j = 7
+         return 0;
+        
+    
+    
+    
+    
+    
+    
+    
