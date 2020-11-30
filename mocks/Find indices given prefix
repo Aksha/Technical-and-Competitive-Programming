@@ -1,5 +1,4 @@
 /*
- * Instructions to candidate.
  *  1) Run this code in the REPL to observe its behaviour. The execution entry point is main().
  *  2) Provide an implementation of the findAll method in MyPrefixSearch.
  *  3) Describe any trade-offs arising from your implementation.
