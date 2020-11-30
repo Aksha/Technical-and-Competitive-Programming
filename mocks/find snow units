@@ -1,0 +1,52 @@
+This is similar to trapping rain water problem:
+
+**  1) Given an array of non-negative integers representing the elevations
+**     from the vertical cross section of a range of hills, determine how
+**     many units of snow could be captured between the hills. 
+**
+**     See the example array and elevation map below.
+**                                 ___
+**             ___                |   |        ___
+**            |   |        ___    |   |___    |   |
+**         ___|   |    ___|   |   |   |   |   |   |
+**     ___|___|___|___|___|___|___|___|___|___|___|___
+**     {0,  1,  3,  0,  1,  2,  0,  4,  2,  0,  3,  0}
+**                                 ___
+**             ___                |   |        ___
+**            |   | *   *  _*_  * |   |_*_  * |   |
+**         ___|   | *  _*_|   | * |   |   | * |   |
+**     ___|___|___|_*_|___|___|_*_|___|___|_*_|___|___
+**     {0,  1,  3,  0,  1,  2,  0,  4,  2,  0,  3,  0}
+**
+**     Solution: In this example 13 units of snow (*) could be captured.
+**
+**  2) Consider adding some additional tests in doTestsPass().
+**  3) Implement computeSnowpack() correctly.
+*/
+
+#include <iostream>
+#include <vector>
+#include <climits>
+
+using namespace std;
+
+/*
+**  Find the amount of snow that could be captured.
+*/
+int computeSnowpack(int arr[], int arr_size)
+{
+  // Todo: Implement computeSnowpack
+  int result = 0;
+  for(int i = 0; i < arr_size; i++) {
+    int left_max = INT_MIN;
+    int right_max = INT_MIN;
+    for(int j = i; j >= 0; j--) {
+      left_max = max(left_max, arr[j]);
+    }
+    for(int j = i; j < arr_size; j++) {
+      right_max = max(right_max, arr[j]);
+    }
+    result += min(left_max,right_max) - arr[i];
+  }
+  return result;
+}
