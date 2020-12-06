@@ -1,0 +1,124 @@
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <unordered_map>
+#include <string>
+#include <cctype>
+#include <unordered_set>
+
+using namespace std;
+
+// A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+// T H E Q U I C K O N Y X G B L R A S W D J M P V Z F
+
+
+/*
+You decide to create a substitution cipher. The cipher alphabet is based on a key shared amongst those of your friends who don't mind spoilers.
+
+Suppose the key is:
+"The quick onyx goblin, Grabbing his sword ==}-------- jumps over the lazy dwarf!". 
+
+We use only the unique letters in this key to set the order of the characters in the substitution table.
+
+T H E Q U I C K O N Y X G B L R A S W D J M P V Z F
+
+(spaces added for readability)
+
+We then align it with the regular alphabet:
+A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+T H E Q U I C K O N Y X G B L R A S W D J M P V Z F
+
+Which gives us the substitution mapping: A becomes T, B becomes H, C becomes E, etc.
+
+Write a function that takes a key and a string and encrypts the string with the key.
+
+Example:
+key = "The quick onyx goblin, Grabbing his sword ==}-------- jumps over the 1st
+lazy dwarf!"
+encrypt("It was all a dream.", key) -> "Od ptw txx t qsutg."
+encrypt("Would you kindly?", key) -> "Pljxq zlj yobqxz?"
+
+Complexity analysis:
+
+m: The length of the message
+k: The length of the key
+
+*/
+
+string transpose(string message, int row, int col) {
+    vector<vector<char>> transposed_matrix(row,vector<char>(col, ' '));
+    int k = 0;
+    for(int i = 0; i < row; i++) {
+        for(int j = 0; j < col; j++) {
+            //cout << "char : " <<  message[k] << "row : " << i << " col " << j << endl;
+            transposed_matrix[i][j] = message[k];
+            k++;
+        }
+    }
+
+    string result = "";
+    for(int i = 0; i < col; i++) {
+        for(int j = 0; j < row; j++) {
+            result += transposed_matrix[j][i];
+        }
+    }
+
+    return result;
+}
+
+string sanitization(string key){
+    int i = 0;
+    string sanitization = "";
+    unordered_set<char> duplicates;
+    while( i < key.size()) {
+        if(isalpha(key[i]) && duplicates.find(key[i]) == duplicates.end()) {
+            sanitization += key[i];
+            duplicates.insert(tolower(key[i]));
+            duplicates.insert(toupper(key[i]));
+        }
+        i++;
+    }
+    return sanitization;
+}
+string encrypt(string message, string key) {
+    string sanitize = sanitization(key);//sanitation with duplicates, special characters and s  //spaces removed
+    cout << "the key after saniitzing : " << sanitize << endl;
+    unordered_map<char,char> lower;
+    unordered_map<char,char> upper;
+    int i = 0;
+    for(char j = 'a'; j <= 'z'; j++) {
+        lower.insert(make_pair(j,tolower(sanitize[i])));
+        upper.insert(make_pair(toupper(j),toupper(sanitize[i])));
+        i++;
+    }
+    string result = "";
+    for(int i = 0; i < message.size(); i++) {
+        if(message[i] == ' ') {
+            result += ' ';
+        }
+        else if (!isalpha(message[i])) {
+            result += message[i];
+        }
+        else if(isupper(message[i])) {
+            result += upper[message[i]];
+        }
+        else {
+            result += lower[message[i]];
+        }
+    }
+    return result;
+}
+
+int main() {
+
+    string key = "The quick onyx goblin, Grabbing his sword ==}-------- jumps over the 1st lazy dwarf!";
+    //string message = "It was all a dream.";
+    string message2 = "Would you kindly?";
+
+    string encrypted = encrypt(message2,key);
+    cout << "The encrypted message is : " << encrypted << endl;
+
+    return 0;
+}
