@@ -1,0 +1,67 @@
+private static int[] getItems(String s, int[] startIndex, int[] endIndex) {
+        int[] answer = new int[endIndex.length];
+
+        for (int i = 0; i < startIndex.length; i++) {
+            int j=startIndex[i]-1, k = endIndex[i]-1;
+            while (j < endIndex[i]){
+                if(s.charAt(j) == '|'){
+                    break;
+                }
+                j++;
+            }
+
+            while(k > startIndex[i]){
+                if(s.charAt(k) == '|'){
+                    break;
+                }
+                k--;
+            }
+            int count = 0;
+            for(int p = j; p<k; p++){
+                if(s.charAt(p) == '*'){
+                    count++;
+                }
+            }
+            answer[i] = count;
+        }
+        return answer;
+    }
+    
+//Better approach O(n) time complexity solution.
+/*int m = startIndices.size();
+int n = endIndices.size();
+if (m != n) {
+    return {};
+}
+vector<int> result(m);
+string mem = "";
+int count = 0;
+for(auto i : s) {
+    if(i == '|') {
+        mem = mem + to_string(count);
+        count += 1;
+    }
+    else {
+        mem = mem + '*';
+    }
+}
+for(size_t i = 0; i < m; i++) {
+    size_t j = startIndices[i] - 1;
+    size_t k = endIndices[i] - 1;
+    if(j >= k) {
+        continue;
+    }
+    while(j < k && j < s.size() && mem[j] == '*') {
+        j += 1;
+    }
+    while(j < k && k >= 0 && mem[k] == '*') {
+        k -= 1;
+    }
+    if(j >= s.size() && k < 0) {
+        result[i] = 0;
+    }
+    else {
+        result[i] = (k-j) - (mem[k] - mem[j]);
+    }
+}
+return result; */
