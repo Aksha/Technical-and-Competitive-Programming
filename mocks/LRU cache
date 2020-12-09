@@ -1,0 +1,106 @@
+#include <iostream>
+#include <unordered_map>
+#include <list>
+
+using namespace std;
+
+typedef list<pair<int,string>> li;
+
+class LRUCache {
+private:
+    int capacity;
+    li ordering;
+    li::iterator address;
+    unordered_map<int, li::iterator> cache;
+
+public:
+    LRUCache(int n) {
+        capacity = n;
+    }
+
+    void set(int key, string value) {
+        //cache has reached capacity or not
+        if(cache.size() == capacity) {
+            if(cache.find(key) != cache.end()) {
+                address = cache[key];
+                ordering.erase(address);
+                cache.erase(key);
+            }
+            else {
+                cache.erase(ordering.back().first);
+                ordering.pop_back();
+            }
+        }
+        else if(cache.size() < capacity) {
+            if(cache.find(key) != cache.end()) {
+                address = cache[key];
+                ordering.erase(address);
+                cache.erase(key);
+            }
+        }
+        ordering.push_front(make_pair(key,value));
+        cache[key] = ordering.begin();
+    }
+
+    string get(int key) {
+        //if key is present or not
+        if(cache.find(key) == cache.end()) {
+            return -1;
+        }
+        else {
+            address = cache[key];
+            int value = address->second;
+            ordering.erase(address);
+            ordering.push_front(make_pair(key,value));
+            cache[key] = ordering.begin();
+            return value;
+        }
+    }
+};
+// To execute C++, please define "int main()"
+int main() {
+    LRUCache obj(2);
+    obj.set(1,"apple");
+    obj.set(100,"banana");
+    obj.set(200,"pear");
+    cout << obj.get(1) << endl; //apple
+    obj.set(300,"peach");
+    cout << obj.get(100) << endl; // ""
+    cout << obj.get(200) << endl; //""
+    cout << obj.get(300) << endl; //peach
+    // return 0;
+}
+
+
+/*
+
+get(key) -> value
+set(key, value)
+int n = 3
+
+1. Init cache with size 2
+cache: []
+
+2. set(1, "apple")
+cache: [{1, "apple"}]
+
+3. set(100, "banana")
+cache: [{1, "apple"}, {100, "banana"}]
+
+4. set(200, "pear")
+cache: [{100, "banana"}, {200, "pear"}]
+
+5. get(100) -> "banana"
+
+6. set(300, "orange")
+cache: [{200, "pear"}, {300, "orange"}]
+
+
+hashmap : cache = unordered_map<int, list<int>::iterator>> cache;
+list<pair<int, string>> ordering;
+
+get and set : O(1) time
+
+
+
+ */
