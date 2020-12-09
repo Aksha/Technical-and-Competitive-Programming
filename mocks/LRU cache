@@ -45,11 +45,11 @@ public:
     string get(int key) {
         //if key is present or not
         if(cache.find(key) == cache.end()) {
-            return -1;
+            return "";
         }
         else {
             address = cache[key];
-            int value = address->second;
+            string value = address->second;
             ordering.erase(address);
             ordering.push_front(make_pair(key,value));
             cache[key] = ordering.begin();
@@ -61,14 +61,15 @@ public:
 int main() {
     LRUCache obj(2);
     obj.set(1,"apple");
+    cout << obj.get(1) << endl; //apple
     obj.set(100,"banana");
     obj.set(200,"pear");
-    cout << obj.get(1) << endl; //apple
+    cout << obj.get(1) << endl; //""
+    cout << obj.get(100) << endl; //banana
     obj.set(300,"peach");
-    cout << obj.get(100) << endl; // ""
     cout << obj.get(200) << endl; //""
     cout << obj.get(300) << endl; //peach
-    // return 0;
+    return 0;
 }
 
 
