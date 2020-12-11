@@ -1,0 +1,118 @@
+
+Example 1:
+
+Input: [[1,1],2,[1,1]]
+Output: 10 
+Explanation: Four 1's at depth 2, one 2 at depth 1.
+Example 2:
+
+Input: [1,[4,[6]]]
+Output: 27 
+Explanation: One 1 at depth 1, one 4 at depth 2, and one 6 at depth 3; 1 + 4*2 + 6*3 = 27.
+
+/**
+ * // This is the interface that allows for creating nested lists.
+ * // You should not implement it, or speculate about its implementation
+ * class NestedInteger {
+ *   public:
+ *     // Constructor initializes an empty nested list.
+ *     NestedInteger();
+ *
+ *     // Constructor initializes a single integer.
+ *     NestedInteger(int value);
+ *
+ *     // Return true if this NestedInteger holds a single integer, rather than a nested list.
+ *     bool isInteger() const;
+ *
+ *     // Return the single integer that this NestedInteger holds, if it holds a single integer
+ *     // The result is undefined if this NestedInteger holds a nested list
+ *     int getInteger() const;
+ *
+ *     // Set this NestedInteger to hold a single integer.
+ *     void setInteger(int value);
+ *
+ *     // Set this NestedInteger to hold a nested list and adds a nested integer to it.
+ *     void add(const NestedInteger &ni);
+ *
+ *     // Return the nested list that this NestedInteger holds, if it holds a nested list
+ *     // The result is undefined if this NestedInteger holds a single integer
+ *     const vector<NestedInteger> &getList() const;
+ * };
+ */
+
+Recursive approach: 
+class Solution {
+    
+public:
+    void depthSumInverse_helper(vector<NestedInteger>& nestedList, int i, int depth, int& result) {
+        if( i == nestedList.size()) {
+            return;
+        }
+        else {
+            if(nestedList[i].isInteger()) {
+                depth = 1;
+                result += nestedList[i]*depth;
+                depthSumInverse_helper(nestedList, position+1, depth, result);
+            }
+            else {
+                vector<int> nlist = nestedList[i];
+                depth = depth + 1;
+                for(int i = 0; i < nlist.size(); i++) {
+                    result += nlist[i]*depth;
+                }
+                depthSumInverse_helper(nestedList, position+1,depth+1, result)
+            }
+        }
+        return;
+    }
+    int depthSumInverse(vector<NestedInteger>& nestedList) {
+        int result = 0;
+        int depth = 1;
+        int position = 0;
+        depthSumInverse_helper(nestedList, position, depth, result);
+        return result;
+    }
+};
+
+Iterative approach:
+struct Node {
+    NestedInteger val;
+    int count;
+};
+class Solution {
+public:
+    int depthSum(vector<NestedInteger>& nestedList) {
+        int sum = 0;
+        stack <Node> s;
+        int count = 1;
+        for(int i = 0; i < nestedList.size(); i++) {
+            NestedInteger current = nestedList[i];
+            if(current.isInteger()) {  
+                Node n;
+                n.val = current;
+                n.count = count;
+                s.push(n);
+                count = 0;
+            }
+            else {
+                vector <NestedInteger> adjacentIntegers = current.getList();
+                for(int i = 0; i < adjacentIntegers.size(); i++) {
+                    Node n;
+                    n.val = adjacentIntegers[i];
+                    n.count = count;
+                    s.push(n);
+                    count++;
+                }
+            }
+        }
+    
+        while(!s.empty()) {
+            Node current = s.top();
+            s.pop();
+            int current_value = current.val.getInteger();
+            int count1 = current.count;
+            sum += count1 * current_value; 
+            cout << current.val.getInteger() << " : " << current.count << endl;
+        }
+        return sum;
+    } 
