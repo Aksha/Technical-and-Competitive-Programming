@@ -1,5 +1,7 @@
 Brute force solution:
 
+O(n) or O(n/2). can you make it logn to the base 2?
+
 class Solution {
 public:
     double myPow(double x, int n) {
@@ -88,7 +90,7 @@ public:
     }
 };
 
-Better solution: 
+Better solution: log(n)
    double pow(double x, int n) {
         if (n==0) return 1;
         double t = pow(x,n/2);
