@@ -1,0 +1,54 @@
+244. Shortest Word Distance II
+
+Design a class which receives a list of words in the constructor, and implements a method that takes two words word1 and word2 and return the shortest distance between these two words in the list. Your method will be called repeatedly many times with different parameters. 
+
+Example:
+Assume that words = ["practice", "makes", "perfect", "coding", "makes"].
+
+Input: word1 = “coding”, word2 = “practice”
+Output: 3
+Input: word1 = "makes", word2 = "coding"
+Output: 1
+
+class WordDistance {
+private:
+    unordered_map<string,vector<int>> umap;    
+public:
+    WordDistance(vector<string>& words) {
+        for(int i = 0; i < words.size(); i++) {
+            if(umap.find(words[i]) == umap.end()) {
+                vector<int> temp = {i};
+                umap.insert(make_pair(words[i],temp));
+            }
+            else {
+                umap[words[i]].push_back(i);
+            }
+        }
+    }
+    
+    int shortest(string word1, string word2) {
+        if(umap.find(word1) == umap.end() || umap.find(word2) == umap.end())
+            return 0;
+        vector<int> word1_indices = umap[word1];
+        vector<int> word2_indices = umap[word2];
+        int i = 0; int j = 0;
+        int m = word1_indices.size(); int n = word2_indices.size();
+        int distance = INT_MAX;
+        while(i < m && j < n) { //O(n = max(word1_indices.size(), word2_indices.size())) instead of O(n^2)
+            distance = min(distance, abs(word1_indices[i]-word2_indices[j]));
+            if(word1_indices[i]  < word2_indices[j]) {
+                i++;
+            }
+            else {
+                j++;
+            }
+        }
+        return distance;
+    }
+};
+
+/**
+ * Your WordDistance object will be instantiated and called as such:
+ * WordDistance* obj = new WordDistance(words);
+ * int param_1 = obj->shortest(word1,word2);
+ */
