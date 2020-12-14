@@ -1,0 +1,64 @@
+class Solution {
+    
+    /*
+        50   10   40   70
+        
+    90  120  10   90   120 
+        
+        
+        maximum = max(maximum, sum of the current and it's root)
+        A brute force solution :
+        For every element in the input PROFIT array. 
+        start_time hash set and end_time hash set. 
+        Keep inserting the qualify elements without overlaps in any of the qualifying profits and the current element
+        return max value after one full iteration of the remainder of the values except itself.
+        O(n^3) solution. O(n) for start_time and O(n) for the end time
+        
+        
+        Dynamic Programming solution:
+        start at i = 0; 
+        i == n (calculate maximum and return;)
+        for(every element in the profit array)
+            check if any of the other elements qualify for an overlap or not.
+        
+    */
+public:
+    int jobScheduling(vector<int>& s, vector<int>& e, vector<int>& a) {
+        
+        vector<pair<int,pair<int,int>>>p;
+        for(int i=0;i<s.size();i++)
+        {
+            p.push_back({e[i],{s[i],a[i]}});
+        }
+    sort(p.begin(),p.end());
+    
+    vector<int>dp(a.size());
+    
+    dp[0]=p[0].second.second;
+    for(int i=1;i<s.size();i++)
+    {
+        dp[i]=max(dp[i-1],p[i].second.second);
+        cout<<dp[i]<<" ";
+        for(int j=i-1;j>=0;j--)
+        {
+            if(p[j].first<=p[i].second.first)
+            {
+                dp[i]=max(dp[i],dp[j]+p[i].second.second);
+                break;
+            }
+        }
+    }
+    
+    int mx=INT_MIN;
+    for(auto x:dp)
+    {
+        if(x>mx)
+        {
+            mx=x;
+        }
+    }
+    
+    return mx;
+        
+    }
+};
