@@ -1,0 +1,182 @@
+/**
+
+Max sum of a triangle
+
+   3
+  7 4
+ 2 4 6
+8 5 9 3
+
+         3
+      7    4
+    2  4  4  6
+    
+    
+      
+ 
+ smaller triangle
+   3
+  7 4
+ 2 4 6
+ output = 14
+ 
+ bigger triangle
+   3
+  7 4
+ 2 4 6
+18 5 9 13
+output = 19 
+
+Output : 23
+Explanation : 3 + 7 + 4 + 9 = 23 
+
+Stored as 
+[3]
+[7,4]
+[2,4,6]
+[8,5,9,3]
+
+OR
+[3,7,4,2,4,6,8,5,9,3]
+
+3->7->2->8
+
+     3
+  10   7
+12  14  13
+20 (17,19)
+
+
+
+
+      00      PARENT i,j = 00
+    10 11    children i+1,j i+1,j+1
+  20 21 22child(child)((i+1)+1,j) (i+1+1,j+1)
+30 31 32 33
+
+    parent
+    /\
+child1 child2
+/\
+child11 child12
+  8
+ -4 4
+ 2 2 6
+1 1 1 1
+
+Output : 19
+Explanation : 8 + 4 + 6 + 1 = 19
+
+
+*/
+
+#include <iostream>
+#include <climits>
+#include <vector>
+using namespace std;
+
+void max_sum_of_triangle(vector<vector<int>> arr, int i, int j, int rows, int& maximum, int sum) {
+  if(i == rows){
+    maximum = max(maximum,sum);
+    return;
+  }
+  max_sum_of_triangle(arr,i+1,j,rows,maximum, sum+arr[i][j]);
+  max_sum_of_triangle(arr,i+1,j+1,rows,maximum, sum+arr[i][j]);
+  return;
+}
+
+/*
+[3]  = 3
+[7,4] = 10,7
+[2,4,6] = 12,14, 11, 13
+[8,5,9,3] =
+
+j = 0 and j = row value ; j = 0 add value as j, j = row value, add value as j-1
+
+*/
+
+int max_sum_of_triangle_iterative(vector<vector<int>> arr) {
+  //vector<vector<int>> dp = arr;
+  int row = arr.size()-1;
+  for(int i = row-1; i>= 0; i--) {
+    for(int j = 0; j <= i; j++) {
+      if(arr[i+1][j] > arr[i+1][j+1]) {
+        arr[i][j] += arr[i+1][j];
+      }
+      else {
+        arr[i][j] += arr[i+1][j+1];
+      }
+    }
+  }
+  
+  /*for(int i = 0; i < arr.size(); i++) {
+    for(int j = 0; j < arr[i].size(); j++) {
+      cout << arr[i][j] << " ";
+    }
+    cout << endl;
+  }*/
+  return arr[0][0];
+}
+
+int max_sum_of_triangle_iterative1(vector<vector<int>> arr) {
+    //vector<vector<int>> dp = arr;
+    for(int i = 1; i< arr.size(); i++) {
+        for(int j = 0; j <= i; j++) {
+            if(j == 0)
+                arr[i][j] += arr[i-1][j];
+            else if(j == i)
+                arr[i][j] += arr[i-1][j-1];
+            else
+                arr[i][j] += max(arr[i-1][j-1], arr[i-1][j]);
+        }
+    }
+    int maximum = INT_MIN;
+    for(int i = 0; i < arr.size(); i++) {
+        maximum = max(maximum,arr[arr.size()-1][i]);
+    }
+    return maximum;
+}
+
+/*
+i = 0, j = 0
+sum = 3
+ 
+ i = 1, j = 0
+ sum = 10
+ 
+ i = 2, j = 0
+ sum = 12
+ 
+ i = 3, j = 0
+ sum = 20
+ 
+ maximum = 20
+ 
+ i = 3, j = 1
+ sum = 17
+ 
+ maximum = 20
+ 
+ i = 2, j = 1
+ sum = 16
+ 
+ maximum = 20
+ 
+ 
+ 
+*/
+int main() {
+  vector<vector<int>> arr1 = {{3}, {7,4}, {2,4,6},{8,5,9,3}};
+  vector<vector<int>> arr = {{8},{-4,4}, {2,2,6}, {1,1,1,1}};
+  int i = 0; int j = 0;
+  int rows = arr.size();
+  int sum = 0;
+  int maximum1 = INT_MIN;
+  max_sum_of_triangle(arr1,i,j,rows,maximum1, sum);
+  cout << " the maximum value using recursion is : " << maximum1 << endl;
+  int maximum2 = max_sum_of_triangle_iterative(arr1);
+  cout << " the maximum value using DP is : " << maximum2 << endl;
+    int maximum3 = max_sum_of_triangle_iterative1(arr1);
+    cout << " the maximum value using DP (my way) is : " << maximum3 << endl;
+  return 0;
+}
