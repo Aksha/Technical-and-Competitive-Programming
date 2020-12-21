@@ -1,0 +1,84 @@
+#include <iostream>
+using namespace std;
+ 
+struct node{
+  char a;
+  int r;
+  int c;
+  node (Maze maze, int x, int y) {
+    a = maze.get(x,y);
+    r = x;
+    c = y;
+  }
+};
+ 
+bool isPossible(Maze maze, int row, int col, int rows, int cols) {
+  if(row < 0 || row >= rows || col < 0 || col >= cols)
+    return false;
+  return true;
+}
+bool canReachCrown(Maze maze, int x, int y) {
+  int rows = maze.numRows();
+  int cols = maze.numCols();
+  if(maze.get(x,y) == 'C')
+    return true;
+  else 
+    return false;
+  queue<Node> Q;
+  Node n(maze, x, y);
+  Q.push(n);
+  vector<vector<bool>> visited(rows,vector<bool>(cols,false));
+  vector<int> neighbour_r = {0,0,-1,1};
+  vector<int> neighbour_c = {-1,1,0,0};
+  while(!Q.empty()) {
+    Node front = Q.front;
+    Q.pop();
+    int curr_row = front.r;
+    int curr_col = front.c;
+    if(visited[r][c])
+      continue;
+    for(int i = 0; i < 4; i++) {
+       int next_row = curr_row + neighbour_r[i];
+       int next_col = curr_col + neighbour_c[i];
+       if(isPossible(maze,next_row, next_col, rows, cols)) {
+         if(maze.get(next_row,next_col) == 'C') {
+           return true;
+         }
+         else if(maze.get(maze,next_row, next_col) == '#') {
+           continue;
+         }
+         else {
+           Node n1(maze,next_row,next_col);
+           Q.push(n1);
+         }
+         visited[next_row][next_col] = true;
+       }
+    }
+  }
+  return false;
+}
+ 
+int main() {
+  
+  return 0;
+}
+ 
+/*
+ 
+Maze Navigation
+ 
+/-----\
+| # # |
+|S#  C|
+|   ##|
+| #   |
+\-----/
+ 
+Maze
++ get(x, y)
+  return WALL, EMPTY, CROWN
+  
++ numRows()
++ numCols()
+
+bool canReachCrown(Maze maze, int x, int y)
