@@ -1,0 +1,66 @@
+#include <iostream>
+#include <unordered_set>
+#include <unordered_map>
+#include <vector>
+
+using namespace std;
+
+bool checkSimilarity(string s1, string s2) {
+  unordered_map<char,char> comparison;
+  for(int i = 0; i < s1.size(); i++) {
+    if(comparison.find(s1[i]) == comparison.end() && comparison.find(s2[i]) == comparison.end()) {
+      comparison.insert(make_pair(s1[i], s2[i]));
+      comparison.insert(make_pair(s2[i], s1[i]));
+    }
+    else if((comparison.find(s1[i]) == comparison.end() && comparison.find(s2[i]) != comparison.end()) || (comparison.find(s2[i]) == comparison.end() && comparison.find(s1[i]) != comparison.end())){
+      return false;
+    }
+    else if(comparison[s1[i]] != s2[i] || comparison[s2[i]] != s1[i]) {
+        return false;
+    }
+  }
+ return true;
+}
+
+
+vector<unordered_set<string>> similar_group(vector<string> arr) {
+  vector<unordered_set<string>> result;
+  unordered_set<string> similar_visited;
+  for(int i = 0; i < arr.size(); i++) {
+    string curr_string = arr[i]; //cat
+    if(similar_visited.find(curr_string) != similar_visited.end())
+      continue;
+    unordered_set<string> temp;
+    temp.insert(curr_string); // temp = {cat}
+    for(int j = i+1;  j < arr.size(); j++) {
+      if(j == i)
+        continue;
+      string comp_string = arr[j];
+      if(curr_string.size() != comp_string.size()) {
+        continue;
+      }
+      if(similar_visited.find(comp_string) != similar_visited.end()) {
+        continue;
+      }
+      if(checkSimilarity(curr_string,comp_string)) {
+        temp.insert(comp_string);
+        similar_visited.insert(comp_string);
+        similar_visited.insert(curr_string);
+      }
+    }
+    result.push_back(temp);
+  }
+  return result;
+}
+
+int main() {
+  vector<string> arr = {"cat", "aabbcc", "mom", "dog", "dad", "xxyyzz", "aaaabb", "nap", "tat"};
+  vector<unordered_set<string>> result = similar_group(arr);
+  for(int i = 0; i < result.size(); i++) {
+    for(auto it = result[i].begin(); it != result[i].end(); ++it) {
+      cout << *it << ", ";
+    }
+    cout << endl;
+  }
+  return 0;
+}
