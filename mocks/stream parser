@@ -1,0 +1,111 @@
+// StreamParser: 
+// [header][payload][header][payload][header][payload][header][payload].....
+// header -> 4 bytes -> length of the payload -> len
+// payload -> len bytes
+
+// payload: 10 bytes
+// chunk pieces: 3 bytes, 4 bytes,  3 bytes, 4 bytes.....
+
+struct byte {
+  string header;
+  string payload;
+  byte() {
+    header = "";
+    payload = "";
+  }
+};
+
+
+// void accept(byte[] chunk) {
+  
+// }
+
+
+// void processPayload(byte[] payload);
+
+// chunk pieces: 3 bytes, 4 bytes,  3 bytes, 4 bytes.....
+
+class StreamParser {
+  private:
+    string header = "";
+    string payload = "";
+
+  public:
+    void accept (string chunk) {
+      int index = 0;
+      string curr_header = "";
+      if(!chunk.empty()) {
+        return;
+      }
+      //read 4 bytes of data. 
+      //if present, get the length of the payload from it and store it in a variable called header
+      //if not, wait to receive the remaining bytes/data.
+      //if header is not empty, read a payload of size (length) specified in the header if present.
+      //if not, wait to receive more data from the stream and store it under payload.
+      //call processPayload
+      
+      /*
+        3 < 4
+        header = 3 bytes
+        index = 3
+        
+        header = 4 bytes
+        index = 4 - 3 = 1
+        payload = 3 bytes
+        
+        payloadSize = 10
+        currSize = 3 
+        
+      */
+      if(header.size() + chunk.size() >= 4) {
+        header += chunk.substr(index, 4-header.size());
+        index = 4-header.size();
+        if(index < chunk.size()) {
+          payload += chunk.substr(index);
+        }
+      }
+      else if(index+header.size() < 4) {
+        header += chunk.substr(index);
+        index += header.size();
+        return;
+      }
+  
+    
+    curr_header = header;
+    int payloadSize = charArrayToInt(header);
+    int currSize = charArrayToInt(payload);
+    if(currSize == payloadSize) {
+        payload += chunk.subtr(index);
+        curr_header = header;
+        header = "";
+    
+    }
+    else if (currSize > payloadsize) {
+       payload += chunk.substr(index, payloadsize - currSize);
+       index += payload.size();
+       header += chunk.substr(index);  
+    }
+    curr_payload = payload;
+    payload = "";
+      
+    processPayload(curr_payload);
+    return;  
+  }
+
+void processPayload(string payload) {}
+  
+int charArrayToInt(char[] header) {}
+};
+  
+
+#include <iostream>
+using namespace std;
+
+// To execute C++, please define "int main()"
+int main() {
+  auto words = { "Hello, ", "World!", "\n" };
+  for (const string& word : words) {
+    cout << word;
+  }
+  return 0;
+}
