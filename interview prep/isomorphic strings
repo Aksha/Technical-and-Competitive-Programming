@@ -1,0 +1,42 @@
+Technique 1 : 
+
+    //O(n) time and O(1) space -> ascii characters have a max size of 128
+
+class Solution {
+public:
+    bool isIsomorphic(string s1, string s2) {
+      unordered_map<char,char> comparison;
+      unordered_set<char>values;
+      for(int i = 0; i < s1.size(); i++) {
+        if(comparison.find(s1[i]) == comparison.end() && values.find(s2[i]) == values.end()) {
+          comparison.insert(make_pair(s1[i], s2[i]));
+          values.insert(s2[i]);
+        }
+        else if (comparison.find(s1[i]) != comparison.end() && comparison[s1[i]] != s2[i])
+            return false;
+        else if(comparison.find(s1[i]) == comparison.end() && values.find(s2[i]) != values.end()) {
+            return false;
+        }
+      }
+     return true; 
+    }
+};
+
+Technique 2:
+
+O(n) time and O(1) space -> ascii characters have a max size of 128
+class Solution {
+public:
+    //O(n) time and O(1) space - keep track of the index position and check for mismatch. They should have the same index position pattern if they have the same pattern or occurence (isomorphic)
+    bool isIsomorphic(string s1, string s2) {
+        vector<int> s1_count(128,0);
+        vector<int> s2_count(128,0);
+        for(int i = 0; i < s1.size(); i++) {
+            if(s1_count[s1[i]] != s2_count[s2[i]])
+                return false;
+             s1_count[s1[i]] = i+1;
+             s2_count[s2[i]] = i+1;
+        }
+        return true;
+    }
+};
