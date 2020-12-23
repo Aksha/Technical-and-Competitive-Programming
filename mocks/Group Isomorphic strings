@@ -1,3 +1,5 @@
+Solution 1 : The below solution takes O(n^2*m) time in the worst case.
+
 #include <iostream>
 #include <unordered_set>
 #include <unordered_map>
@@ -63,4 +65,57 @@ int main() {
     cout << endl;
   }
   return 0;
+}
+
+Solution 2: The below solution takes O(nm) time in the worst case where n is the number of strings and m is the length of the largest string.
+
+#include <iostream>
+#include <unordered_set>
+#include <unordered_map>
+#include <vector>
+
+using namespace std;
+
+unordered_map<long long int, vector<string>> group_isomorphic_string(vector<string> arr) {
+    unordered_map<long long int, vector<string>> index_pattern;
+    for(int i = 0; i < arr.size(); i++) {
+        long long int curr_pattern = 0;
+        unordered_map<char,int> curr_index;
+        for(int j = 0; j < arr[i].size(); j++) {
+            if(curr_index.find(arr[i][j]) != curr_index.end()) {
+                curr_pattern = curr_pattern*10 + curr_index[arr[i][j]];
+            }
+            else {
+                if(curr_pattern == 0) {
+                    curr_pattern = j+1;
+                }
+                else {
+                    curr_pattern = curr_pattern*10 + j+1;
+                }
+                curr_index.insert(make_pair(arr[i][j],j+1));
+            }
+        }
+        if(index_pattern.find(curr_pattern) != index_pattern.end()) {
+            index_pattern[curr_pattern].push_back(arr[i]);
+        }
+        else {
+            vector<string> temp = {arr[i]};
+            index_pattern.insert(make_pair(curr_pattern,temp));
+        }
+    }
+    return index_pattern;
+}
+
+
+int main() {
+    vector<string> arr = {"cat", "aabbcc", "mom", "dog", "dad", "xxyyzz", "aaaabb", "nap", "tat"};
+    unordered_map<long long int, vector<string>> result = group_isomorphic_string(arr);
+    for(auto it = result.begin(); it != result.end(); ++it) {
+        vector<string> curr_set = it->second;
+        for(int j = 0; j < curr_set.size(); j++) {
+            cout << curr_set[j] << " ";
+        }
+        cout << endl;
+    }
+    return 0;
 }
