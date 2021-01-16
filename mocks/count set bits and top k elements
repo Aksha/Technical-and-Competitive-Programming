@@ -1,0 +1,145 @@
+1. perform search in a log file of 1 gb .. find 500 error. What will you do if there are 100s of log file.
+2. 
+#include <iostream>
+#include <cmath>
+#include <cstdio>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+static int countSetBits(int x) {
+  int count = 0;
+  //string reminder_bits = "";
+  while(x != 0) {
+      int modulo = x%2;
+      if(modulo == 1) {
+          count += 1;
+      }
+ //     reminder_bits += modulo;
+      x /= 2;
+  }
+  return count;
+}
+
+int main() {
+    int x = 3;
+    int result = countSetBits(x);
+    cout << " The number of set bits : " << result << endl;
+    return 0;
+}
+
+// Assume x is unsigned 4 byte int
+// 3 : 011
+
+/*
+     3%2 = 1;
+     count = 1
+     reminder_bits = 
+*/
+
+
+3. lock and release
+
+// Multi-threaded web server that serves html files and tracks # of page visits
+class MyRequestHandler {
+    private:
+     int count = 0;
+    public:
+    // Millions -> Fire handle function thread .
+    char *handle(char *htmlFilePath) {
+        lock(count += 1);
+        release lock;
+        return retrieveFile(htmlFilePath) // Return the content of file. www.box.com/mypage.html -> "Hi its my page" 
+    }
+    int getNumPageVisits() {
+        return count;
+    }
+}
+
+4. k largest elements
+/* File system layout
+rootDir\
+   subDir\
+     file4
+     file5
+     ...
+       subDir2\
+         file6
+         file7
+         ...
+  ...
+  file1
+  file2
+  file3
+  ...
+*/
+
+/* example: 
+2 files, with 3 integers in each file
+/root/file1
+  12
+  825892
+  92389
+/root/subdir1/file2
+  238483
+  12
+  17888
+
+getTopKLargestIntegers("/root", 2) returns [825892, 238483]
+
+f = sys.io.file("path")
+f.is_dir() = true/false
+f[] = f.get_dir_content() : List of file/dir pointers 
+f.read() : Whatever the file pointer f points to. 
+
+*/
+
+class topK {
+    private:
+        priority_queue<int,largest<int>> pq;
+    public:
+    
+    void DFS(File f) {
+        for(int i = 0; i < f.size(); i++) {
+            if(f[i].is_file()) {
+                while(!f[i].open().empty()) {
+                    istringstream iss = f[i].open();
+                    int curr_int = 0;
+                    while(getline(iss, curr_int)) {
+                       if(pq.size() <= k) {
+                           pq.push(curr_int);
+                        } 
+                        else {
+                            if(curr_int > pq.top()) {
+                                pq.pop();
+                                pq.push(curr_int);
+                            }
+                        }
+                    }
+                }
+                
+            }
+            else {
+                DFS(f[i]);
+            }
+        }
+        vector<int> result;
+        while(!pq.empty()) {
+		int top = pq.top();
+		result.push_back();
+		pq.pop();
+	}
+	return result;
+    }
+      static int[] getTopKLargestIntegers(char *rootDir, int k) {
+        f = sys.io.file("path")
+        f.is_dir() = true/false
+        f[] = f.get_dir_content()
+        DFS(f)
+    }  
+};
+
+
+
