@@ -1,0 +1,89 @@
+#include <iostream>
+#include <cmath>
+#include <cstdio>
+#include <string>
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+#include <queue>
+
+using namespace std;
+
+
+// start string => end string 
+// dog => pog => pot ----> 
+// if not found []
+
+bool is_valid(string word) {
+    vector<string> v = {"bog", "bot", "cat", "cog", "cot",
+    "dig", "dog", "mat", "peg", "pet"};
+    bool result = (find(v.begin(), v.end(), word) != v.end());
+    return result;
+}
+
+void compute_path(string destination, vector<string> &result, unordered_map<string,string> parent) {
+    result.push_back(destination); // result = {pot}
+    cout << destination << "compute";
+    while(parent[destination] != "")  {
+        result.push_back(parent[destination]); // result = {pot, pog, dog}
+        destination = parent[destination]; //destination = dog
+        cout << destination << " compute ";
+    }
+    return;
+}
+
+vector<string> find_path(string source, string destination) {
+    queue<string> Q;
+    Q.push(source);
+    unordered_map<string, string> parent;
+    unordered_map<string, bool> visited(false);
+    parent[source] = "";
+    if(source.empty() || destination.empty()){
+        cout << " There doesn't exist a path " << endl;
+        return {};
+    }
+        
+    if(source.size() != destination.size()) {
+        cout << " There doesn't exist a path " << endl;
+        return {};
+    }
+    
+    vector<string> result;
+
+    while(!Q.empty()) { // {bog,cog,dig}
+        string front = Q.front();
+        Q.pop();
+        visited[front] = true;
+        for(size_t i = 0; i < front.size(); i++) { 
+            string original = front;
+            char ch = front[i];
+            for(char curr = 'a'; curr <= 'z'; curr++) {
+                front[i] = curr;
+                if(visited[front]== true)
+                    continue;
+                if(is_valid(front)) {
+                    Q.push(front); //{bog, cog, dig}
+                    parent[front] = original; //parent[cog] == dog ; parent[bog] = dog
+                }
+                if(front == destination) {
+                    compute_path(destination, result, parent);
+                    reverse(result.begin(), result.end());
+                    return result;
+                }
+            }
+            front[i] = ch;
+        }
+    }
+    return result;
+}
+
+int main() {
+    string start = "dog";
+    string end = "cat";
+    vector<string> path = find_path(start, end);
+    for(size_t i = 0 ; i < path.size(); i++) {
+        cout << path[i] << "->";
+    }
+    return 0;
+}
+
