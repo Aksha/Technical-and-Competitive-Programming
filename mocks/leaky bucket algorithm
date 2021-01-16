@@ -1,0 +1,55 @@
+2. beat around the bush with thread when it was a straight forward problem
+interface LeakyBucket {
+    function boolean canComsumeRequest() {
+        
+    }
+}
+
+
+class LeakyBucket {
+    private:
+        int rate;
+        int Threshold;
+        int curr_level = 0;
+        time_t previous_timestamp = 0;
+        time_t curr_timestamp = 0;
+        Leakybucket(int r, int T) {
+            rate = r;
+            Threshold = T;
+        }
+    public:
+    virtual bool canConsumeRequest() = 0;
+    
+    
+    
+    
+    bool canConsumeRequest() {
+        curr_timestamp = std::time(nullptr);
+        int seconds_elapsed = curr_timestamp - previous_timestamp;
+        curr_level = curr_level - (rate*seconds_elapsed);
+        if(curr_level < 0)
+            curr_level = 0;
+        if(curr_level + 1 > Threshold) {
+            return false;
+        }
+        else {
+            curr_level += 1;
+            return true;
+        }
+        previous_timestamp = curr_timestamp;
+    } 
+};
+
+template<typename T>
+class external {
+    virtual void request_acceptance(const T & elem) {
+        if(canConsumeRequest) {
+            cout << " The request has been accepted "; 
+        }
+        else {
+            cout << the request has been rejected ";
+        }
+    }
+};
+    
+
