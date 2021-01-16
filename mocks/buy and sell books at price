@@ -1,0 +1,160 @@
+#include <map>
+#include <set>
+#include <list>
+#include <cmath>
+#include <ctime>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <bitset>
+#include <cstdio>
+#include <limits>
+#include <vector>
+#include <climits>
+#include <cstring>
+#include <cstdlib>
+#include <fstream>
+#include <numeric>
+#include <sstream>
+#include <iostream>
+#include <algorithm>
+#include <unordered_map>
+
+using namespace std;
+/*
+vector<string> action;
+vector<int> values;
+
+    1. create 2 unordered_maps for buy and sell respectively with key = amount and value = count of tht amount
+    2. buy = at most and sell = at least price.
+    3. if a user is looking to buy, check for the lowest possible price in the sell hash map lesser than the given price. If present, remove it from sell hmap. if not, add it to buy hmap 
+    3. if a user is looking to sell, find the highest possible price under buy hashmap that is greater than the given price. If present, remove it from buy hmap. if not, add it to sell hmap.
+*/
+
+void marketplace_buy(vector<int> buy, unordered_map<int, int> &Buy, unordered_map<int, int> &Sell, int amount) {
+    vector<int> buy_output;
+    int minimum_sell = INT_MAX;
+    for(auto it = Sell.begin(); it!= Sell.end(); ++it) {
+        if(it->first <= amount) {
+            minimum_sell = min(minimum_sell,it->first);
+        }
+    }
+    if(minimum_sell != INT_MAX){
+        cout << "There is a match for the current price : " << amount << " the match is : " << minimum_sell << endl;
+        Sell[minimum_sell]--;
+    }
+    else {
+        Buy[amount]++;
+    }
+}
+
+void marketplace_sell(vector<int> sell,unordered_map<int, int> &Buy, unordered_map<int, int> &Sell, int amount) {
+    vector<int> sell_output;
+    int maximum_buy = INT_MIN;
+    for(auto it = Buy.begin(); it!= Buy.end(); ++it) {
+        if(it->first >= amount) {
+            maximum_buy = max(maximum_buy,it->first);
+        }
+    }
+    if(maximum_buy != INT_MIN){
+        cout << "There is a match for the current price : " << amount << " the match is : " << maximum_buy << endl;
+        Buy[maximum_buy]--;
+    }
+    else {
+        Sell[amount]++;
+    }
+}
+
+int main() {
+    vector<int> buy = {100,100,99,99,97,90};
+    vector<int> sell = {109,110,110,114,115,119};
+    
+    unordered_map<int, int> Buy;
+    unordered_map<int, int> Sell;
+    
+    for(size_t i = 0 ; i < buy.size(); i++) {
+        Buy[buy[i]]++;
+    }
+    
+    for(size_t i = 0 ; i < sell.size(); i++) {
+        Sell[sell[i]]++;
+    }
+    
+    cout << "initial BUY output ";
+    for(auto a : Buy) {
+        while(a.second != 0) {
+            cout << a.first << " ";
+            a.second--;
+        }
+    }
+    
+    cout << "initial Sell output  ";
+    for(auto a : Sell) {
+        while(a.second != 0) {
+            cout << a.first << " ";
+            a.second--;
+        }
+    }
+    cout << endl;
+    
+
+    marketplace_sell(sell,Buy, Sell, 150);
+    
+    cout << "BUY output ";
+    for(auto a : Buy) {
+        while(a.second != 0) {
+            cout << a.first << " ";
+            a.second--;
+        }
+    }
+    
+    cout << "Sell output  ";
+    for(auto a : Sell) {
+        while(a.second != 0) {
+            cout << a.first << " ";
+            a.second--;
+        }
+    }
+    
+    marketplace_buy(buy,Buy, Sell, 120);
+    
+    cout << "BUY output ";
+    for(auto a : Buy) {
+        while(a.second != 0) {
+            cout << a.first << " ";
+            a.second--;
+        }
+    }
+    
+    cout << "Sell output  ";
+    for(auto a : Sell) {
+        while(a.second != 0) {
+            cout << a.first << " ";
+            a.second--;
+        }
+    }
+    
+    marketplace_sell(sell, Buy, Sell, 99);
+    
+    cout << "BUY output ";
+    for(auto a : Buy) {
+        while(a.second != 0) {
+            cout << a.first << " ";
+            a.second--;
+        }
+    }
+    
+    cout << "Sell output  ";
+    for(auto a : Sell) {
+        while(a.second != 0) {
+            cout << a.first << " ";
+            a.second--;
+        }
+    }
+    
+    
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */
+    return 0;
+}
+
