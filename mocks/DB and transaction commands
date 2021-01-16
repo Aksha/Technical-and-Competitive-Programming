@@ -1,0 +1,131 @@
+
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <map>
+#include <unordered_set>
+#include <climits>
+
+using namespace std;
+
+
+class DB_transactions {
+private:
+    unordered_map<char,int> var_value; // {'a',10}
+    unordered_map<char,int> var_count; // {'a', 1}
+    unordered_map<int, unordered_set<char>> count_vars; //{10, {'a','b','c'}}
+
+public:
+    void set(char variable, int value) {
+        if(var_value.find(variable) != var_value.end()) {
+            int prev_value = var_value[variable];
+            var_value[variable] = value;
+            if(var_count[variable] > 1 && count_vars.find(prev_value) != count_vars.end()) {
+                var_count[variable]--;
+            }
+            else if(var_count[variable] == 1 && count_vars.find(prev_value) != count_vars.end()) {
+                var_count.erase(variable);
+                unordered_set<char> temp = count_vars[prev_value];
+                temp.erase(variable);
+                count_vars[prev_value] = temp;
+                if(count_vars[prev_value].size() == 0) {
+                    count_vars.erase(prev_value);
+                }
+            }
+
+            var_count[variable]++;
+
+        }
+        else {
+            var_value.insert(make_pair(variable, value));
+            var_count[variable] = 1; //a = 1
+        }
+        if(count_vars.find(value) != count_vars.end()) {
+            count_vars[value].insert(variable); // 10, {b, a}
+        }
+        else {
+            unordered_set<char> temp;
+            temp.insert(variable);
+            count_vars.insert(make_pair(value, temp)); // 10, {b}
+        }
+    }
+
+    void get(char variable) {
+        if(var_value.find(variable) != var_value.end()) {
+            cout << var_value[variable] << endl;
+        }
+        else {
+            cout << "NULL" << endl;
+        }
+    }
+
+    void del(char variable) {
+        int curr_value = 0;
+        char curr_variable = ' ';
+        if(var_value.find(variable) != var_value.end()) {
+            curr_variable = variable;
+            curr_value = var_value[variable];
+            var_value.erase(variable);
+            if(count_vars.find(curr_value) != count_vars.end()) {
+                unordered_set <char> temp = count_vars[curr_value];
+                temp.erase(curr_variable);
+                count_vars[curr_value] = temp;
+            }
+            var_count.erase(variable);
+        }
+    }
+
+    void count(int value) {
+        if(count_vars.find(value)!= count_vars.end()) {
+            cout << count_vars[value].size() << endl;
+        }
+        else {
+            cout << "0" << endl;
+        }
+    }
+
+};
+
+
+typedef unordered_map<char,int> vv; ->var_value
+type
+map<int, vv>
+/*class transaction_commands: public DB_transactions {
+private:
+    map<int, > transaction_var_value;
+    
+//
+{{1: vv}, {2, }}
+begin 
+set a 10
+begin
+set a 20
+
+    DB_transactions db1;
+    int count = 0;
+public:
+    void set(char variable, int value) {
+        db1.set(variable,value);
+        count++;
+        transaction_var_value[count] = ;
+
+    }
+}; */
+
+int main() {
+    DB_transactions db;
+    db.set('a',10);
+    db.get('a');
+    db.del('a');
+    db.get('a');
+    db.set('a',10);
+    db.set('b',10);
+    db.count(10);
+    db.count(20);
+    db.del('a');
+    db.count(10);
+    db.set('b', 30);
+    db.count(10);
+
+    return 0;
+}
