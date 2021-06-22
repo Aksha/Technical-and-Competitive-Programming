@@ -10,7 +10,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"
 export HOMEBREW_GITHUB_API_TOKEN=a951d2adfca9b36a663773f4002c4eb9bc542ab4
 export PATH=$PATH:/Applications
-export NPM_TOKEN=NpmToken.f36dc76b-a1dd-331b-96a8-4ba7f334d7dc
+export NPM_TOKEN=NpmToken.******
 export PS1='%{%F{green}%}%n%{%f%}%{%F{white}%}@%{%f%}%{%F{green}%}%m %{%F{cyan}%}%1~ %{%f%}%% '
 HISTFILE=~/.zsh_history
 HISTSIZE=999999999
