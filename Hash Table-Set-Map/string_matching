@@ -1,0 +1,71 @@
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+using namespace std;
+
+vector<string> parse_input_string(string str) { //"dog cat cat dog"
+  vector<string> words;
+  int start = 0;
+  int count = 0;
+  for(size_t i = 0; i < str.size(); i++) {
+    if(str[i] == ' ') {
+      string temp = str.substr(start,count); // dog
+      words.push_back(temp);
+      start = i+1;
+      count = 0;
+    }
+    else if (i == str.size()-1) {
+      count = count+1;
+      string temp = str.substr(start,count);
+      words.push_back(temp);
+    }
+    else {
+      count = count+1; 
+    }
+  }
+  return words;
+}
+
+
+bool pattern_verification(string pattern, string str) {
+  bool result = true;
+  vector<string> words = parse_input_string(str);
+  if(pattern.size() == 0 && words.size() == 0) {
+    return result;
+  }
+  if(pattern.size() != words.size())
+    return false;
+  unordered_map<char, string> hmap;
+  for(size_t i = 0; i < words.size(); i++) {
+    if(hmap.find(pattern[i]) == hmap.end()) {
+      hmap.insert(make_pair(pattern[i], words[i]));
+    }
+    else {
+      if(hmap[pattern[i]] != words[i]) {
+        return false;
+      }
+    }
+  }
+  return result;
+}
+// To execute C++, please define "int main()"
+int main() {
+  string pattern = "";
+  string str = "";
+  bool result = pattern_verification(pattern, str);
+  cout << "The result is : " << result << endl;
+  return 0;
+}
+
+// Pattern "abba" str "dog cat cat dog"
+// true
+
+// Pattern "abba" str "dog cat cat horse"
+// false
+
+// Pattern "aaaaaa" str "dog dog dog dog dog dog"
+// true
+
+/*
+
+*/
