@@ -1,0 +1,46 @@
+#include <iostream>
+#include <fstream>
+#include <istream>
+#include <sstream>
+#include <unordered_map>
+
+using namespace std;
+
+int main() {
+    ifstream myfile;
+    myfile.open("/Users/Aks/Desktop/test.txt");
+    if(!myfile) {
+        cout << "Can't read file or file not present" << endl;
+        return 1;
+    }
+    unordered_map<string, int> umap;
+    while(!myfile.eof())  {
+        string sentence_buffer = "";
+        while(getline(myfile, sentence_buffer)) {
+            //cout << sentence_buffer << endl;
+            istringstream iss(sentence_buffer);
+            string temp_word = "";
+            while(getline(iss, temp_word, ' ')) {
+                //cout << temp_word << endl;
+                if(umap.find(temp_word) == umap.end()) {
+                    umap.insert(make_pair(temp_word,1));
+                }
+                else {
+                    //cout << temp_word << " : " << umap[temp_word] << endl;
+                    umap[temp_word] = umap[temp_word] + 1;
+                }
+            }
+        }
+    }
+    myfile.close();
+    int maximum = 0;
+    string max_word = "";
+    for(unordered_map<string, int>::iterator it = umap.begin(); it != umap.end(); it++) {
+        if(maximum < it->second) {
+            maximum = it->second;
+            max_word = it->first;
+        }
+    }
+    cout << max_word << " : " << maximum << endl;
+    return 0;
+}
