@@ -1,0 +1,221 @@
+Walmart Karat interview:
+
+/* 
+You are a developer for a university. Your current project is to develop a system for students to find courses they share with friends. The university has a system for querying courses students are enrolled in, returned as a list of (ID, course) pairs.
+
+Write a function that takes in a collection of (student ID number, course name) pairs and returns, for every pair of students, a collection of all courses they share.
+
+
+Sample Input:
+
+enrollments1 = [
+  ["58", "Linear Algebra"],
+  ["94", "Art History"],
+  ["94", "Operating Systems"],
+  ["17", "Software Design"],
+  ["58", "Mechanics"],
+  ["58", "Economics"],
+  ["17", "Linear Algebra"],
+  ["17", "Political Science"],
+  ["94", "Economics"],
+  ["25", "Economics"],
+  ["58", "Software Design"],
+]
+
+Sample Output (pseudocode, in any order):
+
+find_pairs(enrollments1) =>
+{
+  "58,17": ["Software Design", "Linear Algebra"]
+  "58,94": ["Economics"]
+  "58,25": ["Economics"]
+  "94,25": ["Economics"]
+  "17,94": []
+  "17,25": []
+}
+
+
+
+Additional test cases:
+
+Sample Input:
+
+enrollments2 = [
+  ["0", "Advanced Mechanics"],
+  ["0", "Art History"],
+  ["1", "Course 1"],
+  ["1", "Course 2"],
+  ["2", "Computer Architecture"],
+  ["3", "Course 1"],
+  ["3", "Course 2"],
+  ["4", "Algorithms"]
+]
+
+
+
+Sample output:
+
+find_pairs(enrollments2) =>
+{
+  "1,0":[]
+  "2,0":[]
+  "2,1":[]
+  "3,0":[]
+  "3,1":["Course 1", "Course 2"]
+  "3,2":[]
+  "4,0":[]
+  "4,1":[]
+  "4,2":[]
+  "4,3":[]
+} 
+
+Sample Input:
+enrollments3 = [
+  ["23", "Software Design"], 
+  ["3", "Advanced Mechanics"], 
+  ["2", "Art History"], 
+  ["33", "Another"],
+]
+
+
+Sample output:
+
+find_pairs(enrollments3) =>
+{
+  "23,3": []
+  "23,2": []
+  "23,33":[]
+  "3,2":  []
+  "3,33": []
+  "2,33": []
+}
+
+All Test Cases:
+find_pairs(enrollments1)
+find_pairs(enrollments2)
+find_pairs(enrollments3)
+
+Complexity analysis variables:
+
+n: number of student,course pairs in the input
+s: number of students
+c: total number of courses being offered (note: The number of courses any student can take is bounded by a small constant)
+ */
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <unordered_map>
+#include <unordered_set>
+#include <string>
+
+using namespace std;
+
+string sort_order(string s1, string s2) {
+ int user1 = stoi(s1);
+  int user2 = stoi(s2);
+  string result = "";
+  if(user1 < user2) {
+    result = to_string(user1) + ", " + to_string(user2);
+  }
+  else {
+    result = to_string(user2) + ", " + to_string(user1);
+  }
+  return result;
+}
+
+unordered_map<string, vector<string>> find_pairs(vector<vector<string>> enrollments1) {
+  //1. create a map with key value pair where key = student id , value = array of strings of all the courses 
+  // 2. Iterate over the hashmap one by one. Check if this pair is already visited. For each student, pair with another student and see if they have an overlapping course. 
+  //3. if overlapping course, add to a hashmap this pair as key and its value as the overlapping course
+  //4 4. If iteration done and no overlapping course, create this pair as key and value as empty.
+  //5 Mark this pair as visited.
+  
+  unordered_map<string, vector<string>> result;
+  unordered_map<string, unordered_set<string>> user_courses;
+  unordered_set<string> visited;
+  for(int i = 0; i < enrollments1.size(); i++) { //O(n)
+    if(user_courses.find(enrollments1[i][0]) != user_courses.end()) {
+      user_courses[enrollments1[i][0]].insert(enrollments1[i][1]);
+    }
+    else {
+      unordered_set<string> course;
+      course.insert(enrollments1[i][1]);
+      user_courses.insert(make_pair(enrollments1[i][0], course));
+    } 
+  }
+  
+  for(auto it1 = user_courses.begin(); it1 != user_courses.end(); it1++) { 
+    for(auto it2 = user_courses.begin(); it2 != user_courses.end(); it2++) {
+      if(it1->first != it2->first) {
+       string app = sort_order(it1->first,it2->first);
+       if(visited.find(app) == visited.end()) {
+          visited.insert(app);
+         unordered_set<string> course1 = it1->second;
+         for(auto it3 = course1.begin(); it3 != course1.end(); it3++) {
+           if(it2->second.find(*it3) != it2->second.end() ) {
+             if(result.find(app) == result.end()) {
+               vector<string> course_list;
+               course_list.push_back(*it3);
+               result.insert(make_pair(app, course_list));
+             }
+             else {
+               result[app].push_back(*it3);
+             }
+           }
+           else {
+             vector<string> course_list = {};
+              result.insert(make_pair(app, course_list));
+           }
+         }
+       }
+      }
+    }
+  }
+  return result;
+}
+
+int main() {
+  vector<vector<string>> enrollments1 = {
+    {"58", "Linear Algebra"},
+    {"94", "Art History"},
+    {"94", "Operating Systems"},
+    {"17", "Software Design"},
+    {"58", "Mechanics"},
+    {"58", "Economics"},
+    {"17", "Linear Algebra"},
+    {"17", "Political Science"},
+    {"94", "Economics"},
+    {"25", "Economics"},
+    {"58", "Software Design"},
+  };
+
+  vector<vector<string>> enrollments2 = {
+    {"0", "Advanced Mechanics"},
+    {"0", "Art History"},
+    {"1", "Course 1"},
+    {"1", "Course 2"},
+    {"2", "Computer Architecture"},
+    {"3", "Course 1"},
+    {"3", "Course 2"},
+    {"4", "Algorithms"},
+  };
+
+  vector<vector<string>> enrollments3 = {
+    {"23", "Software Design"}, 
+    {"3",  "Advanced Mechanics"}, 
+    {"2",  "Art History"}, 
+    {"33", "Another"},
+  };
+  unordered_map<string, vector<string>> result = find_pairs(enrollments3);
+  for(auto it = result.begin(); it != result.end(); it++) {
+    cout << it->first << endl;
+    vector<string> courses = it->second;
+    for(int i = 0; i < courses.size(); i++) {
+      cout << courses[i] << ", ";
+    }
+    cout << endl;
+  }
+  return 0;
+}
+
