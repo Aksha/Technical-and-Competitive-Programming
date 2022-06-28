@@ -16,20 +16,16 @@ public:
       int level = 0;  
       Node(TreeNode* n, int lev): node(n), level(lev) {}
     };
-    void computeHeight(TreeNode* root, int& height) {
+    int computeHeight(TreeNode* root) {
         if(root == NULL || (!root->left && !root->right))
-            return;
-        height = height + 1;
-        computeHeight(root->left, height);
-        computeHeight(root->right, height);
-        return;
+            return 0;
+        return max(computeHeight(root->left),computeHeight(root->right)) + 1; 
     }
     vector<vector<int>> levelOrder(TreeNode* root) {
         if(root == NULL)
             return {};
-        int height = 1;
-        computeHeight(root, height);
-        vector<vector<int>> result(height);
+        int height = computeHeight(root);
+        vector<vector<int>> result(height+1);
         queue <Node*> Q;
         Node* newNode = new Node(root,0);
         Q.push(newNode);
