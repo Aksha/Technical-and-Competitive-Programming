@@ -1,0 +1,55 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    struct Node {
+      TreeNode* node;
+      int level = 0;  
+      Node(TreeNode* n, int lev): node(n), level(lev) {}
+    };
+    void computeHeight(TreeNode* root, int& height) {
+        if(root == NULL || (!root->left && !root->right))
+            return;
+        height = height + 1;
+        computeHeight(root->left, height);
+        computeHeight(root->right, height);
+        return;
+    }
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        if(root == NULL)
+            return {};
+        int height = 1;
+        computeHeight(root, height);
+        vector<vector<int>> result(height);
+        queue <Node*> Q;
+        Node* newNode = new Node(root,0);
+        Q.push(newNode);
+        while(!Q.empty()) {
+            Node* curr = Q.front();
+            Q.pop();
+            result[curr->level].push_back(curr->node->val);
+            if(curr->node->left) {
+                TreeNode* nextLeft = curr->node->left;
+                int levL = curr->level + 1;
+                Node* newNodeL = new Node(nextLeft,levL);
+                Q.push(newNodeL);
+            }
+            if(curr->node->right) {
+                TreeNode* nextRight = curr->node->right;
+                int levR = curr->level + 1;
+                Node* newNodeR = new Node(nextRight,levR);
+                Q.push(newNodeR);
+            }
+        }
+        return result;
+    }
+};
