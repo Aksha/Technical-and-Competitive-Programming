@@ -1,0 +1,41 @@
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+
+using namespace std;
+
+// {{1, {'a','b','c'}}, {2, {'d', 'e', 'f'}, {3, {'g','h',i'}}, {4, {'j', 'k', 'l'}}, {9, {'w', 'x', 'y', 'z'}, {6, {'m', 'n', 'o'}}}
+
+// 963
+
+/*
+             i = 0               9
+             i = 1       w63            x63          y63          z63
+             i = 2 {wm3,wn3,wo3},  {xm3,xn3,xo3}, {ym3,yn3,yo3}, {zm3, zn3, zo3}
+       i = 3   wmg wmh wmi
+
+ * */
+
+void dialpad_words(unordered_map<char, vector<char>> input, string s, int i, vector<string>& result, string currString) {
+    if( i == s.size()) {
+        result.push_back(currString);
+        return;
+    }
+    vector<char> currChars = input[s[i]];
+    for(int j = 0; j < currChars.size(); j++) {
+        dialpad_words(input,s,i+1,result, currString + currChars[j]);
+    }
+    return;
+}
+int main() {
+    unordered_map<char, vector<char>> input = {{'2', {'a','b','c'}}, {'3', {'d', 'e', 'f'}}, {'4', {'g','h','i'}}, {'5', {'j', 'k', 'l'}}, {'9', {'w', 'x', 'y', 'z'}}, {'6', {'m', 'n', 'o'}}};
+    string s = "923";
+    int i = 0;
+    vector<string> result;
+    string currString = "";
+    dialpad_words(input, s, i, result, currString);
+    cout << result.size();
+    for(auto r : result)
+        cout << r << endl;
+    return 0;
+}
