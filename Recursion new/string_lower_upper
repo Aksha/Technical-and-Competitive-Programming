@@ -1,0 +1,44 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <cctype>
+
+using namespace std;
+// input = a1b2
+//output = "a1b2, A1b2, a1B2, A1B2"
+/*
+ *                 a1b2 i = 0
+ *              u       l
+ *      i=1   A1b2     a1b2
+ *                  u  l
+    I = 2   A1b2        a1b2
+           u     l     u     l
+i = 3   A1B2    A1b2  a1B2   a1b2
+
+
+ */
+
+void permute_string(string s, int i, vector<string>& output, string currString) {
+    if(i == s.size()) {
+        output.push_back(currString);
+        return;
+    }
+    if(isalpha(s[i])) {
+        char up = toupper(s[i]);
+        permute_string(s,i+1, output, currString + up);
+    }
+    permute_string(s,i+1, output, currString + s[i]);
+    return;
+}
+
+int main() {
+    string s = "a1b2";
+    int i = 0;
+    string currString = "";
+    vector<string> output;
+    permute_string(s, i, output, currString);
+    cout << output.size() << endl;
+    for(auto a: output)
+        cout << a << " ,";
+    return 0;
+}
