@@ -1,0 +1,83 @@
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+
+using namespace std;
+// 0 -- 1 -- 2
+// |
+// 3
+
+unordered_map<int, vector<int>> build_adj_list(vector<int> u, vector<int> v) {
+    unordered_map<int, vector<int>> adj;
+/*    for(int i = 0; i < u.size(); i++) {
+        if(adj.find(u[i]) == adj.end()) {
+            vector<int> temp = {v[i]};
+            adj[u[i]] = temp;
+        }
+        else {
+            adj[u[i]].push_back(v[i]);
+        }
+    }*/
+    for(int i = 0; i < u.size(); i++) {
+        adj[u[i]].push_back(v[i]);
+        //adj[v[i]].push_back(u[i]);
+    }
+
+    for(auto a : adj) {
+        cout << a.first << " : ";
+        vector<int> temp = a.second;
+        for (auto t:temp)
+            cout << t << ", ";
+        cout << endl;
+    }
+    return adj;
+}
+
+void print_all_paths_dfs(unordered_map<int, vector<int>> adj, int s, vector<int> currResult, vector<vector<int>> &result, vector<bool> &visited, vector<bool> isChild) {
+    if(adj.find(s) == adj.end()) {
+        result.push_back(currResult);
+        return;
+    }
+    for(int i = 0; i < adj[s].size(); i++) {
+        if(visited[adj[s][i]] == 0) {
+            visited[adj[s][i]] = 1;
+            currResult.push_back(adj[s][i]);
+            print_all_paths_dfs(adj, adj[s][i], currResult, result, visited, isChild);
+            currResult.pop_back();
+        }
+    }
+    return;
+}
+
+int main() {
+    vector<int> u = {0,1,0,2};
+    vector<int> v = {1,2,3,4};
+    unordered_map<int, vector<int>> adj = build_adj_list(u, v);
+    vector<int> currResult;
+    vector<vector<int>> result;
+    currResult.push_back(0);
+    vector<bool> visited(u.size()+1,0);
+    vector<bool> isChild(v.size()+1, 0);
+
+    for(int i = 0; i < v.size(); i++) {
+        if (find(u.begin(), u.end(), v[i]) != u.end()) {
+            isChild[v[i]] = 1;
+        }
+    }
+    for(int i = 0; i < u.size(); i++) {
+        if(visited[u[i]] == 0) {
+            visited[u[i]] = 1;
+            print_all_paths_dfs(adj, 0, currResult, result, visited, isChild);
+        }
+    }
+
+    cout << " The DFS paths are : " << endl;
+    for(auto a: result) {
+        for(auto c: a) {
+            cout << c << ", ";
+        }
+        cout << endl;
+    }
+    //print_all_paths_bfs(adj);
+    return 0;
+}
