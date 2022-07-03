@@ -1,0 +1,131 @@
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+#include <queue>
+
+using namespace std;
+// 0 -- 1 -- 2 -- 4
+// |
+// 3
+
+unordered_map<int, vector<int>> build_adj_list(vector<int> u, vector<int> v) {
+    unordered_map<int, vector<int>> adj;
+/*    for(int i = 0; i < u.size(); i++) {
+        if(adj.find(u[i]) == adj.end()) {
+            vector<int> temp = {v[i]};
+            adj[u[i]] = temp;
+        }
+        else {
+            adj[u[i]].push_back(v[i]);
+        }
+    }*/
+    for(int i = 0; i < u.size(); i++) {
+        adj[u[i]].push_back(v[i]);
+        //adj[v[i]].push_back(u[i]);
+    }
+
+    for(auto a : adj) {
+        cout << a.first << " : ";
+        vector<int> temp = a.second;
+        for (auto t:temp)
+            cout << t << ", ";
+        cout << endl;
+    }
+    return adj;
+}
+
+void print_all_paths_dfs(unordered_map<int, vector<int>> adj, int s, vector<int> currResult, vector<vector<int>> &result, vector<bool> &visited, vector<bool> isChild) {
+    if(adj.find(s) == adj.end()) {
+        result.push_back(currResult);
+        return;
+    }
+    for(int i = 0; i < adj[s].size(); i++) {
+        if(visited[adj[s][i]] == 0) {
+            visited[adj[s][i]] = 1;
+            currResult.push_back(adj[s][i]);
+            print_all_paths_dfs(adj, adj[s][i], currResult, result, visited, isChild);
+            currResult.pop_back();
+        }
+    }
+    return;
+}
+
+vector<int> find_path(int curr, vector<int> parent) {
+    vector<int> result;
+    result.push_back(curr);
+    int curr_parent = parent[curr];
+    while(curr_parent != 0 ) {
+        result.push_back(curr_parent);
+        curr_parent = parent[curr_parent];
+    }
+    result.push_back(curr_parent);
+    return result;
+}
+vector<vector<int>> print_all_paths_bfs(unordered_map<int, vector<int>> adj, int source) {
+    vector<int> currResult;
+    vector<vector<int>> result;
+    queue <int> Q;
+    Q.push(source);
+    vector<int> parent(4,0);
+    currResult.push_back(source);
+    while(!Q.empty()) {
+        int curr = Q.front();
+        Q.pop();
+        if(adj.find(curr) == adj.end()) {
+            currResult = find_path(curr, parent);
+            result.push_back(currResult);
+            currResult.clear();
+        }
+        else {
+            for (int i = 0; i < adj[curr].size(); i++) {
+                Q.push(adj[curr][i]);
+                parent[adj[curr][i]] = curr;
+            }
+        }
+    }
+    return result;
+}
+
+int main() {
+    vector<int> u = {0,1,0,2};
+    vector<int> v = {1,2,3,4};
+    unordered_map<int, vector<int>> adj = build_adj_list(u, v);
+    vector<int> currResult;
+    vector<vector<int>> result;
+    currResult.push_back(0);
+    vector<bool> visited(u.size()+1,0);
+    vector<bool> isChild(v.size()+1, 0);
+
+    for(int i = 0; i < v.size(); i++) {
+        if (find(u.begin(), u.end(), v[i]) != u.end()) {
+            isChild[v[i]] = 1;
+        }
+    }
+    for(int i = 0; i < u.size(); i++) {
+        if(visited[u[i]] == 0) {
+            visited[u[i]] = 1;
+            print_all_paths_dfs(adj, 0, currResult, result, visited, isChild);
+        }
+    }
+
+    cout << " All paths of a directed graph using DFS are : " << endl;
+    for(auto a: result) {
+        for(auto c: a) {
+            cout << c << ", ";
+        }
+        cout << endl;
+    }
+    vector<int> currResult_bfs;
+    int source = u[0];
+    cout << "-------------------------------------------BFS-------------------------------------- " << endl;
+
+    vector<vector<int>> result_bfs = print_all_paths_bfs(adj, source);
+    cout << "All paths of a diercted graph using BFS are: " << endl;
+    for(auto a: result_bfs) {
+        for(auto c: a) {
+            cout << c << ", ";
+        }
+        cout << endl;
+    }
+    return 0;
+}
