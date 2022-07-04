@@ -1,0 +1,50 @@
+class RandomizedSet {
+public:
+    RandomizedSet() {
+    }
+    
+    bool insert(int val) {
+        if(hmap.find(val) == hmap.end()) {
+            nums.push_back(val);
+            int position = nums.size() - 1;
+            hmap.insert(make_pair(val, position));
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    
+    bool remove(int val) {
+        if(hmap.find(val) != hmap.end()) {
+            int posInArray = hmap[val];
+            //update hashmap position for last val
+            // update array position for last val
+            int currLast = nums[nums.size() - 1];
+            hmap[currLast] = posInArray;
+            nums[nums.size() - 1] = nums[posInArray];
+            nums[posInArray] = currLast;
+            hmap.erase(val);
+            nums.pop_back();
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    
+    int getRandom() {
+        return nums[rand() % nums.size()];
+    }
+private:
+        unordered_map<int,int> hmap;
+        vector<int> nums;
+};
+
+/**
+ * Your RandomizedSet object will be instantiated and called as such:
+ * RandomizedSet* obj = new RandomizedSet();
+ * bool param_1 = obj->insert(val);
+ * bool param_2 = obj->remove(val);
+ * int param_3 = obj->getRandom();
+ */
