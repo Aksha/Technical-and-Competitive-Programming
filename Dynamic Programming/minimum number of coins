@@ -1,0 +1,118 @@
+/*
+You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
+
+Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.
+
+You may assume that you have an infinite number of each kind of coin.
+
+ 
+Example 1:
+Input: coins = [1,2,5], amount = 11
+Output: 3
+Explanation: 11 = 5 + 5 + 1
+
+Input: coins = [1,2,5], amount = 6
+Output: 3
+Explanation: 6 = 5  + 1
+
+                 6
+             1/ |2 \5
+            5   4   1
+                    1/ 2| \5
+                   0   -1 -4
+method()
+  array element
+  if(amount == 0) {
+    return count of the array that sums to this value
+    if(arr.size() < min) {
+      minimum = arr.size();
+    }
+    return minimum;
+  }
+  else amount < 0 {
+    array remove last element
+    return;
+  }
+  else {
+    for every target amount, go over the array and subtract by the value of teh 
+    amount = amount - curr[arr];
+    arrary.push_back(curr element)
+    recursivelt call the method with the amoutn deducated
+  }
+
+  overlapping subproblem and optimal substructure
+
+
+Example 2:
+Input: coins = [2], amount = 3
+Output: -1
+
+Example 3:
+Input: coins = [1], amount = 0
+Output: 0
+
+
+
+*/
+
+
+#include <cstdint>
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <climits>
+
+using namespace std;
+
+// dp = {0,1,1,2,2,}
+
+int minimum_coins(vector<int> coins, int amount) { // 1, 2 ,5, amount = 5
+  vector<int> dp(amount+1, INT_MAX-1);
+  dp[0] = 0; 
+  for(int i = 1; i <= amount; i++) {
+    for(size_t j = 0; j < coins.size(); j++) {
+      if(coins[j] <= i) { 
+        cout << "coin number: " << coins[j] << endl;
+        cout << "dp value: " << dp[i-coins[j]] << endl;
+        dp[i] = min(dp[i], dp[i-coins[j]] + 1); 
+        cout << dp[i] << endl;
+      }
+    }
+  }
+  return dp[amount] > amount ? -1 : dp[amount];
+}
+
+int main() {
+  vector<int> coins = {2};
+  int amount = 3;
+  int result = minimum_coins(coins, amount);
+  cout << " The minimum num of coins to reach the target is : " << result << endl;
+  return 0;
+}
+
+
+
+
+/*
+Functional requirements:
+* a place to add/modify/delete 
+* catalog of items
+* buyer search for the product name, keyword, category
+* purchase items in teh cart & make payment
+* buyer views the order 
+* buyer is able rate and review the products
+
+Non fuctional requirements:
+* highly consistent
+* highly available
+* low latency
+
+
+Order placement service
+user table  (userID (PK), name, address, phone number, email address)
+orders table (orderid, product, item category, location (lat, longitude), estimatedTime)
+
+calculateEstimatedTimeAPI()
+
+MySQL database (relational) ACID properties
+*/
