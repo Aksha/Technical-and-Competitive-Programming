@@ -1,0 +1,55 @@
+#include <iostream>
+#include <map>
+#include <vector>
+#include <cmath>
+
+using namespace std;
+
+//costs = [[10,20],[30,200],[400,50],[30,20]]
+
+int minimum_cost(vector<pair<int,int>> costs) {
+    int minimum = 0;
+    int ny = costs.size()/2;
+    int sf = costs.size()/2;
+    map<int,vector<int>> hmap;
+    for(int i = 0; i < costs.size(); i++) {
+        int curr_val = abs(costs[i].first - costs[i].second);
+        if(hmap.find(curr_val) == hmap.end()) {
+            vector<int> temp;
+            temp.push_back(i);
+            hmap.insert(make_pair(curr_val, temp));
+        }
+        else {
+            hmap[curr_val].push_back(i);
+        }
+    }
+    for(auto it = hmap.begin(); it != hmap.end(); it++ ) {
+        cout << it->first << " : ";
+        vector<int> a = it->second;
+        for(int i = 0; i < a.size(); i++) {
+            cout << a[i] << " , ";
+        }
+        cout << endl;
+    }
+    for(auto it = hmap.rbegin(); it != hmap.rend(); it++ ) {
+        vector<int> indices = it->second;
+        for(int i = 0; i < indices.size(); i++) {
+            if((costs[indices[i]].first < costs[indices[i]].second && ny > 0) || (sf == 0 && costs[indices[i]].first > costs[indices[i]].second)) {
+                minimum += costs[indices[i]].first;
+                ny--;
+            }
+            else if((sf > 0 && costs[indices[i]].first > costs[indices[i]].second) || (costs[indices[i]].first < costs[indices[i]].second && ny == 0)){
+                minimum += costs[indices[i]].second;
+                sf--;
+            }
+        }
+    }
+    return minimum;
+}
+
+int main() {
+    vector<pair<int,int>> costs = {{10,20}, {30,200}, {400,50}, {30, 20}};
+    int cost = minimum_cost(costs);
+    std::cout << "the minimum cost is : " << cost << std::endl;
+    return 0;
+}
