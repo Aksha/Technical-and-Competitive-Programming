@@ -5,7 +5,7 @@ void BFS(S,G) {
   while(!Q.empty()) {
     n = Q.pop();
     for ever neigh of n:
-      if(neigh.visited) {
+      if(!neigh.visited) {
         Q.push(neigh);
         neigh.visited =true;
       }
