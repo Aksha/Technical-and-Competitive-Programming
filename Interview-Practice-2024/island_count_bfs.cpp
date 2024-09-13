@@ -1,5 +1,10 @@
 
-
+bool check_boundary_conditions_validity(vector<vector<int>> &matrix, int r, int c) {
+    if(r < 0 || r >= matrix.size() || c < 0 || c >= matrix[0].size() || matrix[r][c] == 0) {
+        return false;
+    }
+    return true;
+}
 
 
 
@@ -8,12 +13,12 @@ void traverse_bfs(vector<vector<int>> &matrix, int r, int c) {
     queue<pair<int,int>> Q;
     Q.push(make_pair(r,c));
     while(!Q.empty()) {
-        int top_row = Q.top().first;
-        int top_col = Q.top().second;
+        int top_row = Q.front().first; //3
+        int top_col = Q.front().second; //4
         Q.pop();
         for(int k = 0; k < directions.size(); k++) {
-            int new_row = directions[k][0] + top_row;
-            int new_col = directions[k][1] + top_col;
+            int new_row = directions[k].first + top_row;
+            int new_col = directions[k].second + top_col;
             if(check_boundary_conditions_validity(matrix, new_row, new_col)) {
                 Q.push(make_pair(new_row, new_col));
                 matrix[new_row][new_col] = 0;
@@ -21,13 +26,6 @@ void traverse_bfs(vector<vector<int>> &matrix, int r, int c) {
         }
     }
     return;
-}
-
-bool check_boundary_conditions_validity(vector<vector<int>> &matrix, int r, int c) {
-    if(r < 0 || r >= matrix.size() || c < 0 || c >= matrix[0].size() || matrix[r][c] == 0) {
-        return false;
-    }
-    return true;
 }
 
 int count_islands(vector<vector<int>> &matrix) {
