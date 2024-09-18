@@ -1,0 +1,40 @@
+
+
+void dfs_helper(vector<vector<int>> &matrix, int curr_r, int curr_c, int row_size, int col_size) {
+    vector<pair<int,int>> directions = {{0,1},{1,0},{1,1},{-1,-1},{0,-1},{-1,0}, {-1,1}, {1,-1}};
+    matrix[curr_r][curr_c] = 0;
+    queue <pair<int,int>> Q;
+    Q.push(make_pair(curr_r,curr_c));
+    while(!Q.empty()){
+        pair<int,int> r_c = Q.front();
+        Q.pop();
+        int row = r_c.first;
+        int col = r_c.second;
+        for(int i = 0; i < 8; i++) {
+            int new_row = row + directions[i].first;
+            int new_col = col + directions[i].second;
+            if(new_row >= 0 && new_row < row_size && new_col >= 0 && new_col < col_size && matrix[new_row][new_col] == 1) {
+                matrix[new_row][new_col] = 0;
+                Q.push(make_pair(new_row, new_col));
+            }
+        }
+    }
+   return; 
+}
+
+
+int count_islands(vector<vector<int>> &matrix) {
+    int r = matrix.size();
+    int c = matrix[0].size();
+    int count = 0;
+    // Write your code here.
+    for(int i = 0; i < r; i++) {
+        for(int j = 0; j < c; j++) {
+            if(matrix[i][j] == 1) {
+                count++;
+                dfs_helper(matrix, i, j, r, c);
+            }
+        }
+    }
+    return count;
+}
