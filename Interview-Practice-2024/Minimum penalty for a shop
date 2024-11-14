@@ -1,0 +1,29 @@
+https://leetcode.com/problems/minimum-penalty-for-a-shop/description/?envType=company&envId=stripe&favoriteSlug=stripe-three-months 
+
+
+// Two for loop
+class Solution {
+public:
+    int bestClosingTime(string customers) {
+        int total = 0;
+        // first calculate total penalty if shop closes at 0th hour
+        for(int i=0; i<customers.length(); i++){
+            if(customers[i] == 'Y')
+                total++;
+        }
+        int res = total, ans = 0;
+        // Then for each hour, check if customers come or not
+        // If we close the shop at that hour and check if penalty is minimum
+        for(int i=0; i<customers.length(); i++){
+            if(customers[i] == 'Y')
+                total -= 1;
+            else
+                total += 1;
+            if(res > total){
+                ans = i+1;
+                res = total;
+            }
+        }
+        return ans;
+    }
+};
