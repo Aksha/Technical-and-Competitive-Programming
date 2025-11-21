@@ -10,6 +10,12 @@ https://www.youtube.com/watch?v=peyO-Nu1jGc
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+
+there are 4 options:
+1. node->val
+2. node-val+leftSum
+3. node->val+rightSum
+4. node->val+leftSum + rightSum.
 class Solution {
 public:
     int maxPathSum_helper(TreeNode* root, int& maximum){
