@@ -1,0 +1,78 @@
+https://neetcode.io/problems/candy-crush/solution
+
+class Solution {
+public:
+
+    int m, n;
+
+    set<pair<int,int>> find(vector<vector<int>>& board) {
+        set<pair<int,int>> crushed_set;
+        for(int r = 1; r < m-1; r++) {
+            for(int c = 0; c < n; c++) {
+                if(board[r][c] == 0)
+                    continue;
+                if(board[r][c] == board[r-1][c] && board[r][c] == board[r+1][c]) {
+                    crushed_set.insert({r,c});
+                    crushed_set.insert({r-1,c});
+                    crushed_set.insert({r+1,c});
+                }
+            }
+        }
+
+        for(int r = 0; r < m; r++) {
+            for(int c = 1; c < n-1; c++) {
+                if(board[r][c] == 0)
+                    continue;
+                if(board[r][c] == board[r][c-1] && board[r][c] == board[r][c+1]) {
+                    crushed_set.insert({r,c});
+                    crushed_set.insert({r,c-1});
+                    crushed_set.insert({r,c+1});
+                }
+            }
+        }
+        return crushed_set;
+    }
+
+    void crushBoard(vector<vector<int>> &board, set<pair<int,int>> crushed_set) {
+        for(auto it = crushed_set.begin(); it != crushed_set.end(); ++it) {
+            int r = it->first;
+            int c = it->second;
+            board[r][c] = 0;
+            //crushed_set.erase(it);
+        }
+    }
+
+    void drop(vector<vector<int>> &board) {
+        for(int c = 0; c < n; c++) {
+            int lowest_row = -1;
+            for(int r = m - 1; r >= 0; r--) {
+                if(board[r][c] == 0) {
+                    lowest_row = max(lowest_row, r);
+                }
+                else if(lowest_row > -1) {
+                     int temp = board[r][c];
+                     board[r][c] = board[lowest_row][c];
+                     board[lowest_row][c] = temp;
+                     lowest_row -= 1;   
+                }
+            }
+        }
+    }
+
+    vector<vector<int>> candyCrush(vector<vector<int>>& board) {
+        //Find all the sets that can be crushed. (find method)
+        //Mark them as 0 (set them as 0)
+        //implement the drop method until the candy hit a bottom or another candy.
+        //reassess if theere are more candies that need to be crushed in the new board.
+         m = board.size();
+         n = board[0].size();
+
+        set<pair<int,int>> crushed_set = find(board);
+        while(!crushed_set.empty()) {
+            crushBoard(board, crushed_set);
+            drop(board);
+            crushed_set = find(board);
+        }
+        return board;
+    }
+};
