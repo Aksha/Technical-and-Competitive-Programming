@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int, int> hmap;
+        priority_queue<pair<int,int>> pq;
+        for(auto num : nums) {
+            if(hmap.find(num) != hmap.end()) {
+                hmap[num]++;
+            }
+            else {
+                hmap.insert(make_pair(num, 1));
+            }
+        } 
+
+        vector<int> result;
+        for(auto h : hmap) {
+            pq.push({h.second,h.first});
+        }
+        int count = 0;
+        while(count < k && !pq.empty()) {
+            result.push_back(pq.top().second);
+            pq.pop();
+            count++;
+        }
+        return result;
+    }
+};
