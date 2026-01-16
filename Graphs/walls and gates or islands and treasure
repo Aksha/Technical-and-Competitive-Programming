@@ -1,0 +1,47 @@
+class Solution {
+public:
+    void islandsAndTreasure(vector<vector<int>>& grid) {
+        // [[INF,-1,0,INF],
+        //  [INF,INF,INF,-1],
+        //  [INF,-1,INF,-1],
+        //  [0,-1,INF,INF]]
+        //Solve by BFS
+        //Traverse the grid
+        //Whenever you find 0, start BFS from there. up down left right (For every treasure chest)
+        //add it to the queue;
+        //while (!Q.empty()) {
+            //if any of those cells is INF, set distance = distance + 1. add it to the queue.
+            //if not INF has distance, min of curr_distance and existing distance 
+            queue<pair<int,int>> Q;
+            int m = grid.size();
+            int n = grid[0].size();
+            for(int i = 0; i < m; i++) {
+                for(int j = 0; j < n; j++) {
+                    if(grid[i][j] == 0) {
+                        Q.push({i,j});
+                    }
+                }
+            }
+            vector<int> r = {-1,0,1,0};
+            vector<int> c = {0,1,0,-1};
+            while(!Q.empty()) {
+                int row = Q.front().first;
+                int col = Q.front().second;
+                Q.pop();
+                for(int i = 0; i < 4; i++) {
+                    int curr_r = r[i] + row;
+                    int curr_c = c[i] + col;
+                    if(curr_r >= 0 && curr_r < m && curr_c >= 0 && curr_c < n){
+                        if (grid[curr_r][curr_c] == INT_MAX) {
+                            grid[curr_r][curr_c] = grid[row][col] + 1;
+                            Q.push({curr_r,curr_c});
+                        }
+                        else if(grid[curr_r][curr_c] > grid[row][col] + 1) {
+                            grid[curr_r][curr_c] = grid[row][col] + 1;
+                            Q.push({curr_r,curr_c});
+                        }
+                    }
+                }
+            }
+        }
+};
