@@ -1,0 +1,45 @@
+class Solution {
+public:
+    double power = 1;
+    double myPow(double x, int n) {
+        //Keep it high level while explaining to the interviewer
+        //Talk about tradeoffs (complexity analysis)
+        //Stick to what I wrote and explained
+        //if the interviewer is giving a hint, drop everything else and follow what they're saying.
+        //Always test the code.
+        //Think about corner cases before solving the problem
+        //have a checklist
+        //Problem solving, runtime, corner cases, coding, testing 
+        //linear solution - multiple 'x' by itself n number of times (O(n)) - linear solution
+        //slight better but still a linear solution = multiple x by itself n/2 number of times and then multiple the result value with itself.. O(n/2) 
+        // x^16 = x ^ 8 * x ^ 8
+
+        //n is even or odd. 
+        //if(x^17).. check value of n is odd. if yes, reduce n by 1. Go ahead with the discussed implememnted. flag = 1
+        // if it is even, flag = 0
+    //  if(flag == 1)
+    //     result = result * x
+    //if x == 17, i will calculate x^16 and multiply the result by x.
+    //if x is even, I will calculate x^(n/2) * x^(n/2).
+    //otherwise, I will calculate x^(n/2) * x^(n/2) * x.
+        // if(x == 1) {
+        //     return 1;
+        // }
+        if(n == 0) {
+            return 1;
+        }
+        if(n < 0) {
+            power = 1.0 / myPow(x,-1 * n);
+        }
+        if(n % 2 == 1 ) { //ODD CONDITION
+            return x * myPow(x*x,(n-1)/2);
+        }
+        else { //even 
+            return myPow(x*x,n/2);
+        }
+   
+        //time co
+        // if n is negative, if n = -10 and x = 2 , ans = 1/1024, so 1/x^(n/2) * 1/x^(n/2);
+        // n = -4, x = 2. 1/2^n
+    }
+};
