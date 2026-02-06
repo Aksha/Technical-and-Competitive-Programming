@@ -1,0 +1,154 @@
+// bool isPalindrome(string& s, int i, int j) {
+//     while (i < j) {
+//         if (s[i] != s[j]) return false;
+//         i++;
+//         j--;
+//     }
+//     return true;
+// }
+
+// int countPS(string& s) {
+//     int n = s.length();  
+   
+//     // Consider all possible substrings of lengths
+//     // more than 1
+//     int res = 0;
+//     for (int i = 0; i < n; i++) {
+//         for (int j = i+1; j < n; j++) {
+          
+//           	// If substring from i to j is palindrome
+//           	// increment the result
+//             if (isPalindrome(s, i, j)) 
+//                 res++;  
+//         }
+//     }
+
+//     return res;
+// }
+
+// int main() {
+//     string s = "abaab";
+//     cout << countPS(s);
+//     return 0;
+// }
+
+// C++ program to count all palindromic substring of
+// given string using bottom up DP
+
+// #include <iostream>
+// #include <vector>
+// #include <string>
+
+// using namespace std;
+
+// int countPS(string& s) {
+//     int n = s.length();
+//     int res = 0;
+
+//     vector<vector<bool>> dp(n, vector<bool>(n, false));
+    
+//     // One length string is always palindrome 
+//     for (int i = 0; i < n; i++) {
+//         dp[i][i] = true;
+//     }
+
+//     // Two length string is plaindrome if
+//     // both characters are same
+//     for (int i = 0; i < n - 1; i++) {
+//         if (s[i] == s[i + 1]) {
+//             dp[i][i + 1] = true;
+//             res++;
+//         }
+//     }
+
+//     // Handle palindromes of length 
+//     // greater than 2 (gap >= 2)
+//     for (int gap = 2; gap < n; gap++) {
+//         for (int i = 0; i < n - gap; i++) {
+//             int j = i + gap;
+
+//             // Check if the current string is a palindrome
+//             if (s[i] == s[j] && dp[i + 1][j - 1]) {
+//                 dp[i][j] = true;
+//                 res++;
+//             }
+//         }
+//     }
+  
+//     return res;
+// }
+
+// int main() {
+//     string s = "abaab";
+//     cout << countPS(s) << endl;
+//     return 0;
+// }
+
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        int st = 0;
+        int e = s.size();
+        while(st < e) {
+            if(s[st] == s[e]) {
+                st++;
+                e--;
+            }
+            else 
+                return false;
+        }
+        return true;
+    }
+
+    void countPalindromicSubstrings(string s,int &count,int index,string curr_substring){
+        if(s.size() == 1 || isPalindrome(curr_substring)) {
+            count += 1;
+            return;
+        }
+        if(index == s.size()-1) {
+            return;
+        }
+        countPalindromicSubstrings(s,count,index+1,curr_substring + s.substr(index,1));
+        countPalindromicSubstrings(s,count,index+1,curr_substring);
+        return;
+    }
+
+    int countSubstrings(string s) {
+        //Generate substrings of sizes 0,1,2 and until the size of the string
+        //while generating substrings, check if each string makes a palindrome,
+        //if yes, add it to the result, in this case, increase result_count by 1/
+        //if not, move on to the next string.
+
+        //logic for palindrome
+        //if size == 0 or 1, its a palindrome
+        //while(start > end) {
+        //     if(arr[start] == arr[end])
+        //             start++;
+        //             end--;
+        //         }
+        //     else 
+        //         false;
+        // }
+        // true;
+        //              recursion tree ""
+                        //         /      \
+                        //         a       ""
+                        //         /\      /\
+                        //         ab a    b ""
+                        //     /    \ /\.  /\ /\
+                        //     abc ab ac a bc b c ""
+
+                        // curr_arr, count, index position, included_substring
+                        // curr_arr, count, index position, excluded_substring
+        //Questions to the interviewer, should the substring be formed by contiguous characters
+        //write more examples
+        if(s.size() == 0 || s.size() == 1) {
+            return 1;
+        }
+        int count = 0;
+        int index = 0;
+        string curr_substring = "";
+        countPalindromicSubstrings(s,count,index,curr_substring);
+        return count;
+    }
+};
