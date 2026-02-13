@@ -1,0 +1,47 @@
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        //shortest path. So BFS
+        // beginword -> next word with length 1 will be changes to the first character
+        //ait,bit,cit,dit....zit
+        //hab,hbt,hct,..hot,..hzt
+        //hia,hib,hic,hid....hzd
+        //so go through the length of the beginword, change every character, store it in the queue and note the distance = beginWordDis + 1.
+        //Every time I pop from the queue or while transform the word, check if there is a match with end word. If not, just increment distance and check if it matches with word in a set. if yes, add to the queue and look for its neighbours next. If not, move on.
+
+    //Another way
+    //Find all the words from the wordlist that can be reached from the current word with the same approach by changing one character and add their distances. 
+    // add these words to the queue and try to find the same words/distances for that word and add it to the queue.
+    //Do this until you reach the final word == cog. once you reach cog, return the distance
+        unordered_set<string> dict;
+        for(auto w: wordList) {
+            dict.insert(w);
+        }
+        unordered_map<string,int> distance;
+        queue<string> Q;
+        Q.push(beginWord);
+        distance[beginWord] = 1;
+        while(!Q.empty()) {
+            string currWord = Q.front();
+            int currDist = distance[currWord];
+            Q.pop();
+            for(int i = 0; i < currWord.size(); ++i) {
+                string thisWord = currWord;
+                for(char curr = 'a'; curr <= 'z'; ++curr) {   
+                    thisWord[i] = curr;
+                    if(dict.find(thisWord) != dict.end()) {
+                        if(thisWord == endWord) {
+                            return distance[currWord] + 1;
+                        }
+                        else {
+                            Q.push(thisWord);
+                            dict.erase(thisWord);
+                            distance.insert(make_pair(thisWord,currDist + 1));
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+};
