@@ -1,0 +1,148 @@
+ Standared Template Library
+// Containers. 
+
+// Sequence Container : Array, Dqueue, 
+
+// vector<int> :  ( shallow copy, deep copy )
+
+// list<int> :  bidirection linked list
+
+// forward_list<int>  // single directional 
+
+// set<int>  : no duplicates. order maintained. // mult_set<int> : unordered_set<int> , unordered_multiset<int> 
+
+// map<int,int> : key value pair. <1:liju>, <2:liju> // O(1) // unordered_map<int,int> 
+
+// Priority Queue : priority_queue<data_type> pq; max heap
+//#include<queue>
+//priority_queue<int, vector<int>, greater<in pq; //min heap
+
+// Question. 
+
+
+//A median stock Tracker for 
+
+
+// Question
+//---------
+
+
+int main() {
+
+StockMedianTracker tracker;
+
+//std::vector<double> livePrices = {115.50, 116.20, 114.80, 120.00, 115.90, 115.90}; 
+
+
+vector<int x: livePrices) {
+ tracker.custominsert(x);
+}
+
+// 115, 118, 117, 116. 116+117/2
+
+insert
+give_median
+
+//1. in a data structure. ordered in some way so you can always fetch the mdian 
+//2. set - min heap
+max heap - 
+//      116
+      /
+//115           // 117
+                    //118
+
+
+  //
+// insert a price. 
+// return the median at any time. 
+
+std::cout << "--- Real-Time Median Price --- \n"; for (double price : livePrices) { tracker.addPriceTick(price);std::cout << "New Tick: $" << price << " | Current Median: $" << tracker.getMedian() << "\n"; }
+
+
+}
+
+
+
+
+Answer
+-------
+
+//Logic1 : 
+//Straightforward logic: Sort the given array O(nlogn). Pick the middle element if array size is even. Pick the avg of middle elements if the size is odd.
+//
+
+
+// Logic 2 : 
+
+// two heap in StockMedianTracker class. 
+// num -> insert into either of the heap based on a logic
+// 
+
+1 2 3 4 5 6 7 8 10 
+
+
+1 2 3
+
+4 5 6
+
+3
+2
+1 
+0
+    4
+    5
+
+
+
+  1, 2, 3, 4  // max heap.   top is 3
+
+  5 , 6 , 7     // min heap.  top 4 
+
+/*
+  implement max and min heap
+  rebalance tree 
+
+
+*/
+
+
+clase StockMedianTracker {
+  private:
+    priority_queue<int> max_heap;
+    priority_queue<int,vector<int>,great<int>> min_heap;
+
+    void insert(double val) {
+      
+      if(max_heap.empty()) {
+        max_heap.insert(val); //1
+      }
+       if(min_heap.empty()) {
+        min_heap.insert(val); //0
+      }
+
+      if(val < max_heap.top()) {
+        max_heap.insert(val);
+      }
+
+      if(val >= min_heap.top()) {
+        min_heap.insert(val);
+      }
+
+      //rebalance 
+      // max is always bigger than min or they match
+      if(max_heap.size() < min_heap.size()+1) {
+          double curr_val = min_heap.top();
+          min_heap.pop();
+          max_heap.insert(curr_val);
+      }
+    }
+
+    double fetch_median(double) {
+        int mmax
+    }
+
+
+
+  
+}
+  
