@@ -1,0 +1,41 @@
+Topological sort:
+
+https://leetcode.com/problems/course-schedule/description/
+
+class Solution {
+public:
+    bool ifcycle(int curr, vector<bool> &vis, vector<bool> &rec, list<int> l[]){
+        vis[curr] = true;
+        rec[curr] = true;
+
+        for(auto neigh: l[curr]){
+            if(!vis[neigh]){
+                if(ifcycle(neigh, vis, rec, l)) return true;
+            }
+            else if(rec[neigh]) return true;
+        }
+
+        rec[curr] = false;
+        return false;
+    }
+
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+       list<int> *l;
+       l = new list<int> [numCourses];
+    
+       for(auto &node: prerequisites){
+        l[node[1]].push_back(node[0]);
+       }
+
+       vector<bool> vis(numCourses, false);
+       vector<bool> rec(numCourses, false);
+
+       for(int i = 0; i < numCourses; i++){
+        if(!vis[i]) {
+            if(ifcycle(i, vis, rec, l)) return false;
+        } 
+       }
+
+       return true;
+    }
+};https://leetcode.com/problems/course-schedule/description/
