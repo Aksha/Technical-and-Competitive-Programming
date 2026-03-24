@@ -1,0 +1,49 @@
+
+https://leetcode.com/problems/remove-linked-list-elements/description/ 
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        //1. Create a sentinel node and make it the head (sentinel->next = head)
+        //2. keep track of previous and curr node.
+        //3. start iterating from head and check if curr node's val == val.
+        //4. if yes, fix the pointers, set next node to curr, set curr as node to delete and delete the node _ to _ del node.else curr becomes prev, curr->next becomes curr
+        //5. Do this until curr is null.
+        //in the end, set sentinel->next as the result and delete the sentinel node.
+
+        ListNode* new_head = new ListNode(0);
+        new_head->next = head;
+        ListNode* prev = new_head; //0
+        ListNode* curr = head; //1
+        while(curr != NULL) {//6
+            ListNode* to_delete = NULL;
+            if(curr->val == val) { //6 == 6
+                prev->next = curr->next;
+                to_delete = curr;
+            }
+            else {
+                prev = curr; //prev = 2
+            }
+            curr = curr->next; //curr = 6
+            if(to_delete != NULL) {
+                delete to_delete;
+                to_delete = NULL;
+            }
+        }
+        ListNode* result = new_head->next;
+        new_head->next = NULL;
+        delete new_head;
+        return result;
+    }
+};
