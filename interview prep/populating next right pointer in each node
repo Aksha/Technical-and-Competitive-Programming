@@ -1,0 +1,64 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+
+    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next)
+        : val(_val), left(_left), right(_right), next(_next) {}
+};
+{1}
+{2,3}
+{3,{4,5}}
+{4,5,6,7}
+
+create two dimensional result array
+vector<vector>
+finally go over the vertor and add next right pointer.
+for all nodes in queue
+}
+    savesomewhere = first node
+    pop
+    push their children
+}
+{4,5,6,7}
+
+How do I do it without extra space?
+keep track of previous node.
+make its right point to curr
+
+if node = queue.size()
+then make its next point to null.
+*/
+
+class Solution {
+public:
+    Node* connect(Node* root) {
+        if(!root) return nullptr;
+        queue<Node*> q;
+        Node* head = root;
+        q.push(head);
+        while(!q.empty()) {
+            Node* right = new Node();
+            right = nullptr;
+            for(int i = q.size(); i > 0; i--){
+                Node* curr = q.front();
+                q.pop();
+                curr->next = right;
+                right = curr;
+                if(curr->right) {
+                    q.push(curr->right);
+                    q.push(curr->left);
+                }
+            }
+        }
+        return root;
+    }
+};
