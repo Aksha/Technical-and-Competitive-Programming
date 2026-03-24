@@ -1,0 +1,36 @@
+class Solution {
+public:
+
+    void numToLetterMapping(string digits,int i,unordered_map<char,string> num_let_mapping,string curr, vector<string> &result){
+        if(i == digits.size()) {
+            result.push_back(curr); //result = ad
+            return;
+        }
+        string curr_letters = num_let_mapping[digits[i]]; //def
+        for(auto c: curr_letters) { //d
+            numToLetterMapping(digits,i+1,num_let_mapping,curr+c,result); //i = 2, curr = "ad"
+        }
+    }
+
+    vector<string> letterCombinations(string digits) {
+        /*
+
+        */
+        unordered_map<char,string> num_let_mapping;
+        num_let_mapping.insert(make_pair('2',"abc"));
+        num_let_mapping.insert(make_pair('3',"def"));
+        num_let_mapping.insert(make_pair('4',"ghi"));
+        num_let_mapping.insert(make_pair('5',"jkl"));
+        num_let_mapping.insert(make_pair('6',"mno"));
+        num_let_mapping.insert(make_pair('7',"pqrs"));
+        num_let_mapping.insert(make_pair('8',"tuv"));
+        num_let_mapping.insert(make_pair('9',"wxyz"));
+        
+        vector<string> result;
+        int i = 0;
+        string curr = "";
+        numToLetterMapping(digits,i,num_let_mapping,curr,result); //23,0,map,"","""")
+        return result;
+
+    }
+};
