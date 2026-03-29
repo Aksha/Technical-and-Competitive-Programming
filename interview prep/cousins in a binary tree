@@ -1,0 +1,78 @@
+//Elegant Solution:
+
+int find_leftmost_node(TreeNode* root) {
+    queue<int, TreeNode*> q;
+    q.push(make_pair(0, root));
+     vector<vector<TreeNode*>> result; 
+    while(!q.empty()) {
+            for(int i = 0; i < q.size(); i++) {
+                TreeNode* curr = q.front().second; //root
+                 int level = q.front().first; //0
+                q.pop();
+                 result[level].push_back(curr[i].second->val);//result[0].{1}
+                 if(curr[i]->second->left) {
+                   q.push(curr[i].first->left + 1, curr[i].second->left); {{1,4}, {1,5}}
+                 }
+                 if(curr[i]->second->right) {
+                   q.push(curr[i].first->right + 1, curr[i].second->right);
+                 }
+          }
+     }
+     int n = result.size();
+     return result[n-1][0]->val;
+}
+
+//BEtter solution
+int find_leftmost_node(TreeNode* root) {
+    queue<int, TreeNode*> q;
+    q.push(make_pair(0, root));
+     vector<vector<TreeNode*>> result; 
+    while(!q.empty()) {
+            vector<TreeNode*> current;
+            for(int i = 0; i < q.size(); i++) {
+                TreeNode* curr = q.front().second; //root
+                 int level = q.front().first; //0
+                q.pop();
+                 current.push_back(curr[i].second->val);
+                 if(curr[i]->second->left) {
+                   q.push(curr[i].first->left + 1, curr[i].second->left); {{1,4}, {1,5}}
+                 }
+                 if(curr[i]->second->right) {
+                   q.push(curr[i].first->right + 1, curr[i].second->right);
+                 }
+              result.push_back(current);
+          }
+     }
+     int n = result.size();
+     return result[n-1][0]->val;
+}
+
+//Elegant Solution:
+int findLeftMostValue(TreeNode node) {
+if(node == null) return -1;
+
+Queue<Node> queue = new LinkedList();
+queue.offer(node);
+
+TreeNode leftMostNode = null;
+
+while(queue.isNotEmpty()){
+
+    leftMostNode = queue.top();
+    int levelSize = queue.size();
+
+    for(int i=0; i< levelSize; i++){
+
+        TreeNode nodechild = queue.pop();
+            if(nodeChild.left!=null)
+                queue.offer(nodeChild.left);
+             if(nodeChild.right!=null)
+                queue.offer(nodeChild.right);
+}
+
+return leftMostNode.value();
+}
+
+
+
+
