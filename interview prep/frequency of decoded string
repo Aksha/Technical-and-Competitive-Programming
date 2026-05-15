@@ -1,0 +1,71 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+string decodeString(const string& s) {
+    string decoded;
+
+    for (int i = 0; i < s.size();) {
+        char ch;
+
+        // Case: 10# to 26#
+        if (i + 2 < s.size() && s[i + 2] == '#') {
+            int val = stoi(s.substr(i, 2));
+            ch = char('a' + val - 1);
+            i += 3;
+        }
+        // Case: 1 to 9
+        else {
+            int val = s[i] - '0';
+            ch = char('a' + val - 1);
+            i++;
+        }
+
+        int count = 1;
+
+        // Case: repetition like (2), (12), etc.
+        if (i < s.size() && s[i] == '(') {
+            i++; // skip '('
+
+            count = 0;
+            while (i < s.size() && s[i] != ')') {
+                count = count * 10 + (s[i] - '0');
+                i++;
+            }
+
+            i++; // skip ')'
+        }
+
+        decoded.append(count, ch);
+    }
+
+    return decoded;
+}
+
+vector<int> frequency(const string& s) {
+    vector<int> freq(26, 0);
+
+    string decoded = decodeString(s);
+
+    for (char ch : decoded) {
+        freq[ch - 'a']++;
+    }
+
+    return freq;
+}
+
+int main() {
+    string s;
+    cin >> s;
+
+    vector<int> result = frequency(s);
+
+    for (int i = 0; i < 26; i++) {
+        cout << result[i];
+
+        if (i != 25) {
+            cout << " ";
+        }
+    }
+
+    return 0;
+}
