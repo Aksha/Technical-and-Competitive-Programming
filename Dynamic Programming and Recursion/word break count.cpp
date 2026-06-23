@@ -5,7 +5,30 @@ Given a dictionary of words and a string, find the number of ways the string can
 Example
 Input: Dictionary: [“kick", "start", "kickstart", "is", "awe", "some", "awesome”]. String: “kickstartisawesome”.
 Output: 4
+                       "kickstartisawesome" (bal from 0) 
+                 /             \
+                /               kickstart(bal from 9)
+               /                       /
+              /                    is (bal from 11)
+                                      /awe(bal from 14)  \awesome  (so full word is "kickstart is awe some" "kickstart is awesome"
+     kick(bl from 4)
+     /
+   start (bal from 9)
 
+
+so the recursive equation is 
+if(end of string s) {
+    result += 1;
+    or result.push_back(string that is split based on condition)
+    return;
+}
+else {
+    for(j also going through the size of the string starting at i+1)
+        if(s.substr(i,j-i+1) is in the given dict)
+             recursive(curr_string + " " + substring, dict, actual string, result, j+1 <- this is i))
+             }
+             returnl
+}
 Here are all four ways to break down the string into the dictionary words:
 
 kick start is awe some
