@@ -9,11 +9,15 @@ Output: BANC
 
 The minimum window is "BANC", which contains all letters - A B and C. We cannot find a window of smaller length than “BANC”.
 
-string minimum_window(string S, string T) {
+class Solution {
+public:
+string minWindow(string S, string T) {
     string result;
     if(S.empty() || T.empty()){
-        return "-1";
+        return "";
     }
+    if(T.size() > S.size())
+        return "";
     unordered_map<char, int> map;
     unordered_map<char, int> window;
     for(int i = 0; i < T.length(); i++){
@@ -43,9 +47,9 @@ string minimum_window(string S, string T) {
         }
         fast++;
     }
-   if(minLength == INT_MAX) {
-       return "-1";
-   }
-   return result;
-}
-
+    if(minLength == INT_MAX) {
+        return "";
+    }
+    return result;
+    }
+};
